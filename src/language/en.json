@@ -1,0 +1,10 @@
+{
+  "translations": {
+    "login": "Login",
+    "users": "Users",
+    "products": "Products",
+    "productsTitle": "Products list",
+    "usersTitle": "Users list",
+    "logout": "Logout"
+  }
+}
