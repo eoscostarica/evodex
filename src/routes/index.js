@@ -1,11 +1,11 @@
-import Dashboard from './Dashboard'
+import Evodex from './Evodex'
 import NotFound from './NotFound'
 
 export default [
   {
-    name: 'dashboard',
-    path: '/dashboard',
-    component: Dashboard
+    name: 'evodex',
+    path: '/evodex',
+    component: Evodex
   },
   {
     name: 'notFound',

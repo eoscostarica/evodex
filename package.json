@@ -3,6 +3,7 @@
   "version": "1.0",
   "private": true,
   "dependencies": {
+    "@eoscostarica/eoscr-components": "^1.0.9",
     "@eoscostarica/eoscr-theme": "^1.0.3",
     "@material-ui/core": "^4.9.12",
     "@material-ui/icons": "^4.9.1",
@@ -18,13 +19,13 @@
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.4.1",
-    "ual-anchor": "^0.3.2",
-    "ual-ledger": "^0.2.0",
-    "ual-lynx": "^0.3.0",
+    "ual-anchor": "^0.5.0",
+    "ual-ledger": "^0.3.0",
+    "ual-lynx": "^0.4.0",
     "ual-meetone": "^0.1.1",
-    "ual-reactjs-renderer": "^0.2.0",
-    "ual-scatter": "^0.2.0",
-    "ual-token-pocket": "^0.2.0"
+    "ual-reactjs-renderer": "^0.3.1",
+    "ual-scatter": "^0.3.0",
+    "ual-token-pocket": "^0.3.0"
   },
   "scripts": {
     "start": "react-app-rewired start",
