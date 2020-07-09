@@ -11,16 +11,17 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 
+import EvodexLogo from '../../components/Icons/EvodexLogo'
+
 const useStyles = makeStyles((theme) => ({
   root: {
-    paddingTop: theme.spacing(11),
+    padding: 0,
     display: 'flex'
   },
   appBar: {
-    boxShadow: 'none'
-  },
-  logo: {
-    height: 36
+    boxShadow: 'none',
+    backgroundColor: '#1976d2',
+    color: '#fff !important'
   },
   drawer: {
     width: 0,
@@ -30,10 +31,7 @@ const useStyles = makeStyles((theme) => ({
     width: 240
   },
   drawerPaper: {
-    width: 240,
-    [theme.breakpoints.up('md')]: {
-      marginTop: 64
-    }
+    width: 240
   },
   drawerToggle: {
     marginLeft: -12
@@ -42,26 +40,23 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.white,
     height: '100%',
     padding: theme.spacing(2)
+  },
+  logo: {
+    height: 25
   }
 }))
 
 const Main = ({ children, sidebarContent, topbarContent }) => {
   const classes = useStyles()
   const theme = useTheme()
-  const isDesktop = useMediaQuery(theme.breakpoints.up('md'), {
+  const isDesktop = useMediaQuery(theme.breakpoints.up('sm'), {
     defaultMatches: true
   })
 
   const [openSidebar, setOpenSidebar] = useState(false)
 
   return (
-    <Container
-      component="main"
-      maxWidth="xl"
-      className={clsx({
-        [classes.root]: true
-      })}
-    >
+    <Container component="main" maxWidth="xl" className={classes.root}>
       <AppBar className={classes.appBar}>
         <Toolbar>
           <IconButton
@@ -72,11 +67,7 @@ const Main = ({ children, sidebarContent, topbarContent }) => {
             <MenuIcon />
           </IconButton>
           <RouterLink to="/">
-            <img
-              className={classes.logo}
-              alt="Logo"
-              src="https://eoscostarica.io/wp-content/uploads/2019/07/EOSCRlogo-main-darkOverWhite-1.png"
-            />
+            <EvodexLogo classes={classes.logo} />
           </RouterLink>
           {topbarContent}
         </Toolbar>
@@ -86,9 +77,8 @@ const Main = ({ children, sidebarContent, topbarContent }) => {
         classes={{ paper: classes.drawerPaper }}
         onClose={() => setOpenSidebar(false)}
         open={openSidebar}
-        variant={isDesktop ? 'persistent' : 'temporary'}
-        className={clsx({
-          [classes.drawer]: true,
+        variant="temporary"
+        className={clsx(classes.drawer, {
           [classes.drawerDesktop]: isDesktop && openSidebar
         })}
       >
