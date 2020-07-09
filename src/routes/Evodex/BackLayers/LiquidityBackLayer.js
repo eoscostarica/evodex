@@ -1,6 +1,5 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/styles'
-import { useTranslation } from 'react-i18next'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import AddIcon from '@material-ui/icons/Add'
@@ -95,7 +94,6 @@ const useStyles = makeStyles((theme) => ({
 
 const LiquidityBackLayer = () => {
   const classes = useStyles()
-  const { t } = useTranslation('translations')
 
   return (
     <Box className={classes.liquidityRoot}>

@@ -1,5 +1,4 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@material-ui/styles'
 import Box from '@material-ui/core/Box'
 import OutlinedInput from '@material-ui/core/OutlinedInput'
@@ -28,7 +27,6 @@ const table2 = [
 
 const Liquidity = () => {
   const classes = useStyles()
-  const { t } = useTranslation('translations')
 
   return (
     <Box>

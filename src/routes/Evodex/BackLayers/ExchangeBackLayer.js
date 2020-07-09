@@ -1,6 +1,5 @@
 import React from 'react'
 import { makeStyles, useTheme } from '@material-ui/styles'
-import { useTranslation } from 'react-i18next'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
@@ -114,7 +113,6 @@ const useStyles = makeStyles((theme) => ({
 
 const ExchangeBackLayer = () => {
   const classes = useStyles()
-  const { t } = useTranslation('translations')
   const theme = useTheme()
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'), {
     defaultMatches: true
