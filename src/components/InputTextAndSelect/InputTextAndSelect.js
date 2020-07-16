@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/styles'
 import Box from '@material-ui/core/Box'
@@ -72,6 +72,11 @@ const useStyles = makeStyles((theme) => ({
       lineHeight: 1.32,
       letterSpacing: '0.4px',
       color: '#ffffff'
+    },
+    '& input': {
+      '&::placeholder': {
+        color: '#ffffff'
+      }
     }
   },
   helperText: {
@@ -84,7 +89,14 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const InputTextAndSelect = ({ label, helperText, onChange, options }) => {
+const InputTextAndSelect = ({
+  label,
+  helperText,
+  onChange,
+  options,
+  selected,
+  value
+}) => {
   const classes = useStyles()
   const [inputData, setInputData] = useState({
     inputValue: '',
@@ -96,15 +108,25 @@ const InputTextAndSelect = ({ label, helperText, onChange, options }) => {
     onChange({ ...inputData, [type]: value })
   }
 
+  useEffect(() => {
+    setInputData(
+      value || {
+        inputValue: '',
+        selectValue: 0
+      }
+    )
+  }, [value])
+
   return (
     <Box width="100%">
       <Box className={classes.selectContent}>
         <Box className={classes.inputWrapper}>
           <Typography variant="body1">{label}</Typography>
           <input
-            type="text"
+            pattern="[0,9]"
             onChange={(e) => handleOnChange(e.target.value, 'inputValue')}
             value={inputData.inputValue}
+            placeholder="This Amount"
           />
         </Box>
         <select
@@ -115,7 +137,7 @@ const InputTextAndSelect = ({ label, helperText, onChange, options }) => {
         >
           <option value="0" disabled />
           {options.map(({ value, label }) => (
-            <option key={value} value={value}>
+            <option key={value} value={value} disabled={selected === value}>
               {label}
             </option>
           ))}
@@ -129,13 +151,16 @@ const InputTextAndSelect = ({ label, helperText, onChange, options }) => {
 
 InputTextAndSelect.propTypes = {
   label: PropTypes.string,
+  selected: PropTypes.any,
   helperText: PropTypes.string,
   onChange: PropTypes.func,
-  options: PropTypes.array
+  options: PropTypes.array,
+  value: PropTypes.any
 }
 
 InputTextAndSelect.defaultProps = {
   label: '',
+  selected: null,
   helperText: '',
   onChange: () => {},
   options: [

@@ -13,7 +13,7 @@ const EvodexLogoSvg = ({ classes }) => (
 )
 
 EvodexLogoSvg.propTypes = {
-  classes: PropTypes.object
+  classes: PropTypes.any
 }
 
 export default EvodexLogoSvg

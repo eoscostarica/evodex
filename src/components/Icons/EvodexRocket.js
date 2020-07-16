@@ -36,7 +36,7 @@ const EvodexRocketSvg = ({ classes }) => (
 )
 
 EvodexRocketSvg.propTypes = {
-  classes: PropTypes.object
+  classes: PropTypes.any
 }
 
 export default EvodexRocketSvg

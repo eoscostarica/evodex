@@ -54,9 +54,7 @@ const DashboardTopbar = ({ user, onLogout, onLogin }) => {
       {!user && (
         <IconButton color="inherit" onClick={onLogin}>
           <FingerprintIcon />
-          <Typography className={classes.sessionText} variant="subtitle1">
-            {t('login')}
-          </Typography>
+          <Typography className={classes.sessionText}>{t('login')}</Typography>
         </IconButton>
       )}
     </Box>

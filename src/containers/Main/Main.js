@@ -38,8 +38,8 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerContent: {
     backgroundColor: theme.palette.white,
-    height: '100%',
-    padding: theme.spacing(2)
+    height: '100%'
+    // padding: theme.spacing(2)
   },
   logo: {
     height: 25
