@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles, useTheme } from '@material-ui/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Box from '@material-ui/core/Box'
@@ -114,9 +114,30 @@ const useStyles = makeStyles((theme) => ({
 const ExchangeBackLayer = () => {
   const classes = useStyles()
   const theme = useTheme()
+  const [inputValues, setInputValues] = useState({
+    youGive: {
+      inputValue: '',
+      selectValue: 'EOS'
+    },
+    youReceive: {
+      inputValue: '',
+      selectValue: 'EVO'
+    }
+  })
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'), {
     defaultMatches: true
   })
+
+  const handleOnChange = (value, key) => {
+    setInputValues({ ...inputValues, [key]: value })
+  }
+
+  const handleOnSwitchValues = () => {
+    setInputValues({
+      youGive: inputValues.youReceive,
+      youReceive: inputValues.youGive
+    })
+  }
 
   return (
     <Box className={classes.exchangeRoot}>
@@ -128,11 +149,21 @@ const ExchangeBackLayer = () => {
         </Typography>
       </Box>
       <Box className={classes.inputBox}>
-        <InputTextAndSelect label="You Give" />
-        <IconButton aria-label="switch">
+        <InputTextAndSelect
+          label="You Give"
+          onChange={(value) => handleOnChange(value, 'youGive')}
+          selected={inputValues.youReceive.selectValue}
+          value={inputValues.youGive}
+        />
+        <IconButton aria-label="switch" onClick={handleOnSwitchValues}>
           {isDesktop ? <SwapHorizIcon /> : <ImportExportIcon />}
         </IconButton>
-        <InputTextAndSelect label="You Receive" />
+        <InputTextAndSelect
+          label="You Receive"
+          onChange={(value) => handleOnChange(value, 'youReceive')}
+          selected={inputValues.youGive.selectValue}
+          value={inputValues.youReceive}
+        />
       </Box>
       <Box className={classes.rateFeeBox}>
         <Typography variant="body1">Rate: 1 EOS = 0.1 EVO</Typography>

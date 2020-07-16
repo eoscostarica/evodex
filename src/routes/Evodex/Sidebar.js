@@ -32,12 +32,14 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     color: theme.palette.primary.dark,
-    padding: '10px 0px',
     justifyContent: 'flex-start',
     textTransform: 'none',
     letterSpacing: 0,
     width: '100%',
-    fontWeight: theme.typography.fontWeightMedium
+    fontWeight: theme.typography.fontWeightMedium,
+    border: '1px solid red',
+    padding: theme.spacing(1.5, 2),
+    borderRadius: 0
   },
   icon: {
     width: 24,
@@ -61,7 +63,8 @@ const useStyles = makeStyles((theme) => ({
     lineHeight: '1.32',
     letterSpacing: '2px',
     color: 'rgba(0, 0, 0, 0.6)',
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
+    padding: theme.spacing(2)
   }
 }))
 

@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Typography from '@material-ui/core/Typography'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { makeStyles, useTheme } from '@material-ui/styles'
 import { Route, Redirect, Switch, useLocation } from 'react-router-dom'
@@ -19,7 +20,7 @@ const useStyles = makeStyles({
   backdrop: {
     position: 'relative',
     width: '100vw',
-    height: '100vh',
+    height: 'calc(100vh - 56px)', // ver como manejar 56 px mobile, 64 desktop
     overflowY: 'hidden'
   },
   frontLayer: {
@@ -67,7 +68,9 @@ const Evodex = ({ ual }) => {
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'), {
     defaultMatches: true
   })
-  const extraProps = isDesktop ? { layerHeight: 500 } : { layerHeight: 56 }
+  const extraProps = isDesktop ? { layerHeight: 500 } : {}
+
+  console.log({ extraProps })
 
   const frontLayer = (
     <div className={classes.frontLayer}>
@@ -102,7 +105,7 @@ const Evodex = ({ ual }) => {
         classes={{ frontLayer: classes.frontLayerRoot, root: classes.root }}
         backLayer={<BackLayer pathname={location.pathname} />}
         frontLayer={frontLayer}
-        headerText="Token Listings"
+        headerText={<Typography variant="h1">Token Listings</Typography>}
         backgroundColor="#1976d2"
         {...extraProps}
       />
