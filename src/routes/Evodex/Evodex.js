@@ -7,9 +7,9 @@ import { Route, Redirect, Switch, useLocation } from 'react-router-dom'
 import { Backdrop } from '@eoscostarica/eoscr-components'
 
 import { MainContainer } from '../../containers'
+import { ExchangeProvider } from '../../context/exchange.context'
 
 import BackLayer from './BackLayers'
-
 import Sidebar from './Sidebar'
 import Topbar from './Topbar'
 import Liquidity from './Liquidity'
@@ -101,39 +101,41 @@ const Evodex = ({ ual }) => {
   }, [isDesktop])
 
   return (
-    <MainContainer
-      openSidebar={openSidebar}
-      setOpenSidebar={setOpenSidebar}
-      topbarContent={
-        <Topbar
-          user={ual.activeUser}
-          onLogout={() => ual.logout()}
-          onLogin={() => ual.showModal()}
-        />
-      }
-      sidebarContent={
-        <Sidebar
-          user={ual.activeUser}
-          onLogout={() => ual.logout()}
-          onLogin={() => ual.showModal()}
-          setOpenSidebar={setOpenSidebar}
-        />
-      }
-    >
-      <Backdrop
-        className={classes.backdrop}
-        classes={{ frontLayer: classes.frontLayerRoot, root: classes.root }}
-        backLayer={<BackLayer pathname={location.pathname} />}
-        frontLayer={frontLayer}
-        headerText={
-          <Typography className={classes.labelBackdrop}>
-            Token Listings
-          </Typography>
+    <ExchangeProvider>
+      <MainContainer
+        openSidebar={openSidebar}
+        setOpenSidebar={setOpenSidebar}
+        topbarContent={
+          <Topbar
+            user={ual.activeUser}
+            onLogout={() => ual.logout()}
+            onLogin={() => ual.showModal()}
+          />
         }
-        backgroundColor="#1976d2"
-        layerHeight={layerHeight}
-      />
-    </MainContainer>
+        sidebarContent={
+          <Sidebar
+            user={ual.activeUser}
+            onLogout={() => ual.logout()}
+            onLogin={() => ual.showModal()}
+            setOpenSidebar={setOpenSidebar}
+          />
+        }
+      >
+        <Backdrop
+          className={classes.backdrop}
+          classes={{ frontLayer: classes.frontLayerRoot, root: classes.root }}
+          backLayer={<BackLayer pathname={location.pathname} />}
+          frontLayer={frontLayer}
+          headerText={
+            <Typography className={classes.labelBackdrop}>
+              Token Listings
+            </Typography>
+          }
+          backgroundColor="#1976d2"
+          layerHeight={layerHeight}
+        />
+      </MainContainer>
+    </ExchangeProvider>
   )
 }
 

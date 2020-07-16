@@ -61,23 +61,25 @@ const TableData = ({ data }) => {
             >
               TOKEN PAIR
             </TableCell>
-            <TableCell className={classes.tableHeadCell}>VOLUME</TableCell>
+            <TableCell className={classes.tableHeadCell}>POOL 1</TableCell>
+            <TableCell className={classes.tableHeadCell}>POOL 2</TableCell>
             <TableCell className={classes.tableHeadCell}>FEE</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {data.map((n, index) => {
             return (
-              <TableRow key={`${n.token}-${index}`}>
+              <TableRow key={`${n.tokenPair}-${index}`}>
                 <TableCell
                   component="th"
                   scope="row"
                   className={clsx(classes.tableCell, classes.firstTableBodyRow)}
                 >
-                  {n.token}
+                  {n.tokenPair}
                 </TableCell>
-                <TableCell className={classes.tableCell}>{n.lume}</TableCell>
-                <TableCell className={classes.tableCell}>{n.fee}</TableCell>
+                <TableCell className={classes.tableCell}>{n.pool1}</TableCell>
+                <TableCell className={classes.tableCell}>{n.pool2}</TableCell>
+                <TableCell className={classes.tableCell}>{n.fee}%</TableCell>
               </TableRow>
             )
           })}
@@ -93,14 +95,54 @@ TableData.propTypes = {
 
 TableData.defaultProps = {
   data: [
-    { token: 'ABCEOS', lume: '12.0403', fee: '0.1%' },
-    { token: 'EVOABC', lume: '230.0012', fee: '0.1%' },
-    { token: 'EVOEOS', lume: '450230.0012', fee: '0.2%' },
-    { token: 'ABCEOS', lume: '12,0403', fee: '0.2%' },
-    { token: 'EVOABC', lume: '230.0012', fee: '0.1%' },
-    { token: 'EVOUSDT', lume: '12,0403', fee: '0.2%' },
-    { token: 'ABCEOS', lume: '12,0403', fee: '0.1%' },
-    { token: 'EVOABC', lume: '230.0012', fee: '0.1%' }
+    {
+      tokenPair: 'ABCEOS',
+      pool1: '12.0403 ABC',
+      pool2: '12.0403 EOS',
+      fee: '0.1%'
+    },
+    {
+      tokenPair: 'EVOABC',
+      pool1: '230.0012 EVO',
+      pool2: '12.0403 ABC',
+      fee: '0.1%'
+    },
+    {
+      tokenPair: 'EVOEOS',
+      pool1: '450230.0012 EVO',
+      pool2: '12.0403 EOS',
+      fee: '0.2%'
+    },
+    {
+      tokenPair: 'ABCEOS',
+      pool1: '12,0403 ABC',
+      pool2: '12.0403 EOS',
+      fee: '0.2%'
+    },
+    {
+      tokenPair: 'EVOABC',
+      pool1: '230.0012 EVO',
+      pool2: '12.0403 ABC',
+      fee: '0.1%'
+    },
+    {
+      tokenPair: 'EVOUSDT',
+      pool1: '12,0403 EVO',
+      pool2: '12.0403 USDT',
+      fee: '0.2%'
+    },
+    {
+      tokenPair: 'ABCEOS',
+      pool1: '12,0403 ABC',
+      pool2: '12.0403 EOS',
+      fee: '0.1%'
+    },
+    {
+      tokenPair: 'EVOABC',
+      pool1: '230.0012 EVO',
+      pool2: '12.0403 ABC',
+      fee: '0.1%'
+    }
   ]
 }
 

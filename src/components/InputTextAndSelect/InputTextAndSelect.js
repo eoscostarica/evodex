@@ -116,6 +116,7 @@ const InputTextAndSelect = ({
   }
 
   useEffect(() => {
+    console.log('useEffect', value)
     setInputData(
       value || {
         inputValue: '',
@@ -142,7 +143,6 @@ const InputTextAndSelect = ({
           onChange={(e) => handleOnChange(e.target.value, 'selectValue')}
           value={inputData.selectValue}
         >
-          <option value="0" disabled />
           {options.map(({ value, label }) => (
             <option key={value} value={value} disabled={selected === value}>
               {label}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { makeStyles, useTheme } from '@material-ui/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Box from '@material-ui/core/Box'
@@ -10,6 +10,8 @@ import SwapHorizIcon from '@material-ui/icons/SwapHoriz'
 import InputTextAndSelect from '../../../components/InputTextAndSelect'
 import EvodexRocketSvg from '../../../components/Icons/EvodexRocket'
 import Button from '../../../components/Button'
+import { useExchange } from '../../../context/exchange.context'
+import { getValidTokens } from '../../../utils'
 
 const useStyles = makeStyles((theme) => ({
   exchangeRoot: {
@@ -114,28 +116,80 @@ const useStyles = makeStyles((theme) => ({
 const ExchangeBackLayer = () => {
   const classes = useStyles()
   const theme = useTheme()
-  const [inputValues, setInputValues] = useState({
-    youGive: {
-      inputValue: '',
-      selectValue: 'EOS'
-    },
-    youReceive: {
-      inputValue: '',
-      selectValue: 'EVO'
-    }
-  })
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'), {
     defaultMatches: true
   })
+  const [{ tokenPairs }, { fetchTokenPairs }] = useExchange()
+  const [currentPair, setCurrentPair] = useState([])
+  const [youGiveOptions, setYouGiveOptions] = useState([])
+  const [youReceiveOptions, setYouReceiveOptions] = useState([])
+  const [data, setData] = useState({})
+
+  useEffect(() => {
+    fetchTokenPairs()
+  }, [])
+
+  useEffect(() => {
+    const tokens = tokenPairs.reduce(
+      (temp, item) => ({
+        ...temp,
+        [item.token1]: item.token1,
+        [item.token2]: item.token2
+      }),
+      {}
+    )
+    const options = Object.keys(tokens).map((token) => ({
+      value: token,
+      label: token
+    }))
+
+    if (data?.token1?.symbol) {
+      const validTokens = getValidTokens(tokenPairs, data?.token1?.symbol)
+      setYouReceiveOptions(
+        options.filter((option) => validTokens.includes(option.value))
+      )
+    } else {
+      setYouReceiveOptions(options)
+    }
+
+    if (data?.token2?.symbol) {
+      const validTokens = getValidTokens(tokenPairs, data?.token2?.symbol)
+      setYouGiveOptions(
+        options.filter((option) => validTokens.includes(option.value))
+      )
+    } else {
+      setYouGiveOptions(options)
+    }
+
+    if (data?.token1?.symbol && data?.token2?.symbol) {
+      setCurrentPair(
+        tokenPairs.find(
+          (item) =>
+            (item.token1 === data?.token1?.symbol &&
+              item.token2 === data?.token2?.symbol) ||
+            (item.token2 === data?.token1?.symbol &&
+              item.token1 === data?.token2?.symbol)
+        )
+      )
+    } else {
+      setCurrentPair(null)
+    }
+  }, [tokenPairs, data])
 
   const handleOnChange = (value, key) => {
-    setInputValues({ ...inputValues, [key]: value })
+    setData({
+      ...data,
+      [key]: {
+        symbol: value.selectValue,
+        amount: value.inputValue
+      }
+    })
   }
 
   const handleOnSwitchValues = () => {
-    setInputValues({
-      youGive: inputValues.youReceive,
-      youReceive: inputValues.youGive
+    setData({
+      token1: data.token2,
+      token2: data.token1
     })
   }
 
@@ -151,26 +205,42 @@ const ExchangeBackLayer = () => {
       <Box className={classes.inputBox}>
         <InputTextAndSelect
           label="You Give"
-          onChange={(value) => handleOnChange(value, 'youGive')}
-          selected={inputValues.youReceive.selectValue}
-          value={inputValues.youGive}
+          options={youGiveOptions}
+          onChange={(value) => handleOnChange(value, 'token1')}
+          // selected={inputValues.youReceive.selectValue}
+          value={{
+            selectValue: data?.token1?.symbol,
+            inputValue: data?.token1?.amount
+          }}
         />
         <IconButton aria-label="switch" onClick={handleOnSwitchValues}>
           {isDesktop ? <SwapHorizIcon /> : <ImportExportIcon />}
         </IconButton>
         <InputTextAndSelect
           label="You Receive"
-          onChange={(value) => handleOnChange(value, 'youReceive')}
-          selected={inputValues.youGive.selectValue}
-          value={inputValues.youReceive}
+          options={youReceiveOptions}
+          onChange={(value) => handleOnChange(value, 'token2')}
+          // selected={inputValues.youGive.selectValue}
+          value={{
+            selectValue: data?.token2?.symbol,
+            inputValue: data?.token2?.amount
+          }}
         />
       </Box>
       <Box className={classes.rateFeeBox}>
         <Typography variant="body1">
-          <strong>Rate:</strong> 1 EOS = 0.1 EVO
+          <strong>Rate:</strong>:{' '}
+          {currentPair && (
+            <span>
+              1 {data?.token1?.symbol} = 0.1 {data?.token2?.symbol}
+            </span>
+          )}
+          {!currentPair && <span>N/A</span>}
         </Typography>
         <Typography variant="body1">
-          <strong>Fee:</strong> 0.1%
+          <strong>Fee:</strong>{' '}
+          {currentPair && <span>{currentPair?.fee}%</span>}
+          {!currentPair && <span>N/A</span>}
         </Typography>
       </Box>
       <Box className={classes.btnExchange}>

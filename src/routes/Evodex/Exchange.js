@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { makeStyles } from '@material-ui/styles'
 import Box from '@material-ui/core/Box'
 import OutlinedInput from '@material-ui/core/OutlinedInput'
 import SearchIcon from '@material-ui/icons/Search'
 
 import Table from '../../components/Table'
+import { useExchange } from '../../context/exchange.context'
 
 const useStyles = makeStyles((theme) => ({
   inputSearch: {
@@ -14,6 +15,11 @@ const useStyles = makeStyles((theme) => ({
 
 const Exchange = () => {
   const classes = useStyles()
+  const [{ tokenPairs }, { fetchTokenPairs }] = useExchange()
+
+  useEffect(() => {
+    fetchTokenPairs()
+  }, [])
 
   return (
     <Box>
@@ -25,7 +31,7 @@ const Exchange = () => {
         startAdornment={<SearchIcon />}
         className={classes.inputSearch}
       />
-      <Table />
+      <Table data={tokenPairs} />
     </Box>
   )
 }
