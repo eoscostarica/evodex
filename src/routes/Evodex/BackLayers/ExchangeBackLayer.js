@@ -166,8 +166,12 @@ const ExchangeBackLayer = () => {
         />
       </Box>
       <Box className={classes.rateFeeBox}>
-        <Typography variant="body1">Rate: 1 EOS = 0.1 EVO</Typography>
-        <Typography variant="body1">Fee: 0.1%</Typography>
+        <Typography variant="body1">
+          <strong>Rate:</strong> 1 EOS = 0.1 EVO
+        </Typography>
+        <Typography variant="body1">
+          <strong>Fee:</strong> 0.1%
+        </Typography>
       </Box>
       <Box className={classes.btnExchange}>
         <Button variant="contained">EXCHANGE</Button>
