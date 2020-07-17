@@ -47,7 +47,17 @@ const useStyles = makeStyles((theme) => ({
       fontSize: 16.2,
       lineHeight: 1.48,
       letterSpacing: '0.15px',
-      color: '#ffffff'
+      color: '#ffffff',
+      '&::placeholder': {
+        color: '#ffffff'
+      },
+      '&::-webkit-outer-spin-button, &::-webkit-inner-spin-button': {
+        appearance: 'none',
+        margin: 0
+      }
+    },
+    '& input[type=number]': {
+      appearance: 'textfield'
     }
   },
   arrowDown: {
@@ -55,11 +65,13 @@ const useStyles = makeStyles((theme) => ({
     borderTop: '5px solid #ffffff',
     borderLeft: '5px solid rgba(0,0,0,0)',
     borderRight: '5px solid rgba(0,0,0,0)',
-    zIndex: 2,
     position: 'absolute',
     float: 'right',
     right: 15,
-    marginTop: 22
+    marginTop: 22,
+    '&:hover': {
+      cursor: 'pointer'
+    }
   },
   inputWrapper: {
     width: '50%',
@@ -72,11 +84,6 @@ const useStyles = makeStyles((theme) => ({
       lineHeight: 1.32,
       letterSpacing: '0.4px',
       color: '#ffffff'
-    },
-    '& input': {
-      '&::placeholder': {
-        color: '#ffffff'
-      }
     }
   },
   helperText: {
@@ -123,7 +130,7 @@ const InputTextAndSelect = ({
         <Box className={classes.inputWrapper}>
           <Typography variant="body1">{label}</Typography>
           <input
-            pattern="[0,9]"
+            type="number"
             onChange={(e) => handleOnChange(e.target.value, 'inputValue')}
             value={inputData.inputValue}
             placeholder="This Amount"

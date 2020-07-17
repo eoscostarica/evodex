@@ -110,8 +110,12 @@ const FeeBackLayer = () => {
           <InputTextAndSelect label="Vote" />
         </Box>
         <Box className={classes.rateFeeBox}>
-          <Typography variant="body1">Supply: 12 EVOMAX</Typography>
-          <Typography variant="body1">Fee: 0.1%</Typography>
+          <Typography variant="body1">
+            <strong>Supply:</strong> 12 EVOMAX
+          </Typography>
+          <Typography variant="body1">
+            <strong>Fee:</strong> 0.1%
+          </Typography>
         </Box>
         <Box className={classes.btnExchange}>
           <Button variant="contained">VOTE</Button>

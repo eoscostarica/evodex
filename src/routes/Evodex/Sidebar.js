@@ -37,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: 0,
     width: '100%',
     fontWeight: theme.typography.fontWeightMedium,
-    border: '1px solid red',
     padding: theme.spacing(1.5, 2),
     borderRadius: 0
   },
@@ -122,7 +121,12 @@ const SOCIAL = [
   }
 ]
 
-const DashboardSidebarContent = ({ user, onLogout, onLogin }) => {
+const DashboardSidebarContent = ({
+  user,
+  onLogout,
+  onLogin,
+  setOpenSidebar
+}) => {
   const classes = useStyles()
   const { t } = useTranslation('translations')
 
@@ -137,6 +141,7 @@ const DashboardSidebarContent = ({ user, onLogout, onLogin }) => {
               className={classes.button}
               component={CustomRouterLink}
               to={tool.href}
+              onClick={() => setOpenSidebar(false)}
             >
               <div className={classes.icon}>{tool.icon}</div>
               {t(tool.title)}
@@ -152,6 +157,7 @@ const DashboardSidebarContent = ({ user, onLogout, onLogin }) => {
               className={classes.button}
               component={CustomRouterLink}
               to={info.href}
+              onClick={() => setOpenSidebar(false)}
             >
               <div className={classes.icon}>{info.icon}</div>
               {t(info.title)}
@@ -167,6 +173,7 @@ const DashboardSidebarContent = ({ user, onLogout, onLogin }) => {
               className={classes.button}
               component={CustomRouterLink}
               to={social.href}
+              onClick={() => setOpenSidebar(false)}
             >
               <div className={classes.icon}>{social.icon}</div>
               {t(social.title)}
@@ -181,7 +188,8 @@ const DashboardSidebarContent = ({ user, onLogout, onLogin }) => {
 DashboardSidebarContent.propTypes = {
   user: PropTypes.object,
   onLogout: PropTypes.func,
-  onLogin: PropTypes.func
+  onLogin: PropTypes.func,
+  setOpenSidebar: PropTypes.func
 }
 
 export default DashboardSidebarContent

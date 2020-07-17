@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import { Link as RouterLink } from 'react-router-dom'
@@ -39,21 +39,27 @@ const useStyles = makeStyles((theme) => ({
   drawerContent: {
     backgroundColor: theme.palette.white,
     height: '100%'
-    // padding: theme.spacing(2)
   },
   logo: {
     height: 25
+  },
+  linkRef: {
+    display: 'flex'
   }
 }))
 
-const Main = ({ children, sidebarContent, topbarContent }) => {
+const Main = ({
+  children,
+  sidebarContent,
+  topbarContent,
+  openSidebar,
+  setOpenSidebar
+}) => {
   const classes = useStyles()
   const theme = useTheme()
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'), {
     defaultMatches: true
   })
-
-  const [openSidebar, setOpenSidebar] = useState(false)
 
   return (
     <Container component="main" maxWidth="xl" className={classes.root}>
@@ -66,7 +72,7 @@ const Main = ({ children, sidebarContent, topbarContent }) => {
           >
             <MenuIcon />
           </IconButton>
-          <RouterLink to="/">
+          <RouterLink className={classes.linkRef} to="/">
             <EvodexLogo classes={classes.logo} />
           </RouterLink>
           {topbarContent}
@@ -92,7 +98,14 @@ const Main = ({ children, sidebarContent, topbarContent }) => {
 Main.propTypes = {
   children: PropTypes.node,
   sidebarContent: PropTypes.node,
-  topbarContent: PropTypes.node
+  topbarContent: PropTypes.node,
+  openSidebar: PropTypes.bool,
+  setOpenSidebar: PropTypes.func
+}
+
+Main.defaultProps = {
+  openSidebar: false,
+  setOpenSidebar: () => {}
 }
 
 export default Main
