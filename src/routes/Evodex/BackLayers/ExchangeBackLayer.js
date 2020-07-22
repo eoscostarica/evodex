@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 import { makeStyles, useTheme } from '@material-ui/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Box from '@material-ui/core/Box'
@@ -6,12 +7,19 @@ import Typography from '@material-ui/core/Typography'
 import ImportExportIcon from '@material-ui/icons/ImportExport'
 import IconButton from '@material-ui/core/IconButton'
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz'
+import Alert from '@material-ui/lab/Alert'
+import CloseIcon from '@material-ui/icons/Close'
+import { asset, number_to_asset } from 'eos-common'
+import LinearProgress from '@material-ui/core/LinearProgress'
+import Link from '@material-ui/core/Link'
 
 import InputTextAndSelect from '../../../components/InputTextAndSelect'
 import EvodexRocketSvg from '../../../components/Icons/EvodexRocket'
 import Button from '../../../components/Button'
 import { useExchange } from '../../../context/exchange.context'
-import { getValidTokens } from '../../../utils'
+import { getScatterError } from '../../../utils'
+
+const contactName = 'evolutiondex'
 
 const useStyles = makeStyles((theme) => ({
   exchangeRoot: {
@@ -110,87 +118,213 @@ const useStyles = makeStyles((theme) => ({
         width: 300
       }
     }
+  },
+  message: {
+    display: 'flex',
+    paddingTop: theme.spacing(2),
+    justifyContent: 'center'
+  },
+  loading: {
+    marginTop: theme.spacing(2)
   }
 }))
 
-const ExchangeBackLayer = () => {
+const ExchangeBackLayer = ({ ual }) => {
   const classes = useStyles()
   const theme = useTheme()
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'), {
     defaultMatches: true
   })
-  const [{ tokenPairs }, { fetchTokenPairs }] = useExchange()
+  const [{ tokenPairs, tokenOptions }, exchangeActions] = useExchange()
   const [currentPair, setCurrentPair] = useState([])
-  const [youGiveOptions, setYouGiveOptions] = useState([])
-  const [youReceiveOptions, setYouReceiveOptions] = useState([])
-  const [data, setData] = useState({})
+  const [options, setOptions] = useState({ youGive: [], youReceive: [] })
+  const [youReceive, setYouReceive] = useState({})
+  const [youGive, setYouGive] = useState({})
+  const [message, setMessage] = useState()
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    fetchTokenPairs()
+    exchangeActions.fetchTokenPairs()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
-    const tokens = tokenPairs.reduce(
-      (temp, item) => ({
-        ...temp,
-        [item.token1]: item.token1,
-        [item.token2]: item.token2
-      }),
-      {}
-    )
-    const options = Object.keys(tokens).map((token) => ({
-      value: token,
-      label: token
+    setOptions((prevState) => ({
+      ...prevState,
+      youGive: exchangeActions.getValidOptionsForToken(youReceive.selectValue),
+      youReceive: exchangeActions.getValidOptionsForToken(youGive.selectValue)
     }))
+    setCurrentPair(
+      exchangeActions.getTokenPair(youGive.selectValue, youReceive.selectValue)
+    )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tokenOptions, tokenPairs, youGive, youReceive])
 
-    if (data?.token1?.symbol) {
-      const validTokens = getValidTokens(tokenPairs, data?.token1?.symbol)
-      setYouReceiveOptions(
-        options.filter((option) => validTokens.includes(option.value))
-      )
-    } else {
-      setYouReceiveOptions(options)
+  useEffect(() => {
+    if (!currentPair || !youGive.inputValue) {
+      setYouReceive((prevState) => ({
+        ...prevState,
+        inputValue: 0
+      }))
+
+      return
     }
 
-    if (data?.token2?.symbol) {
-      const validTokens = getValidTokens(tokenPairs, data?.token2?.symbol)
-      setYouGiveOptions(
-        options.filter((option) => validTokens.includes(option.value))
-      )
-    } else {
-      setYouGiveOptions(options)
-    }
+    const currentPool =
+      youGive.selectValue === currentPair.pool1.symbol.code().to_string()
+        ? 'pool1'
+        : 'pool2'
 
-    if (data?.token1?.symbol && data?.token2?.symbol) {
-      setCurrentPair(
-        tokenPairs.find(
-          (item) =>
-            (item.token1 === data?.token1?.symbol &&
-              item.token2 === data?.token2?.symbol) ||
-            (item.token2 === data?.token1?.symbol &&
-              item.token1 === data?.token2?.symbol)
+    let youReceiveAsset
+    let computeForwardResult
+    let youGiveAmount = (parseFloat(youGive.inputValue) || 0).toFixed(
+      currentPair[currentPool].symbol.precision()
+    )
+    youGiveAmount = asset(
+      `${youGiveAmount} ${currentPair[currentPool].symbol.code().to_string()}`
+    ).amount
+
+    if (currentPool === 'pool1') {
+      youReceiveAsset = number_to_asset(0, currentPair.pool2.symbol)
+      computeForwardResult = Math.abs(
+        exchangeActions.computeForward(
+          youGiveAmount.multiply(-1),
+          currentPair.pool2.amount,
+          currentPair.pool1.amount.plus(youGiveAmount),
+          currentPair.fee
         )
       )
-    } else {
-      setCurrentPair(null)
     }
-  }, [tokenPairs, data])
 
-  const handleOnChange = (value, key) => {
-    setData({
-      ...data,
-      [key]: {
-        symbol: value.selectValue,
-        amount: value.inputValue
-      }
-    })
+    if (currentPool === 'pool2') {
+      youReceiveAsset = number_to_asset(0, currentPair.pool1.symbol)
+      computeForwardResult = exchangeActions
+        .computeForward(
+          youGiveAmount.multiply(-1),
+          currentPair.pool1.amount,
+          currentPair.pool2.amount.plus(youGiveAmount),
+          currentPair.fee
+        )
+        .abs()
+    }
+
+    youReceiveAsset.set_amount(computeForwardResult)
+    setYouReceive((prevState) => ({
+      ...prevState,
+      inputValue: youReceiveAsset.to_string().split(' ')[0]
+    }))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPair, youGive])
+
+  const handleOnChange = (key) => (value) => {
+    let set
+    setMessage(null)
+
+    switch (key) {
+      case 'youGive':
+        set = setYouGive
+        break
+      case 'youReceive':
+        set = setYouReceive
+        break
+      default:
+        set = () => {}
+    }
+
+    set((prevState) => ({
+      ...prevState,
+      ...value
+    }))
   }
 
   const handleOnSwitchValues = () => {
-    setData({
-      token1: data.token2,
-      token2: data.token1
-    })
+    setYouGive(youReceive)
+    setYouReceive(youGive)
+    setMessage(null)
+  }
+
+  const handleOnExchange = async () => {
+    if (!ual.activeUser) {
+      setMessage({ type: 'warning', text: 'Please login to continue' })
+      return
+    }
+
+    if (!currentPair) {
+      setMessage({
+        type: 'warning',
+        text: 'Please select both tokens to continue'
+      })
+      return
+    }
+
+    if (!youGive.inputValue) {
+      setMessage({
+        type: 'warning',
+        text: 'Please enter the amount to give to continue'
+      })
+      return
+    }
+
+    setLoading(true)
+    setMessage(null)
+
+    try {
+      const result = await ual.activeUser.signTransaction(
+        {
+          actions: [
+            {
+              account: contactName,
+              name: 'exchange',
+              authorization: [
+                {
+                  actor: ual.activeUser.accountName,
+                  permission: 'active'
+                }
+              ],
+              data: {
+                user: ual.activeUser.accountName,
+                pair_token: currentPair.tokenPair,
+                ext_asset_in: {
+                  contract: 'eosio.token',
+                  quantity: `${youGive.inputValue} ${youGive.selectValue}`
+                },
+                min_expected: `${youReceive.inputValue} ${youReceive.selectValue}`
+              }
+            }
+          ]
+        },
+        {
+          broadcast: true
+        }
+      )
+      setMessage((prevState) => ({
+        ...prevState,
+        type: 'success',
+        text: (
+          <span>
+            Success exhange for {currentPair.tokenPair}
+            <Link
+              href={`https://jungles.bloks.io/transaction/${result.transactionId}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {result.transactionId}
+            </Link>
+          </span>
+        )
+      }))
+    } catch (error) {
+      setMessage((prevState) => ({
+        ...prevState,
+        type: 'error',
+        text: getScatterError(error)
+      }))
+    }
+
+    setLoading(false)
+    setTimeout(() => {
+      setMessage(null)
+    }, 10000)
   }
 
   return (
@@ -205,51 +339,80 @@ const ExchangeBackLayer = () => {
       <Box className={classes.inputBox}>
         <InputTextAndSelect
           label="You Give"
-          options={youGiveOptions}
-          onChange={(value) => handleOnChange(value, 'token1')}
-          // selected={inputValues.youReceive.selectValue}
-          value={{
-            selectValue: data?.token1?.symbol,
-            inputValue: data?.token1?.amount
-          }}
+          options={options.youGive}
+          onChange={handleOnChange('youGive')}
+          value={youGive}
         />
         <IconButton aria-label="switch" onClick={handleOnSwitchValues}>
           {isDesktop ? <SwapHorizIcon /> : <ImportExportIcon />}
         </IconButton>
         <InputTextAndSelect
           label="You Receive"
-          options={youReceiveOptions}
-          onChange={(value) => handleOnChange(value, 'token2')}
-          // selected={inputValues.youGive.selectValue}
-          value={{
-            selectValue: data?.token2?.symbol,
-            inputValue: data?.token2?.amount
-          }}
+          options={options.youReceive}
+          onChange={handleOnChange('youReceive')}
+          value={youReceive}
+          inputDisabled={true}
         />
       </Box>
       <Box className={classes.rateFeeBox}>
         <Typography variant="body1">
-          <strong>Rate:</strong>:{' '}
-          {currentPair && (
-            <span>
-              1 {data?.token1?.symbol} = 0.1 {data?.token2?.symbol}
-            </span>
-          )}
-          {!currentPair && <span>N/A</span>}
+          {currentPair && <strong>{currentPair.tokenPair} </strong>}
+          {currentPair &&
+            youReceive.inputValue?.length &&
+            youGive.inputValue?.length && (
+              <span>
+                <strong>Rate:</strong> 1 {youGive.selectValue} ={' '}
+                {(
+                  parseFloat(youReceive.inputValue) /
+                  parseFloat(youGive.inputValue)
+                ).toFixed(4)}{' '}
+                {youReceive.selectValue}
+              </span>
+            )}
         </Typography>
         <Typography variant="body1">
-          <strong>Fee:</strong>{' '}
-          {currentPair && <span>{currentPair?.fee}%</span>}
-          {!currentPair && <span>N/A</span>}
+          {currentPair?.fee && (
+            <span>
+              <strong>Fee:</strong> {Number(currentPair.fee) / 100}%
+            </span>
+          )}
         </Typography>
       </Box>
       <Box className={classes.btnExchange}>
-        <Button variant="contained">EXCHANGE</Button>
+        <Button variant="contained" onClick={handleOnExchange}>
+          EXCHANGE
+        </Button>
       </Box>
+      {loading && (
+        <LinearProgress className={classes.loading} color="secondary" />
+      )}
+      {message && (
+        <Box className={classes.message}>
+          <Alert
+            severity={message.type}
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setMessage(null)
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+          >
+            {message.text}
+          </Alert>
+        </Box>
+      )}
     </Box>
   )
 }
 
-ExchangeBackLayer.propTypes = {}
+ExchangeBackLayer.propTypes = {
+  ual: PropTypes.object
+}
 
 export default ExchangeBackLayer

@@ -15,10 +15,11 @@ const useStyles = makeStyles((theme) => ({
 
 const Exchange = () => {
   const classes = useStyles()
-  const [{ tokenPairs }, { fetchTokenPairs }] = useExchange()
+  const [{ tokenPairs }, exchangeActions] = useExchange()
 
   useEffect(() => {
-    fetchTokenPairs()
+    exchangeActions.fetchTokenPairs()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

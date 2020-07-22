@@ -124,7 +124,7 @@ const Evodex = ({ ual }) => {
         <Backdrop
           className={classes.backdrop}
           classes={{ frontLayer: classes.frontLayerRoot, root: classes.root }}
-          backLayer={<BackLayer pathname={location.pathname} />}
+          backLayer={<BackLayer ual={ual} pathname={location.pathname} />}
           frontLayer={frontLayer}
           headerText={
             <Typography className={classes.labelBackdrop}>

@@ -77,9 +77,15 @@ const TableData = ({ data }) => {
                 >
                   {n.tokenPair}
                 </TableCell>
-                <TableCell className={classes.tableCell}>{n.pool1}</TableCell>
-                <TableCell className={classes.tableCell}>{n.pool2}</TableCell>
-                <TableCell className={classes.tableCell}>{n.fee}%</TableCell>
+                <TableCell className={classes.tableCell}>
+                  {n.pool1.to_string()}
+                </TableCell>
+                <TableCell className={classes.tableCell}>
+                  {n.pool2.to_string()}
+                </TableCell>
+                <TableCell className={classes.tableCell}>
+                  {n.fee ? n.fee / 100 : 0}%
+                </TableCell>
               </TableRow>
             )
           })}
@@ -94,56 +100,7 @@ TableData.propTypes = {
 }
 
 TableData.defaultProps = {
-  data: [
-    {
-      tokenPair: 'ABCEOS',
-      pool1: '12.0403 ABC',
-      pool2: '12.0403 EOS',
-      fee: '0.1%'
-    },
-    {
-      tokenPair: 'EVOABC',
-      pool1: '230.0012 EVO',
-      pool2: '12.0403 ABC',
-      fee: '0.1%'
-    },
-    {
-      tokenPair: 'EVOEOS',
-      pool1: '450230.0012 EVO',
-      pool2: '12.0403 EOS',
-      fee: '0.2%'
-    },
-    {
-      tokenPair: 'ABCEOS',
-      pool1: '12,0403 ABC',
-      pool2: '12.0403 EOS',
-      fee: '0.2%'
-    },
-    {
-      tokenPair: 'EVOABC',
-      pool1: '230.0012 EVO',
-      pool2: '12.0403 ABC',
-      fee: '0.1%'
-    },
-    {
-      tokenPair: 'EVOUSDT',
-      pool1: '12,0403 EVO',
-      pool2: '12.0403 USDT',
-      fee: '0.2%'
-    },
-    {
-      tokenPair: 'ABCEOS',
-      pool1: '12,0403 ABC',
-      pool2: '12.0403 EOS',
-      fee: '0.1%'
-    },
-    {
-      tokenPair: 'EVOABC',
-      pool1: '230.0012 EVO',
-      pool2: '12.0403 ABC',
-      fee: '0.1%'
-    }
-  ]
+  data: []
 }
 
 export default TableData
