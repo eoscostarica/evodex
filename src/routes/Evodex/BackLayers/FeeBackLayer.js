@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { makeStyles } from '@material-ui/styles'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 
 import InputTextAndSelect from '../../../components/InputTextAndSelect'
 import Button from '../../../components/Button'
+import { useExchange } from '../../../context/exchange.context'
 
 const useStyles = makeStyles((theme) => ({
   feeRoot: {
@@ -95,6 +96,12 @@ const useStyles = makeStyles((theme) => ({
 
 const FeeBackLayer = () => {
   const classes = useStyles()
+  const [{ tokenOptions }, exchangeActions] = useExchange()
+
+  useEffect(() => {
+    exchangeActions.fetchTokenPairs()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Box className={classes.feeRoot}>
@@ -107,7 +114,7 @@ const FeeBackLayer = () => {
       </Box>
       <Box className={classes.contentWrapper}>
         <Box className={classes.inputBox}>
-          <InputTextAndSelect label="Vote" />
+          <InputTextAndSelect options={tokenOptions} label="Vote" />
         </Box>
         <Box className={classes.rateFeeBox}>
           <Typography variant="body1">

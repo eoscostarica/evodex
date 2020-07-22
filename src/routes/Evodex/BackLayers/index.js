@@ -5,24 +5,25 @@ import ExchangeBackLayer from './ExchangeBackLayer'
 import FeeBackLayer from './FeeBackLayer'
 import LiquidityBackLayer from './LiquidityBackLayer'
 
-const BackLayers = ({ pathname }) => {
+const BackLayers = ({ ual, pathname }) => {
   switch (pathname) {
     case '/evodex/liquidity':
-      return <LiquidityBackLayer />
+      return <LiquidityBackLayer ual={ual} />
 
     case '/evodex/exchange':
-      return <ExchangeBackLayer />
+      return <ExchangeBackLayer ual={ual} />
 
     case '/evodex/fee':
-      return <FeeBackLayer />
+      return <FeeBackLayer ual={ual} />
 
     default:
-      return <ExchangeBackLayer />
+      return <ExchangeBackLayer ual={ual} />
   }
 }
 
 BackLayers.propTypes = {
-  pathname: PropTypes.string
+  pathname: PropTypes.string,
+  ual: PropTypes.object
 }
 
 export default BackLayers

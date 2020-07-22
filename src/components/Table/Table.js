@@ -61,23 +61,31 @@ const TableData = ({ data }) => {
             >
               TOKEN PAIR
             </TableCell>
-            <TableCell className={classes.tableHeadCell}>VOLUME</TableCell>
+            <TableCell className={classes.tableHeadCell}>POOL 1</TableCell>
+            <TableCell className={classes.tableHeadCell}>POOL 2</TableCell>
             <TableCell className={classes.tableHeadCell}>FEE</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {data.map((n, index) => {
             return (
-              <TableRow key={`${n.token}-${index}`}>
+              <TableRow key={`${n.tokenPair}-${index}`}>
                 <TableCell
                   component="th"
                   scope="row"
                   className={clsx(classes.tableCell, classes.firstTableBodyRow)}
                 >
-                  {n.token}
+                  {n.tokenPair}
                 </TableCell>
-                <TableCell className={classes.tableCell}>{n.lume}</TableCell>
-                <TableCell className={classes.tableCell}>{n.fee}</TableCell>
+                <TableCell className={classes.tableCell}>
+                  {n.pool1.to_string()}
+                </TableCell>
+                <TableCell className={classes.tableCell}>
+                  {n.pool2.to_string()}
+                </TableCell>
+                <TableCell className={classes.tableCell}>
+                  {n.fee ? n.fee / 100 : 0}%
+                </TableCell>
               </TableRow>
             )
           })}
@@ -92,16 +100,7 @@ TableData.propTypes = {
 }
 
 TableData.defaultProps = {
-  data: [
-    { token: 'ABCEOS', lume: '12.0403', fee: '0.1%' },
-    { token: 'EVOABC', lume: '230.0012', fee: '0.1%' },
-    { token: 'EVOEOS', lume: '450230.0012', fee: '0.2%' },
-    { token: 'ABCEOS', lume: '12,0403', fee: '0.2%' },
-    { token: 'EVOABC', lume: '230.0012', fee: '0.1%' },
-    { token: 'EVOUSDT', lume: '12,0403', fee: '0.2%' },
-    { token: 'ABCEOS', lume: '12,0403', fee: '0.1%' },
-    { token: 'EVOABC', lume: '230.0012', fee: '0.1%' }
-  ]
+  data: []
 }
 
 export default TableData

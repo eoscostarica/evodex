@@ -102,7 +102,8 @@ const InputTextAndSelect = ({
   onChange,
   options,
   selected,
-  value
+  value,
+  inputDisabled
 }) => {
   const classes = useStyles()
   const [inputData, setInputData] = useState({
@@ -132,8 +133,9 @@ const InputTextAndSelect = ({
           <input
             type="number"
             onChange={(e) => handleOnChange(e.target.value, 'inputValue')}
-            value={inputData.inputValue}
+            value={inputData.inputValue || ''}
             placeholder="This Amount"
+            disabled={inputDisabled}
           />
         </Box>
         <select
@@ -142,7 +144,7 @@ const InputTextAndSelect = ({
           onChange={(e) => handleOnChange(e.target.value, 'selectValue')}
           value={inputData.selectValue}
         >
-          <option value="0" disabled />
+          <option value="">Token</option>
           {options.map(({ value, label }) => (
             <option key={value} value={value} disabled={selected === value}>
               {label}
@@ -162,7 +164,8 @@ InputTextAndSelect.propTypes = {
   helperText: PropTypes.string,
   onChange: PropTypes.func,
   options: PropTypes.array,
-  value: PropTypes.any
+  value: PropTypes.any,
+  inputDisabled: PropTypes.bool
 }
 
 InputTextAndSelect.defaultProps = {

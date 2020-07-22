@@ -1,32 +1,26 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { makeStyles } from '@material-ui/styles'
 import Box from '@material-ui/core/Box'
 import OutlinedInput from '@material-ui/core/OutlinedInput'
 import SearchIcon from '@material-ui/icons/Search'
 
 import CollapseTable from '../../components/CollapseTable'
+import { useExchange } from '../../context/exchange.context'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   inputSearch: {
     height: 48
   }
 }))
 
-const table1 = [
-  { token: 'ABCEOS', lume: '0.2450', fee: '0.1%' },
-  { token: 'EVOWAX', lume: '1.0427', fee: '0.12%' }
-]
-
-const table2 = [
-  { token: 'ABCEOS', lume: '12,0403', fee: '0.1%' },
-  { token: 'EVOABC', lume: '230.0012', fee: '0.2%' },
-  { token: 'EVOUSDT', lume: '12,0403', fee: '0.1%' },
-  { token: 'ABCEOS', lume: '12,0403', fee: '0.2%' },
-  { token: 'EVOABC', lume: '230.0012', fee: '0.1%' }
-]
-
 const Liquidity = () => {
   const classes = useStyles()
+  const [{ tokenPairs }, exchangeActions] = useExchange()
+
+  useEffect(() => {
+    exchangeActions.fetchTokenPairs()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Box>
@@ -38,8 +32,8 @@ const Liquidity = () => {
         startAdornment={<SearchIcon />}
         className={classes.inputSearch}
       />
-      <CollapseTable data={table1} label="My Pool" />
-      <CollapseTable data={table2} label="Community Pool" />
+      <CollapseTable data={[]} label="My Pool" />
+      <CollapseTable data={tokenPairs} label="Community Pool" />
     </Box>
   )
 }

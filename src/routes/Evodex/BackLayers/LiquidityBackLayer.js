@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { makeStyles } from '@material-ui/styles'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
@@ -7,6 +7,7 @@ import RemoveIcon from '@material-ui/icons/Remove'
 
 import InputTextAndSelect from '../../../components/InputTextAndSelect'
 import Button from '../../../components/Button'
+import { useExchange } from '../../../context/exchange.context'
 
 const useStyles = makeStyles((theme) => ({
   liquidityRoot: {
@@ -94,6 +95,12 @@ const useStyles = makeStyles((theme) => ({
 
 const LiquidityBackLayer = () => {
   const classes = useStyles()
+  const [{ tokenOptions }, exchangeActions] = useExchange()
+
+  useEffect(() => {
+    exchangeActions.fetchTokenPairs()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Box className={classes.liquidityRoot}>
@@ -107,6 +114,7 @@ const LiquidityBackLayer = () => {
       <Box className={classes.contentWrapper}>
         <Box className={classes.inputBox}>
           <InputTextAndSelect
+            options={tokenOptions}
             label="You Give"
             helperText="14.0569 EVO available"
           />
