@@ -117,7 +117,6 @@ const InputTextAndSelect = ({
   }
 
   useEffect(() => {
-    // console.log('useEffect', value)
     setInputData(
       value || {
         inputValue: '',
