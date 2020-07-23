@@ -95,12 +95,7 @@ const useStyles = makeStyles((theme) => ({
 
 const LiquidityBackLayer = () => {
   const classes = useStyles()
-  const [{ tokenOptions }, exchangeActions] = useExchange()
-
-  useEffect(() => {
-    exchangeActions.fetchTokenPairs()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  const [{ tokens }] = useExchange()
 
   return (
     <Box className={classes.liquidityRoot}>
@@ -114,7 +109,7 @@ const LiquidityBackLayer = () => {
       <Box className={classes.contentWrapper}>
         <Box className={classes.inputBox}>
           <InputTextAndSelect
-            options={tokenOptions}
+            options={tokens.map((token) => ({ value: token, label: token }))}
             label="You Give"
             helperText="14.0569 EVO available"
           />

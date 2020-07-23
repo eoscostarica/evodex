@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { makeStyles } from '@material-ui/styles'
 import Box from '@material-ui/core/Box'
 import OutlinedInput from '@material-ui/core/OutlinedInput'
@@ -15,12 +15,7 @@ const useStyles = makeStyles(() => ({
 
 const Liquidity = () => {
   const classes = useStyles()
-  const [{ tokenPairs }, exchangeActions] = useExchange()
-
-  useEffect(() => {
-    exchangeActions.fetchTokenPairs()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  const [{ pairs }] = useExchange()
 
   return (
     <Box>
@@ -33,7 +28,7 @@ const Liquidity = () => {
         className={classes.inputSearch}
       />
       <CollapseTable data={[]} label="My Pool" />
-      <CollapseTable data={tokenPairs} label="Community Pool" />
+      <CollapseTable data={pairs} label="Community Pool" />
     </Box>
   )
 }
