@@ -7,6 +7,18 @@ import { getScatterError } from './getScatterError'
 
 const defaultState = { pairs: [], tokens: [] }
 
+// TODO: remove when the evodex API return the pool contrac name
+const getContract = (token) => {
+  if (token === 'USD') {
+    return 'yuhjtmanserg'
+  }
+
+  if (token === 'EOS' || token === 'JUNGLE') {
+    return 'eosio.token'
+  }
+
+  return null
+}
 const getInfo = async (ual) => {
   const { data } = await axios.get(`${evodexConfig.api}/list`)
   let userPools = []
@@ -43,11 +55,11 @@ const getInfo = async (ual) => {
         supply: asset(supply),
         pool1: {
           asset: asset(pool1),
-          contract: 'eosio.token'
+          contract: getContract(asset(pool1).symbol.code().toString())
         },
         pool2: {
           asset: asset(pool2),
-          contract: 'eosio.token'
+          contract: getContract(asset(pool2).symbol.code().toString())
         }
       }
     })
@@ -482,21 +494,20 @@ const voteFee = async (amount, pair, ual) => {
         actions: [
           {
             account: evodexConfig.voteContract,
-            name: 'openfeetable',
-            authorization,
-            data: {
-              user: ual.activeUser.accountName,
-              pair_token: pair.supply.symbol.code().toString()
-            }
-          },
-          {
-            account: evodexConfig.voteContract,
             name: 'votefee',
             authorization,
             data: {
               user: ual.activeUser.accountName,
               pair_token: pair.supply.symbol.code().toString(),
               fee_voted: parseInt(parseFloat(amount) * 100)
+            }
+          },
+          {
+            account: evodexConfig.voteContract,
+            name: 'updatefee',
+            authorization,
+            data: {
+              pair_token: pair.supply.symbol.code().toString()
             }
           }
         ]

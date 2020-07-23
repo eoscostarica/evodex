@@ -120,19 +120,12 @@ const useStyles = makeStyles((theme) => ({
   message: {
     display: 'flex',
     paddingTop: theme.spacing(2),
-    justifyContent: 'center'
+    justifyContent: 'center',
+    minWidth: '100%'
   },
   loading: {
-    message: {
-      display: 'flex',
-      paddingTop: theme.spacing(2),
-      justifyContent: 'center',
-      minWidth: '100%'
-    },
-    loading: {
-      marginTop: theme.spacing(2),
-      minWidth: '100%'
-    }
+    marginTop: theme.spacing(2),
+    minWidth: '100%'
   }
 }))
 
