@@ -69,19 +69,19 @@ const TableData = ({ data }) => {
         <TableBody>
           {data.map((n, index) => {
             return (
-              <TableRow key={`${n.tokenPair}-${index}`}>
+              <TableRow key={`${n.token}-${index}`}>
                 <TableCell
                   component="th"
                   scope="row"
                   className={clsx(classes.tableCell, classes.firstTableBodyRow)}
                 >
-                  {n.tokenPair}
+                  {n.token}
                 </TableCell>
                 <TableCell className={classes.tableCell}>
-                  {n.pool1.to_string()}
+                  {n.pool1.asset.toString()}
                 </TableCell>
                 <TableCell className={classes.tableCell}>
-                  {n.pool2.to_string()}
+                  {n.pool2.asset.toString()}
                 </TableCell>
                 <TableCell className={classes.tableCell}>
                   {n.fee ? n.fee / 100 : 0}%

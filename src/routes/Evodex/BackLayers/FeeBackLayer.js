@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { makeStyles } from '@material-ui/styles'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
@@ -96,12 +96,7 @@ const useStyles = makeStyles((theme) => ({
 
 const FeeBackLayer = () => {
   const classes = useStyles()
-  const [{ tokenOptions }, exchangeActions] = useExchange()
-
-  useEffect(() => {
-    exchangeActions.fetchTokenPairs()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  const [{ tokens }] = useExchange()
 
   return (
     <Box className={classes.feeRoot}>
@@ -114,7 +109,10 @@ const FeeBackLayer = () => {
       </Box>
       <Box className={classes.contentWrapper}>
         <Box className={classes.inputBox}>
-          <InputTextAndSelect options={tokenOptions} label="Vote" />
+          <InputTextAndSelect
+            options={tokens.map((token) => ({ value: token, label: token }))}
+            label="Vote"
+          />
         </Box>
         <Box className={classes.rateFeeBox}>
           <Typography variant="body1">

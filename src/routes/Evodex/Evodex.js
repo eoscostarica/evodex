@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, memo } from 'react'
 import PropTypes from 'prop-types'
 import Typography from '@material-ui/core/Typography'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
@@ -7,6 +7,7 @@ import { Route, Redirect, Switch, useLocation } from 'react-router-dom'
 import { Backdrop } from '@eoscostarica/eoscr-components'
 
 import { MainContainer } from '../../containers'
+import { exchangeUtil } from '../../utils'
 import { ExchangeProvider } from '../../context/exchange.context'
 
 import BackLayer from './BackLayers'
@@ -77,10 +78,10 @@ const Evodex = ({ ual }) => {
   const theme = useTheme()
   const [openSidebar, setOpenSidebar] = useState(false)
   const [layerHeight, setLayerHeight] = useState(56)
+  const [exgangeInfo, setExchangeInfo] = useState(null)
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'), {
     defaultMatches: true
   })
-
   const frontLayer = (
     <div className={classes.frontLayer}>
       <Switch>
@@ -92,6 +93,20 @@ const Evodex = ({ ual }) => {
     </div>
   )
 
+  const handleOnReload = async () => {
+    const info = await exchangeUtil.getInfo(ual)
+
+    setExchangeInfo((prevValue) => ({
+      ...prevValue,
+      ...info
+    }))
+  }
+
+  useEffect(() => {
+    handleOnReload()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ual.activeUser])
+
   useEffect(() => {
     if (isDesktop) {
       setLayerHeight(500)
@@ -101,7 +116,7 @@ const Evodex = ({ ual }) => {
   }, [isDesktop])
 
   return (
-    <ExchangeProvider>
+    <ExchangeProvider info={exgangeInfo}>
       <MainContainer
         openSidebar={openSidebar}
         setOpenSidebar={setOpenSidebar}
@@ -124,7 +139,13 @@ const Evodex = ({ ual }) => {
         <Backdrop
           className={classes.backdrop}
           classes={{ frontLayer: classes.frontLayerRoot, root: classes.root }}
-          backLayer={<BackLayer ual={ual} pathname={location.pathname} />}
+          backLayer={
+            <BackLayer
+              ual={ual}
+              onReload={handleOnReload}
+              pathname={location.pathname}
+            />
+          }
           frontLayer={frontLayer}
           headerText={
             <Typography className={classes.labelBackdrop}>
@@ -147,4 +168,4 @@ Evodex.defaultProps = {
   ual: {}
 }
 
-export default Evodex
+export default memo(Evodex)
