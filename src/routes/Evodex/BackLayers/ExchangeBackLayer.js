@@ -127,7 +127,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const ExchangeBackLayer = ({ ual }) => {
+const ExchangeBackLayer = ({ onReload, ual }) => {
   const classes = useStyles()
   const theme = useTheme()
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'), {
@@ -141,44 +141,6 @@ const ExchangeBackLayer = ({ ual }) => {
   const [youGive, setYouGive] = useState({})
   const [message, setMessage] = useState()
   const [loading, setLoading] = useState(false)
-
-  useEffect(() => {
-    setOptions((prevState) => ({
-      ...prevState,
-      youGive: exchangeUtil
-        .getTokensFor(youReceive.selectValue, exchangeState)
-        .map((token) => ({ label: token, value: token })),
-      youReceive: exchangeUtil
-        .getTokensFor(youGive.selectValue, exchangeState)
-        .map((token) => ({ label: token, value: token }))
-    }))
-    setPair(
-      exchangeUtil.getPair(
-        youGive.selectValue,
-        youReceive.selectValue,
-        exchangeState
-      )
-    )
-  }, [exchangeState, youGive.selectValue, youReceive.selectValue])
-
-  useEffect(() => {
-    if (!pair || !youGive.inputValue) {
-      setYouReceive((prevState) => ({
-        ...prevState,
-        inputValue: ''
-      }))
-
-      return
-    }
-
-    const assets = exchangeUtil.getExchangeAssets(youGive.inputValue, pair)
-
-    setAssets(assets)
-    setYouReceive((prevState) => ({
-      ...prevState,
-      inputValue: assets.assetToReceive.toString().split(' ')[0]
-    }))
-  }, [pair, youGive.inputValue])
 
   const handleOnChange = (key) => (value) => {
     let set
@@ -254,6 +216,7 @@ const ExchangeBackLayer = ({ ual }) => {
           </span>
         )
       }))
+      onReload()
     } catch (error) {
       setMessage((prevState) => ({
         ...prevState,
@@ -267,6 +230,44 @@ const ExchangeBackLayer = ({ ual }) => {
 
     setLoading(false)
   }
+
+  useEffect(() => {
+    setOptions((prevState) => ({
+      ...prevState,
+      youGive: exchangeUtil
+        .getTokensFor(youReceive.selectValue, exchangeState)
+        .map((token) => ({ label: token, value: token })),
+      youReceive: exchangeUtil
+        .getTokensFor(youGive.selectValue, exchangeState)
+        .map((token) => ({ label: token, value: token }))
+    }))
+    setPair(
+      exchangeUtil.getPair(
+        youGive.selectValue,
+        youReceive.selectValue,
+        exchangeState
+      )
+    )
+  }, [exchangeState, youGive.selectValue, youReceive.selectValue])
+
+  useEffect(() => {
+    if (!pair || !youGive.inputValue) {
+      setYouReceive((prevState) => ({
+        ...prevState,
+        inputValue: ''
+      }))
+
+      return
+    }
+
+    const assets = exchangeUtil.getExchangeAssets(youGive.inputValue, pair)
+
+    setAssets(assets)
+    setYouReceive((prevState) => ({
+      ...prevState,
+      inputValue: assets.assetToReceive.toString().split(' ')[0]
+    }))
+  }, [pair, youGive.inputValue])
 
   return (
     <Box className={classes.exchangeRoot}>
@@ -345,7 +346,8 @@ const ExchangeBackLayer = ({ ual }) => {
 }
 
 ExchangeBackLayer.propTypes = {
-  ual: PropTypes.object
+  ual: PropTypes.object,
+  onReload: PropTypes.func
 }
 
 export default ExchangeBackLayer
