@@ -78,10 +78,10 @@ const TableData = ({ data }) => {
                   {n.token}
                 </TableCell>
                 <TableCell className={classes.tableCell}>
-                  {n.pool1.to_string()}
+                  {n.pool1.asset.toString()}
                 </TableCell>
                 <TableCell className={classes.tableCell}>
-                  {n.pool2.to_string()}
+                  {n.pool2.asset.toString()}
                 </TableCell>
                 <TableCell className={classes.tableCell}>
                   {n.fee ? n.fee / 100 : 0}%

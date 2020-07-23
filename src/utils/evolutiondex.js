@@ -7,8 +7,14 @@ import { getScatterError } from './getScatterError'
 
 const defaultState = { pairs: [], tokens: [] }
 
-const getInfo = async () => {
+const getInfo = async (ual) => {
   const { data } = await axios.get(`${exchangeConfig.api}/list`)
+  let userPools = []
+
+  if (ual?.activeUser) {
+    userPools = await getUserPools(ual)
+  }
+
   const pairs = await Promise.all(
     data.map(async (tokenPair) => {
       const {
@@ -25,13 +31,24 @@ const getInfo = async () => {
         }
       })
 
+      const balance = userPools.find(
+        (item) => item.symbol.code().toString() === tokenPair
+      )
+
       return {
-        token: tokenPair,
         price,
         fee,
+        balance,
+        token: tokenPair,
         supply: asset(supply),
-        pool1: asset(pool1),
-        pool2: asset(pool2)
+        pool1: {
+          asset: asset(pool1),
+          contract: 'eosio.token'
+        },
+        pool2: {
+          asset: asset(pool2),
+          contract: 'eosio.token'
+        }
       }
     })
   )
@@ -39,12 +56,12 @@ const getInfo = async () => {
     pairs.reduce(
       (temp, item) => ({
         ...temp,
-        [item.pool1.symbol
+        [item.pool1.asset.symbol
           .code()
-          .to_string()]: item.pool1.symbol.code().to_string(),
-        [item.pool2.symbol
+          .toString()]: item.pool1.asset.symbol.code().toString(),
+        [item.pool2.asset.symbol
           .code()
-          .to_string()]: item.pool2.symbol.code().to_string()
+          .toString()]: item.pool2.asset.symbol.code().toString()
       }),
       {}
     )
@@ -59,19 +76,19 @@ const getTokensFor = (token, exchangeState = defaultState) => {
 
   const validPairs = exchangeState.pairs.filter(
     (item) =>
-      item.pool1.symbol.code().to_string() === token ||
-      item.pool2.symbol.code().to_string() === token
+      item.pool1.asset.symbol.code().toString() === token ||
+      item.pool2.asset.symbol.code().toString() === token
   )
   const validTokens = Object.keys(
     validPairs.reduce(
       (temp, item) => ({
         ...temp,
-        [item.pool1.symbol.code().to_string() === token
-          ? item.pool2.symbol.code().to_string()
-          : item.pool1.symbol.code().to_string()]:
-          item.pool1.symbol.code().to_string() === token
-            ? item.pool2.symbol.code().to_string()
-            : item.pool1.symbol.code().to_string()
+        [item.pool1.asset.symbol.code().toString() === token
+          ? item.pool2.asset.symbol.code().toString()
+          : item.pool1.asset.symbol.code().toString()]:
+          item.pool1.asset.symbol.code().toString() === token
+            ? item.pool2.asset.symbol.code().toString()
+            : item.pool1.asset.symbol.code().toString()
       }),
       {}
     )
@@ -82,29 +99,30 @@ const getTokensFor = (token, exchangeState = defaultState) => {
 const getPair = (token1, token2, exchangeState = defaultState) => {
   const pair = exchangeState.pairs.find(
     (pair) =>
-      (pair.pool1.symbol.code().to_string() === token1 &&
-        pair.pool2.symbol.code().to_string() === token2) ||
-      (pair.pool2.symbol.code().to_string() === token1 &&
-        pair.pool1.symbol.code().to_string() === token2)
+      (pair.pool1.asset.symbol.code().toString() === token1 &&
+        pair.pool2.asset.symbol.code().toString() === token2) ||
+      (pair.pool2.asset.symbol.code().toString() === token1 &&
+        pair.pool1.asset.symbol.code().toString() === token2)
   )
 
   if (!pair) {
     return
   }
 
-  const isPool1 = pair.pool1.symbol.code().to_string() === token1
+  const isPool1 = pair.pool1.asset.symbol.code().toString() === token1
 
   return {
     ...pair,
-    from: {
-      pool: isPool1 ? pair.pool1 : pair.pool2,
-      contract: 'eosio.token'
-    },
-    to: {
-      pool: isPool1 ? pair.pool2 : pair.pool1,
-      contract: 'eosio.token'
-    }
+    from: isPool1 ? pair.pool1 : pair.pool2,
+    to: isPool1 ? pair.pool2 : pair.pool1
   }
+}
+const computeBackward = (x, y, z, fee) => {
+  const fee_amount = x.multiply(fee).plus(9999).divide(10000)
+  x = x.minus(fee_amount)
+  x = x.multiply(y).divide(z)
+
+  return x
 }
 const computeForward = (x, y, z, fee) => {
   const prod = x.multiply(y)
@@ -120,36 +138,30 @@ const computeForward = (x, y, z, fee) => {
 
   return tmp.plus(tmp_fee)
 }
-const getMinExpectedAmount = (pair, amount) => {
+const getExchangeAssets = (amount, pair) => {
   const assetToGive = asset(
     `${(parseFloat(amount) || 0).toFixed(
-      pair.from.pool.symbol.precision()
-    )} ${pair.from.pool.symbol.code().to_string()}`
+      pair.from.asset.symbol.precision()
+    )} ${pair.from.asset.symbol.code().toString()}`
   )
-  const assetToReceive = number_to_asset(0, pair.to.pool.symbol)
+  const assetToReceive = number_to_asset(0, pair.to.asset.symbol)
   const computeForwardAmount = computeForward(
     assetToGive.amount.multiply(-1),
-    pair.to.pool.amount,
-    pair.from.pool.amount.plus(assetToGive.amount),
+    pair.to.asset.amount,
+    pair.from.asset.amount.plus(assetToGive.amount),
     pair.fee
   ).abs()
 
   assetToReceive.set_amount(computeForwardAmount)
 
-  return assetToReceive.to_string().split(' ')[0]
+  return {
+    assetToGive,
+    assetToReceive
+  }
 }
-const exchange = async (pair, giveAmount, receiveAmount, ual) => {
+const exchange = async (amount, pair, ual) => {
   try {
-    const toGive = {
-      amount: parseFloat(giveAmount).toFixed(pair.from.pool.symbol.precision()),
-      token: pair.from.pool.symbol.code().to_string()
-    }
-    const toReceive = {
-      amount: parseFloat(receiveAmount).toFixed(
-        pair.to.pool.symbol.precision()
-      ),
-      token: pair.to.pool.symbol.code().to_string()
-    }
+    const { assetToGive, assetToReceive } = getExchangeAssets(amount, pair)
     const result = await ual.activeUser.signTransaction(
       {
         actions: [
@@ -165,8 +177,135 @@ const exchange = async (pair, giveAmount, receiveAmount, ual) => {
             data: {
               from: ual.activeUser.accountName,
               to: exchangeConfig.contract,
-              quantity: `${toGive.amount} ${toGive.token}`,
-              memo: `exchange: ${pair.token},${toReceive.amount} ${toReceive.token},send using evodex.netlify.app`
+              quantity: assetToGive.toString(),
+              memo: `exchange: ${
+                pair.token
+              },${assetToReceive.toString()},send using evodex.netlify.app`
+            }
+          }
+        ]
+      },
+      {
+        broadcast: true
+      }
+    )
+
+    return result
+  } catch (error) {
+    throw new Error(getScatterError(error))
+  }
+}
+const getUserPools = async (ual) => {
+  const { rows } = await ual.activeUser.rpc.get_table_rows({
+    json: true,
+    code: exchangeConfig.contract,
+    scope: ual.activeUser.accountName,
+    table: 'accounts'
+  })
+
+  return rows.map((row) => asset(row.balance))
+}
+const getAddLiquidityAssets = (amount, pair) => {
+  const assetToBuy = number_to_asset(0, pair.supply.symbol)
+  const asset1 = asset(
+    `${parseFloat(amount).toFixed(
+      pair.pool1.asset.symbol.precision()
+    )} ${pair.pool1.asset.symbol.code().toString()}`
+  )
+  const asset2 = number_to_asset(0, pair.pool2.asset.symbol)
+
+  assetToBuy.set_amount(
+    computeBackward(
+      asset1.amount,
+      pair.supply.amount,
+      pair.pool1.asset.amount,
+      pair.fee
+    )
+  )
+  asset2.set_amount(
+    computeForward(
+      assetToBuy.amount,
+      pair.pool2.asset.amount,
+      pair.supply.amount,
+      pair.fee
+    )
+  )
+
+  return {
+    assetToBuy,
+    asset1,
+    asset2
+  }
+}
+const addLiquidity = async (amount, pair, ual) => {
+  try {
+    const { assetToBuy, asset1, asset2 } = getAddLiquidityAssets(amount, pair)
+    const authorization = [
+      {
+        actor: ual.activeUser.accountName,
+        permission: 'active'
+      }
+    ]
+    const result = await ual.activeUser.signTransaction(
+      {
+        actions: [
+          {
+            account: exchangeConfig.contract,
+            name: 'openext',
+            authorization,
+            data: {
+              user: ual.activeUser.accountName,
+              payer: ual.activeUser.accountName,
+              ext_symbol: {
+                contract: pair.pool1.contract,
+                sym: pair.pool1.asset.symbol.toString()
+              }
+            }
+          },
+          {
+            account: exchangeConfig.contract,
+            name: 'openext',
+            authorization,
+            data: {
+              user: ual.activeUser.accountName,
+              payer: ual.activeUser.accountName,
+              ext_symbol: {
+                contract: pair.pool2.contract,
+                sym: pair.pool2.asset.symbol.toString()
+              }
+            }
+          },
+          {
+            account: pair.pool1.contract,
+            name: 'transfer',
+            authorization,
+            data: {
+              from: ual.activeUser.accountName,
+              to: exchangeConfig.contract,
+              quantity: asset1.toString(),
+              memo: ''
+            }
+          },
+          {
+            account: pair.pool2.contract,
+            name: 'transfer',
+            authorization,
+            data: {
+              from: ual.activeUser.accountName,
+              to: exchangeConfig.contract,
+              quantity: asset2.toString(),
+              memo: ''
+            }
+          },
+          {
+            account: exchangeConfig.contract,
+            name: 'addliquidity',
+            authorization,
+            data: {
+              user: ual.activeUser.accountName,
+              to_buy: assetToBuy.toString(),
+              max_asset1: asset1.toString(),
+              max_asset2: asset2.toString()
             }
           }
         ]
@@ -186,6 +325,9 @@ export const exchangeUtil = {
   getInfo,
   getTokensFor,
   getPair,
-  getMinExpectedAmount,
-  exchange
+  getExchangeAssets,
+  exchange,
+  getUserPools,
+  getAddLiquidityAssets,
+  addLiquidity
 }

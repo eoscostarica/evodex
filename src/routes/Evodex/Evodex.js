@@ -93,17 +93,19 @@ const Evodex = ({ ual }) => {
     </div>
   )
 
-  useEffect(() => {
-    const init = async () => {
-      const info = await exchangeUtil.getInfo()
+  const handleOnReload = async () => {
+    const info = await exchangeUtil.getInfo(ual)
 
-      setExchangeInfo((prevValue) => ({
-        ...prevValue,
-        ...info
-      }))
-    }
-    init()
-  }, [])
+    setExchangeInfo((prevValue) => ({
+      ...prevValue,
+      ...info
+    }))
+  }
+
+  useEffect(() => {
+    handleOnReload()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ual.activeUser])
 
   useEffect(() => {
     if (isDesktop) {
@@ -137,7 +139,13 @@ const Evodex = ({ ual }) => {
         <Backdrop
           className={classes.backdrop}
           classes={{ frontLayer: classes.frontLayerRoot, root: classes.root }}
-          backLayer={<BackLayer ual={ual} pathname={location.pathname} />}
+          backLayer={
+            <BackLayer
+              ual={ual}
+              onReload={handleOnReload}
+              pathname={location.pathname}
+            />
+          }
           frontLayer={frontLayer}
           headerText={
             <Typography className={classes.labelBackdrop}>

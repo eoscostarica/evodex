@@ -1,13 +1,21 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/styles'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import AddIcon from '@material-ui/icons/Add'
 import RemoveIcon from '@material-ui/icons/Remove'
+import IconButton from '@material-ui/core/IconButton'
+import Alert from '@material-ui/lab/Alert'
+import CloseIcon from '@material-ui/icons/Close'
+import LinearProgress from '@material-ui/core/LinearProgress'
+import Link from '@material-ui/core/Link'
 
+import { ualConfig } from '../../../config'
 import InputTextAndSelect from '../../../components/InputTextAndSelect'
 import Button from '../../../components/Button'
 import { useExchange } from '../../../context/exchange.context'
+import { exchangeUtil } from '../../../utils'
 
 const useStyles = makeStyles((theme) => ({
   liquidityRoot: {
@@ -90,12 +98,99 @@ const useStyles = makeStyles((theme) => ({
       flexDirection: 'column',
       alignItems: 'center'
     }
+  },
+  message: {
+    display: 'flex',
+    paddingTop: theme.spacing(2),
+    justifyContent: 'center'
+  },
+  loading: {
+    marginTop: theme.spacing(2)
   }
 }))
 
-const LiquidityBackLayer = () => {
+const LiquidityBackLayer = ({ onReload, ual }) => {
   const classes = useStyles()
-  const [{ tokens }] = useExchange()
+  const [{ pairs }] = useExchange()
+  const [pair, setPair] = useState()
+  const [assets, setAssets] = useState()
+  const [youGive, setYouGive] = useState({})
+  const [message, setMessage] = useState()
+  const [loading, setLoading] = useState(false)
+
+  const handleOnAddLiquidity = async () => {
+    if (!ual.activeUser) {
+      setMessage({ type: 'warning', text: 'Please login to continue' })
+      return
+    }
+
+    if (!pair) {
+      setMessage({
+        type: 'warning',
+        text: 'Please select a token to continue'
+      })
+      return
+    }
+
+    if (!youGive.inputValue) {
+      setMessage({
+        type: 'warning',
+        text: 'Please enter the amount to give to continue'
+      })
+      return
+    }
+
+    setLoading(true)
+    setMessage(null)
+
+    try {
+      const { transactionId } = await exchangeUtil.addLiquidity(
+        youGive.inputValue,
+        pair,
+        ual
+      )
+      setMessage((prevState) => ({
+        ...prevState,
+        type: 'success',
+        text: (
+          <span>
+            Success transaction:{' '}
+            <Link
+              href={`${ualConfig.blockExplorerUrl}/transaction/${transactionId}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {transactionId}
+            </Link>
+          </span>
+        )
+      }))
+      onReload()
+    } catch (error) {
+      setMessage((prevState) => ({
+        ...prevState,
+        type: 'error',
+        text: error.message
+      }))
+      setTimeout(() => {
+        setMessage(null)
+      }, 10000)
+    }
+
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    setPair(pairs.find((pair) => pair.token === youGive.selectValue))
+  }, [pairs, youGive.selectValue])
+
+  useEffect(() => {
+    if (!pair || !youGive.inputValue) {
+      return
+    }
+
+    setAssets(exchangeUtil.getAddLiquidityAssets(youGive.inputValue, pair))
+  }, [pair, youGive.inputValue])
 
   return (
     <Box className={classes.liquidityRoot}>
@@ -109,32 +204,83 @@ const LiquidityBackLayer = () => {
       <Box className={classes.contentWrapper}>
         <Box className={classes.inputBox}>
           <InputTextAndSelect
-            options={tokens.map((token) => ({ value: token, label: token }))}
+            options={pairs.map((pair) => ({
+              value: pair.token,
+              label: pair.token
+            }))}
             label="You Give"
-            helperText="14.0569 EVO available"
+            helperText={
+              pair && (
+                <span>
+                  {pair.balance
+                    ? `${pair.balance.toString()} `
+                    : `0 ${pair.token} `}
+                  available
+                </span>
+              )
+            }
+            onChange={setYouGive}
           />
         </Box>
-        <Box className={classes.rateFeeBox}>
-          <Typography variant="body1">
-            <strong>Rate:</strong> 1 EOS = 0.1 EVO
-          </Typography>
-          <Typography variant="body1">
-            <strong>Fee:</strong> 0.1%
-          </Typography>
-        </Box>
+        {pair && (
+          <Box className={classes.rateFeeBox}>
+            <Typography variant="body1">
+              <strong>Rate: </strong>
+              {assets && (
+                <span>
+                  {assets.asset1.toString()} = {assets.asset2.toString()}
+                </span>
+              )}
+            </Typography>
+            <Typography variant="body1">
+              <strong>Fee:</strong> {Number(pair.fee) / 100}%
+            </Typography>
+          </Box>
+        )}
         <Box className={classes.btnExchange}>
-          <Button variant="contained" startIcon={<AddIcon />}>
+          <Button
+            onClick={handleOnAddLiquidity}
+            variant="contained"
+            startIcon={<AddIcon />}
+          >
             ADD
           </Button>
           <Button variant="contained" startIcon={<RemoveIcon />}>
             REMOVE
           </Button>
         </Box>
+        {loading && (
+          <LinearProgress className={classes.loading} color="secondary" />
+        )}
+        {message && (
+          <Box className={classes.message}>
+            <Alert
+              severity={message.type}
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setMessage(null)
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+            >
+              {message.text}
+            </Alert>
+          </Box>
+        )}
       </Box>
     </Box>
   )
 }
 
-LiquidityBackLayer.propTypes = {}
+LiquidityBackLayer.propTypes = {
+  ual: PropTypes.object,
+  onReload: PropTypes.func
+}
 
 export default LiquidityBackLayer

@@ -5,8 +5,8 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import ImportExportIcon from '@material-ui/icons/ImportExport'
-import IconButton from '@material-ui/core/IconButton'
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz'
+import IconButton from '@material-ui/core/IconButton'
 import Alert from '@material-ui/lab/Alert'
 import CloseIcon from '@material-ui/icons/Close'
 import LinearProgress from '@material-ui/core/LinearProgress'
@@ -134,8 +134,8 @@ const ExchangeBackLayer = ({ ual }) => {
     defaultMatches: true
   })
   const [exchangeState] = useExchange()
-
   const [pair, setPair] = useState()
+  const [assets, setAssets] = useState()
   const [options, setOptions] = useState({ youGive: [], youReceive: [] })
   const [youReceive, setYouReceive] = useState({})
   const [youGive, setYouGive] = useState({})
@@ -171,9 +171,12 @@ const ExchangeBackLayer = ({ ual }) => {
       return
     }
 
+    const assets = exchangeUtil.getExchangeAssets(youGive.inputValue, pair)
+
+    setAssets(assets)
     setYouReceive((prevState) => ({
       ...prevState,
-      inputValue: exchangeUtil.getMinExpectedAmount(pair, youGive.inputValue)
+      inputValue: assets.assetToReceive.toString().split(' ')[0]
     }))
   }, [pair, youGive.inputValue])
 
@@ -231,9 +234,8 @@ const ExchangeBackLayer = ({ ual }) => {
 
     try {
       const { transactionId } = await exchangeUtil.exchange(
-        pair,
         youGive.inputValue,
-        youReceive.inputValue,
+        pair,
         ual
       )
       setMessage((prevState) => ({
@@ -296,15 +298,11 @@ const ExchangeBackLayer = ({ ual }) => {
       {pair && (
         <Box className={classes.rateFeeBox}>
           <Typography variant="body1">
-            <strong>{pair.token} </strong>
-            {youReceive.inputValue && (
+            <strong>Rate: </strong>
+            {assets && (
               <span>
-                <strong>Rate:</strong> 1 {youGive.selectValue} ={' '}
-                {(
-                  parseFloat(youReceive.inputValue) /
-                  parseFloat(youGive.inputValue)
-                ).toFixed(4)}{' '}
-                {youReceive.selectValue}
+                {assets.assetToGive.toString()} ={' '}
+                {assets.assetToReceive.toString()}
               </span>
             )}
           </Typography>

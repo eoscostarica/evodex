@@ -27,8 +27,14 @@ const Liquidity = () => {
         startAdornment={<SearchIcon />}
         className={classes.inputSearch}
       />
-      <CollapseTable data={[]} label="My Pool" />
-      <CollapseTable data={pairs} label="Community Pool" />
+      <CollapseTable
+        data={pairs.filter((pair) => !!pair.balance)}
+        label="My Pool"
+      />
+      <CollapseTable
+        data={pairs.filter((pair) => !pair.balance)}
+        label="Community Pool"
+      />
     </Box>
   )
 }
