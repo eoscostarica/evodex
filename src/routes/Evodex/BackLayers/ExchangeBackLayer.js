@@ -17,7 +17,7 @@ import InputTextAndSelect from '../../../components/InputTextAndSelect'
 import EvodexRocketSvg from '../../../components/Icons/EvodexRocket'
 import Button from '../../../components/Button'
 import { useExchange } from '../../../context/exchange.context'
-import { exchangeUtil } from '../../../utils'
+import { evolutiondex } from '../../../utils'
 
 const useStyles = makeStyles((theme) => ({
   exchangeRoot: {
@@ -123,7 +123,16 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center'
   },
   loading: {
-    marginTop: theme.spacing(2)
+    message: {
+      display: 'flex',
+      paddingTop: theme.spacing(2),
+      justifyContent: 'center',
+      minWidth: '100%'
+    },
+    loading: {
+      marginTop: theme.spacing(2),
+      minWidth: '100%'
+    }
   }
 }))
 
@@ -195,7 +204,7 @@ const ExchangeBackLayer = ({ onReload, ual }) => {
     setMessage(null)
 
     try {
-      const { transactionId } = await exchangeUtil.exchange(
+      const { transactionId } = await evolutiondex.exchange(
         youGive.inputValue,
         pair,
         ual
@@ -234,15 +243,15 @@ const ExchangeBackLayer = ({ onReload, ual }) => {
   useEffect(() => {
     setOptions((prevState) => ({
       ...prevState,
-      youGive: exchangeUtil
+      youGive: evolutiondex
         .getTokensFor(youReceive.selectValue, exchangeState)
         .map((token) => ({ label: token, value: token })),
-      youReceive: exchangeUtil
+      youReceive: evolutiondex
         .getTokensFor(youGive.selectValue, exchangeState)
         .map((token) => ({ label: token, value: token }))
     }))
     setPair(
-      exchangeUtil.getPair(
+      evolutiondex.getPair(
         youGive.selectValue,
         youReceive.selectValue,
         exchangeState
@@ -260,7 +269,7 @@ const ExchangeBackLayer = ({ onReload, ual }) => {
       return
     }
 
-    const assets = exchangeUtil.getExchangeAssets(youGive.inputValue, pair)
+    const assets = evolutiondex.getExchangeAssets(youGive.inputValue, pair)
 
     setAssets(assets)
     setYouReceive((prevState) => ({

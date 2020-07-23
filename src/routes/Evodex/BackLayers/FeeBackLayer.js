@@ -1,11 +1,19 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/styles'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
+import IconButton from '@material-ui/core/IconButton'
+import Alert from '@material-ui/lab/Alert'
+import CloseIcon from '@material-ui/icons/Close'
+import LinearProgress from '@material-ui/core/LinearProgress'
+import Link from '@material-ui/core/Link'
 
+import { ualConfig } from '../../../config'
 import InputTextAndSelect from '../../../components/InputTextAndSelect'
 import Button from '../../../components/Button'
 import { useExchange } from '../../../context/exchange.context'
+import { evolutiondex } from '../../../utils'
 
 const useStyles = makeStyles((theme) => ({
   feeRoot: {
@@ -91,12 +99,92 @@ const useStyles = makeStyles((theme) => ({
       flexDirection: 'column',
       alignItems: 'center'
     }
+  },
+  message: {
+    display: 'flex',
+    paddingTop: theme.spacing(2),
+    justifyContent: 'center',
+    minWidth: '100%'
+  },
+  loading: {
+    marginTop: theme.spacing(2),
+    minWidth: '100%'
   }
 }))
 
-const FeeBackLayer = () => {
+const FeeBackLayer = ({ onReload, ual }) => {
   const classes = useStyles()
-  const [{ tokens }] = useExchange()
+  const [{ pairs }] = useExchange()
+  const [pair, setPair] = useState()
+  const [vote, setVote] = useState({})
+  const [message, setMessage] = useState()
+  const [loading, setLoading] = useState(false)
+
+  const handleOnVote = async () => {
+    if (!ual.activeUser) {
+      setMessage({ type: 'warning', text: 'Please login to continue' })
+      return
+    }
+
+    if (!pair) {
+      setMessage({
+        type: 'warning',
+        text: 'Please select a token to continue'
+      })
+      return
+    }
+
+    if (!vote.inputValue) {
+      setMessage({
+        type: 'warning',
+        text: 'Please enter the vote'
+      })
+      return
+    }
+
+    setLoading(true)
+    setMessage(null)
+
+    try {
+      const { transactionId } = await evolutiondex.voteFee(
+        vote.inputValue,
+        pair,
+        ual
+      )
+      setMessage((prevState) => ({
+        ...prevState,
+        type: 'success',
+        text: (
+          <span>
+            Success transaction:{' '}
+            <Link
+              href={`${ualConfig.blockExplorerUrl}/transaction/${transactionId}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {transactionId}
+            </Link>
+          </span>
+        )
+      }))
+      onReload()
+    } catch (error) {
+      setMessage((prevState) => ({
+        ...prevState,
+        type: 'error',
+        text: error.message
+      }))
+      setTimeout(() => {
+        setMessage(null)
+      }, 10000)
+    }
+
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    setPair(pairs.find((pair) => pair.token === vote.selectValue))
+  }, [pairs, vote.selectValue])
 
   return (
     <Box className={classes.feeRoot}>
@@ -110,26 +198,61 @@ const FeeBackLayer = () => {
       <Box className={classes.contentWrapper}>
         <Box className={classes.inputBox}>
           <InputTextAndSelect
-            options={tokens.map((token) => ({ value: token, label: token }))}
+            options={pairs.map((pair) => ({
+              value: pair.token,
+              label: pair.token
+            }))}
             label="Vote"
+            onChange={setVote}
           />
         </Box>
-        <Box className={classes.rateFeeBox}>
-          <Typography variant="body1">
-            <strong>Supply:</strong> 12 EVOMAX
-          </Typography>
-          <Typography variant="body1">
-            <strong>Fee:</strong> 0.1%
-          </Typography>
-        </Box>
+        {pair && (
+          <Box className={classes.rateFeeBox}>
+            <Typography variant="body1">
+              <strong>Supply:</strong> {pair.supply.toString()}
+            </Typography>
+            <Typography variant="body1">
+              <strong>Fee:</strong> {Number(pair.fee) / 100}%
+            </Typography>
+          </Box>
+        )}
         <Box className={classes.btnExchange}>
-          <Button variant="contained">VOTE</Button>
+          <Button onClick={handleOnVote} variant="contained">
+            VOTE
+          </Button>
         </Box>
+        {loading && (
+          <LinearProgress className={classes.loading} color="secondary" />
+        )}
+        {message && (
+          <Box className={classes.message}>
+            <Alert
+              severity={message.type}
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setMessage(null)
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+            >
+              {message.text}
+            </Alert>
+          </Box>
+        )}
       </Box>
     </Box>
   )
 }
 
-FeeBackLayer.propTypes = {}
+FeeBackLayer.propTypes = {
+  ual: PropTypes.object,
+  onReload: PropTypes.func
+}
 
 export default FeeBackLayer
