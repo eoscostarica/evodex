@@ -7,7 +7,7 @@ import { Route, Redirect, Switch, useLocation } from 'react-router-dom'
 import { Backdrop } from '@eoscostarica/eoscr-components'
 
 import { MainContainer } from '../../containers'
-import { exchangeUtil } from '../../utils'
+import { evolutiondex } from '../../utils'
 import { ExchangeProvider } from '../../context/exchange.context'
 
 import BackLayer from './BackLayers'
@@ -94,7 +94,7 @@ const Evodex = ({ ual }) => {
   )
 
   const handleOnReload = async () => {
-    const info = await exchangeUtil.getInfo(ual)
+    const info = await evolutiondex.getInfo(ual)
 
     setExchangeInfo((prevValue) => ({
       ...prevValue,

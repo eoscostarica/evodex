@@ -15,7 +15,7 @@ import { ualConfig } from '../../../config'
 import InputTextAndSelect from '../../../components/InputTextAndSelect'
 import Button from '../../../components/Button'
 import { useExchange } from '../../../context/exchange.context'
-import { exchangeUtil } from '../../../utils'
+import { evolutiondex } from '../../../utils'
 
 const useStyles = makeStyles((theme) => ({
   liquidityRoot: {
@@ -102,10 +102,12 @@ const useStyles = makeStyles((theme) => ({
   message: {
     display: 'flex',
     paddingTop: theme.spacing(2),
-    justifyContent: 'center'
+    justifyContent: 'center',
+    minWidth: '100%'
   },
   loading: {
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
+    minWidth: '100%'
   }
 }))
 
@@ -113,7 +115,8 @@ const LiquidityBackLayer = ({ onReload, ual }) => {
   const classes = useStyles()
   const [{ pairs }] = useExchange()
   const [pair, setPair] = useState()
-  const [assets, setAssets] = useState()
+  const [toBuy, setToBuy] = useState()
+  const [toSell, setToSell] = useState()
   const [youGive, setYouGive] = useState({})
   const [message, setMessage] = useState()
   const [loading, setLoading] = useState(false)
@@ -135,7 +138,7 @@ const LiquidityBackLayer = ({ onReload, ual }) => {
     if (!youGive.inputValue) {
       setMessage({
         type: 'warning',
-        text: 'Please enter the amount to give to continue'
+        text: 'Please enter the amount to add'
       })
       return
     }
@@ -144,7 +147,68 @@ const LiquidityBackLayer = ({ onReload, ual }) => {
     setMessage(null)
 
     try {
-      const { transactionId } = await exchangeUtil.addLiquidity(
+      const { transactionId } = await evolutiondex.addLiquidity(
+        youGive.inputValue,
+        pair,
+        ual
+      )
+      setMessage((prevState) => ({
+        ...prevState,
+        type: 'success',
+        text: (
+          <span>
+            Success transaction:{' '}
+            <Link
+              href={`${ualConfig.blockExplorerUrl}/transaction/${transactionId}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {transactionId}
+            </Link>
+          </span>
+        )
+      }))
+      onReload()
+    } catch (error) {
+      setMessage((prevState) => ({
+        ...prevState,
+        type: 'error',
+        text: error.message
+      }))
+      setTimeout(() => {
+        setMessage(null)
+      }, 10000)
+    }
+
+    setLoading(false)
+  }
+  const handleOnRemoveLiquidity = async () => {
+    if (!ual.activeUser) {
+      setMessage({ type: 'warning', text: 'Please login to continue' })
+      return
+    }
+
+    if (!pair) {
+      setMessage({
+        type: 'warning',
+        text: 'Please select a token to continue'
+      })
+      return
+    }
+
+    if (!youGive.inputValue) {
+      setMessage({
+        type: 'warning',
+        text: 'Please enter the amount to remove'
+      })
+      return
+    }
+
+    setLoading(true)
+    setMessage(null)
+
+    try {
+      const { transactionId } = await evolutiondex.removeLiquidity(
         youGive.inputValue,
         pair,
         ual
@@ -189,7 +253,8 @@ const LiquidityBackLayer = ({ onReload, ual }) => {
       return
     }
 
-    setAssets(exchangeUtil.getAddLiquidityAssets(youGive.inputValue, pair))
+    setToBuy(evolutiondex.getAddLiquidityAssets(youGive.inputValue, pair))
+    setToSell(evolutiondex.getRemoveLiquidityAssets(youGive.inputValue, pair))
   }, [pair, youGive.inputValue])
 
   return (
@@ -225,15 +290,30 @@ const LiquidityBackLayer = ({ onReload, ual }) => {
         {pair && (
           <Box className={classes.rateFeeBox}>
             <Typography variant="body1">
-              <strong>Rate: </strong>
-              {assets && (
+              <strong>Add: </strong>
+              {toBuy && (
                 <span>
-                  {assets.asset1.toString()} = {assets.asset2.toString()}
+                  {toBuy.asset1.toString()} and {toBuy.asset2.toString()}
                 </span>
               )}
             </Typography>
             <Typography variant="body1">
               <strong>Fee:</strong> {Number(pair.fee) / 100}%
+            </Typography>
+          </Box>
+        )}
+        {pair && (
+          <Box className={classes.rateFeeBox}>
+            <Typography variant="body1">
+              <strong>Remove: </strong>
+              {toSell && (
+                <span>
+                  {toSell.asset1.toString()} and {toSell.asset2.toString()}
+                </span>
+              )}
+            </Typography>
+            <Typography variant="body1">
+              <strong>Fee:</strong> 0%
             </Typography>
           </Box>
         )}
@@ -245,7 +325,11 @@ const LiquidityBackLayer = ({ onReload, ual }) => {
           >
             ADD
           </Button>
-          <Button variant="contained" startIcon={<RemoveIcon />}>
+          <Button
+            onClick={handleOnRemoveLiquidity}
+            variant="contained"
+            startIcon={<RemoveIcon />}
+          >
             REMOVE
           </Button>
         </Box>

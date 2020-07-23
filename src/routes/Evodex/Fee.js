@@ -4,7 +4,7 @@ import Box from '@material-ui/core/Box'
 import OutlinedInput from '@material-ui/core/OutlinedInput'
 import SearchIcon from '@material-ui/icons/Search'
 
-import Table from '../../components/Table'
+import CollapseTable from '../../components/Table'
 import { useExchange } from '../../context/exchange.context'
 
 const useStyles = makeStyles((theme) => ({
@@ -27,7 +27,14 @@ const Fee = () => {
         startAdornment={<SearchIcon />}
         className={classes.inputSearch}
       />
-      <Table data={pairs} />
+      <CollapseTable
+        data={pairs.filter((pair) => !!pair.balance)}
+        label="My Pool"
+      />
+      <CollapseTable
+        data={pairs.filter((pair) => !pair.balance)}
+        label="Community Pool"
+      />
     </Box>
   )
 }
