@@ -31,5 +31,6 @@ const authenticators = [
 export const ualConfig = {
   appName,
   network,
-  authenticators
+  authenticators,
+  blockExplorerUrl: process.env.REACT_APP_EOS_BLOCK_EXPLORER_URL
 }
