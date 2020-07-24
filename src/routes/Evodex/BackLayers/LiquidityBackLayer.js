@@ -113,13 +113,18 @@ const useStyles = makeStyles((theme) => ({
 
 const LiquidityBackLayer = ({ onReload, ual }) => {
   const classes = useStyles()
-  const [{ pairs }] = useExchange()
+  const [{ pairs, currentPair }] = useExchange()
   const [pair, setPair] = useState()
   const [toBuy, setToBuy] = useState()
   const [toSell, setToSell] = useState()
   const [youGive, setYouGive] = useState({})
   const [message, setMessage] = useState()
   const [loading, setLoading] = useState(false)
+
+  const handleOnChange = (value) => {
+    setMessage(null)
+    setYouGive(value)
+  }
 
   const handleOnAddLiquidity = async () => {
     if (!ual.activeUser) {
@@ -182,6 +187,7 @@ const LiquidityBackLayer = ({ onReload, ual }) => {
 
     setLoading(false)
   }
+
   const handleOnRemoveLiquidity = async () => {
     if (!ual.activeUser) {
       setMessage({ type: 'warning', text: 'Please login to continue' })
@@ -250,12 +256,27 @@ const LiquidityBackLayer = ({ onReload, ual }) => {
 
   useEffect(() => {
     if (!pair || !youGive.inputValue) {
+      setToBuy(null)
+      setToSell(null)
+
       return
     }
 
     setToBuy(evolutiondex.getAddLiquidityAssets(youGive.inputValue, pair))
     setToSell(evolutiondex.getRemoveLiquidityAssets(youGive.inputValue, pair))
   }, [pair, youGive.inputValue])
+
+  useEffect(() => {
+    if (!currentPair) {
+      return
+    }
+
+    setMessage(null)
+    setYouGive((prevValue) => ({
+      ...prevValue,
+      selectValue: currentPair.token
+    }))
+  }, [currentPair])
 
   return (
     <Box className={classes.liquidityRoot}>
@@ -284,7 +305,8 @@ const LiquidityBackLayer = ({ onReload, ual }) => {
                 </span>
               )
             }
-            onChange={setYouGive}
+            onChange={handleOnChange}
+            value={youGive}
           />
         </Box>
         {pair && (

@@ -250,7 +250,13 @@ const ExchangeBackLayer = ({ onReload, ual }) => {
         exchangeState
       )
     )
-  }, [exchangeState, youGive.selectValue, youReceive.selectValue])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    exchangeState.pairs,
+    exchangeState.tokens,
+    youGive.selectValue,
+    youReceive.selectValue
+  ])
 
   useEffect(() => {
     if (!pair || !youGive.inputValue) {
@@ -258,6 +264,7 @@ const ExchangeBackLayer = ({ onReload, ual }) => {
         ...prevState,
         inputValue: ''
       }))
+      setAssets(null)
 
       return
     }
@@ -270,6 +277,26 @@ const ExchangeBackLayer = ({ onReload, ual }) => {
       inputValue: assets.assetToReceive.toString().split(' ')[0]
     }))
   }, [pair, youGive.inputValue])
+
+  useEffect(() => {
+    if (!exchangeState.currentPair) {
+      return
+    }
+
+    setMessage(null)
+    setYouGive((prevValue) => ({
+      ...prevValue,
+      selectValue: exchangeState.currentPair.pool1.asset.symbol
+        .code()
+        .toString()
+    }))
+    setYouReceive((prevValue) => ({
+      ...prevValue,
+      selectValue: exchangeState.currentPair.pool2.asset.symbol
+        .code()
+        .toString()
+    }))
+  }, [exchangeState.currentPair])
 
   return (
     <Box className={classes.exchangeRoot}>
