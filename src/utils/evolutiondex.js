@@ -7,17 +7,19 @@ import { getScatterError } from './getScatterError'
 
 const defaultState = { pairs: [], tokens: [] }
 
-// TODO: remove when the evodex API return the pool contrac name
-const getContract = (token) => {
-  if (token === 'USD') {
-    return 'yuhjtmanserg'
+const amountToAsset = (amount = '0', currentAsset) => {
+  if (isNaN(amount)) {
+    return asset(`0 ${currentAsset.symbol.code().toString()}`)
   }
 
-  if (token === 'EOS' || token === 'JUNGLE') {
-    return 'eosio.token'
-  }
+  const chunks = amount.split('.')
+  const integer = chunks[0].substring(0, 10)
+  const decimal = chunks[1] || '0'
+  const validAmount = parseFloat(`${integer}.${decimal}`).toFixed(
+    currentAsset.symbol.precision()
+  )
 
-  return null
+  return asset(`${validAmount} ${currentAsset.symbol.code().toString()}`)
 }
 const getInfo = async (ual) => {
   const { data } = await axios.get(`${evodexConfig.api}/list`)
@@ -35,7 +37,9 @@ const getInfo = async (ual) => {
           Pool1: pool1,
           Pool2: pool2,
           Price: price,
-          Supply: supply
+          Supply: supply,
+          Pool1contract: pool1Contract,
+          Pool2contract: pool2Contract
         }
       } = await axios.get(`${evodexConfig.api}/info`, {
         params: {
@@ -55,11 +59,11 @@ const getInfo = async (ual) => {
         supply: asset(supply),
         pool1: {
           asset: asset(pool1),
-          contract: getContract(asset(pool1).symbol.code().toString())
+          contract: pool1Contract
         },
         pool2: {
           asset: asset(pool2),
-          contract: getContract(asset(pool2).symbol.code().toString())
+          contract: pool2Contract
         }
       }
     })
@@ -129,13 +133,6 @@ const getPair = (token1, token2, exchangeState = defaultState) => {
     to: isPool1 ? pair.pool2 : pair.pool1
   }
 }
-const computeBackward = (x, y, z, fee) => {
-  const fee_amount = x.multiply(fee).plus(9999).divide(10000)
-  x = x.minus(fee_amount)
-  x = x.multiply(y).divide(z)
-
-  return x
-}
 const computeForward = (x, y, z, fee) => {
   const prod = x.multiply(y)
   let tmp, tmp_fee
@@ -151,11 +148,7 @@ const computeForward = (x, y, z, fee) => {
   return tmp.plus(tmp_fee)
 }
 const getExchangeAssets = (amount, pair) => {
-  const assetToGive = asset(
-    `${(parseFloat(amount) || 0).toFixed(
-      pair.from.asset.symbol.precision()
-    )} ${pair.from.asset.symbol.code().toString()}`
-  )
+  const assetToGive = amountToAsset(amount, pair.from.asset)
   const assetToReceive = number_to_asset(0, pair.to.asset.symbol)
   const computeForwardAmount = computeForward(
     assetToGive.amount.multiply(-1),
@@ -218,19 +211,15 @@ const getUserPools = async (ual) => {
   return rows.map((row) => asset(row.balance))
 }
 const getAddLiquidityAssets = (amount, pair) => {
-  const baseAsset = number_to_asset(0, pair.supply.symbol)
-  const asset1 = asset(
-    `${parseFloat(amount).toFixed(
-      pair.pool1.asset.symbol.precision()
-    )} ${pair.pool1.asset.symbol.code().toString()}`
-  )
+  const baseAsset = amountToAsset(amount, pair.supply)
+  const asset1 = number_to_asset(0, pair.pool1.asset.symbol)
   const asset2 = number_to_asset(0, pair.pool2.asset.symbol)
 
-  baseAsset.set_amount(
-    computeBackward(
-      asset1.amount,
-      pair.supply.amount,
+  asset1.set_amount(
+    computeForward(
+      baseAsset.amount,
       pair.pool1.asset.amount,
+      pair.supply.amount,
       pair.fee
     )
   )
@@ -361,11 +350,7 @@ const addLiquidity = async (amount, pair, ual) => {
   }
 }
 const getRemoveLiquidityAssets = (amount, pair) => {
-  const baseAsset = asset(
-    `${parseFloat(amount).toFixed(pair.supply.symbol.precision())} ${
-      pair.token
-    }`
-  )
+  const baseAsset = amountToAsset(amount, pair.supply)
   const asset1 = number_to_asset(0, pair.pool1.asset.symbol)
   const asset2 = number_to_asset(0, pair.pool2.asset.symbol)
 

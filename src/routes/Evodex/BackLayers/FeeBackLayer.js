@@ -114,11 +114,19 @@ const useStyles = makeStyles((theme) => ({
 
 const FeeBackLayer = ({ onReload, ual }) => {
   const classes = useStyles()
-  const [{ pairs }] = useExchange()
+  const [{ pairs, currentPair }] = useExchange()
   const [pair, setPair] = useState()
-  const [vote, setVote] = useState({})
+  const [yourVote, setYourVote] = useState({})
   const [message, setMessage] = useState()
   const [loading, setLoading] = useState(false)
+
+  const handleOnChange = (value) => {
+    setMessage(null)
+    setYourVote((prevState) => ({
+      ...prevState,
+      ...value
+    }))
+  }
 
   const handleOnVote = async () => {
     if (!ual.activeUser) {
@@ -134,10 +142,10 @@ const FeeBackLayer = ({ onReload, ual }) => {
       return
     }
 
-    if (!vote.inputValue) {
+    if (!yourVote.inputValue) {
       setMessage({
         type: 'warning',
-        text: 'Please enter the vote'
+        text: 'Please enter your vote'
       })
       return
     }
@@ -147,7 +155,7 @@ const FeeBackLayer = ({ onReload, ual }) => {
 
     try {
       const { transactionId } = await evolutiondex.voteFee(
-        vote.inputValue,
+        yourVote.inputValue,
         pair,
         ual
       )
@@ -183,8 +191,20 @@ const FeeBackLayer = ({ onReload, ual }) => {
   }
 
   useEffect(() => {
-    setPair(pairs.find((pair) => pair.token === vote.selectValue))
-  }, [pairs, vote.selectValue])
+    setPair(pairs.find((pair) => pair.token === yourVote.selectValue))
+  }, [pairs, yourVote.selectValue])
+
+  useEffect(() => {
+    if (!currentPair) {
+      return
+    }
+
+    setMessage(null)
+    setYourVote((prevValue) => ({
+      ...prevValue,
+      selectValue: currentPair.token
+    }))
+  }, [currentPair])
 
   return (
     <Box className={classes.feeRoot}>
@@ -203,7 +223,8 @@ const FeeBackLayer = ({ onReload, ual }) => {
               label: pair.token
             }))}
             label="Vote"
-            onChange={setVote}
+            onChange={handleOnChange}
+            value={yourVote}
           />
         </Box>
         {pair && (

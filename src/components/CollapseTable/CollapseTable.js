@@ -7,6 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Collapse from '@material-ui/core/Collapse'
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
+import { Typography } from '@material-ui/core'
 
 import Table from '../Table'
 
@@ -29,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const CollapseTable = ({ data, label }) => {
+const CollapseTable = ({ data, label, onClick }) => {
   const classes = useStyles()
   const [open, setOpen] = React.useState(true)
 
@@ -44,7 +45,8 @@ const CollapseTable = ({ data, label }) => {
         {open ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
       </ListItem>
       <Collapse in={open} timeout="auto" unmountOnExit>
-        <Table data={data} />
+        {data?.length > 0 && <Table data={data} onClick={onClick} />}
+        {data?.length === 0 && <Typography>Empty</Typography>}
       </Collapse>
     </List>
   )
@@ -52,7 +54,8 @@ const CollapseTable = ({ data, label }) => {
 
 CollapseTable.propTypes = {
   data: PropTypes.array,
-  label: PropTypes.string
+  label: PropTypes.string,
+  onClick: PropTypes.func
 }
 
 export default CollapseTable

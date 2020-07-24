@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/styles'
 import Box from '@material-ui/core/Box'
 import OutlinedInput from '@material-ui/core/OutlinedInput'
@@ -15,25 +15,45 @@ const useStyles = makeStyles(() => ({
 
 const Liquidity = () => {
   const classes = useStyles()
-  const [{ pairs }] = useExchange()
+  const [{ pairs }, { update }] = useExchange()
+  const [myPools, setMyPools] = useState([])
+  const [communityPools, setCommunityPools] = useState([])
+  const [filter, setFilter] = useState('')
+
+  const handleOnClick = (currentPair) => {
+    update({
+      currentPair
+    })
+  }
+
+  useEffect(() => {
+    let options = pairs
+
+    if (filter) {
+      options = options.filter((pair) =>
+        pair.token.includes(filter.toUpperCase())
+      )
+    }
+
+    setMyPools(options.filter((pair) => !!pair.balance))
+    setCommunityPools(options)
+  }, [pairs, filter])
 
   return (
     <Box>
       <OutlinedInput
         id="outlined-adornment-amount"
-        value={null}
-        onChange={() => {}}
         fullWidth
         startAdornment={<SearchIcon />}
         className={classes.inputSearch}
+        onChange={(e) => setFilter(e.target.value)}
+        value={filter}
       />
+      <CollapseTable data={myPools} label="My Pool" onClick={handleOnClick} />
       <CollapseTable
-        data={pairs.filter((pair) => !!pair.balance)}
-        label="My Pool"
-      />
-      <CollapseTable
-        data={pairs.filter((pair) => !pair.balance)}
+        data={communityPools}
         label="Community Pool"
+        onClick={handleOnClick}
       />
     </Box>
   )

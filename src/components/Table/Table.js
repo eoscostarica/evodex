@@ -45,11 +45,22 @@ const useStyles = makeStyles((theme) => ({
   firstTableBodyRow: {
     textAlign: 'start',
     fontSize: 15.5
+  },
+  clickable: {
+    cursor: 'pointer'
   }
 }))
 
-const TableData = ({ data }) => {
+const TableData = ({ data, onClick }) => {
   const classes = useStyles()
+
+  const handleOnClick = (row) => {
+    if (!onClick) {
+      return
+    }
+
+    onClick(row)
+  }
 
   return (
     <Box className={classes.root}>
@@ -69,7 +80,11 @@ const TableData = ({ data }) => {
         <TableBody>
           {data.map((n, index) => {
             return (
-              <TableRow key={`${n.token}-${index}`}>
+              <TableRow
+                key={`${n.token}-${index}`}
+                className={onClick ? classes.clickable : ''}
+                onClick={() => handleOnClick(n)}
+              >
                 <TableCell
                   component="th"
                   scope="row"
@@ -96,7 +111,8 @@ const TableData = ({ data }) => {
 }
 
 TableData.propTypes = {
-  data: PropTypes.array
+  data: PropTypes.array,
+  onClick: PropTypes.func
 }
 
 TableData.defaultProps = {
