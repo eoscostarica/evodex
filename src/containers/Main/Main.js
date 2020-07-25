@@ -6,6 +6,7 @@ import { makeStyles, useTheme } from '@material-ui/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Container from '@material-ui/core/Container'
 import Drawer from '@material-ui/core/Drawer'
+import Box from '@material-ui/core/Box'
 import Toolbar from '@material-ui/core/Toolbar'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import IconButton from '@material-ui/core/IconButton'
@@ -20,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     boxShadow: 'none',
-    backgroundColor: '#1976d2',
+    backgroundColor: 'transparent',
     color: '#fff !important'
   },
   drawer: {
@@ -34,17 +35,40 @@ const useStyles = makeStyles((theme) => ({
     width: 240
   },
   drawerToggle: {
-    marginLeft: -12
+    marginLeft: -12,
+    [theme.breakpoints.up('lg')]: {
+      display: 'none'
+    }
   },
   drawerContent: {
     backgroundColor: theme.palette.white,
     height: '100%'
   },
   logo: {
-    height: 25
+    height: 25,
+    [theme.breakpoints.up('lg')]: {
+      height: 29
+    }
   },
   linkRef: {
     display: 'flex'
+  },
+  secondaryMenu: {
+    display: 'none',
+    backgroundColor: '#00000040',
+    width: '100%',
+    height: 35,
+    paddingLeft: theme.spacing(2.5),
+    paddingRight: theme.spacing(2.5),
+    [theme.breakpoints.up('lg')]: {
+      display: 'initial'
+    }
+  },
+  toolBar: {
+    backgroundColor: '#272863'
+  },
+  toolBarLigth: {
+    backgroundColor: '#1976d2'
   }
 }))
 
@@ -53,7 +77,9 @@ const Main = ({
   sidebarContent,
   topbarContent,
   openSidebar,
-  setOpenSidebar
+  setOpenSidebar,
+  subMenu,
+  isLightMode
 }) => {
   const classes = useStyles()
   const theme = useTheme()
@@ -64,7 +90,11 @@ const Main = ({
   return (
     <Container component="main" maxWidth="xl" className={classes.root}>
       <AppBar className={classes.appBar}>
-        <Toolbar>
+        <Toolbar
+          className={clsx(classes.toolBar, {
+            [classes.toolBarLigth]: isLightMode
+          })}
+        >
           <IconButton
             color="inherit"
             onClick={() => setOpenSidebar(!openSidebar)}
@@ -77,6 +107,7 @@ const Main = ({
           </RouterLink>
           {topbarContent}
         </Toolbar>
+        <Box className={classes.secondaryMenu}>{subMenu}</Box>
       </AppBar>
       <Drawer
         anchor="left"
@@ -99,8 +130,10 @@ Main.propTypes = {
   children: PropTypes.node,
   sidebarContent: PropTypes.node,
   topbarContent: PropTypes.node,
+  subMenu: PropTypes.node,
   openSidebar: PropTypes.bool,
-  setOpenSidebar: PropTypes.func
+  setOpenSidebar: PropTypes.func,
+  isLightMode: PropTypes.bool
 }
 
 Main.defaultProps = {

@@ -26,11 +26,16 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('md')]: {
       paddingLeft: theme.spacing(4),
       paddingRight: theme.spacing(4)
+    },
+    [theme.breakpoints.up('lg')]: {
+      marginTop: theme.spacing(13),
+      paddingRight: theme.spacing(32),
+      paddingLeft: theme.spacing(32)
     }
   },
   titleBox: {
     width: 225,
-    paddingLeft: theme.spacing(3),
+    paddingLeft: theme.spacing(2),
     '& h4': {
       fontSize: 33,
       letterSpacing: '-0.49px',
@@ -49,6 +54,9 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 600,
         letterSpacing: '0.25px'
       }
+    },
+    [theme.breakpoints.up('lg')]: {
+      paddingLeft: theme.spacing(0)
     }
   },
   inputBox: {
@@ -65,9 +73,6 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.up('sm')]: {
       flexDirection: 'row'
-    },
-    [theme.breakpoints.up('md')]: {
-      padding: theme.spacing(2, 10)
     }
   },
   rateFeeBox: {
@@ -115,6 +120,9 @@ const useStyles = makeStyles((theme) => ({
       '& button': {
         width: 300
       }
+    },
+    [theme.breakpoints.up('lg')]: {
+      paddingTop: theme.spacing(2)
     }
   },
   message: {
@@ -129,7 +137,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const ExchangeBackLayer = ({ onReload, ual }) => {
+const ExchangeBackLayer = ({ onReload, ual, isLightMode }) => {
   const classes = useStyles()
   const theme = useTheme()
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'), {
@@ -342,7 +350,11 @@ const ExchangeBackLayer = ({ onReload, ual }) => {
         </Box>
       )}
       <Box className={classes.btnExchange}>
-        <Button variant="contained" onClick={handleOnExchange}>
+        <Button
+          variant="contained"
+          isLightMode={isLightMode}
+          onClick={handleOnExchange}
+        >
           EXCHANGE
         </Button>
       </Box>
@@ -376,7 +388,8 @@ const ExchangeBackLayer = ({ onReload, ual }) => {
 
 ExchangeBackLayer.propTypes = {
   ual: PropTypes.object,
-  onReload: PropTypes.func
+  onReload: PropTypes.func,
+  isLightMode: PropTypes.bool
 }
 
 export default ExchangeBackLayer

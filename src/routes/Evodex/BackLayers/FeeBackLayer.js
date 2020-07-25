@@ -11,6 +11,7 @@ import Link from '@material-ui/core/Link'
 
 import { ualConfig } from '../../../config'
 import InputTextAndSelect from '../../../components/InputTextAndSelect'
+import EvodexRocketSvg from '../../../components/Icons/EvodexRocket'
 import Button from '../../../components/Button'
 import { useExchange } from '../../../context/exchange.context'
 import { evolutiondex } from '../../../utils'
@@ -22,6 +23,11 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('md')]: {
       paddingLeft: theme.spacing(4),
       paddingRight: theme.spacing(4)
+    },
+    [theme.breakpoints.up('lg')]: {
+      marginTop: theme.spacing(13),
+      paddingRight: theme.spacing(32),
+      paddingLeft: theme.spacing(32)
     }
   },
   titleBox: {
@@ -58,7 +64,20 @@ const useStyles = makeStyles((theme) => ({
       color: '#fff'
     },
     [theme.breakpoints.up('md')]: {
-      width: 500
+      width: 800
+    }
+  },
+  rocketSvg: {
+    zIndex: 0,
+    position: 'absolute',
+    height: 260,
+    right: '0px',
+    top: 0,
+    [theme.breakpoints.up('md')]: {
+      top: 62,
+      height: 450,
+      right: '-50px',
+      opacity: 0.2
     }
   },
   btnExchange: {
@@ -89,7 +108,7 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(3, 0)
     },
     [theme.breakpoints.up('md')]: {
-      width: 500
+      width: 800
     }
   },
   contentWrapper: {
@@ -112,7 +131,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const FeeBackLayer = ({ onReload, ual }) => {
+const FeeBackLayer = ({ onReload, ual, isLightMode }) => {
   const classes = useStyles()
   const [{ pairs, currentPair }] = useExchange()
   const [pair, setPair] = useState()
@@ -208,6 +227,7 @@ const FeeBackLayer = ({ onReload, ual }) => {
 
   return (
     <Box className={classes.feeRoot}>
+      <EvodexRocketSvg classes={classes.rocketSvg} />
       <Box className={classes.titleBox}>
         <Typography variant="h4">Vote Your Fee</Typography>
         <Typography variant="body1">
@@ -238,7 +258,11 @@ const FeeBackLayer = ({ onReload, ual }) => {
           </Box>
         )}
         <Box className={classes.btnExchange}>
-          <Button onClick={handleOnVote} variant="contained">
+          <Button
+            onClick={handleOnVote}
+            variant="contained"
+            isLightMode={isLightMode}
+          >
             VOTE
           </Button>
         </Box>
@@ -273,7 +297,8 @@ const FeeBackLayer = ({ onReload, ual }) => {
 
 FeeBackLayer.propTypes = {
   ual: PropTypes.object,
-  onReload: PropTypes.func
+  onReload: PropTypes.func,
+  isLightMode: PropTypes.bool
 }
 
 export default FeeBackLayer

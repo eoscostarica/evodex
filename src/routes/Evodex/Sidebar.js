@@ -14,8 +14,8 @@ import HelpIcon from '@material-ui/icons/Help'
 import GitHubIcon from '@material-ui/icons/GitHub'
 import TwitterIcon from '@material-ui/icons/Twitter'
 import TelegramIcon from '@material-ui/icons/Telegram'
-import SmartphoneIcon from '@material-ui/icons/Smartphone'
 
+import MediumIcon from '../../components/Icons/MediumIcon'
 import CustomRouterLink from '../../components/CustomRouterLink'
 
 const useStyles = makeStyles((theme) => ({
@@ -105,11 +105,6 @@ const INFO = [
 
 const SOCIAL = [
   {
-    title: 'Medium',
-    href: '#',
-    icon: <SmartphoneIcon />
-  },
-  {
     title: 'Telegram',
     href: '#',
     icon: <TelegramIcon />
@@ -131,57 +126,67 @@ const DashboardSidebarContent = ({
   const { t } = useTranslation('translations')
 
   return (
-    <>
-      <List className={classes.nav}>
-        <span className={classes.title}>Tools</span>
-        {TOOLS.map((tool) => (
-          <ListItem className={classes.item} disableGutters key={tool.title}>
-            <Button
-              activeClassName={classes.active}
-              className={classes.button}
-              component={CustomRouterLink}
-              to={tool.href}
-              onClick={() => setOpenSidebar(false)}
-            >
-              <div className={classes.icon}>{tool.icon}</div>
-              {t(tool.title)}
-            </Button>
-          </ListItem>
-        ))}
-        <Divider className={classes.divider} />
-        <span className={classes.title}>Information</span>
-        {INFO.map((info) => (
-          <ListItem className={classes.item} disableGutters key={info.title}>
-            <Button
-              activeClassName={classes.active}
-              className={classes.button}
-              component={CustomRouterLink}
-              to={info.href}
-              onClick={() => setOpenSidebar(false)}
-            >
-              <div className={classes.icon}>{info.icon}</div>
-              {t(info.title)}
-            </Button>
-          </ListItem>
-        ))}
-        <Divider className={classes.divider} />
-        <span className={classes.title}>Social</span>
-        {SOCIAL.map((social) => (
-          <ListItem className={classes.item} disableGutters key={social.title}>
-            <Button
-              activeClassName={classes.active}
-              className={classes.button}
-              component={CustomRouterLink}
-              to={social.href}
-              onClick={() => setOpenSidebar(false)}
-            >
-              <div className={classes.icon}>{social.icon}</div>
-              {t(social.title)}
-            </Button>
-          </ListItem>
-        ))}
-      </List>
-    </>
+    <List className={classes.nav}>
+      <span className={classes.title}>Tools</span>
+      {TOOLS.map((tool) => (
+        <ListItem className={classes.item} disableGutters key={tool.title}>
+          <Button
+            activeClassName={classes.active}
+            className={classes.button}
+            component={CustomRouterLink}
+            to={tool.href}
+            onClick={() => setOpenSidebar(false)}
+          >
+            <div className={classes.icon}>{tool.icon}</div>
+            {t(tool.title)}
+          </Button>
+        </ListItem>
+      ))}
+      <Divider className={classes.divider} />
+      <span className={classes.title}>Information</span>
+      {INFO.map((info) => (
+        <ListItem className={classes.item} disableGutters key={info.title}>
+          <Button
+            activeClassName={classes.active}
+            className={classes.button}
+            component={CustomRouterLink}
+            to={info.href}
+            onClick={() => setOpenSidebar(false)}
+          >
+            <div className={classes.icon}>{info.icon}</div>
+            {t(info.title)}
+          </Button>
+        </ListItem>
+      ))}
+      <Divider className={classes.divider} />
+      <span className={classes.title}>Social</span>
+      <ListItem className={classes.item} disableGutters>
+        <Button
+          activeClassName={classes.active}
+          className={classes.button}
+          component={CustomRouterLink}
+          to="#"
+          onClick={() => setOpenSidebar(false)}
+        >
+          <MediumIcon classes={classes.icon} color="#0000008a" />
+          {t('Medium')}
+        </Button>
+      </ListItem>
+      {SOCIAL.map((social) => (
+        <ListItem className={classes.item} disableGutters key={social.title}>
+          <Button
+            activeClassName={classes.active}
+            className={classes.button}
+            component={CustomRouterLink}
+            to={social.href}
+            onClick={() => setOpenSidebar(false)}
+          >
+            <div className={classes.icon}>{social.icon}</div>
+            {t(social.title)}
+          </Button>
+        </ListItem>
+      ))}
+    </List>
   )
 }
 

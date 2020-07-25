@@ -12,6 +12,7 @@ import { ExchangeProvider } from '../../context/exchange.context'
 
 import BackLayer from './BackLayers'
 import Sidebar from './Sidebar'
+import SubMenuTopBar from './SubmenuTopbar'
 import Topbar from './Topbar'
 import Liquidity from './Liquidity'
 import Exchange from './Exchange'
@@ -30,14 +31,23 @@ const useStyles = makeStyles((theme) => ({
   frontLayer: {
     height: '100%',
     overflowY: 'auto',
-    padding: 16
+    padding: 16,
+    [theme.breakpoints.up('lg')]: {
+      paddingRight: theme.spacing(32),
+      paddingLeft: theme.spacing(32)
+    }
   },
   backLayer: {
     display: 'flex',
     position: 'relative',
     height: '100%'
   },
-  headerBox: {}, // padding box
+  headerBox: {
+    [theme.breakpoints.up('lg')]: {
+      paddingRight: theme.spacing(32),
+      paddingLeft: theme.spacing(32)
+    }
+  },
   menu: {
     flexGrow: 1,
     marginTop: 80
@@ -55,13 +65,22 @@ const useStyles = makeStyles((theme) => ({
     borderBottomRightRadius: 0,
     zIndex: 0
   },
-  root: {
+  rootLight: {
     background:
       'linear-gradient(180deg, rgba(8,55,193,1) 3%, rgba(25,118,210,1) 84%, rgba(25,118,210,1) 100%)',
     borderWidth: 2,
     borderStyle: 'solid',
     borderImage:
       'linear-gradient( to bottom, #0837c1, rgba(0, 0, 0, 0)) 1 100%',
+    borderBottomWidth: 0
+  },
+  rootDark: {
+    background:
+      'linear-gradient(180deg, rgba(35, 43, 85, 0.9822303921568627) 2%, rgba(39,40,99,1) 31%, rgba(39,40,99,1) 100%)',
+    borderWidth: 2,
+    borderStyle: 'solid',
+    borderImage:
+      'linear-gradient( to bottom, #272863, rgba(0, 0, 0, 0)) 1 100%',
     borderBottomWidth: 0
   },
   labelBackdrop: {
@@ -77,6 +96,7 @@ const Evodex = ({ ual }) => {
   const location = useLocation()
   const theme = useTheme()
   const [openSidebar, setOpenSidebar] = useState(false)
+  const [isLightMode, setIsLightMode] = useState(false)
   const [layerHeight, setLayerHeight] = useState(56)
   const [exgangeInfo, setExchangeInfo] = useState(null)
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'), {
@@ -109,7 +129,7 @@ const Evodex = ({ ual }) => {
 
   useEffect(() => {
     if (isDesktop) {
-      setLayerHeight(500)
+      setLayerHeight(470)
     } else {
       setLayerHeight(56)
     }
@@ -120,11 +140,14 @@ const Evodex = ({ ual }) => {
       <MainContainer
         openSidebar={openSidebar}
         setOpenSidebar={setOpenSidebar}
+        isLightMode={isLightMode}
+        subMenu={<SubMenuTopBar pathname={location.pathname} />}
         topbarContent={
           <Topbar
             user={ual.activeUser}
             onLogout={() => ual.logout()}
             onLogin={() => ual.showModal()}
+            onChangeDarkMode={setIsLightMode}
           />
         }
         sidebarContent={
@@ -138,12 +161,17 @@ const Evodex = ({ ual }) => {
       >
         <Backdrop
           className={classes.backdrop}
-          classes={{ frontLayer: classes.frontLayerRoot, root: classes.root }}
+          classes={{
+            frontLayer: classes.frontLayerRoot,
+            root: isLightMode ? classes.rootLight : classes.rootDark,
+            headerBox: classes.headerBox
+          }}
           backLayer={
             <BackLayer
               ual={ual}
               onReload={handleOnReload}
               pathname={location.pathname}
+              isLightMode={isLightMode}
             />
           }
           frontLayer={frontLayer}
@@ -152,7 +180,7 @@ const Evodex = ({ ual }) => {
               Token Listings
             </Typography>
           }
-          backgroundColor="#1976d2"
+          backgroundColor={isLightMode ? '#1976d2' : '#272863'}
           layerHeight={layerHeight}
         />
       </MainContainer>

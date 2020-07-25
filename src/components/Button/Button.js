@@ -1,9 +1,10 @@
 import React from 'react'
-import { withStyles } from '@material-ui/core/styles'
+import PropTypes from 'prop-types'
+import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 
-const ButtomStyled = withStyles((theme) => ({
-  root: {
+const useStyles = makeStyles((theme) => ({
+  rootLigth: {
     color: '#fff',
     borderRadius: 30,
     padding: '6px 16px',
@@ -11,7 +12,32 @@ const ButtomStyled = withStyles((theme) => ({
     '&:hover': {
       backgroundColor: '#cc6d2e'
     }
+  },
+  rootDark: {
+    color: '#fff',
+    borderRadius: 30,
+    padding: '6px 16px',
+    backgroundColor: '#60afff',
+    '&:hover': {
+      backgroundColor: '#488dc7'
+    }
   }
-}))(Button)
+}))
 
-export default (props) => <ButtomStyled {...props} />
+const ButtomStyled = ({ isLightMode, ...props }) => {
+  const classes = useStyles()
+
+  return (
+    <Button
+      classes={{ root: isLightMode ? classes.rootLigth : classes.rootDark }}
+      {...props}
+    />
+  )
+}
+
+ButtomStyled.propTypes = {
+  isLightMode: PropTypes.bool,
+  props: PropTypes.any
+}
+
+export default ButtomStyled

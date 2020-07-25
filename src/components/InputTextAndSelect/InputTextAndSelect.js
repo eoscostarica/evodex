@@ -34,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
       color: '#ffffff',
       '& active': {
         backgroundColor: 'red'
+      },
+      '& option': {
+        backgroundColor: 'red !important'
       }
     },
     '& input': {
