@@ -10,6 +10,7 @@ import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 
 import LanguageSelector from '../../components/LanguageSelector'
+import DarkModeSwitch from '../../components/DarkModeSwitch'
 
 const useStyles = makeStyles((theme) => ({
   sessionText: {
@@ -31,12 +32,13 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const DashboardTopbar = ({ user, onLogout, onLogin }) => {
+const DashboardTopbar = ({ user, onLogout, onLogin, onChangeDarkMode }) => {
   const classes = useStyles()
   const { t } = useTranslation('translations')
 
   return (
     <Box className={classes.box}>
+      <DarkModeSwitch onChangeDarkMode={onChangeDarkMode} />
       <LanguageSelector />
       {user && (
         <Box>
@@ -64,7 +66,8 @@ const DashboardTopbar = ({ user, onLogout, onLogin }) => {
 DashboardTopbar.propTypes = {
   user: PropTypes.object,
   onLogout: PropTypes.func,
-  onLogin: PropTypes.func
+  onLogin: PropTypes.func,
+  onChangeDarkMode: PropTypes.func
 }
 
 export default DashboardTopbar
