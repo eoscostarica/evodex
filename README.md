@@ -1,23 +1,41 @@
-# EOSCR Web App Boilerplate
 
-[![N|Solid](https://github.com/eoscostarica/eos-rate/raw/master/docs/eoscostarica-logo-black.png)](https://eoscostarica.io/)
+
+<center>
+
+[![N|Solid](./public/evodex-logo.png)](https://evolutiondex.io/)
 
 ![](https://img.shields.io/github/license/eoscostarica/webapp-boilerplate) ![](https://img.shields.io/badge/code%20style-standard-brightgreen.svg) ![](https://img.shields.io/badge/%E2%9C%93-collaborative_etiquette-brightgreen.svg) ![](https://img.shields.io/twitter/follow/eoscostarica.svg?style=social&logo=twitter) ![](https://img.shields.io/github/forks/eoscostarica/webapp-boilerplate?style=social)
 
-A highly scalable skeleton with best practices, ideal for React Web App projects quick start
+</center>
+
+# Official Web Interface for Evolution DEX
+
+[Evolution DEX]( ​https://github.com/eosargentina/evolutiondex) is a Protocol created by the EOS Argentina team that allows anyone to create and launch their own trading pairs in a decentralized exchange and gain trading fees by adding liquidity to the token’s pool.
+
+EOS Costa Rica  is working with the EOS Argentina team creating a web interface that will provide access to liquidity amongst all exchanges that connect to Evolution DEX.
+
+This project is OpenSource and free for any developers to integrate it to their front end, in this way different exchanges can share the same liquidity.
+
+
+## How is EvoDEX unique ?
+
+The main difference from say Uniswap on Ethereum, is that liquidity providers can vote for the fees they want to charge using a smart contract that calculates the fees proportional to the stake of every participant of the pool.
+
+Another difference between EVODEX and UNISWAP comes from the different blockchains where they both operate, traders only pay fees to liquidity providers, but they don't have to pay transfer fees like in Ethereum and other networks.
+
 
 ## Version
 
 - 0.1.0
 
-# Features!
+## Tech Stack
 
-This boilerplate features all the latest tools and practices in the industry.
+This frontend features all the latest tools and practices in the industry.
 
 - _React.js_ - **React 16**✨, React Router 5
 - _Rematch/core_ - Rematch a Redux Framework
 - _Material-ui/core_ - React components for faster and easier web development
-- _universal-authenticator-library_ - A library for allowing apps to easily use different auth providers (optional)
+- _universal-authenticator-library_ - A library for allowing apps to easily use different auth providers 
 - _Lint_ - ESlint
 - _Styles_ - Material-UI Theme (customizable)
 
@@ -31,7 +49,7 @@ Somethings you need before getting started:
 - [node.js](https://nodejs.org/es/)
 - [yarn](https://yarnpkg.com/)
 
-### First time
+### First time setup
 
 Copy the `.env.example` then update the environment variables according to your needs
 
