@@ -1,18 +1,28 @@
+<p align="center">
+	<img src="./public/evodex-logo.png" width="600">
+</p>
 
-
-<center>
-
-[![N|Solid](./public/evodex-logo.png)](https://evolutiondex.io/)
-
-![](https://img.shields.io/github/license/eoscostarica/webapp-boilerplate) ![](https://img.shields.io/badge/code%20style-standard-brightgreen.svg) ![](https://img.shields.io/badge/%E2%9C%93-collaborative_etiquette-brightgreen.svg) ![](https://img.shields.io/twitter/follow/eoscostarica.svg?style=social&logo=twitter) ![](https://img.shields.io/github/forks/eoscostarica/webapp-boilerplate?style=social)
-
-</center>
+<p align="center">
+	<img src="https://img.shields.io/github/license/eoscostarica/webapp-boilerplate" alt="license">
+	<a href="http://standardjs.com">
+		<img src="https://img.shields.io/badge/code%20style-standard-brightgreen.svg" alt="StandardJS">
+	</a>
+	<a href="https://git.io/col">
+		<img src="https://img.shields.io/badge/%E2%9C%93-collaborative_etiquette-brightgreen.svg" alt="Collaborative Etiquette">
+	</a>
+	<a href="https://twitter.com/intent/follow?screen_name=eoscostarica">
+		<img src="https://img.shields.io/twitter/follow/eoscostarica.svg?style=social&logo=twitter" alt="follow on Twitter">
+	</a>
+	<a href="#">
+		<img src="https://img.shields.io/github/forks/eoscostarica/webapp-boilerplate?style=social" alt="MIT">
+	</a>
+</p>
 
 # Official Web Interface for Evolution DEX
 
-[Evolution DEX]( ​https://github.com/eosargentina/evolutiondex) is a Protocol created by the EOS Argentina team that allows anyone to create and launch their own trading pairs in a decentralized exchange and gain trading fees by adding liquidity to the token’s pool.
+[Evolution DEX]( ​https://github.com/eosargentina/evolutiondex) is a Protocol created by EOS Argentina that allows anyone to create and launch their own trading pairs in a decentralized exchange and gain trading fees by adding liquidity to the token’s pool.
 
-EOS Costa Rica  is working with the EOS Argentina team creating a web interface that will provide access to liquidity amongst all exchanges that connect to Evolution DEX.
+EOS Costa Rica  is working with EOS Argentina creating a web interface that will provide access to liquidity amongst all exchanges that connect to Evolution DEX.
 
 This project is OpenSource and free for any developers to integrate it to their front end, in this way different exchanges can share the same liquidity.
 
@@ -22,6 +32,8 @@ This project is OpenSource and free for any developers to integrate it to their 
 The main difference from say Uniswap on Ethereum, is that liquidity providers can vote for the fees they want to charge using a smart contract that calculates the fees proportional to the stake of every participant of the pool.
 
 Another difference between EVODEX and UNISWAP comes from the different blockchains where they both operate, traders only pay fees to liquidity providers, but they don't have to pay transfer fees like in Ethereum and other networks.
+
+#### Telegram Channel : [https://t.me/evodexarg](https://t.me/evodexarg)
 
 
 ## Version
