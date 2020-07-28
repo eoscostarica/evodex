@@ -9,6 +9,8 @@ import { Backdrop } from '@eoscostarica/eoscr-components'
 import { MainContainer } from '../../containers'
 import { evolutiondex } from '../../utils'
 import { ExchangeProvider } from '../../context/exchange.context'
+import Faq from '../FAQ'
+import About from '../About'
 
 import BackLayer from './BackLayers'
 import Sidebar from './Sidebar'
@@ -38,9 +40,8 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   backLayer: {
-    display: 'flex',
-    position: 'relative',
-    height: '100%'
+    overflowY: 'auto',
+    paddingBottom: 10
   },
   headerBox: {
     [theme.breakpoints.up('lg')]: {
@@ -108,6 +109,8 @@ const Evodex = ({ ual }) => {
         <Route exact path="/evodex/liquidity" component={Liquidity} />
         <Route exact path="/evodex/exchange" component={Exchange} />
         <Route exact path="/evodex/fee" component={Fee} />
+        <Route exact path="/evodex/faq" component={Faq} />
+        <Route exact path="/evodex/about" component={About} />
         <Redirect from="/evodex" to="/evodex/exchange" />
       </Switch>
     </div>
@@ -164,7 +167,8 @@ const Evodex = ({ ual }) => {
           classes={{
             frontLayer: classes.frontLayerRoot,
             root: isLightMode ? classes.rootLight : classes.rootDark,
-            headerBox: classes.headerBox
+            headerBox: classes.headerBox,
+            backLayer: classes.backLayer
           }}
           backLayer={
             <BackLayer
@@ -182,6 +186,10 @@ const Evodex = ({ ual }) => {
           }
           backgroundColor={isLightMode ? '#1976d2' : '#272863'}
           layerHeight={layerHeight}
+          useSecondaryPage={
+            location.pathname === '/evodex/faq' ||
+            location.pathname === '/evodex/about'
+          }
         />
       </MainContainer>
     </ExchangeProvider>

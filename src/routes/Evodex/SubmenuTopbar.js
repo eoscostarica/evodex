@@ -29,11 +29,11 @@ const TOOLS = [
   },
   {
     title: 'ABOUT',
-    href: '#'
+    href: '/evodex/about'
   },
   {
     title: 'FAQ',
-    href: '#'
+    href: '/evodex/faq'
   }
 ]
 const SOCIAL = [

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/styles'
 import Box from '@material-ui/core/Box'
@@ -109,6 +109,7 @@ const InputTextAndSelect = ({
   inputDisabled
 }) => {
   const classes = useStyles()
+  const textInput = useRef(null)
   const [inputData, setInputData] = useState({
     inputValue: '',
     selectValue: 0
@@ -117,6 +118,10 @@ const InputTextAndSelect = ({
   const handleOnChange = (value, type) => {
     setInputData({ ...inputData, [type]: value })
     onChange({ ...inputData, [type]: value })
+  }
+
+  const handleOnKeyPress = (key) => {
+    if (key === 'Enter') textInput.current.blur()
   }
 
   useEffect(() => {
@@ -135,10 +140,12 @@ const InputTextAndSelect = ({
           <Typography variant="body1">{label}</Typography>
           <input
             type="number"
+            ref={textInput}
             onChange={(e) => handleOnChange(e.target.value, 'inputValue')}
             value={inputData.inputValue || ''}
             placeholder="This Amount"
             disabled={inputDisabled}
+            onKeyPress={(e) => handleOnKeyPress(e.key)}
           />
         </Box>
         <select
