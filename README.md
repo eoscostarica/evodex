@@ -1,8 +1,22 @@
+<p align="center">
+	<img src="./public/evodex-logo.png" width="600">
+</p>
 
-[![N|Solid](./public/evodex-logo.png)](https://evolutiondex.io/)
-
-![](https://img.shields.io/github/license/eoscostarica/webapp-boilerplate) ![](https://img.shields.io/badge/code%20style-standard-brightgreen.svg) ![](https://img.shields.io/badge/%E2%9C%93-collaborative_etiquette-brightgreen.svg) ![](https://img.shields.io/twitter/follow/eoscostarica.svg?style=social&logo=twitter) ![](https://img.shields.io/github/forks/eoscostarica/webapp-boilerplate?style=social)
-
+<p align="center">
+	<img src="https://img.shields.io/github/license/eoscostarica/webapp-boilerplate" alt="license">
+	<a href="http://standardjs.com">
+		<img src="https://img.shields.io/badge/code%20style-standard-brightgreen.svg" alt="StandardJS">
+	</a>
+	<a href="https://git.io/col">
+		<img src="https://img.shields.io/badge/%E2%9C%93-collaborative_etiquette-brightgreen.svg" alt="Collaborative Etiquette">
+	</a>
+	<a href="https://twitter.com/intent/follow?screen_name=eoscostarica">
+		<img src="https://img.shields.io/twitter/follow/eoscostarica.svg?style=social&logo=twitter" alt="follow on Twitter">
+	</a>
+	<a href="#">
+		<img src="https://img.shields.io/github/forks/eoscostarica/webapp-boilerplate?style=social" alt="MIT">
+	</a>
+</p>
 
 # Official Web Interface for Evolution DEX
 
