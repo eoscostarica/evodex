@@ -88,12 +88,12 @@ const TOOLS = [
 const INFO = [
   {
     title: 'About EvoDex',
-    href: '#',
+    href: '/evodex/about',
     icon: <InfoIcon />
   },
   {
     title: 'FAQs',
-    href: '#',
+    href: '/evodex/faq',
     icon: <HelpIcon />
   },
   {
