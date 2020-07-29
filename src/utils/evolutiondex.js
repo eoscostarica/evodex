@@ -1,10 +1,11 @@
 import axios from 'axios'
-import { asset, number_to_asset } from 'eos-common'
+import * as eosCommon from 'eos-common'
 
 import { evodexConfig } from '../config'
 
 import { getScatterError } from './getScatterError'
 
+const { asset, number_to_asset: numberToAsset } = eosCommon
 const defaultState = { pairs: [], tokens: [] }
 
 const amountToAsset = (amount = '0', currentAsset) => {
@@ -135,21 +136,21 @@ const getPair = (token1, token2, exchangeState = defaultState) => {
 }
 const computeForward = (x, y, z, fee) => {
   const prod = x.multiply(y)
-  let tmp, tmp_fee
+  let tmp, tmpFee
 
   if (x > 0) {
     tmp = prod.minus(1).divide(z).plus(1)
-    tmp_fee = tmp.multiply(fee).plus(9999).divide(10000)
+    tmpFee = tmp.multiply(fee).plus(9999).divide(10000)
   } else {
     tmp = prod.divide(z)
-    tmp_fee = tmp.multiply(-1).multiply(fee).plus(9999).divide(10000)
+    tmpFee = tmp.multiply(-1).multiply(fee).plus(9999).divide(10000)
   }
 
-  return tmp.plus(tmp_fee)
+  return tmp.plus(tmpFee)
 }
 const getExchangeAssets = (amount, pair) => {
   const assetToGive = amountToAsset(amount, pair.from.asset)
-  const assetToReceive = number_to_asset(0, pair.to.asset.symbol)
+  const assetToReceive = numberToAsset(0, pair.to.asset.symbol)
   const computeForwardAmount = computeForward(
     assetToGive.amount.multiply(-1),
     pair.to.asset.amount,
@@ -212,8 +213,8 @@ const getUserPools = async (ual) => {
 }
 const getAddLiquidityAssets = (amount, pair) => {
   const baseAsset = amountToAsset(amount, pair.supply)
-  const asset1 = number_to_asset(0, pair.pool1.asset.symbol)
-  const asset2 = number_to_asset(0, pair.pool2.asset.symbol)
+  const asset1 = numberToAsset(0, pair.pool1.asset.symbol)
+  const asset2 = numberToAsset(0, pair.pool2.asset.symbol)
 
   asset1.set_amount(
     computeForward(
@@ -351,8 +352,8 @@ const addLiquidity = async (amount, pair, ual) => {
 }
 const getRemoveLiquidityAssets = (amount, pair) => {
   const baseAsset = amountToAsset(amount, pair.supply)
-  const asset1 = number_to_asset(0, pair.pool1.asset.symbol)
-  const asset2 = number_to_asset(0, pair.pool2.asset.symbol)
+  const asset1 = numberToAsset(0, pair.pool1.asset.symbol)
+  const asset2 = numberToAsset(0, pair.pool2.asset.symbol)
 
   asset1.set_amount(
     computeForward(
