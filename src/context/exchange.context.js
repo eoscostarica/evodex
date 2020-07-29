@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const ExchangeContext = React.createContext()
 
@@ -36,6 +37,14 @@ export const ExchangeProvider = ({ info, ...props }) => {
   }, [info])
 
   return <ExchangeContext.Provider value={value} {...props} />
+}
+
+ExchangeProvider.propTypes = {
+  info: PropTypes.shape({
+    pairs: PropTypes.array,
+    tokens: PropTypes.array,
+    tokecurrentPairs: PropTypes.object
+  })
 }
 
 export const useExchange = () => {

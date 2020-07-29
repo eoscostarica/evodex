@@ -175,8 +175,13 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode }) => {
 
   const handleOnSwitchValues = () => {
     setMessage(null)
-    setYouGive(youReceive)
-    setYouReceive(youGive)
+    setYouReceive({
+      selectValue: youGive.selectValue
+    })
+    setYouGive({
+      ...youGive,
+      selectValue: youReceive.selectValue
+    })
   }
 
   const handleOnExchange = async () => {
@@ -330,7 +335,7 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode }) => {
           options={options.youReceive}
           onChange={handleOnChange('youReceive')}
           value={youReceive}
-          inputDisabled={true}
+          inputDisabled
         />
       </Box>
       {pair && (

@@ -126,13 +126,13 @@ const Submenu = ({ pathname }) => {
   return (
     <Box className={classes.box}>
       <List className={classes.navMenu}>
-        {TOOLS.map((tool) => (
+        {TOOLS.map((tool, i) => (
           <ListItem
             className={clsx(classes.item, {
               [classes.active]: tool.href === pathname
             })}
             disableGutters
-            key={tool.title}
+            key={`submenu-${tool.title}-${i}`}
           >
             <Button
               className={classes.button}
@@ -145,11 +145,11 @@ const Submenu = ({ pathname }) => {
         ))}
       </List>
       <List className={classes.navSocial}>
-        {SOCIAL.map((social) => (
+        {SOCIAL.map((social, i) => (
           <ListItem
             className={classes.itemSocial}
             disableGutters
-            key={social.title}
+            key={`submenu-${social.title}-${i}`}
           >
             <Button
               className={classes.button}
