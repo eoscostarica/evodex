@@ -105,17 +105,22 @@ const Evodex = ({ ual }) => {
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'), {
     defaultMatches: true
   })
+  const handleOnClickRow = () => {
+    if (backdropRef?.current?.toggleOnClickMobile) {
+      backdropRef.current.toggleOnClickMobile()
+    }
+  }
   const frontLayer = (
     <div className={classes.frontLayer}>
       <Switch>
         <Route exact path="/evodex/liquidity">
-          <Liquidity onClickRow={backdropRef?.current?.toggleOnClickMobile} />
+          <Liquidity onClickRow={handleOnClickRow} />
         </Route>
         <Route exact path="/evodex/exchange">
-          <Exchange onClickRow={backdropRef?.current?.toggleOnClickMobile} />
+          <Exchange onClickRow={handleOnClickRow} />
         </Route>
         <Route exact path="/evodex/fee">
-          <Fee onClickRow={backdropRef?.current?.toggleOnClickMobile} />
+          <Fee onClickRow={handleOnClickRow} />
         </Route>
         <Route exact path="/evodex/faq" component={Faq} />
         <Route exact path="/evodex/about" component={About} />
