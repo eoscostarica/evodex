@@ -97,6 +97,7 @@ const Evodex = ({ ual }) => {
   const location = useLocation()
   const theme = useTheme()
   const [openSidebar, setOpenSidebar] = useState(false)
+  const [title, setTitle] = useState('Token Listings')
   const [isLightMode, setIsLightMode] = useState(false)
   const [layerHeight, setLayerHeight] = useState(56)
   const [exgangeInfo, setExchangeInfo] = useState(null)
@@ -132,11 +133,25 @@ const Evodex = ({ ual }) => {
 
   useEffect(() => {
     if (isDesktop) {
+      if (
+        location.pathname === '/evodex/faq' ||
+        location.pathname === '/evodex/about'
+      ) {
+        setLayerHeight(180)
+        setTitle('Subtitle')
+
+        return
+      }
+
       setLayerHeight(470)
-    } else {
-      setLayerHeight(56)
+      setTitle('Token Listings')
+
+      return
     }
-  }, [isDesktop])
+
+    setTitle('Token Listings')
+    setLayerHeight(56)
+  }, [isDesktop, location.pathname])
 
   return (
     <ExchangeProvider info={exgangeInfo}>
@@ -180,16 +195,10 @@ const Evodex = ({ ual }) => {
           }
           frontLayer={frontLayer}
           headerText={
-            <Typography className={classes.labelBackdrop}>
-              Token Listings
-            </Typography>
+            <Typography className={classes.labelBackdrop}>{title}</Typography>
           }
           backgroundColor={isLightMode ? '#1976d2' : '#272863'}
           layerHeight={layerHeight}
-          useSecondaryPage={
-            location.pathname === '/evodex/faq' ||
-            location.pathname === '/evodex/about'
-          }
         />
       </MainContainer>
     </ExchangeProvider>
