@@ -1,4 +1,4 @@
-import React, { useEffect, useState, memo } from 'react'
+import React, { useEffect, useState, useRef, memo } from 'react'
 import PropTypes from 'prop-types'
 import Typography from '@material-ui/core/Typography'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
@@ -101,15 +101,22 @@ const Evodex = ({ ual }) => {
   const [isLightMode, setIsLightMode] = useState(false)
   const [layerHeight, setLayerHeight] = useState(56)
   const [exgangeInfo, setExchangeInfo] = useState(null)
+  const backdropRef = useRef()
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'), {
     defaultMatches: true
   })
   const frontLayer = (
     <div className={classes.frontLayer}>
       <Switch>
-        <Route exact path="/evodex/liquidity" component={Liquidity} />
-        <Route exact path="/evodex/exchange" component={Exchange} />
-        <Route exact path="/evodex/fee" component={Fee} />
+        <Route exact path="/evodex/liquidity">
+          <Liquidity onClickRow={backdropRef?.current?.toggleOnClickMobile} />
+        </Route>
+        <Route exact path="/evodex/exchange">
+          <Exchange onClickRow={backdropRef?.current?.toggleOnClickMobile} />
+        </Route>
+        <Route exact path="/evodex/fee">
+          <Fee onClickRow={backdropRef?.current?.toggleOnClickMobile} />
+        </Route>
         <Route exact path="/evodex/faq" component={Faq} />
         <Route exact path="/evodex/about" component={About} />
         <Redirect from="/evodex" to="/evodex/exchange" />
@@ -178,6 +185,7 @@ const Evodex = ({ ual }) => {
         }
       >
         <Backdrop
+          ref={backdropRef}
           className={classes.backdrop}
           classes={{
             frontLayer: classes.frontLayerRoot,
