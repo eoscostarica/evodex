@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/styles'
 import Box from '@material-ui/core/Box'
 import OutlinedInput from '@material-ui/core/OutlinedInput'
@@ -14,13 +15,14 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-const Exchange = () => {
+const Exchange = ({ onClickRow }) => {
   const classes = useStyles()
   const [{ pairs }, { update }] = useExchange()
   const [options, setOptions] = useState([])
   const [filter, setFilter] = useState('')
 
   const handleOnClick = (currentPair) => {
+    onClickRow && onClickRow()
     update({
       currentPair
     })
@@ -54,6 +56,8 @@ const Exchange = () => {
   )
 }
 
-Exchange.propTypes = {}
+Exchange.propTypes = {
+  onClickRow: PropTypes.func
+}
 
 export default Exchange

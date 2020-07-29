@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/styles'
 import Box from '@material-ui/core/Box'
 import OutlinedInput from '@material-ui/core/OutlinedInput'
@@ -13,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const Fee = () => {
+const Fee = ({ onClickRow }) => {
   const classes = useStyles()
   const [{ pairs }, { update }] = useExchange()
   const [myPools, setMyPools] = useState([])
@@ -21,6 +22,7 @@ const Fee = () => {
   const [filter, setFilter] = useState('')
 
   const handleOnClick = (currentPair) => {
+    onClickRow && onClickRow()
     update({
       currentPair
     })
@@ -59,6 +61,8 @@ const Fee = () => {
   )
 }
 
-Fee.propTypes = {}
+Fee.propTypes = {
+  onClickRow: PropTypes.func
+}
 
 export default Fee
