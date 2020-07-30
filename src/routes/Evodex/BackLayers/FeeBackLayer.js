@@ -242,6 +242,7 @@ const FeeBackLayer = ({ onReload, ual, isLightMode }) => {
               value: pair.token,
               label: pair.token
             }))}
+            id="feeYouVote"
             label="Vote"
             onChange={handleOnChange}
             value={yourVote}

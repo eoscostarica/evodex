@@ -17,27 +17,45 @@ const useStyles = makeStyles((theme) => ({
     borderTopRightRadius: 4,
     borderBottom: '2px solid rgba(0, 0, 0, 0.38)',
     padding: '5px 14px 0 14px',
+    '& .selectWrapper': {
+      width: '50%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'flex-end'
+    },
+    '& label': {
+      position: 'absolute',
+      right: 0,
+      fontSize: 16.2,
+      color: '#ffffff',
+      zIndex: 0
+    },
+    '& .arrow': {
+      border: 'none',
+      borderTop: '5px solid #ffffff',
+      borderLeft: '5px solid rgba(0,0,0,0)',
+      borderRight: '5px solid rgba(0,0,0,0)',
+      width: 10,
+      height: 7.5,
+      display: 'inline-block',
+      marginLeft: 8,
+      marginRight: 16
+    },
     '& select': {
+      zIndex: 1,
       appearance: 'none',
       outline: 0,
       boxShadow: 'none',
       border: '0 !important',
       background: 'none',
       backgroundImage: 'none',
-      padding: '0 20px 0 0',
+      padding: '0 18px 0 0',
       cursor: 'pointer',
-      width: '50%',
+      width: '100%',
       fontSize: 20.2,
       fontWeight: 600,
       letterSpacing: '0.25px',
-      textAlign: 'center',
-      color: '#ffffff',
-      '& active': {
-        backgroundColor: 'red'
-      },
-      '& option': {
-        backgroundColor: 'red !important'
-      }
+      color: '#ffffff'
     },
     '& input': {
       appearance: 'none',
@@ -61,19 +79,6 @@ const useStyles = makeStyles((theme) => ({
     },
     '& input[type=number]': {
       appearance: 'textfield'
-    }
-  },
-  arrowDown: {
-    border: 'none',
-    borderTop: '5px solid #ffffff',
-    borderLeft: '5px solid rgba(0,0,0,0)',
-    borderRight: '5px solid rgba(0,0,0,0)',
-    position: 'absolute',
-    float: 'right',
-    right: 15,
-    marginTop: 22,
-    '&:hover': {
-      cursor: 'pointer'
     }
   },
   inputWrapper: {
@@ -100,6 +105,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const InputTextAndSelect = ({
+  id,
   label,
   helperText,
   onChange,
@@ -110,10 +116,7 @@ const InputTextAndSelect = ({
 }) => {
   const classes = useStyles()
   const textInput = useRef(null)
-  const [inputData, setInputData] = useState({
-    inputValue: '',
-    selectValue: 0
-  })
+  const [inputData, setInputData] = useState({})
 
   const handleOnChange = (value, type) => {
     setInputData({ ...inputData, [type]: value })
@@ -148,20 +151,29 @@ const InputTextAndSelect = ({
             onKeyPress={(e) => handleOnKeyPress(e.key)}
           />
         </Box>
-        <select
-          name="slct"
-          dir="rtl"
-          onChange={(e) => handleOnChange(e.target.value, 'selectValue')}
-          value={inputData.selectValue}
-        >
-          <option value="">Token</option>
-          {options.map(({ value, label }) => (
-            <option key={value} value={value} disabled={selected === value}>
-              {label}
-            </option>
-          ))}
-        </select>
-        <Box className={classes.arrowDown} />
+        <Box className="selectWrapper">
+          <label htmlFor={id}>
+            {!inputData?.selectValue && 'This Token'}
+            <span className="arrow" />
+          </label>
+          <select
+            id={id}
+            dir="rtl"
+            onChange={(e) => handleOnChange(e.target.value, 'selectValue')}
+            value={inputData.selectValue || '-'}
+          >
+            <option value="-" disabled hidden />
+            {options.map(({ value, label }) => (
+              <option
+                key={value}
+                value={value}
+                disabled={inputData.selectValue === value}
+              >
+                {label}
+              </option>
+            ))}
+          </select>
+        </Box>
       </Box>
       <Typography className={classes.helperText}>{helperText}</Typography>
     </Box>
@@ -169,6 +181,7 @@ const InputTextAndSelect = ({
 }
 
 InputTextAndSelect.propTypes = {
+  id: PropTypes.string,
   label: PropTypes.string,
   selected: PropTypes.any,
   helperText: PropTypes.string,
@@ -183,13 +196,7 @@ InputTextAndSelect.defaultProps = {
   selected: null,
   helperText: '',
   onChange: () => {},
-  options: [
-    { value: 'EOS', label: 'EOS' },
-    { value: 'EVO', label: 'EVO' },
-    { value: 'EOSEVO', label: 'EOSEVO' },
-    { value: 'USDT', label: 'USDT' },
-    { value: 'EVOWAX', label: 'EVOWAX' }
-  ]
+  options: []
 }
 
 export default InputTextAndSelect
