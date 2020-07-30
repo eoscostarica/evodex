@@ -322,6 +322,7 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode }) => {
       </Box>
       <Box className={classes.inputBox}>
         <InputTextAndSelect
+          id="exchangeYouGive"
           label="You Give"
           options={options.youGive}
           onChange={handleOnChange('youGive')}
@@ -331,6 +332,7 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode }) => {
           {isDesktop ? <SwapHorizIcon /> : <ImportExportIcon />}
         </IconButton>
         <InputTextAndSelect
+          id="exchangeYouReceive"
           label="You Receive"
           options={options.youReceive}
           onChange={handleOnChange('youReceive')}

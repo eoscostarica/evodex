@@ -314,16 +314,12 @@ const LiquidityBackLayer = ({ onReload, ual, isLightMode }) => {
               value: pair.token,
               label: pair.token
             }))}
+            id="liquidityYouGive"
             label="You Give"
             helperText={
-              pair && (
-                <span>
-                  {pair.balance
-                    ? `${pair.balance.toString()} `
-                    : `0 ${pair.token} `}
-                  available
-                </span>
-              )
+              pair
+                ? `${pair.balance ? pair.balance.toString() : 0} available`
+                : ''
             }
             onChange={handleOnChange}
             value={youGive}
