@@ -154,7 +154,7 @@ const InputTextAndSelect = ({
         <Box className="selectWrapper">
           <label htmlFor={id}>
             {!inputData?.selectValue && 'This Token'}
-            <span className={'arrow'}></span>
+            <span className="arrow" />
           </label>
           <select
             id={id}
@@ -162,7 +162,7 @@ const InputTextAndSelect = ({
             onChange={(e) => handleOnChange(e.target.value, 'selectValue')}
             value={inputData.selectValue || '-'}
           >
-            <option value="-" disabled hidden></option>
+            <option value="-" disabled hidden />
             {options.map(({ value, label }) => (
               <option
                 key={value}
