@@ -1,5 +1,7 @@
 # About Evodex
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Evodex is a joint contribution to the EOS DE-FI ecosystem by two Block Producers.
 
-> ## Officia deserunt mollit
+The smart contract was created by **EOS Argentina** and it allows anyone to launch and interact with continuous liquidity pools in a decentralized exchange. The front-end and web interface was provided by **EOS Costa Rica** as a bridge to access the Evolution Dex Protocol. With this contribution both teams wish to help foster the growth of Decentralized Finance on EOS, a blockchain that has the best capabilities to run complex systems due to its transaction capacity and fee-less model.
+
+Evodex facilitates the decentralization of exchanges and promotes the use of EOS for financial instruments. The project is completely open source and free for any developers who wish to integrate it to their front end. In this way different exchanges can share the same liquidity and contribute to the growth of the protocol.
