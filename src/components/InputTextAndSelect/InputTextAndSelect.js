@@ -3,74 +3,87 @@ import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/styles'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
+import Select from '@material-ui/core/Select'
+import MenuItem from '@material-ui/core/MenuItem'
+import InputBase from '@material-ui/core/InputBase'
+import FormControl from '@material-ui/core/FormControl'
 
 const useStyles = makeStyles((theme) => ({
-  selectContent: {
+  inputWrapper: {
+    width: '50%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start'
+  },
+  helperText: {
+    fontSize: '12.1px !important',
+    lineHeight: '1.32 !important',
+    letterSpacing: '0.4px !important',
+    color: '#ffffff',
+    marginLeft: `${theme.spacing(1)}px !important`,
+    marginTop: `${theme.spacing(0.5)}px !important`
+  },
+  formControl: {
+    height: '100%',
+    width: '50%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    paddingTop: theme.spacing(0.7),
+    '& .MuiInput-underline': {
+      '&:after': {
+        borderBottom: '0px !important'
+      },
+      '&:before': {
+        borderBottom: '0px !important'
+      },
+      '&:hover': {
+        borderBottom: '0px !important'
+      }
+    },
+    '& .MuiInputBase-root': {
+      fontSize: 20.2,
+      fontWeight: 600,
+      letterSpacing: '0.25px',
+      textAlign: 'end',
+      color: '#ffffff',
+      backgroundColor: 'transparent',
+      width: '100%',
+      '& svg': {
+        color: '#fff',
+        margin: '0px !important',
+        fontSize: '24px !important'
+      }
+    },
+    '& .MuiSelect-select': {
+      width: '100%',
+      '&:focus': {
+        backgroundColor: 'transparent'
+      }
+    }
+  },
+  rootContainer: {
     position: 'relative',
     display: 'flex',
     width: '100%',
     height: 56,
     lineHeight: 3,
     overflow: 'hidden',
-    backgroundColor: 'rgba(0, 0, 0, 0.09)',
+    backgroundColor: 'rgba(255,255,255,0.05)',
     borderTopLeftRadius: 4,
     borderTopRightRadius: 4,
-    borderBottom: '2px solid rgba(0, 0, 0, 0.38)',
-    padding: '5px 14px 0 14px',
-    '& .selectWrapper': {
-      width: '50%',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'flex-end'
-    },
-    '& label': {
-      position: 'absolute',
-      right: 0,
-      fontSize: 16.2,
-      color: '#ffffff',
-      zIndex: 0
-    },
-    '& .arrow': {
-      border: 'none',
-      borderTop: '5px solid #ffffff',
-      borderLeft: '5px solid rgba(0,0,0,0)',
-      borderRight: '5px solid rgba(0,0,0,0)',
-      width: 10,
-      height: 7.5,
-      display: 'inline-block',
-      marginLeft: 8,
-      marginRight: 16
-    },
-    '& select': {
-      zIndex: 1,
-      appearance: 'none',
-      outline: 0,
-      boxShadow: 'none',
-      border: '0 !important',
-      background: 'none',
-      backgroundImage: 'none',
-      padding: '0 18px 0 0',
-      cursor: 'pointer',
-      width: '100%',
-      fontSize: 20.2,
-      fontWeight: 600,
-      letterSpacing: '0.25px',
-      color: '#ffffff'
-    },
+    borderBottom: '2px solid rgba(255,255,255,0.38)',
+    padding: '5px 14px 0 14px'
+  },
+  inputText: {
+    fontSize: 16.2,
+    lineHeight: 1.48,
+    letterSpacing: '0.15px',
+    color: '#ffffff',
     '& input': {
-      appearance: 'none',
-      outline: 0,
-      border: '0 !important',
-      background: 'none',
-      padding: '0 20px 0 0',
-      cursor: 'auto',
-      width: '100%',
-      fontSize: 16.2,
-      lineHeight: 1.48,
-      letterSpacing: '0.15px',
-      color: '#ffffff',
       '&::placeholder': {
-        color: '#ffffff'
+        color: '#ffffff',
+        opacity: '1 !important'
       },
       '&::-webkit-outer-spin-button, &::-webkit-inner-spin-button': {
         appearance: 'none',
@@ -81,26 +94,18 @@ const useStyles = makeStyles((theme) => ({
       appearance: 'textfield'
     }
   },
-  inputWrapper: {
-    width: '50%',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    '& p': {
-      fontSize: 12.1,
-      fontWeight: 600,
-      lineHeight: 1.32,
-      letterSpacing: '0.4px',
-      color: '#ffffff'
-    }
-  },
-  helperText: {
+  labelText: {
     fontSize: '12.1px !important',
-    lineHeight: '1.32 !important',
-    letterSpacing: '0.4px !important',
-    color: '#ffffff',
-    marginLeft: `${theme.spacing(1)}px !important`,
-    marginTop: `${theme.spacing(0.5)}px !important`
+    fontWeight: '600  !important',
+    lineHeight: 1.32,
+    letterSpacing: '0.4px  !important',
+    color: '#ffffff'
+  },
+  placeholderSelect: {
+    fontSize: 16.2,
+    lineHeight: 1.48,
+    letterSpacing: '0.15px',
+    color: '#ffffff'
   }
 }))
 
@@ -138,10 +143,13 @@ const InputTextAndSelect = ({
 
   return (
     <Box width="100%">
-      <Box className={classes.selectContent}>
+      <form autoComplete="off" className={classes.rootContainer}>
         <Box className={classes.inputWrapper}>
-          <Typography variant="body1">{label}</Typography>
-          <input
+          <Typography className={classes.labelText} variant="body1">
+            {label}
+          </Typography>
+          <InputBase
+            className={classes.inputText}
             type="number"
             ref={textInput}
             onChange={(e) => handleOnChange(e.target.value, 'inputValue')}
@@ -151,30 +159,35 @@ const InputTextAndSelect = ({
             onKeyPress={(e) => handleOnKeyPress(e.key)}
           />
         </Box>
-        <Box className="selectWrapper">
-          <label htmlFor={id}>
-            {!inputData?.selectValue && 'This Token'}
-            <span className="arrow" />
-          </label>
-          <select
+        <FormControl className={classes.formControl} disabled={!options.length}>
+          <Select
             id={id}
-            dir="rtl"
             onChange={(e) => handleOnChange(e.target.value, 'selectValue')}
             value={inputData.selectValue || '-'}
+            renderValue={(selected) => {
+              if (selected === '-') {
+                return (
+                  <Typography
+                    className={classes.placeholderSelect}
+                    variant="body1"
+                  >
+                    This Token
+                  </Typography>
+                )
+              }
+
+              return selected
+            }}
           >
-            <option value="-" disabled hidden />
             {options.map(({ value, label }) => (
-              <option
-                key={value}
-                value={value}
-                disabled={inputData.selectValue === value}
-              >
+              <MenuItem key={value} value={value} disabled={selected === value}>
                 {label}
-              </option>
+              </MenuItem>
             ))}
-          </select>
-        </Box>
-      </Box>
+          </Select>
+        </FormControl>
+      </form>
+
       <Typography className={classes.helperText}>{helperText}</Typography>
     </Box>
   )
