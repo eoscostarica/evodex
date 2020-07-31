@@ -53,6 +53,10 @@ const useStyles = makeStyles((theme) => ({
         fontSize: 20.2,
         fontWeight: 600,
         letterSpacing: '0.25px'
+      },
+      '& h4': {
+        letterSpacing: '-0.91px',
+        fontSize: 59.2
       }
     },
     [theme.breakpoints.up('lg')]: {
@@ -94,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 0,
     position: 'absolute',
     height: 260,
-    right: '0px',
+    right: '-10px',
     top: 0,
     [theme.breakpoints.up('md')]: {
       top: 62,

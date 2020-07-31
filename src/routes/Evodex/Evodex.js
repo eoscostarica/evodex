@@ -89,6 +89,9 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 600,
     letterSpacing: '0.25px',
     color: 'rgba(0, 0, 0, 0.6)'
+  },
+  headerBoxNone: {
+    display: 'none'
   }
 }))
 
@@ -101,8 +104,9 @@ const Evodex = ({ ual }) => {
   const [isLightMode, setIsLightMode] = useState(false)
   const [layerHeight, setLayerHeight] = useState(56)
   const [exgangeInfo, setExchangeInfo] = useState(null)
+  const [isStaticPage, setIsStaticPage] = useState(false)
   const backdropRef = useRef()
-  const isDesktop = useMediaQuery(theme.breakpoints.up('sm'), {
+  const isMobile = useMediaQuery(theme.breakpoints.down('xs'), {
     defaultMatches: true
   })
   const handleOnClickRow = () => {
@@ -144,26 +148,29 @@ const Evodex = ({ ual }) => {
   }, [ual.activeUser])
 
   useEffect(() => {
-    if (isDesktop) {
-      if (
-        location.pathname === '/evodex/faq' ||
-        location.pathname === '/evodex/about'
-      ) {
-        setLayerHeight(180)
-        setTitle('Subtitle')
-
-        return
-      }
-
-      setLayerHeight(470)
-      setTitle('Token Listings')
+    if (
+      location.pathname === '/evodex/faq' ||
+      location.pathname === '/evodex/about'
+    ) {
+      setLayerHeight(180)
+      setTitle('Subtitle')
+      setIsStaticPage(true)
 
       return
     }
 
+    setIsStaticPage(false)
+
+    if (isMobile) {
+      setTitle('Token Listings')
+      setLayerHeight(56)
+
+      return
+    }
+
+    setLayerHeight(470)
     setTitle('Token Listings')
-    setLayerHeight(56)
-  }, [isDesktop, location.pathname])
+  }, [isMobile, location.pathname])
 
   return (
     <ExchangeProvider info={exgangeInfo}>
@@ -195,8 +202,11 @@ const Evodex = ({ ual }) => {
           classes={{
             frontLayer: classes.frontLayerRoot,
             root: isLightMode ? classes.rootLight : classes.rootDark,
-            headerBox: classes.headerBox,
-            backLayer: classes.backLayer
+            backLayer: classes.backLayer,
+            headerBox:
+              isStaticPage || isMobile
+                ? classes.headerBox
+                : classes.headerBoxNone
           }}
           backLayer={
             <BackLayer
@@ -212,6 +222,7 @@ const Evodex = ({ ual }) => {
           }
           backgroundColor={isLightMode ? '#1976d2' : '#272863'}
           layerHeight={layerHeight}
+          isStaticPage={isStaticPage}
         />
       </MainContainer>
     </ExchangeProvider>

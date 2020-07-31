@@ -13,7 +13,9 @@ const useStyles = makeStyles((theme) => ({
     color: 'inherit'
   },
   languageText: {
-    fontSize: '1rem',
+    fontSize: 20.2,
+    fontWeight: '600',
+    letterSpacing: '0.25px',
     marginLeft: 3,
     display: 'none',
     color: theme.palette.primary.contrastText,
