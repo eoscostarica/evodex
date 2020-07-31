@@ -30,4 +30,4 @@ Yes, you can retire your tokens at any time by selling your evotokens in the liq
 
 > ## Why does the price change with higher amounts?
 
-The price of a token swap is determined by the balances of the pool. If the liquidity is low compared to the amount you want to exchange you can suffer from slippage of the prices. 
+The price of a token swap is determined by the balances of the pool. If the liquidity is low compared to the amount you want to exchange you can suffer price slippage. 
