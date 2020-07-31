@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const BackLayers = ({ pathname, onReload, ual, isLightMode }) => {
+const BackLayers = ({ pathname, onReload, ual, isLightMode, showMessage }) => {
   const classes = useStyles()
 
   switch (pathname) {
@@ -61,6 +61,7 @@ const BackLayers = ({ pathname, onReload, ual, isLightMode }) => {
           ual={ual}
           onReload={onReload}
           isLightMode={isLightMode}
+          showMessage={showMessage}
         />
       )
 
@@ -70,12 +71,18 @@ const BackLayers = ({ pathname, onReload, ual, isLightMode }) => {
           ual={ual}
           onReload={onReload}
           isLightMode={isLightMode}
+          showMessage={showMessage}
         />
       )
 
     case '/evodex/fee':
       return (
-        <FeeBackLayer ual={ual} onReload={onReload} isLightMode={isLightMode} />
+        <FeeBackLayer
+          ual={ual}
+          onReload={onReload}
+          isLightMode={isLightMode}
+          showMessage={showMessage}
+        />
       )
 
     case '/evodex/faq':
@@ -111,7 +118,8 @@ BackLayers.propTypes = {
   pathname: PropTypes.string,
   ual: PropTypes.object,
   onReload: PropTypes.func,
-  isLightMode: PropTypes.bool
+  isLightMode: PropTypes.bool,
+  showMessage: PropTypes.func
 }
 
 export default BackLayers

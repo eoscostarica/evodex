@@ -5,6 +5,8 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { makeStyles, useTheme } from '@material-ui/styles'
 import { Route, Redirect, Switch, useLocation } from 'react-router-dom'
 import { Backdrop } from '@eoscostarica/eoscr-components'
+import Snackbar from '@material-ui/core/Snackbar'
+import Alert from '@material-ui/lab/Alert'
 
 import { MainContainer } from '../../containers'
 import { evolutiondex } from '../../utils'
@@ -92,6 +94,14 @@ const useStyles = makeStyles((theme) => ({
   },
   headerBoxNone: {
     display: 'none'
+  },
+  alert: {
+    backgroundColor: 'rgba(0, 0, 0, 0.87)',
+    color: theme.palette.primary.contrastText,
+    '& a': {
+      color: theme.palette.primary.contrastText,
+      lineBreak: 'anywhere'
+    }
   }
 }))
 
@@ -105,6 +115,7 @@ const Evodex = ({ ual }) => {
   const [layerHeight, setLayerHeight] = useState(56)
   const [exgangeInfo, setExchangeInfo] = useState(null)
   const [isStaticPage, setIsStaticPage] = useState(false)
+  const [message, setMessage] = useState()
   const backdropRef = useRef()
   const isMobile = useMediaQuery(theme.breakpoints.down('xs'), {
     defaultMatches: true
@@ -209,12 +220,28 @@ const Evodex = ({ ual }) => {
                 : classes.headerBoxNone
           }}
           backLayer={
-            <BackLayer
-              ual={ual}
-              onReload={handleOnReload}
-              pathname={location.pathname}
-              isLightMode={isLightMode}
-            />
+            <>
+              <BackLayer
+                ual={ual}
+                onReload={handleOnReload}
+                pathname={location.pathname}
+                isLightMode={isLightMode}
+                showMessage={setMessage}
+              />
+              <Snackbar
+                open={!!message}
+                autoHideDuration={30000}
+                onClose={() => setMessage(null)}
+              >
+                <Alert
+                  onClose={() => setMessage(null)}
+                  severity={message?.type}
+                  className={classes?.alert}
+                >
+                  {message?.content}
+                </Alert>
+              </Snackbar>
+            </>
           }
           frontLayer={frontLayer}
           headerText={

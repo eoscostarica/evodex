@@ -3,9 +3,6 @@ import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/styles'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
-import IconButton from '@material-ui/core/IconButton'
-import Alert from '@material-ui/lab/Alert'
-import CloseIcon from '@material-ui/icons/Close'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import Link from '@material-ui/core/Link'
 
@@ -136,16 +133,14 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const FeeBackLayer = ({ onReload, ual, isLightMode }) => {
+const FeeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
   const classes = useStyles()
   const [{ pairs, currentPair }] = useExchange()
   const [pair, setPair] = useState()
   const [yourVote, setYourVote] = useState({})
-  const [message, setMessage] = useState()
   const [loading, setLoading] = useState(false)
 
   const handleOnChange = (value) => {
-    setMessage(null)
     setYourVote((prevState) => ({
       ...prevState,
       ...value
@@ -154,28 +149,27 @@ const FeeBackLayer = ({ onReload, ual, isLightMode }) => {
 
   const handleOnVote = async () => {
     if (!ual.activeUser) {
-      setMessage({ type: 'warning', text: 'Please login to continue' })
+      showMessage({ type: 'warning', content: 'Please login to continue' })
       return
     }
 
     if (!pair) {
-      setMessage({
+      showMessage({
         type: 'warning',
-        text: 'Please select a token to continue'
+        content: 'Please select a token to continue'
       })
       return
     }
 
     if (!yourVote.inputValue) {
-      setMessage({
+      showMessage({
         type: 'warning',
-        text: 'Please enter your vote'
+        content: 'Please enter your vote'
       })
       return
     }
 
     setLoading(true)
-    setMessage(null)
 
     try {
       const { transactionId } = await evolutiondex.voteFee(
@@ -183,10 +177,10 @@ const FeeBackLayer = ({ onReload, ual, isLightMode }) => {
         pair,
         ual
       )
-      setMessage((prevState) => ({
+      showMessage((prevState) => ({
         ...prevState,
         type: 'success',
-        text: (
+        content: (
           <span>
             Success transaction:{' '}
             <Link
@@ -201,14 +195,11 @@ const FeeBackLayer = ({ onReload, ual, isLightMode }) => {
       }))
       onReload()
     } catch (error) {
-      setMessage((prevState) => ({
+      showMessage((prevState) => ({
         ...prevState,
         type: 'error',
-        text: error.message
+        content: error.message
       }))
-      setTimeout(() => {
-        setMessage(null)
-      }, 10000)
     }
 
     setLoading(false)
@@ -223,12 +214,11 @@ const FeeBackLayer = ({ onReload, ual, isLightMode }) => {
       return
     }
 
-    setMessage(null)
     setYourVote((prevValue) => ({
       ...prevValue,
       selectValue: currentPair.token
     }))
-  }, [currentPair])
+  }, [showMessage, currentPair])
 
   return (
     <Box className={classes.feeRoot}>
@@ -263,6 +253,9 @@ const FeeBackLayer = ({ onReload, ual, isLightMode }) => {
             </Typography>
           </Box>
         )}
+        {loading && (
+          <LinearProgress className={classes.loading} color="secondary" />
+        )}
         <Box className={classes.btnExchange}>
           <Button
             onClick={handleOnVote}
@@ -272,30 +265,6 @@ const FeeBackLayer = ({ onReload, ual, isLightMode }) => {
             VOTE
           </Button>
         </Box>
-        {loading && (
-          <LinearProgress className={classes.loading} color="secondary" />
-        )}
-        {message && (
-          <Box className={classes.message}>
-            <Alert
-              severity={message.type}
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setMessage(null)
-                  }}
-                >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              }
-            >
-              {message.text}
-            </Alert>
-          </Box>
-        )}
       </Box>
     </Box>
   )
@@ -304,7 +273,8 @@ const FeeBackLayer = ({ onReload, ual, isLightMode }) => {
 FeeBackLayer.propTypes = {
   ual: PropTypes.object,
   onReload: PropTypes.func,
-  isLightMode: PropTypes.bool
+  isLightMode: PropTypes.bool,
+  showMessage: PropTypes.func
 }
 
 export default FeeBackLayer

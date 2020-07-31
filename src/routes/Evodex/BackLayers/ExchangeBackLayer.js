@@ -8,8 +8,6 @@ import Typography from '@material-ui/core/Typography'
 import ImportExportIcon from '@material-ui/icons/ImportExport'
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz'
 import IconButton from '@material-ui/core/IconButton'
-import Alert from '@material-ui/lab/Alert'
-import CloseIcon from '@material-ui/icons/Close'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import Link from '@material-ui/core/Link'
 
@@ -156,7 +154,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const ExchangeBackLayer = ({ onReload, ual, isLightMode }) => {
+const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
   const classes = useStyles()
   const theme = useTheme()
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'), {
@@ -168,7 +166,6 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode }) => {
   const [options, setOptions] = useState({ youGive: [], youReceive: [] })
   const [youReceive, setYouReceive] = useState({})
   const [youGive, setYouGive] = useState({})
-  const [message, setMessage] = useState()
   const [loading, setLoading] = useState(false)
 
   const handleOnChange = (key) => (value) => {
@@ -185,7 +182,6 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode }) => {
         set = () => {}
     }
 
-    setMessage(null)
     set((prevState) => ({
       ...prevState,
       ...value
@@ -193,7 +189,6 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode }) => {
   }
 
   const handleOnSwitchValues = () => {
-    setMessage(null)
     setYouReceive({
       selectValue: youGive.selectValue
     })
@@ -205,28 +200,27 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode }) => {
 
   const handleOnExchange = async () => {
     if (!ual.activeUser) {
-      setMessage({ type: 'warning', text: 'Please login to continue' })
+      showMessage({ type: 'warning', content: 'Please login to continue' })
       return
     }
 
     if (!pair) {
-      setMessage({
+      showMessage({
         type: 'warning',
-        text: 'Please select both tokens to continue'
+        content: 'Please select both tokens to continue'
       })
       return
     }
 
     if (!youGive.inputValue) {
-      setMessage({
+      showMessage({
         type: 'warning',
-        text: 'Please enter the amount to give to continue'
+        content: 'Please enter the amount to give to continue'
       })
       return
     }
 
     setLoading(true)
-    setMessage(null)
 
     try {
       const { transactionId } = await evolutiondex.exchange(
@@ -234,10 +228,9 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode }) => {
         pair,
         ual
       )
-      setMessage((prevState) => ({
-        ...prevState,
+      showMessage({
         type: 'success',
-        text: (
+        content: (
           <span>
             Success transaction:{' '}
             <Link
@@ -249,17 +242,14 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode }) => {
             </Link>
           </span>
         )
-      }))
+      })
       onReload()
     } catch (error) {
-      setMessage((prevState) => ({
+      showMessage((prevState) => ({
         ...prevState,
         type: 'error',
-        text: error.message
+        content: error.message
       }))
-      setTimeout(() => {
-        setMessage(null)
-      }, 10000)
     }
 
     setLoading(false)
@@ -315,7 +305,6 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode }) => {
       return
     }
 
-    setMessage(null)
     setYouGive((prevValue) => ({
       ...prevValue,
       selectValue: exchangeState.currentPair.pool1.asset.symbol
@@ -328,7 +317,7 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode }) => {
         .code()
         .toString()
     }))
-  }, [exchangeState.currentPair])
+  }, [showMessage, exchangeState.currentPair])
 
   return (
     <Box className={classes.exchangeRoot}>
@@ -433,6 +422,9 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode }) => {
           </Box>
         </Box>
       )}
+      {loading && (
+        <LinearProgress className={classes.loading} color="secondary" />
+      )}
       <Box className={classes.btnExchange}>
         <Button
           variant="contained"
@@ -442,30 +434,6 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode }) => {
           EXCHANGE
         </Button>
       </Box>
-      {loading && (
-        <LinearProgress className={classes.loading} color="secondary" />
-      )}
-      {message && (
-        <Box className={classes.message}>
-          <Alert
-            severity={message.type}
-            action={
-              <IconButton
-                aria-label="close"
-                color="inherit"
-                size="small"
-                onClick={() => {
-                  setMessage(null)
-                }}
-              >
-                <CloseIcon fontSize="inherit" />
-              </IconButton>
-            }
-          >
-            {message.text}
-          </Alert>
-        </Box>
-      )}
     </Box>
   )
 }
@@ -473,7 +441,8 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode }) => {
 ExchangeBackLayer.propTypes = {
   ual: PropTypes.object,
   onReload: PropTypes.func,
-  isLightMode: PropTypes.bool
+  isLightMode: PropTypes.bool,
+  showMessage: PropTypes.func
 }
 
 export default ExchangeBackLayer
