@@ -9,7 +9,6 @@ import { Backdrop } from '@eoscostarica/eoscr-components'
 import { MainContainer } from '../../containers'
 import { evolutiondex } from '../../utils'
 import { ExchangeProvider } from '../../context/exchange.context'
-// import Backdrop from '../../components/Backdrop'
 import Faq from '../FAQ'
 import About from '../About'
 
