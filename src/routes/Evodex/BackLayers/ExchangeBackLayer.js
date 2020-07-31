@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
+import clsx from 'clsx'
 import { makeStyles, useTheme } from '@material-ui/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Box from '@material-ui/core/Box'
@@ -16,6 +17,7 @@ import { ualConfig } from '../../../config'
 import InputTextAndSelect from '../../../components/InputTextAndSelect'
 import EvodexRocketSvg from '../../../components/Icons/EvodexRocket'
 import Button from '../../../components/Button'
+import CollapseSection from '../../../components/CollapseSection'
 import { useExchange } from '../../../context/exchange.context'
 import { evolutiondex } from '../../../utils'
 
@@ -79,19 +81,32 @@ const useStyles = makeStyles((theme) => ({
       flexDirection: 'row'
     }
   },
-  rateFeeBox: {
+  infoBox: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexFlow: 'column'
+  },
+  infoBoxWrapper: {
+    width: '100%',
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    '& p': {
-      fontSize: 16.2,
-      fontWeight: 500,
-      letterSpacing: '0.5px',
-      lineHeight: 1.73,
-      color: '#fff'
-    },
     [theme.breakpoints.up('md')]: {
-      justifyContent: 'space-evenly'
+      maxWidth: '60%'
+    }
+  },
+  textInfo: {
+    fontSize: 16.2,
+    fontWeight: 500,
+    letterSpacing: '0.5px',
+    lineHeight: 1.73,
+    color: '#fff'
+  },
+  textWithDescription: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    '& span': {
+      color: 'rgba(255, 255, 255, 0.6)'
     }
   },
   rocketSvg: {
@@ -345,19 +360,77 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode }) => {
         />
       </Box>
       {pair && (
-        <Box className={classes.rateFeeBox}>
-          <Typography variant="body1">
-            <strong>Rate: </strong>
-            {assets && (
-              <span>
-                {assets.assetToGive.toString()} ={' '}
-                {assets.assetToReceive.toString()}
-              </span>
-            )}
-          </Typography>
-          <Typography variant="body1">
-            <strong>Fee:</strong> {Number(pair.fee) / 100}%
-          </Typography>
+        <Box className={classes.infoBox}>
+          <Box className={classes.infoBoxWrapper}>
+            <Typography variant="body1" className={classes.textInfo}>
+              <strong>Rate: </strong>
+              {assets && (
+                <span>
+                  {assets.assetToGive.toString()} ={' '}
+                  {assets.assetToReceive.toString()}
+                </span>
+              )}
+            </Typography>
+            <Typography variant="body1" className={classes.textInfo}>
+              <strong>Fee:</strong> {Number(pair.fee) / 100}%
+            </Typography>
+          </Box>
+          <Box className={classes.infoBoxWrapper}>
+            <CollapseSection title="Advanced">
+              <Typography
+                variant="body1"
+                className={clsx([
+                  classes.textInfo,
+                  classes.textWithDescription
+                ])}
+              >
+                <strong>Pair Supply: </strong>
+                <span>{pair.supply.toString()}</span>
+              </Typography>
+              <Typography
+                variant="body1"
+                className={clsx([
+                  classes.textInfo,
+                  classes.textWithDescription
+                ])}
+              >
+                <strong>Estimated Price: </strong>
+                <span>{assets && assets.price}</span>
+              </Typography>
+              <Typography
+                variant="body1"
+                className={clsx([
+                  classes.textInfo,
+                  classes.textWithDescription
+                ])}
+              >
+                <strong>
+                  {pair.pool1.asset.symbol.code().toString()} pool:{' '}
+                </strong>
+                <span>
+                  {pair.pool1.asset.toString().split(' ')[0]} (
+                  {pair.pool1.asset.symbol.code().toString().toLowerCase()}
+                  .token)
+                </span>
+              </Typography>
+              <Typography
+                variant="body1"
+                className={clsx([
+                  classes.textInfo,
+                  classes.textWithDescription
+                ])}
+              >
+                <strong>
+                  {pair.pool2.asset.symbol.code().toString()} pool:{' '}
+                </strong>
+                <span>
+                  {pair.pool2.asset.toString().split(' ')[0]} (
+                  {pair.pool2.asset.symbol.code().toString().toLowerCase()}
+                  .token)
+                </span>
+              </Typography>
+            </CollapseSection>
+          </Box>
         </Box>
       )}
       <Box className={classes.btnExchange}>

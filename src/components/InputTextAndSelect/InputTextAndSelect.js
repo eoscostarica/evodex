@@ -155,7 +155,7 @@ const InputTextAndSelect = ({
             onChange={(e) => handleOnChange(e.target.value, 'inputValue')}
             value={inputData.inputValue || ''}
             placeholder="This Amount"
-            disabled={inputDisabled}
+            readOnly={inputDisabled}
             onKeyPress={(e) => handleOnKeyPress(e.key)}
           />
         </Box>

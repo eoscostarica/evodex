@@ -159,10 +159,16 @@ const getExchangeAssets = (amount, pair) => {
   ).abs()
 
   assetToReceive.set_amount(computeForwardAmount)
-
   return {
     assetToGive,
-    assetToReceive
+    assetToReceive,
+    price: amountToAsset(
+      (
+        parseFloat(assetToReceive.toString().split(' ')[0]) /
+        parseFloat(assetToGive.toString().split(' ')[0])
+      ).toFixed(assetToReceive.symbol.precision()),
+      assetToReceive
+    ).toString()
   }
 }
 const exchange = async (amount, pair, ual) => {
