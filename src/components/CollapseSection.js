@@ -66,7 +66,8 @@ const CollapseSection = ({ title, children }) => {
 }
 
 CollapseSection.propTypes = {
-  title: PropTypes.string
+  title: PropTypes.string,
+  children: PropTypes.node
 }
 
 export default CollapseSection
