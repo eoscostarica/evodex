@@ -5,9 +5,6 @@ import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import AddIcon from '@material-ui/icons/Add'
 import RemoveIcon from '@material-ui/icons/Remove'
-import IconButton from '@material-ui/core/IconButton'
-import Alert from '@material-ui/lab/Alert'
-import CloseIcon from '@material-ui/icons/Close'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import Link from '@material-ui/core/Link'
 
@@ -135,45 +132,43 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const LiquidityBackLayer = ({ onReload, ual, isLightMode }) => {
+const LiquidityBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
   const classes = useStyles()
   const [{ pairs, currentPair }] = useExchange()
   const [pair, setPair] = useState()
   const [toBuy, setToBuy] = useState()
   const [toSell, setToSell] = useState()
   const [youGive, setYouGive] = useState({})
-  const [message, setMessage] = useState()
   const [loading, setLoading] = useState(false)
 
   const handleOnChange = (value) => {
-    setMessage(null)
+    showMessage(null)
     setYouGive(value)
   }
 
   const handleOnAddLiquidity = async () => {
     if (!ual.activeUser) {
-      setMessage({ type: 'warning', text: 'Please login to continue' })
+      showMessage({ type: 'warning', content: 'Please login to continue' })
       return
     }
 
     if (!pair) {
-      setMessage({
+      showMessage({
         type: 'warning',
-        text: 'Please select a token to continue'
+        content: 'Please select a token to continue'
       })
       return
     }
 
     if (!youGive.inputValue) {
-      setMessage({
+      showMessage({
         type: 'warning',
-        text: 'Please enter the amount to add'
+        content: 'Please enter the amount to add'
       })
       return
     }
 
     setLoading(true)
-    setMessage(null)
 
     try {
       const { transactionId } = await evolutiondex.addLiquidity(
@@ -181,10 +176,10 @@ const LiquidityBackLayer = ({ onReload, ual, isLightMode }) => {
         pair,
         ual
       )
-      setMessage((prevState) => ({
+      showMessage((prevState) => ({
         ...prevState,
         type: 'success',
-        text: (
+        content: (
           <span>
             Success transaction:{' '}
             <Link
@@ -199,14 +194,11 @@ const LiquidityBackLayer = ({ onReload, ual, isLightMode }) => {
       }))
       onReload()
     } catch (error) {
-      setMessage((prevState) => ({
+      showMessage((prevState) => ({
         ...prevState,
         type: 'error',
-        text: error.message
+        content: error.message
       }))
-      setTimeout(() => {
-        setMessage(null)
-      }, 10000)
     }
 
     setLoading(false)
@@ -214,28 +206,27 @@ const LiquidityBackLayer = ({ onReload, ual, isLightMode }) => {
 
   const handleOnRemoveLiquidity = async () => {
     if (!ual.activeUser) {
-      setMessage({ type: 'warning', text: 'Please login to continue' })
+      showMessage({ type: 'warning', content: 'Please login to continue' })
       return
     }
 
     if (!pair) {
-      setMessage({
+      showMessage({
         type: 'warning',
-        text: 'Please select a token to continue'
+        content: 'Please select a token to continue'
       })
       return
     }
 
     if (!youGive.inputValue) {
-      setMessage({
+      showMessage({
         type: 'warning',
-        text: 'Please enter the amount to remove'
+        content: 'Please enter the amount to remove'
       })
       return
     }
 
     setLoading(true)
-    setMessage(null)
 
     try {
       const { transactionId } = await evolutiondex.removeLiquidity(
@@ -243,10 +234,10 @@ const LiquidityBackLayer = ({ onReload, ual, isLightMode }) => {
         pair,
         ual
       )
-      setMessage((prevState) => ({
+      showMessage((prevState) => ({
         ...prevState,
         type: 'success',
-        text: (
+        content: (
           <span>
             Success transaction:{' '}
             <Link
@@ -261,14 +252,11 @@ const LiquidityBackLayer = ({ onReload, ual, isLightMode }) => {
       }))
       onReload()
     } catch (error) {
-      setMessage((prevState) => ({
+      showMessage((prevState) => ({
         ...prevState,
         type: 'error',
-        text: error.message
+        content: error.message
       }))
-      setTimeout(() => {
-        setMessage(null)
-      }, 10000)
     }
 
     setLoading(false)
@@ -295,12 +283,11 @@ const LiquidityBackLayer = ({ onReload, ual, isLightMode }) => {
       return
     }
 
-    setMessage(null)
     setYouGive((prevValue) => ({
       ...prevValue,
       selectValue: currentPair.token
     }))
-  }, [currentPair])
+  }, [showMessage, currentPair])
 
   return (
     <Box className={classes.liquidityRoot}>
@@ -369,6 +356,9 @@ const LiquidityBackLayer = ({ onReload, ual, isLightMode }) => {
           >
             ADD
           </Button>
+          {loading && (
+            <LinearProgress className={classes.loading} color="secondary" />
+          )}
           <Button
             onClick={handleOnRemoveLiquidity}
             isLightMode={isLightMode}
@@ -378,30 +368,6 @@ const LiquidityBackLayer = ({ onReload, ual, isLightMode }) => {
             REMOVE
           </Button>
         </Box>
-        {loading && (
-          <LinearProgress className={classes.loading} color="secondary" />
-        )}
-        {message && (
-          <Box className={classes.message}>
-            <Alert
-              severity={message.type}
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setMessage(null)
-                  }}
-                >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              }
-            >
-              {message.text}
-            </Alert>
-          </Box>
-        )}
       </Box>
     </Box>
   )
@@ -410,7 +376,8 @@ const LiquidityBackLayer = ({ onReload, ual, isLightMode }) => {
 LiquidityBackLayer.propTypes = {
   ual: PropTypes.object,
   onReload: PropTypes.func,
-  isLightMode: PropTypes.bool
+  isLightMode: PropTypes.bool,
+  showMessage: PropTypes.func
 }
 
 export default LiquidityBackLayer

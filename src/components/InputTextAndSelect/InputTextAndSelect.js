@@ -163,9 +163,9 @@ const InputTextAndSelect = ({
           <Select
             id={id}
             onChange={(e) => handleOnChange(e.target.value, 'selectValue')}
-            value={inputData.selectValue || '-'}
+            value={inputData.selectValue || ''}
             renderValue={(selected) => {
-              if (selected === '-') {
+              if (!selected) {
                 return (
                   <Typography
                     className={classes.placeholderSelect}

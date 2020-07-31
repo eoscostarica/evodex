@@ -16,12 +16,12 @@ export default {
   },
   success: {
     contrastText: EOSCR_THEME.palette.primary.contrastText,
-    dark: EOSCR_THEME.palette.primary.main, // TODO: add dark key in primary object in the library,
-    main: EOSCR_THEME.palette.primary.main,
-    light: EOSCR_THEME.palette.primary.light
+    dark: colors.green[900],
+    main: colors.green[600],
+    light: colors.green[400]
   },
   info: {
-    contrastText: EOSCR_THEME.palette.secondary[50],
+    contrastText: EOSCR_THEME.palette.primary[50],
     dark: colors.blue[900],
     main: colors.blue[600],
     light: colors.blue[400]
