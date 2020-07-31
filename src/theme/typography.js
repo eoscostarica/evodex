@@ -6,7 +6,7 @@ export default {
     fontWeight: EOSCR_THEME.typography.h1.fontWeight,
     fontSize: EOSCR_THEME.typography.h1.size,
     letterSpacing: EOSCR_THEME.typography.h1.letterSpacing,
-    fontFamily: EOSCR_THEME.typography.h1.fontFamily,
+    fontFamily: '"Raleway", sans-serif',
     lineHeight: EOSCR_THEME.typography.h1.lineHeight
   },
   h2: {
@@ -14,7 +14,7 @@ export default {
     fontWeight: EOSCR_THEME.typography.h2.fontWeight,
     fontSize: EOSCR_THEME.typography.h2.size,
     letterSpacing: EOSCR_THEME.typography.h2.letterSpacing,
-    fontFamily: EOSCR_THEME.typography.h2.fontFamily,
+    fontFamily: '"Raleway", sans-serif',
     lineHeight: EOSCR_THEME.typography.h2.lineHeight
   },
   h3: {
@@ -22,7 +22,7 @@ export default {
     fontWeight: EOSCR_THEME.typography.h3.fontWeight,
     fontSize: EOSCR_THEME.typography.h3.size,
     letterSpacing: EOSCR_THEME.typography.h3.letterSpacing,
-    fontFamily: EOSCR_THEME.typography.h1.fontFamily,
+    fontFamily: '"Raleway", sans-serif',
     lineHeight: EOSCR_THEME.typography.h3.lineHeight
   },
   h4: {
@@ -30,7 +30,7 @@ export default {
     fontWeight: EOSCR_THEME.typography.h4.fontWeight,
     fontSize: EOSCR_THEME.typography.h4.size,
     letterSpacing: EOSCR_THEME.typography.h4.letterSpacing,
-    fontFamily: EOSCR_THEME.typography.h4.fontFamily,
+    fontFamily: '"Raleway", sans-serif',
     lineHeight: EOSCR_THEME.typography.h4.lineHeight
   },
   h5: {
@@ -38,7 +38,7 @@ export default {
     fontWeight: EOSCR_THEME.typography.h5.fontWeight,
     fontSize: EOSCR_THEME.typography.h5.size,
     letterSpacing: EOSCR_THEME.typography.h5.letterSpacing,
-    fontFamily: EOSCR_THEME.typography.h5.fontFamily,
+    fontFamily: '"Raleway", sans-serif',
     lineHeight: EOSCR_THEME.typography.h5.lineHeight
   },
   h6: {
@@ -46,7 +46,7 @@ export default {
     fontWeight: EOSCR_THEME.typography.h6.fontWeight,
     fontSize: EOSCR_THEME.typography.h6.size,
     letterSpacing: EOSCR_THEME.typography.h6.letterSpacing,
-    fontFamily: EOSCR_THEME.typography.h5.fontFamily,
+    fontFamily: '"Raleway", sans-serif',
     lineHeight: EOSCR_THEME.typography.h6.lineHeight
   },
   subtitle1: {
@@ -54,7 +54,7 @@ export default {
     fontWeight: EOSCR_THEME.typography.subtitle1.fontWeight,
     fontSize: EOSCR_THEME.typography.subtitle1.fontSize,
     letterSpacing: EOSCR_THEME.typography.subtitle1.letterSpacing,
-    fontFamily: EOSCR_THEME.typography.subtitle1.fontWeight,
+    fontFamily: '"Raleway", sans-serif',
     lineHeight: EOSCR_THEME.typography.subtitle1.lineHeight
   },
   subtitle2: {
@@ -62,7 +62,7 @@ export default {
     fontWeight: EOSCR_THEME.typography.subtitle2.fontWeight,
     fontSize: EOSCR_THEME.typography.subtitle2.fontSize,
     letterSpacing: EOSCR_THEME.typography.subtitle2.letterSpacing,
-    fontFamily: EOSCR_THEME.typography.subtitle2.fontFamily,
+    fontFamily: '"Raleway", sans-serif',
     lineHeight: EOSCR_THEME.typography.subtitle2.lineHeight
   },
   body1: {
@@ -70,7 +70,7 @@ export default {
     fontWeight: EOSCR_THEME.typography.body1.fontWeight,
     fontSize: EOSCR_THEME.typography.body1.fontSize,
     letterSpacing: EOSCR_THEME.typography.body1.letterSpacing,
-    fontFamily: EOSCR_THEME.typography.body1.fontFamily,
+    fontFamily: '"Raleway", sans-serif',
     lineHeight: EOSCR_THEME.typography.body1.lineHeight
   },
   body2: {
@@ -78,7 +78,7 @@ export default {
     fontWeight: EOSCR_THEME.typography.body1.fontWeight,
     fontSize: EOSCR_THEME.typography.body2.fontSize,
     letterSpacing: EOSCR_THEME.typography.body2.letterSpacing,
-    fontFamily: EOSCR_THEME.typography.body2.fontFamily,
+    fontFamily: '"Raleway", sans-serif',
     lineHeight: EOSCR_THEME.typography.body2.lineHeight
   },
   button: {
@@ -86,7 +86,7 @@ export default {
     fontWeight: EOSCR_THEME.typography.button.fontWeight,
     fontSize: EOSCR_THEME.typography.button.fontSize,
     letterSpacing: EOSCR_THEME.typography.button.letterSpacing,
-    fontFamily: EOSCR_THEME.typography.button.fontFamily,
+    fontFamily: '"Raleway", sans-serif',
     lineHeight: EOSCR_THEME.typography.button.lineHeight
   },
   caption: {
@@ -94,7 +94,7 @@ export default {
     fontWeight: EOSCR_THEME.typography.caption.fontWeight,
     fontSize: EOSCR_THEME.typography.caption.fontSize,
     letterSpacing: EOSCR_THEME.typography.caption.letterSpacing,
-    fontFamily: EOSCR_THEME.typography.caption.fontFamily,
+    fontFamily: '"Raleway", sans-serif',
     lineHeight: EOSCR_THEME.typography.caption.lineHeight
   },
   overline: {
@@ -102,7 +102,7 @@ export default {
     fontWeight: EOSCR_THEME.typography.overline.fontWeight,
     fontSize: EOSCR_THEME.typography.overline.fontSize,
     letterSpacing: EOSCR_THEME.typography.overline.letterSpacing,
-    fontFamily: EOSCR_THEME.typography.overline.fontFamily,
+    fontFamily: '"Raleway", sans-serif',
     lineHeight: EOSCR_THEME.typography.overline.lineHeight
   }
 }

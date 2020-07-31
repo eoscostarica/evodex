@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     paddingTop: 0,
     paddingBottom: 0,
-    width: 90,
+    width: 95,
     justifyContent: 'center',
     marginRight: theme.spacing(2),
     '&:hover': {
