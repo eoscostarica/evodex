@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
       fontSize: 20.2,
       letterSpacing: '0.2px',
       color: 'rgba(255, 255, 255, 0.6)',
-      fontWeight: 'medium'
+      fontWeight: 400
     },
     [theme.breakpoints.up('sm')]: {
       width: '100%',
