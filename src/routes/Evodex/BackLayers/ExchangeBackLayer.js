@@ -39,19 +39,19 @@ const useStyles = makeStyles((theme) => ({
     '& h4': {
       fontSize: 33,
       letterSpacing: '-0.49px',
-      color: '#ffffff'
+      color: '#ffffff',
+      fontWeight: 'bold'
     },
     '& p': {
       fontSize: 16.2,
-      fontWeight: 500,
       letterSpacing: '0.2px',
-      color: 'rgba(255, 255, 255, 0.6)'
+      color: 'rgba(255, 255, 255, 0.6)',
+      fontWeight: 400
     },
     [theme.breakpoints.up('sm')]: {
-      width: '70%',
+      width: '100%',
       '& p': {
         fontSize: 20.2,
-        fontWeight: 600,
         letterSpacing: '0.25px'
       },
       '& h4': {
@@ -323,9 +323,9 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
     <Box className={classes.exchangeRoot}>
       <EvodexRocketSvg classes={classes.rocketSvg} />
       <Box className={classes.titleBox}>
-        <Typography variant="h4">Exchange Has Evolved!</Typography>
+        <Typography variant="h4">Exchange Has Evolved</Typography>
         <Typography variant="body1">
-          A truly decentralized exchange where you decide your pool fees.
+          A truly decentralized exchange where you decide your pool fee!
         </Typography>
       </Box>
       <Box className={classes.inputBox}>

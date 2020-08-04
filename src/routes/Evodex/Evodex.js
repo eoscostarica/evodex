@@ -163,7 +163,7 @@ const Evodex = ({ ual }) => {
       location.pathname === '/evodex/faq' ||
       location.pathname === '/evodex/about'
     ) {
-      setLayerHeight(180)
+      setLayerHeight(220)
       setTitle('Subtitle')
       setIsStaticPage(true)
 
