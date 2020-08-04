@@ -33,25 +33,28 @@ const useStyles = makeStyles((theme) => ({
     '& h4': {
       fontSize: 33,
       letterSpacing: '-0.49px',
-      color: '#ffffff'
+      color: '#ffffff',
+      fontWeight: 'bold'
     },
     '& p': {
       fontSize: 20.2,
-      fontWeight: 500,
-      letterSpacing: '0.25px',
-      color: 'rgba(255, 255, 255, 0.6)'
+      letterSpacing: '0.2px',
+      color: 'rgba(255, 255, 255, 0.6)',
+      fontWeight: 'medium'
     },
     [theme.breakpoints.up('sm')]: {
-      width: '70%',
+      width: '100%',
       '& p': {
         fontSize: 20.2,
-        fontWeight: 600,
         letterSpacing: '0.25px'
       },
       '& h4': {
         letterSpacing: '-0.91px',
         fontSize: 59.2
       }
+    },
+    [theme.breakpoints.up('lg')]: {
+      paddingLeft: theme.spacing(0)
     }
   },
   rateFeeBox: {

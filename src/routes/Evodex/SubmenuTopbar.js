@@ -68,9 +68,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     paddingTop: 0,
     paddingBottom: 0,
-    width: 95,
+    width: 'fit-content',
     justifyContent: 'center',
     marginRight: theme.spacing(2),
+    borderBottom: '1px solid transparent',
     '&:hover': {
       borderBottom: '1px solid #fff'
     }

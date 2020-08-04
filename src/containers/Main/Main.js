@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'none',
     backgroundColor: '#00000040',
     width: '100%',
-    height: 35,
+    height: 'fit-content',
     paddingLeft: theme.spacing(2.5),
     paddingRight: theme.spacing(2.5),
     [theme.breakpoints.up('lg')]: {
