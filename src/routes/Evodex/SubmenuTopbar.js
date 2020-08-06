@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import { useTranslation } from 'react-i18next'
 import Box from '@material-ui/core/Box'
+import Link from '@material-ui/core/Link'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import Button from '@material-ui/core/Button'
@@ -11,8 +12,8 @@ import GitHubIcon from '@material-ui/icons/GitHub'
 import TwitterIcon from '@material-ui/icons/Twitter'
 import TelegramIcon from '@material-ui/icons/Telegram'
 
-import CustomRouterLink from '../../components/CustomRouterLink'
-import MediumIcon from '../../components/Icons/MediumIcon'
+import CustomRouterLink from 'components/CustomRouterLink'
+import MediumIcon from 'components/Icons/MediumIcon'
 
 const TOOLS = [
   {
@@ -34,19 +35,23 @@ const TOOLS = [
   {
     title: 'FAQ',
     href: '/evodex/faq'
+  },
+  {
+    title: 'CONTRACTS',
+    href: '/evodex/ricardian-contract'
   }
 ]
 const SOCIAL = [
   {
-    href: '#',
+    href: 'https://github.com/eoscostarica/evodex',
     icon: <GitHubIcon />
   },
   {
-    href: '#',
+    href: 'https://t.me/evodexarg',
     icon: <TelegramIcon />
   },
   {
-    href: '#',
+    href: 'https://twitter.com/eosargentina',
     icon: <TwitterIcon />
   }
 ]
@@ -152,23 +157,25 @@ const Submenu = ({ pathname }) => {
             disableGutters
             key={`submenu-${social.title}-${i}`}
           >
-            <Button
+            <Link
               className={classes.button}
-              component={CustomRouterLink}
-              to={social.href}
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
             >
               <div className={classes.icon}>{social.icon}</div>
-            </Button>
+            </Link>
           </ListItem>
         ))}
         <ListItem className={classes.itemSocial} disableGutters>
-          <Button
+          <Link
             className={classes.button}
-            component={CustomRouterLink}
-            to="#"
+            href="https://medium.com/eos-argentina"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             <MediumIcon classes={classes.iconMedium} />
-          </Button>
+          </Link>
         </ListItem>
       </List>
     </Box>
