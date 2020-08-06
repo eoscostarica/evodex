@@ -1,22 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/styles'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
-import AddIcon from '@material-ui/icons/Add'
-import RemoveIcon from '@material-ui/icons/Remove'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import Link from '@material-ui/core/Link'
 
-import { ualConfig } from '../../../config'
-import InputTextAndSelect from '../../../components/InputTextAndSelect'
-import EvodexRocketSvg from '../../../components/Icons/EvodexRocket'
-import Button from '../../../components/Button'
-import { useExchange } from '../../../context/exchange.context'
-import { evolutiondex } from '../../../utils'
+import { ualConfig } from 'config'
+import InputTextAndSelect from 'components/InputTextAndSelect'
+import EvodexRocketSvg from 'components/Icons/EvodexRocket'
+import Button from 'components/Button'
+import { useExchange } from 'context/exchange.context'
+import { evolutiondex } from 'utils'
 
 const useStyles = makeStyles((theme) => ({
-  liquidityRoot: {
+  feeRoot: {
     marginTop: theme.spacing(7),
     padding: theme.spacing(3, 1, 0, 1),
     [theme.breakpoints.up('md')]: {
@@ -24,13 +22,11 @@ const useStyles = makeStyles((theme) => ({
       paddingRight: theme.spacing(4)
     },
     [theme.breakpoints.up('lg')]: {
-      marginTop: theme.spacing(13),
-      paddingRight: theme.spacing(32),
-      paddingLeft: theme.spacing(32)
+      marginTop: theme.spacing(13)
     }
   },
   titleBox: {
-    width: 250,
+    width: 225,
     paddingLeft: theme.spacing(2),
     '& h4': {
       fontSize: 33,
@@ -71,19 +67,7 @@ const useStyles = makeStyles((theme) => ({
       color: '#fff'
     },
     [theme.breakpoints.up('md')]: {
-      width: 500
-    }
-  },
-  btnExchange: {
-    display: 'flex',
-    justifyContent: 'space-evenly',
-    paddingTop: theme.spacing(4),
-    '& button': {
-      width: 162,
-      height: 36
-    },
-    [theme.breakpoints.up('md')]: {
-      width: 500
+      width: 800
     }
   },
   rocketSvg: {
@@ -99,6 +83,18 @@ const useStyles = makeStyles((theme) => ({
       opacity: 0.2
     }
   },
+  btnExchange: {
+    display: 'flex',
+    justifyContent: 'center',
+    paddingTop: theme.spacing(4),
+    '& button': {
+      width: 162,
+      height: 36
+    },
+    [theme.breakpoints.up('md')]: {
+      width: 500
+    }
+  },
   inputBox: {
     display: 'flex',
     flexDirection: 'column',
@@ -106,6 +102,9 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     marginTop: theme.spacing(1),
     padding: theme.spacing(2, 0),
+    '& .MuiTextField-root': {
+      width: '100%'
+    },
     '& svg': {
       color: '#fff',
       fontSize: 30,
@@ -135,21 +134,21 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const LiquidityBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
+const FeeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
   const classes = useStyles()
   const [{ pairs, currentPair }] = useExchange()
   const [pair, setPair] = useState()
-  const [toBuy, setToBuy] = useState()
-  const [toSell, setToSell] = useState()
-  const [youGive, setYouGive] = useState({})
+  const [yourVote, setYourVote] = useState({})
   const [loading, setLoading] = useState(false)
 
   const handleOnChange = (value) => {
-    showMessage(null)
-    setYouGive(value)
+    setYourVote((prevState) => ({
+      ...prevState,
+      ...value
+    }))
   }
 
-  const handleOnAddLiquidity = async () => {
+  const handleOnVote = async () => {
     if (!ual.activeUser) {
       showMessage({ type: 'warning', content: 'Please login to continue' })
       return
@@ -163,10 +162,10 @@ const LiquidityBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
       return
     }
 
-    if (!youGive.inputValue) {
+    if (!yourVote.inputValue) {
       showMessage({
         type: 'warning',
-        content: 'Please enter the amount to add'
+        content: 'Please enter your vote'
       })
       return
     }
@@ -174,66 +173,8 @@ const LiquidityBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
     setLoading(true)
 
     try {
-      const { transactionId } = await evolutiondex.addLiquidity(
-        youGive.inputValue,
-        pair,
-        ual
-      )
-      showMessage((prevState) => ({
-        ...prevState,
-        type: 'success',
-        content: (
-          <span>
-            Success transaction:{' '}
-            <Link
-              href={`${ualConfig.blockExplorerUrl}/transaction/${transactionId}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {transactionId}
-            </Link>
-          </span>
-        )
-      }))
-      onReload()
-    } catch (error) {
-      showMessage((prevState) => ({
-        ...prevState,
-        type: 'error',
-        content: error.message
-      }))
-    }
-
-    setLoading(false)
-  }
-
-  const handleOnRemoveLiquidity = async () => {
-    if (!ual.activeUser) {
-      showMessage({ type: 'warning', content: 'Please login to continue' })
-      return
-    }
-
-    if (!pair) {
-      showMessage({
-        type: 'warning',
-        content: 'Please select a token to continue'
-      })
-      return
-    }
-
-    if (!youGive.inputValue) {
-      showMessage({
-        type: 'warning',
-        content: 'Please enter the amount to remove'
-      })
-      return
-    }
-
-    setLoading(true)
-
-    try {
-      const { transactionId } = await evolutiondex.removeLiquidity(
-        youGive.inputValue,
+      const { transactionId } = await evolutiondex.voteFee(
+        yourVote.inputValue,
         pair,
         ual
       )
@@ -266,40 +207,28 @@ const LiquidityBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
   }
 
   useEffect(() => {
-    setPair(pairs.find((pair) => pair.token === youGive.selectValue))
-  }, [pairs, youGive.selectValue])
-
-  useEffect(() => {
-    if (!pair || !youGive.inputValue) {
-      setToBuy(null)
-      setToSell(null)
-
-      return
-    }
-
-    setToBuy(evolutiondex.getAddLiquidityAssets(youGive.inputValue, pair))
-    setToSell(evolutiondex.getRemoveLiquidityAssets(youGive.inputValue, pair))
-  }, [pair, youGive.inputValue])
+    setPair(pairs.find((pair) => pair.token === yourVote.selectValue))
+  }, [pairs, yourVote.selectValue])
 
   useEffect(() => {
     if (!currentPair) {
       return
     }
 
-    setYouGive((prevValue) => ({
+    setYourVote((prevValue) => ({
       ...prevValue,
       selectValue: currentPair.token
     }))
   }, [showMessage, currentPair])
 
   return (
-    <Box className={classes.liquidityRoot}>
+    <Box className={classes.feeRoot}>
       <EvodexRocketSvg classes={classes.rocketSvg} />
       <Box className={classes.titleBox}>
-        <Typography variant="h4">Add or Remove Liquidity</Typography>
+        <Typography variant="h4">Vote Your Fee</Typography>
         <Typography variant="body1">
-          Select a token pair and the amount you want to add or remove to the
-          liquidity pool.
+          Select a Token Pair and the fee you want to vote for the liquidity
+          pool.
         </Typography>
       </Box>
       <Box className={classes.contentWrapper}>
@@ -309,66 +238,32 @@ const LiquidityBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
               value: pair.token,
               label: pair.token
             }))}
-            id="liquidityYouGive"
-            label="You Give"
-            helperText={
-              pair
-                ? `${pair.balance ? pair.balance.toString() : 0} available`
-                : ''
-            }
+            id="feeYouVote"
+            label="Vote"
             onChange={handleOnChange}
-            value={youGive}
+            value={yourVote}
           />
         </Box>
         {pair && (
           <Box className={classes.rateFeeBox}>
             <Typography variant="body1">
-              <strong>Add: </strong>
-              {toBuy && (
-                <span>
-                  {toBuy.asset1.toString()} and {toBuy.asset2.toString()}
-                </span>
-              )}
+              <strong>Supply:</strong> {pair.supply.toString()}
             </Typography>
             <Typography variant="body1">
               <strong>Fee:</strong> {Number(pair.fee) / 100}%
             </Typography>
           </Box>
         )}
-        {pair && (
-          <Box className={classes.rateFeeBox}>
-            <Typography variant="body1">
-              <strong>Remove: </strong>
-              {toSell && (
-                <span>
-                  {toSell.asset1.toString()} and {toSell.asset2.toString()}
-                </span>
-              )}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Fee:</strong> 0%
-            </Typography>
-          </Box>
+        {loading && (
+          <LinearProgress className={classes.loading} color="secondary" />
         )}
         <Box className={classes.btnExchange}>
           <Button
-            onClick={handleOnAddLiquidity}
-            isLightMode={isLightMode}
+            onClick={handleOnVote}
             variant="contained"
-            startIcon={<AddIcon />}
-          >
-            ADD
-          </Button>
-          {loading && (
-            <LinearProgress className={classes.loading} color="secondary" />
-          )}
-          <Button
-            onClick={handleOnRemoveLiquidity}
             isLightMode={isLightMode}
-            variant="contained"
-            startIcon={<RemoveIcon />}
           >
-            REMOVE
+            VOTE
           </Button>
         </Box>
       </Box>
@@ -376,11 +271,11 @@ const LiquidityBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
   )
 }
 
-LiquidityBackLayer.propTypes = {
+FeeBackLayer.propTypes = {
   ual: PropTypes.object,
   onReload: PropTypes.func,
   isLightMode: PropTypes.bool,
   showMessage: PropTypes.func
 }
 
-export default LiquidityBackLayer
+export default FeeBackLayer

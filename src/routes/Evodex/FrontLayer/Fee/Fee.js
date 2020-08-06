@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/styles'
-import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
+import Box from '@material-ui/core/Box'
 import OutlinedInput from '@material-ui/core/OutlinedInput'
 import SearchIcon from '@material-ui/icons/Search'
 
-import CollapseTable from '../../components/CollapseTable'
-import { useExchange } from '../../context/exchange.context'
+import CollapseTable from 'components/CollapseTable'
+import { useExchange } from 'context/exchange.context'
 
 const useStyles = makeStyles((theme) => ({
   inputSearch: {
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const Liquidity = ({ onClickRow }) => {
+const Fee = ({ onClickRow }) => {
   const classes = useStyles()
   const [{ pairs }, { update }] = useExchange()
   const [myPools, setMyPools] = useState([])
@@ -88,8 +88,8 @@ const Liquidity = ({ onClickRow }) => {
   )
 }
 
-Liquidity.propTypes = {
+Fee.propTypes = {
   onClickRow: PropTypes.func
 }
 
-export default Liquidity
+export default Fee

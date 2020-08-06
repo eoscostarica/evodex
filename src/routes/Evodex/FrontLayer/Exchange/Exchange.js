@@ -6,8 +6,8 @@ import Typography from '@material-ui/core/Typography'
 import OutlinedInput from '@material-ui/core/OutlinedInput'
 import SearchIcon from '@material-ui/icons/Search'
 
-import Table from '../../components/Table'
-import { useExchange } from '../../context/exchange.context'
+import Table from 'components/Table'
+import { useExchange } from 'context/exchange.context'
 
 const useStyles = makeStyles((theme) => ({
   inputSearch: {

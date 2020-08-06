@@ -3,24 +3,26 @@ import PropTypes from 'prop-types'
 import Typography from '@material-ui/core/Typography'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { makeStyles, useTheme } from '@material-ui/styles'
-import { Route, Redirect, Switch, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { Backdrop } from '@eoscostarica/eoscr-components'
 import Snackbar from '@material-ui/core/Snackbar'
 import Alert from '@material-ui/lab/Alert'
 
-import { MainContainer } from '../../containers'
-import { evolutiondex } from '../../utils'
-import { ExchangeProvider } from '../../context/exchange.context'
-import Faq from '../FAQ'
-import About from '../About'
+import { MainContainer } from 'containers'
+import { evolutiondex } from 'utils'
+import { ExchangeProvider } from 'context/exchange.context'
 
-import BackLayer from './BackLayers'
+import BackLayer from './BackLayer'
+import FrontLayer from './FrontLayer'
 import Sidebar from './Sidebar'
 import SubMenuTopBar from './SubmenuTopbar'
 import Topbar from './Topbar'
-import Liquidity from './Liquidity'
-import Exchange from './Exchange'
-import Fee from './Fee'
+
+const STATIC_PAGES = [
+  '/evodex/faq',
+  '/evodex/about',
+  '/evodex/ricardian-contract'
+]
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -112,7 +114,7 @@ const Evodex = ({ ual }) => {
   const [openSidebar, setOpenSidebar] = useState(false)
   const [title, setTitle] = useState('Token Listings')
   const [isLightMode, setIsLightMode] = useState(false)
-  const [layerHeight, setLayerHeight] = useState(56)
+  const [layerHeightUp, setLayerHeightUp] = useState(51)
   const [exgangeInfo, setExchangeInfo] = useState(null)
   const [isStaticPage, setIsStaticPage] = useState(false)
   const [message, setMessage] = useState()
@@ -125,24 +127,6 @@ const Evodex = ({ ual }) => {
       backdropRef.current.toggleOnClickMobile()
     }
   }
-  const frontLayer = (
-    <div className={classes.frontLayer}>
-      <Switch>
-        <Route exact path="/evodex/liquidity">
-          <Liquidity onClickRow={handleOnClickRow} />
-        </Route>
-        <Route exact path="/evodex/exchange">
-          <Exchange onClickRow={handleOnClickRow} />
-        </Route>
-        <Route exact path="/evodex/fee">
-          <Fee onClickRow={handleOnClickRow} />
-        </Route>
-        <Route exact path="/evodex/faq" component={Faq} />
-        <Route exact path="/evodex/about" component={About} />
-        <Redirect from="/evodex" to="/evodex/exchange" />
-      </Switch>
-    </div>
-  )
 
   const handleOnReload = async () => {
     const info = await evolutiondex.getInfo(ual)
@@ -159,12 +143,9 @@ const Evodex = ({ ual }) => {
   }, [ual.activeUser])
 
   useEffect(() => {
-    if (
-      location.pathname === '/evodex/faq' ||
-      location.pathname === '/evodex/about'
-    ) {
-      setLayerHeight(220)
-      setTitle('Subtitle')
+    if (STATIC_PAGES.includes(location.pathname)) {
+      setLayerHeightUp(270)
+      setTitle('')
       setIsStaticPage(true)
 
       return
@@ -174,12 +155,12 @@ const Evodex = ({ ual }) => {
 
     if (isMobile) {
       setTitle('Token Listings')
-      setLayerHeight(56)
+      setLayerHeightUp(60)
 
       return
     }
 
-    setLayerHeight(470)
+    setLayerHeightUp(470)
     setTitle('Token Listings')
   }, [isMobile, location.pathname])
 
@@ -243,12 +224,12 @@ const Evodex = ({ ual }) => {
               </Snackbar>
             </>
           }
-          frontLayer={frontLayer}
+          frontLayer={<FrontLayer handleOnClickRow={handleOnClickRow} />}
           headerText={
             <Typography className={classes.labelBackdrop}>{title}</Typography>
           }
           backgroundColor={isLightMode ? '#1976d2' : '#272863'}
-          layerHeight={layerHeight}
+          layerHeightUp={layerHeightUp}
           isStaticPage={isStaticPage}
         />
       </MainContainer>

@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@material-ui/styles'
+import Link from '@material-ui/core/Link'
+import Typography from '@material-ui/core/Typography'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import Divider from '@material-ui/core/Divider'
@@ -14,9 +16,10 @@ import HelpIcon from '@material-ui/icons/Help'
 import GitHubIcon from '@material-ui/icons/GitHub'
 import TwitterIcon from '@material-ui/icons/Twitter'
 import TelegramIcon from '@material-ui/icons/Telegram'
+import DescriptionIcon from '@material-ui/icons/Description'
 
-import MediumIcon from '../../components/Icons/MediumIcon'
-import CustomRouterLink from '../../components/CustomRouterLink'
+import MediumIcon from 'components/Icons/MediumIcon'
+import CustomRouterLink from 'components/CustomRouterLink'
 
 const useStyles = makeStyles((theme) => ({
   nav: {
@@ -64,6 +67,21 @@ const useStyles = makeStyles((theme) => ({
     color: 'rgba(0, 0, 0, 0.6)',
     textTransform: 'uppercase',
     padding: theme.spacing(2)
+  },
+  boxLinks: {
+    display: 'flex',
+    color: theme.palette.primary.dark,
+    justifyContent: 'flex-start',
+    textTransform: 'none',
+    letterSpacing: 0,
+    width: '100%',
+    fontWeight: theme.typography.fontWeightMedium,
+    padding: theme.spacing(1.5, 2),
+    borderRadius: 0,
+    '&:hover': {
+      backgroundColor: 'rgba(33, 33, 33, 0.04)',
+      textDecoration: 'none'
+    }
   }
 }))
 
@@ -97,21 +115,21 @@ const INFO = [
     icon: <HelpIcon />
   },
   {
-    title: 'Github',
-    href: '#',
-    icon: <GitHubIcon />
+    title: 'Ricardian Contract',
+    href: '/evodex/ricardian-contract',
+    icon: <DescriptionIcon />
   }
 ]
 
 const SOCIAL = [
   {
     title: 'Telegram',
-    href: '#',
+    href: 'https://t.me/evodexarg',
     icon: <TelegramIcon />
   },
   {
     title: 'Twitter',
-    href: '#',
+    href: 'https://twitter.com/eosargentina',
     icon: <TwitterIcon />
   }
 ]
@@ -158,32 +176,46 @@ const DashboardSidebarContent = ({
           </Button>
         </ListItem>
       ))}
+      <ListItem className={classes.item} disableGutters>
+        <Link
+          className={classes.boxLinks}
+          href="https://github.com/eoscostarica/evodex"
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => setOpenSidebar(false)}
+        >
+          <div className={classes.icon}>
+            <GitHubIcon />
+          </div>
+          <Typography variant="body1">{t('Github')}</Typography>
+        </Link>
+      </ListItem>
       <Divider className={classes.divider} />
       <span className={classes.title}>Social</span>
       <ListItem className={classes.item} disableGutters>
-        <Button
-          activeClassName={classes.active}
-          className={classes.button}
-          component={CustomRouterLink}
-          to="#"
+        <Link
+          className={classes.boxLinks}
+          href="https://medium.com/eos-argentina"
+          target="_blank"
+          rel="noopener noreferrer"
           onClick={() => setOpenSidebar(false)}
         >
           <MediumIcon classes={classes.icon} color="#0000008a" />
-          {t('Medium')}
-        </Button>
+          <Typography variant="body1">{t('Medium')}</Typography>
+        </Link>
       </ListItem>
       {SOCIAL.map((social) => (
         <ListItem className={classes.item} disableGutters key={social.title}>
-          <Button
-            activeClassName={classes.active}
-            className={classes.button}
-            component={CustomRouterLink}
-            to={social.href}
+          <Link
+            className={classes.boxLinks}
+            href={social.href}
+            target="_blank"
+            rel="noopener noreferrer"
             onClick={() => setOpenSidebar(false)}
           >
             <div className={classes.icon}>{social.icon}</div>
-            {t(social.title)}
-          </Button>
+            <Typography variant="body1">{t(social.title)}</Typography>
+          </Link>
         </ListItem>
       ))}
     </List>

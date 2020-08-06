@@ -11,13 +11,13 @@ import IconButton from '@material-ui/core/IconButton'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import Link from '@material-ui/core/Link'
 
-import { ualConfig } from '../../../config'
-import InputTextAndSelect from '../../../components/InputTextAndSelect'
-import EvodexRocketSvg from '../../../components/Icons/EvodexRocket'
-import Button from '../../../components/Button'
-import CollapseSection from '../../../components/CollapseSection'
-import { useExchange } from '../../../context/exchange.context'
-import { evolutiondex } from '../../../utils'
+import { ualConfig } from 'config'
+import InputTextAndSelect from 'components/InputTextAndSelect'
+import EvodexRocketSvg from 'components/Icons/EvodexRocket'
+import Button from 'components/Button'
+import CollapseSection from 'components/CollapseSection'
+import { useExchange } from 'context/exchange.context'
+import { evolutiondex } from 'utils'
 
 const useStyles = makeStyles((theme) => ({
   exchangeRoot: {
@@ -28,9 +28,7 @@ const useStyles = makeStyles((theme) => ({
       paddingRight: theme.spacing(4)
     },
     [theme.breakpoints.up('lg')]: {
-      marginTop: theme.spacing(13),
-      paddingRight: theme.spacing(32),
-      paddingLeft: theme.spacing(32)
+      marginTop: theme.spacing(13)
     }
   },
   titleBox: {

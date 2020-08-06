@@ -9,7 +9,7 @@ import LogoutIcon from '@material-ui/icons/ExitToApp'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 
-import LanguageSelector from '../../components/LanguageSelector'
+import LanguageSelector from 'components/LanguageSelector'
 
 const useStyles = makeStyles((theme) => ({
   sessionText: {

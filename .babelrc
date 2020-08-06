@@ -1,3 +1,19 @@
 {
-  "plugins": ["@babel/plugin-proposal-optional-chaining"]
+  "plugins": [
+    "@babel/plugin-proposal-optional-chaining",
+    [
+      "module-resolver",
+      {
+        "root": ["./src"],
+        "alias": {
+          "components": "./src/components",
+          "config": "./src/config",
+          "containers": "./src/containers",
+          "language": "./src/language",
+          "utils": "./src/utils",
+          "context": "./src/context"
+        }
+      }
+    ]
+  ]
 }
