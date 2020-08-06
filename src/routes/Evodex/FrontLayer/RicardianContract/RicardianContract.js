@@ -10,6 +10,10 @@ const useStyles = makeStyles((theme) => ({
     height: '95vh',
     overflow: 'scroll',
     padding: theme.spacing(2, 1, 0, 1),
+    '& h3': {
+      fontSize: '30px !important',
+      fontWeight: 'normal'
+    },
     '& img': {
       width: '30px !important'
     },
@@ -21,6 +25,10 @@ const useStyles = makeStyles((theme) => ({
       lineBreak: 'anywhere'
     },
     [theme.breakpoints.up('sm')]: {
+      '& h3': {
+        fontSize: '50px !important',
+        fontWeight: 'normal'
+      },
       '& img': {
         width: '40px !important'
       },
