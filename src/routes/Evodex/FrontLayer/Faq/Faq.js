@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/styles'
+import { useTranslation } from 'react-i18next'
 import Box from '@material-ui/core/Box'
 import ReactMarkdown from 'react-markdown'
 
-import FaqContent from './Faq.md'
+import getMarkdownByLanguage from 'utils/getMarkdownByLanguage'
 
 const useStyles = makeStyles((theme) => ({
   faqRoot: {
@@ -22,16 +23,21 @@ const useStyles = makeStyles((theme) => ({
 const Faq = () => {
   const classes = useStyles()
   const [content, setContent] = useState(null)
+  const { i18n } = useTranslation()
 
   useEffect(() => {
     const getContent = async () => {
-      fetch(FaqContent)
+      const contentMD = getMarkdownByLanguage(
+        `${(i18n.language || '').toLocaleLowerCase().substring(0, 2)}/faq`
+      )
+
+      fetch(contentMD)
         .then((res) => res.text())
         .then((text) => setContent(text))
     }
 
     getContent()
-  }, [])
+  }, [i18n.language])
 
   return (
     <Box className={classes.faqRoot}>

@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme) => ({
   feeRoot: {
     marginTop: theme.spacing(7),
     padding: theme.spacing(3, 1, 0, 1),
+    [`${theme.breakpoints.down('sm')} and (orientation: landscape)`]: {
+      marginTop: theme.spacing(4)
+    },
     [theme.breakpoints.up('md')]: {
       paddingLeft: theme.spacing(4),
       paddingRight: theme.spacing(4)
@@ -39,6 +42,21 @@ const useStyles = makeStyles((theme) => ({
       letterSpacing: '0.2px',
       color: 'rgba(255, 255, 255, 0.6)',
       fontWeight: 400
+    },
+    [`${theme.breakpoints.down('sm')} and (orientation: landscape)`]: {
+      width: '70% !important',
+      '& h4': {
+        fontSize: '33px !important',
+        letterSpacing: '-0.49px !important',
+        color: '#ffffff',
+        fontWeight: 'bold'
+      },
+      '& p': {
+        fontSize: '16.2px !important',
+        letterSpacing: '0.2px !important',
+        color: 'rgba(255, 255, 255, 0.6)',
+        fontWeight: 400
+      }
     },
     [theme.breakpoints.up('sm')]: {
       width: '100%',
@@ -90,6 +108,9 @@ const useStyles = makeStyles((theme) => ({
     '& button': {
       width: 162,
       height: 36
+    },
+    [`${theme.breakpoints.down('sm')} and (orientation: landscape)`]: {
+      paddingTop: theme.spacing(1)
     },
     [theme.breakpoints.up('md')]: {
       width: 500

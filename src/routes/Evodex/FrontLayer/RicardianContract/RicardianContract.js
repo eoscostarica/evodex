@@ -7,8 +7,7 @@ import { RicardianContract } from '@eoscostarica/eoscr-components'
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
-    height: '95vh',
-    overflow: 'scroll',
+    overflow: 'hidden',
     padding: theme.spacing(2, 1, 0, 1),
     '& h3': {
       fontSize: '30px !important',
