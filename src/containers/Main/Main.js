@@ -12,7 +12,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 
-import EvodexLogo from '../../components/Icons/EvodexLogo'
+import EvodexLogo from 'components/Icons/EvodexLogo'
 
 const useStyles = makeStyles((theme) => ({
   root: {

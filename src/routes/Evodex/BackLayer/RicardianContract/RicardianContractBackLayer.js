@@ -9,6 +9,9 @@ const useStyles = makeStyles((theme) => ({
   ricardianContractRoot: {
     marginTop: theme.spacing(7),
     padding: theme.spacing(3, 1, 0, 1),
+    [`${theme.breakpoints.down('sm')} and (orientation: landscape)`]: {
+      marginTop: theme.spacing(4)
+    },
     [theme.breakpoints.up('md')]: {
       paddingLeft: theme.spacing(4),
       paddingRight: theme.spacing(4)
@@ -23,7 +26,17 @@ const useStyles = makeStyles((theme) => ({
     '& h4': {
       fontSize: 33,
       letterSpacing: '-0.49px',
-      color: '#ffffff'
+      color: '#ffffff',
+      fontWeight: 'bold'
+    },
+    [`${theme.breakpoints.down('sm')} and (orientation: landscape)`]: {
+      width: '70% !important',
+      '& h4': {
+        fontSize: '33px !important',
+        letterSpacing: '-0.49px !important',
+        color: '#ffffff',
+        fontWeight: 'bold'
+      }
     },
     [theme.breakpoints.up('sm')]: {
       width: '100%',

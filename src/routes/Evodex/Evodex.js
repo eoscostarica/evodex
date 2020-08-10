@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   backdrop: {
     position: 'relative',
     width: '100vw',
-    height: 'calc(100vh - 64px)',
+    height: '100vh',
     overflowY: 'hidden',
     [theme.breakpoints.up('sm')]: {
       height: '100vh'
@@ -44,8 +44,8 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   backLayer: {
-    overflowY: 'auto',
-    paddingBottom: 10
+    overflowY: 'auto'
+    // marginBottom: 10
   },
   headerBox: {
     [theme.breakpoints.up('lg')]: {
@@ -77,16 +77,18 @@ const useStyles = makeStyles((theme) => ({
     borderStyle: 'solid',
     borderImage:
       'linear-gradient( to bottom, #0837c1, rgba(0, 0, 0, 0)) 1 100%',
-    borderBottomWidth: 0
+    borderBottomWidth: 0,
+    overflowX: 'hidden'
   },
   rootDark: {
     background:
       'linear-gradient(180deg, rgba(35, 43, 85, 0.9822303921568627) 2%, rgba(39,40,99,1) 31%, rgba(39,40,99,1) 100%)',
     borderWidth: 2,
     borderStyle: 'solid',
-    borderImage:
-      'linear-gradient( to bottom, #272863, rgba(0, 0, 0, 0)) 1 100%',
-    borderBottomWidth: 0
+    // borderImage:
+    //   'linear-gradient( to bottom, #272863, rgba(0, 0, 0, 0)) 1 100%',
+    borderBottomWidth: 0,
+    overflowX: 'hidden'
   },
   labelBackdrop: {
     fontSize: 20.2,
@@ -108,9 +110,10 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Evodex = ({ ual }) => {
+  const theme = useTheme()
   const classes = useStyles()
   const location = useLocation()
-  const theme = useTheme()
+  const backdropRef = useRef()
   const [openSidebar, setOpenSidebar] = useState(false)
   const [title, setTitle] = useState('Token Listings')
   const [isLightMode, setIsLightMode] = useState(false)
@@ -118,10 +121,13 @@ const Evodex = ({ ual }) => {
   const [exgangeInfo, setExchangeInfo] = useState(null)
   const [isStaticPage, setIsStaticPage] = useState(false)
   const [message, setMessage] = useState()
-  const backdropRef = useRef()
+  const isLandscape = useMediaQuery('(orientation: landscape)')
   const isMobile = useMediaQuery(theme.breakpoints.down('xs'), {
     defaultMatches: true
   })
+
+  const height = window.innerHeight
+
   const handleOnClickRow = () => {
     if (backdropRef?.current?.toggleOnClickMobile) {
       backdropRef.current.toggleOnClickMobile()
@@ -144,7 +150,7 @@ const Evodex = ({ ual }) => {
 
   useEffect(() => {
     if (STATIC_PAGES.includes(location.pathname)) {
-      setLayerHeightUp(270)
+      setLayerHeightUp(isLandscape && height < 450 ? 150 : 270)
       setTitle('')
       setIsStaticPage(true)
 
@@ -160,9 +166,9 @@ const Evodex = ({ ual }) => {
       return
     }
 
-    setLayerHeightUp(470)
+    setLayerHeightUp(isLandscape && height < 450 ? 80 : 470)
     setTitle('Token Listings')
-  }, [isMobile, location.pathname])
+  }, [isMobile, location.pathname, isLandscape, height])
 
   return (
     <ExchangeProvider info={exgangeInfo}>
@@ -196,7 +202,7 @@ const Evodex = ({ ual }) => {
             root: isLightMode ? classes.rootLight : classes.rootDark,
             backLayer: classes.backLayer,
             headerBox:
-              isStaticPage || isMobile
+              isStaticPage || isMobile || (isLandscape && height < 450)
                 ? classes.headerBox
                 : classes.headerBoxNone
           }}

@@ -13,6 +13,9 @@ const useStyles = makeStyles((theme) => ({
   inputSearch: {
     height: 48,
     width: '100%',
+    [`${theme.breakpoints.down('sm')} and (orientation: landscape)`]: {
+      width: '100% !important'
+    },
     [theme.breakpoints.up('sm')]: {
       width: 275
     },
@@ -26,12 +29,19 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: '0.25px',
     color: 'rgba(0, 0, 0, 0.6)',
     display: 'none',
+    [`${theme.breakpoints.down('sm')} and (orientation: landscape)`]: {
+      display: 'none !important'
+    },
     [theme.breakpoints.up('sm')]: {
       display: 'block'
     }
   },
   headerFrontLayer: {
     display: 'flex',
+    [`${theme.breakpoints.down('sm')} and (orientation: landscape)`]: {
+      justifyContent: 'space-between',
+      alignItems: 'center'
+    },
     [theme.breakpoints.up('sm')]: {
       justifyContent: 'space-between',
       alignItems: 'center'
