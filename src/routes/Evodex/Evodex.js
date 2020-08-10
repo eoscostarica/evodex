@@ -45,7 +45,6 @@ const useStyles = makeStyles((theme) => ({
   },
   backLayer: {
     overflowY: 'auto'
-    // marginBottom: 10
   },
   headerBox: {
     [theme.breakpoints.up('lg')]: {
@@ -85,8 +84,8 @@ const useStyles = makeStyles((theme) => ({
       'linear-gradient(180deg, rgba(35, 43, 85, 0.9822303921568627) 2%, rgba(39,40,99,1) 31%, rgba(39,40,99,1) 100%)',
     borderWidth: 2,
     borderStyle: 'solid',
-    // borderImage:
-    //   'linear-gradient( to bottom, #272863, rgba(0, 0, 0, 0)) 1 100%',
+    borderImage:
+      'linear-gradient( to bottom, #272863, rgba(0, 0, 0, 0)) 1 100%',
     borderBottomWidth: 0,
     overflowX: 'hidden'
   },
