@@ -69,7 +69,7 @@ const FaqBackLayer = () => {
     <Box className={classes.faqBackLayerRoot}>
       <EvodexRocketSvg classes={classes.rocketSvg} />
       <Box className={classes.titleBox}>
-        <Typography variant="h4">Frequently Asked Questions</Typography>
+        <Typography variant="h4">FAQs</Typography>
       </Box>
     </Box>
   )
