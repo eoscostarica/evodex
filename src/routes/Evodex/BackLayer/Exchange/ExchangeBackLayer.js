@@ -372,7 +372,7 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
         <Box className={classes.infoBox}>
           <Box className={classes.infoBoxWrapper}>
             <Typography variant="body1" className={classes.textInfo}>
-              <strong>{`${t('Rate')}: `}</strong>
+              <strong>{`${t('rate')}: `}</strong>
               {assets && (
                 <span>
                   {assets.assetToGive.toString()} ={' '}
