@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@material-ui/styles'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
@@ -156,6 +157,7 @@ const useStyles = makeStyles((theme) => ({
 
 const LiquidityBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
   const classes = useStyles()
+  const { t } = useTranslation('liquidity')
   const [{ pairs, currentPair }] = useExchange()
   const [pair, setPair] = useState()
   const [toBuy, setToBuy] = useState()
@@ -170,14 +172,14 @@ const LiquidityBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
 
   const handleOnAddLiquidity = async () => {
     if (!ual.activeUser) {
-      showMessage({ type: 'warning', content: 'Please login to continue' })
+      showMessage({ type: 'warning', content: t('noUser') })
       return
     }
 
     if (!pair) {
       showMessage({
         type: 'warning',
-        content: 'Please select a token to continue'
+        content: t('noTokenSelected')
       })
       return
     }
@@ -185,7 +187,7 @@ const LiquidityBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
     if (!youGive.inputValue) {
       showMessage({
         type: 'warning',
-        content: 'Please enter the amount to add'
+        content: t('noAmount')
       })
       return
     }
@@ -228,14 +230,14 @@ const LiquidityBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
 
   const handleOnRemoveLiquidity = async () => {
     if (!ual.activeUser) {
-      showMessage({ type: 'warning', content: 'Please login to continue' })
+      showMessage({ type: 'warning', content: t('noUser') })
       return
     }
 
     if (!pair) {
       showMessage({
         type: 'warning',
-        content: 'Please select a token to continue'
+        content: t('noTokenSelected')
       })
       return
     }
@@ -243,7 +245,7 @@ const LiquidityBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
     if (!youGive.inputValue) {
       showMessage({
         type: 'warning',
-        content: 'Please enter the amount to remove'
+        content: t('noAmountRemove')
       })
       return
     }
@@ -261,7 +263,7 @@ const LiquidityBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
         type: 'success',
         content: (
           <span>
-            Success transaction:{' '}
+            {`${t('successTransaction')}: `}
             <Link
               href={`${ualConfig.blockExplorerUrl}/transaction/${transactionId}`}
               target="_blank"
@@ -315,11 +317,8 @@ const LiquidityBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
     <Box className={classes.liquidityRoot}>
       <EvodexRocketSvg classes={classes.rocketSvg} />
       <Box className={classes.titleBox}>
-        <Typography variant="h4">Add or Remove Liquidity</Typography>
-        <Typography variant="body1">
-          Select a token pair and the amount you want to add or remove to the
-          liquidity pool.
-        </Typography>
+        <Typography variant="h4">{t('title')}</Typography>
+        <Typography variant="body1">{t('description')}</Typography>
       </Box>
       <Box className={classes.contentWrapper}>
         <Box className={classes.inputBox}>
@@ -329,10 +328,12 @@ const LiquidityBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
               label: pair.token
             }))}
             id="liquidityYouGive"
-            label="You Give"
+            label={t('inputLabel')}
             helperText={
               pair
-                ? `${pair.balance ? pair.balance.toString() : 0} available`
+                ? `${pair.balance ? pair.balance.toString() : 0} ${t(
+                    'available'
+                  )}`
                 : ''
             }
             onChange={handleOnChange}
@@ -342,30 +343,34 @@ const LiquidityBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
         {pair && (
           <Box className={classes.rateFeeBox}>
             <Typography variant="body1">
-              <strong>Add: </strong>
+              <strong>{`${t('add')}: `}</strong>
               {toBuy && (
                 <span>
-                  {toBuy.asset1.toString()} and {toBuy.asset2.toString()}
+                  {`${toBuy.asset1.toString()} ${t(
+                    'and'
+                  )} ${toBuy.asset2.toString()}`}
                 </span>
               )}
             </Typography>
             <Typography variant="body1">
-              <strong>Fee:</strong> {Number(pair.fee) / 100}%
+              <strong>{`${t('fee')}:`}</strong> {Number(pair.fee) / 100}%
             </Typography>
           </Box>
         )}
         {pair && (
           <Box className={classes.rateFeeBox}>
             <Typography variant="body1">
-              <strong>Remove: </strong>
+              <strong>{`${t('remove')}: `}</strong>
               {toSell && (
                 <span>
-                  {toSell.asset1.toString()} and {toSell.asset2.toString()}
+                  {`${toSell.asset1.toString()} ${t(
+                    'and'
+                  )} ${toSell.asset2.toString()}`}
                 </span>
               )}
             </Typography>
             <Typography variant="body1">
-              <strong>Fee:</strong> 0%
+              <strong>{`${t('fee')}:`}</strong> 0%
             </Typography>
           </Box>
         )}
@@ -376,7 +381,7 @@ const LiquidityBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
             variant="contained"
             startIcon={<AddIcon />}
           >
-            ADD
+            {t('add').toLocaleUpperCase()}
           </Button>
           {loading && (
             <LinearProgress className={classes.loading} color="secondary" />
@@ -387,7 +392,7 @@ const LiquidityBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
             variant="contained"
             startIcon={<RemoveIcon />}
           >
-            REMOVE
+            {t('remove').toLocaleUpperCase()}
           </Button>
         </Box>
       </Box>

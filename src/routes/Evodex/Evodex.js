@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef, memo } from 'react'
 import PropTypes from 'prop-types'
 import Typography from '@material-ui/core/Typography'
+import { useTranslation } from 'react-i18next'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { makeStyles, useTheme } from '@material-ui/styles'
 import { useLocation } from 'react-router-dom'
@@ -109,12 +110,13 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Evodex = ({ ual }) => {
+  const { t, i18n } = useTranslation('translations')
   const theme = useTheme()
   const classes = useStyles()
   const location = useLocation()
   const backdropRef = useRef()
   const [openSidebar, setOpenSidebar] = useState(false)
-  const [title, setTitle] = useState('Token Listings')
+  const [title, setTitle] = useState('headerTitle')
   const [isLightMode, setIsLightMode] = useState(false)
   const [layerHeightUp, setLayerHeightUp] = useState(51)
   const [exgangeInfo, setExchangeInfo] = useState(null)
@@ -159,15 +161,23 @@ const Evodex = ({ ual }) => {
     setIsStaticPage(false)
 
     if (isMobile) {
-      setTitle('Token Listings')
+      setTitle('headerTitle')
       setLayerHeightUp(60)
 
       return
     }
 
     setLayerHeightUp(isLandscape && height < 450 ? 80 : 470)
-    setTitle('Token Listings')
+    setTitle('headerTitle')
   }, [isMobile, location.pathname, isLandscape, height])
+
+  useEffect(() => {
+    if (STATIC_PAGES.includes(location.pathname)) {
+      setTitle('')
+    } else {
+      setTitle('headerTitle')
+    }
+  }, [i18n.language, location.pathname])
 
   return (
     <ExchangeProvider info={exgangeInfo}>
@@ -231,7 +241,9 @@ const Evodex = ({ ual }) => {
           }
           frontLayer={<FrontLayer handleOnClickRow={handleOnClickRow} />}
           headerText={
-            <Typography className={classes.labelBackdrop}>{title}</Typography>
+            <Typography className={classes.labelBackdrop}>
+              {t(title)}
+            </Typography>
           }
           backgroundColor={isLightMode ? '#1976d2' : '#272863'}
           layerHeightUp={layerHeightUp}

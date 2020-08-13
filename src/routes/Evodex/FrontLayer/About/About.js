@@ -10,7 +10,11 @@ const useStyles = makeStyles((theme) => ({
   aboutRoot: {
     display: 'flex',
     flexDirection: 'column',
-    height: '100vh'
+    height: '100vh',
+    paddingBottom: theme.spacing(3),
+    '& h2': {
+      marginBottom: 0
+    }
   }
 }))
 

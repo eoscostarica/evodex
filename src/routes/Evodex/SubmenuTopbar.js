@@ -17,27 +17,27 @@ import MediumIcon from 'components/Icons/MediumIcon'
 
 const TOOLS = [
   {
-    title: 'EXCHANGE',
+    title: 'exchange',
     href: '/evodex/exchange'
   },
   {
-    title: 'LIQUIDITY',
+    title: 'liquidity',
     href: '/evodex/liquidity'
   },
   {
-    title: 'VOTE FEE',
+    title: 'voteFee',
     href: '/evodex/fee'
   },
   {
-    title: 'ABOUT',
+    title: 'about',
     href: '/evodex/about'
   },
   {
-    title: 'FAQ',
+    title: 'faq',
     href: '/evodex/faq'
   },
   {
-    title: 'CONTRACTS',
+    title: 'contracts',
     href: '/evodex/ricardian-contract'
   }
 ]
@@ -127,7 +127,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Submenu = ({ pathname }) => {
   const classes = useStyles()
-  const { t } = useTranslation('translations')
+  const { t } = useTranslation('subMenu')
 
   return (
     <Box className={classes.box}>
@@ -145,7 +145,7 @@ const Submenu = ({ pathname }) => {
               component={CustomRouterLink}
               to={tool.href}
             >
-              {t(tool.title)}
+              {t(tool.title).toLocaleUpperCase()}
             </Button>
           </ListItem>
         ))}

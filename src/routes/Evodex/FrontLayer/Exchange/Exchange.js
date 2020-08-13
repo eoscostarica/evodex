@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@material-ui/styles'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
@@ -51,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Exchange = ({ onClickRow }) => {
   const classes = useStyles()
+  const { t } = useTranslation('exchange')
   const [{ pairs }, { update }] = useExchange()
   const [options, setOptions] = useState([])
   const [filter, setFilter] = useState('')
@@ -77,7 +79,9 @@ const Exchange = ({ onClickRow }) => {
   return (
     <Box>
       <Box className={classes.headerFrontLayer}>
-        <Typography className={classes.labelPage}>Token Listings</Typography>
+        <Typography className={classes.labelPage}>
+          {t('headerTitle')}
+        </Typography>
         <OutlinedInput
           id="outlined-adornment-amount"
           startAdornment={<SearchIcon />}
@@ -87,7 +91,7 @@ const Exchange = ({ onClickRow }) => {
         />
       </Box>
       {options?.length > 0 && <Table data={options} onClick={handleOnClick} />}
-      {options?.length === 0 && <Typography>Empty</Typography>}
+      {options?.length === 0 && <Typography>{t('empty')}</Typography>}
     </Box>
   )
 }

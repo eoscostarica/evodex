@@ -1,5 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/styles'
+import { useTranslation } from 'react-i18next'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 
@@ -64,12 +65,13 @@ const useStyles = makeStyles((theme) => ({
 
 const FaqBackLayer = () => {
   const classes = useStyles()
+  const { t } = useTranslation('faq')
 
   return (
     <Box className={classes.faqBackLayerRoot}>
       <EvodexRocketSvg classes={classes.rocketSvg} />
       <Box className={classes.titleBox}>
-        <Typography variant="h4">FAQs</Typography>
+        <Typography variant="h4">{t('title')}</Typography>
       </Box>
     </Box>
   )
