@@ -1,5 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/styles'
+import { useTranslation } from 'react-i18next'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
@@ -24,19 +25,15 @@ const useStyles = makeStyles((theme) => ({
 
 const NotFound = (props) => {
   const classes = useStyles()
+  const { t } = useTranslation('notFound')
 
   return (
     <div className={classes.root}>
       <Grid container spacing={4}>
         <Grid item xs={12} className={classes.content}>
           <div className={classes.centerText}>
-            <Typography variant="h1">
-              404: The page you are looking for isn’t here
-            </Typography>
-            <Typography variant="subtitle2">
-              You either tried some shady route or you came here by mistake.
-              Whichever it is, try using the navigation
-            </Typography>
+            <Typography variant="h1">{t('primaryMessage')}</Typography>
+            <Typography variant="subtitle2">{t('secondaryMessage')}</Typography>
             <Button
               variant="contained"
               color="primary"
@@ -44,7 +41,7 @@ const NotFound = (props) => {
               component={CustomRouterLink}
               to="/"
             >
-              Take me home
+              {t('buttonLabel')}
             </Button>
           </div>
         </Grid>

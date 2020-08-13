@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
+import { useTranslation } from 'react-i18next'
 import { makeStyles, useTheme } from '@material-ui/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Box from '@material-ui/core/Box'
@@ -175,6 +176,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
+  const { t } = useTranslation('exchange')
   const classes = useStyles()
   const theme = useTheme()
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'), {
@@ -220,14 +222,14 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
 
   const handleOnExchange = async () => {
     if (!ual.activeUser) {
-      showMessage({ type: 'warning', content: 'Please login to continue' })
+      showMessage({ type: 'warning', content: t('noUser') })
       return
     }
 
     if (!pair) {
       showMessage({
         type: 'warning',
-        content: 'Please select both tokens to continue'
+        content: t('noTokenSelected')
       })
       return
     }
@@ -235,7 +237,7 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
     if (!youGive.inputValue) {
       showMessage({
         type: 'warning',
-        content: 'Please enter the amount to give to continue'
+        content: t('noAmount')
       })
       return
     }
@@ -252,7 +254,7 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
         type: 'success',
         content: (
           <span>
-            Success transaction:{' '}
+            {`${t('successTransaction')}: `}
             <Link
               href={`${ualConfig.blockExplorerUrl}/transaction/${transactionId}`}
               target="_blank"
@@ -343,15 +345,13 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
     <Box className={classes.exchangeRoot}>
       <EvodexRocketSvg classes={classes.rocketSvg} />
       <Box className={classes.titleBox}>
-        <Typography variant="h4">Exchange Has Evolved</Typography>
-        <Typography variant="body1">
-          A truly decentralized exchange where you decide your pool fee!
-        </Typography>
+        <Typography variant="h4">{t('title')}</Typography>
+        <Typography variant="body1">{t('description')}</Typography>
       </Box>
       <Box className={classes.inputBox}>
         <InputTextAndSelect
           id="exchangeYouGive"
-          label="You Give"
+          label={t('youGive')}
           options={options.youGive}
           onChange={handleOnChange('youGive')}
           value={youGive}
@@ -361,7 +361,7 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
         </IconButton>
         <InputTextAndSelect
           id="exchangeYouReceive"
-          label="You Receive"
+          label={t('youReceive')}
           options={options.youReceive}
           onChange={handleOnChange('youReceive')}
           value={youReceive}
@@ -372,7 +372,7 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
         <Box className={classes.infoBox}>
           <Box className={classes.infoBoxWrapper}>
             <Typography variant="body1" className={classes.textInfo}>
-              <strong>Rate: </strong>
+              <strong>{`${t('Rate')}: `}</strong>
               {assets && (
                 <span>
                   {assets.assetToGive.toString()} ={' '}
@@ -381,7 +381,7 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
               )}
             </Typography>
             <Typography variant="body1" className={classes.textInfo}>
-              <strong>Fee:</strong> {Number(pair.fee) / 100}%
+              <strong>{`${t('fee')}:`}</strong> {Number(pair.fee) / 100}%
             </Typography>
           </Box>
           <Box className={classes.infoBoxWrapper}>
@@ -393,7 +393,7 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
                   classes.textWithDescription
                 ])}
               >
-                <strong>Pair Supply: </strong>
+                <strong>{`${t('pairSupply')}: `}</strong>
                 <span>{pair.supply.toString()}</span>
               </Typography>
               <Typography
@@ -403,7 +403,7 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
                   classes.textWithDescription
                 ])}
               >
-                <strong>Estimated Price: </strong>
+                <strong>{`${t('estimatedPrice')}: `}</strong>
                 <span>{assets && assets.price}</span>
               </Typography>
               <Typography
@@ -451,7 +451,7 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
           isLightMode={isLightMode}
           onClick={handleOnExchange}
         >
-          EXCHANGE
+          {t('btnLable').toLocaleUpperCase()}
         </Button>
       </Box>
     </Box>

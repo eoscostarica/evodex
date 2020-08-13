@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@material-ui/styles'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
@@ -51,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Fee = ({ onClickRow }) => {
   const classes = useStyles()
+  const { t } = useTranslation('fee')
   const [{ pairs }, { update }] = useExchange()
   const [myPools, setMyPools] = useState([])
   const [communityPools, setCommunityPools] = useState([])
@@ -79,7 +81,9 @@ const Fee = ({ onClickRow }) => {
   return (
     <Box>
       <Box className={classes.headerFrontLayer}>
-        <Typography className={classes.labelPage}>Token Listings</Typography>
+        <Typography className={classes.labelPage}>
+          {t('headerTitle')}
+        </Typography>
         <OutlinedInput
           id="outlined-adornment-amount"
           startAdornment={<SearchIcon />}
@@ -88,10 +92,14 @@ const Fee = ({ onClickRow }) => {
           value={filter}
         />
       </Box>
-      <CollapseTable data={myPools} label="My Pool" onClick={handleOnClick} />
+      <CollapseTable
+        data={myPools}
+        label={t('tableLabelMyPool')}
+        onClick={handleOnClick}
+      />
       <CollapseTable
         data={communityPools}
-        label="Community Pool"
+        label={t('tableLabelCommunity')}
         onClick={handleOnClick}
       />
     </Box>

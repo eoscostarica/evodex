@@ -11,11 +11,12 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     height: '100vh',
-    '& blockquote': {
-      margin: 0,
-      '& h2': {
-        marginBottom: 0
-      }
+    paddingBottom: theme.spacing(2),
+    '& h2': {
+      margin: theme.spacing(1, 0)
+    },
+    '& p': {
+      margin: 0
     }
   }
 }))
@@ -28,7 +29,7 @@ const Faq = () => {
   useEffect(() => {
     const getContent = async () => {
       const contentMD = getMarkdownByLanguage(
-        `${(i18n.language || '').toLocaleLowerCase().substring(0, 2)}/faq`
+        `${(i18n.language || 'en').toLocaleLowerCase().substring(0, 2)}/faq`
       )
 
       fetch(contentMD)

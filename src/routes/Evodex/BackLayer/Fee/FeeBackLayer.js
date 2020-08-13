@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
+import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@material-ui/styles'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
@@ -157,6 +158,7 @@ const useStyles = makeStyles((theme) => ({
 
 const FeeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
   const classes = useStyles()
+  const { t } = useTranslation('fee')
   const [{ pairs, currentPair }] = useExchange()
   const [pair, setPair] = useState()
   const [yourVote, setYourVote] = useState({})
@@ -171,14 +173,14 @@ const FeeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
 
   const handleOnVote = async () => {
     if (!ual.activeUser) {
-      showMessage({ type: 'warning', content: 'Please login to continue' })
+      showMessage({ type: 'warning', content: t('noUser') })
       return
     }
 
     if (!pair) {
       showMessage({
         type: 'warning',
-        content: 'Please select a token to continue'
+        content: t('noTokenSelected')
       })
       return
     }
@@ -186,7 +188,7 @@ const FeeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
     if (!yourVote.inputValue) {
       showMessage({
         type: 'warning',
-        content: 'Please enter your vote'
+        content: t('noVote')
       })
       return
     }
@@ -204,7 +206,7 @@ const FeeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
         type: 'success',
         content: (
           <span>
-            Success transaction:{' '}
+            {`${t('successTransaction')}: `}
             <Link
               href={`${ualConfig.blockExplorerUrl}/transaction/${transactionId}`}
               target="_blank"
@@ -246,11 +248,8 @@ const FeeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
     <Box className={classes.feeRoot}>
       <EvodexRocketSvg classes={classes.rocketSvg} />
       <Box className={classes.titleBox}>
-        <Typography variant="h4">Vote Your Fee</Typography>
-        <Typography variant="body1">
-          Select a Token Pair and the fee you want to vote for the liquidity
-          pool.
-        </Typography>
+        <Typography variant="h4">{t('title')}</Typography>
+        <Typography variant="body1">{t('description')}</Typography>
       </Box>
       <Box className={classes.contentWrapper}>
         <Box className={classes.inputBox}>
@@ -260,7 +259,7 @@ const FeeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
               label: pair.token
             }))}
             id="feeYouVote"
-            label="Vote"
+            label={t('inputLabel')}
             onChange={handleOnChange}
             value={yourVote}
           />
@@ -268,10 +267,10 @@ const FeeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
         {pair && (
           <Box className={classes.rateFeeBox}>
             <Typography variant="body1">
-              <strong>Supply:</strong> {pair.supply.toString()}
+              <strong>{`${t('supply')}:`}</strong> {pair.supply.toString()}
             </Typography>
             <Typography variant="body1">
-              <strong>Fee:</strong> {Number(pair.fee) / 100}%
+              <strong>{`${t('fee')}:`}</strong> {Number(pair.fee) / 100}%
             </Typography>
           </Box>
         )}
@@ -284,7 +283,7 @@ const FeeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
             variant="contained"
             isLightMode={isLightMode}
           >
-            VOTE
+            {t('inputLabel').toLocaleUpperCase()}
           </Button>
         </Box>
       </Box>

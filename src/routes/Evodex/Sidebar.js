@@ -87,17 +87,17 @@ const useStyles = makeStyles((theme) => ({
 
 const TOOLS = [
   {
-    title: 'Exchange Tokens',
+    title: 'exchange',
     href: '/evodex/exchange',
     icon: <ImportExportIcon />
   },
   {
-    title: 'Add or Remove Liquidity',
+    title: 'liquidity',
     href: '/evodex/liquidity',
     icon: <InvertColorsIcon />
   },
   {
-    title: 'Fee',
+    title: 'voteFee',
     href: '/evodex/fee',
     icon: <ThumbUpAltIcon />
   }
@@ -105,17 +105,17 @@ const TOOLS = [
 
 const INFO = [
   {
-    title: 'About EvoDex',
+    title: 'about',
     href: '/evodex/about',
     icon: <InfoIcon />
   },
   {
-    title: 'FAQs',
+    title: 'faq',
     href: '/evodex/faq',
     icon: <HelpIcon />
   },
   {
-    title: 'Ricardian Contract',
+    title: 'contracts',
     href: '/evodex/ricardian-contract',
     icon: <DescriptionIcon />
   }
@@ -141,11 +141,11 @@ const DashboardSidebarContent = ({
   setOpenSidebar
 }) => {
   const classes = useStyles()
-  const { t } = useTranslation('translations')
+  const { t } = useTranslation('sidebar')
 
   return (
     <List className={classes.nav}>
-      <span className={classes.title}>Tools</span>
+      <span className={classes.title}>{t('tool')}</span>
       {TOOLS.map((tool) => (
         <ListItem className={classes.item} disableGutters key={tool.title}>
           <Button
@@ -161,7 +161,7 @@ const DashboardSidebarContent = ({
         </ListItem>
       ))}
       <Divider className={classes.divider} />
-      <span className={classes.title}>Information</span>
+      <span className={classes.title}>{t('information')}</span>
       {INFO.map((info) => (
         <ListItem className={classes.item} disableGutters key={info.title}>
           <Button
@@ -187,11 +187,11 @@ const DashboardSidebarContent = ({
           <div className={classes.icon}>
             <GitHubIcon />
           </div>
-          <Typography variant="body1">{t('Github')}</Typography>
+          <Typography variant="body1">Github</Typography>
         </Link>
       </ListItem>
       <Divider className={classes.divider} />
-      <span className={classes.title}>Social</span>
+      <span className={classes.title}>{t('social')}</span>
       <ListItem className={classes.item} disableGutters>
         <Link
           className={classes.boxLinks}
@@ -201,7 +201,7 @@ const DashboardSidebarContent = ({
           onClick={() => setOpenSidebar(false)}
         >
           <MediumIcon classes={classes.icon} color="#0000008a" />
-          <Typography variant="body1">{t('Medium')}</Typography>
+          <Typography variant="body1">Medium</Typography>
         </Link>
       </ListItem>
       {SOCIAL.map((social) => (
