@@ -451,7 +451,7 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
           isLightMode={isLightMode}
           onClick={handleOnExchange}
         >
-          {t('btnLable').toLocaleUpperCase()}
+          {t('btnLabel').toLocaleUpperCase()}
         </Button>
       </Box>
     </Box>
