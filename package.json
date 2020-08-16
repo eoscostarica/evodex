@@ -1,6 +1,6 @@
 {
-  "name": "evodex",
-  "homepage": "/evodex",
+  "name": "evodex", 
+  "homepage": ".",
   "description": "A web interface that will provide access to liquidity amongst all exchanges that connect to Evolution DEX",
   "author": "EOS Costa Rica",
   "license": "MIT",

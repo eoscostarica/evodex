@@ -33,4 +33,4 @@ jobs:
         REACT_APP_EOS_BLOCK_EXPLORER_URL: https://bloks.io
         REACT_APP_VOTE_CONTRACT: wevotethefee
         REACT_APP_EVODEX_CONTRACT: evolutiondex
-        REACT_APP_EVODEX_API_URL: https://api.eosargentina.io
+        REACT_APP_EVODEX_API_URL: https://api.evolutiondex.io
