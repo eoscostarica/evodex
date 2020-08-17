@@ -1,14 +1,14 @@
 # Preguntas Frecuentes
 
-## ¿Qué es Evodex?
+## ¿Qué es EvoDex?
 
 Evodex es un intercambio descentralizado que permite intercambiar entre cualquier token compatible con EOSio, incluidos los tokens envueltos en cadenas cruzadas como pBTC. La liquidez para la creación de mercado la proporcionan los usuarios que transfieren sus fondos a los grupos de liquidez a cambio de tarifas que pueden ser votadas por todos los proveedores de liquidez.
 
-## ¿En qué es único EvoDEX?
+## ¿En qué es único EvoDex?
 
-La principal característica nueva introducida por Evodex es que los proveedores de liquidez pueden votar por las tarifas que quieren cobrar, esto se hace mediante un contrato inteligente que calcula el peso de cada votante en proporción a la participación que tienen en el grupo.
+La principal característica nueva introducida por EvoDex es que los proveedores de liquidez pueden votar por las tarifas que quieren cobrar, esto se hace mediante un contrato inteligente que calcula el peso de cada votante en proporción a la participación que tienen en el grupo.
 
-Otra diferencia entre Evodex y otras plataformas proviene de las diferentes cadenas de bloques donde operan, los comerciantes solo pagan tarifas a los proveedores de liquidez, pero no tienen que pagar tarifas de transferencia como en Ethereum y otras redes.
+Otra diferencia entre EvoDex y otras plataformas proviene de las diferentes cadenas de bloques donde operan, los comerciantes solo pagan tarifas a los proveedores de liquidez, pero no tienen que pagar tarifas de transferencia como en Ethereum y otras redes.
 
 ## ¿Qué son los Evotokens?
 
