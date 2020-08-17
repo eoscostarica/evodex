@@ -4,7 +4,7 @@
 
 Evodex is a decentralized exchange that allows swapping amongst any EOSio compatible tokens, including cross-chain wrapped tokens like pBTC. The liquidity for market making is provided by users who transfer their funds to liquidity pools in exchange for fees that can be voted upon by all of the liquidity providers.
 
-## How is EvoDEX unique?
+## How is Evodex unique?
 
 The main new feature introduced by Evodex is that liquidity providers can vote for the fees they want to charge, this is done using a smart contract that calculates each voter's weight in proportion to the stake they have on the pool.
 
