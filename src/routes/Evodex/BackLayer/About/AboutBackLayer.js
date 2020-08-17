@@ -71,7 +71,7 @@ const AboutBackLayer = () => {
     <Box className={classes.aboutBackLayerRoot}>
       <EvodexRocketSvg classes={classes.rocketSvg} />
       <Box className={classes.titleBox}>
-        <Typography variant="h4">{t('about')}</Typography>
+        <Typography variant="h4">{t('title')}</Typography>
       </Box>
     </Box>
   )
