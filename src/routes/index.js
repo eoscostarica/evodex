@@ -4,7 +4,7 @@ import NotFound from './NotFound'
 export default [
   {
     name: 'evodex',
-    path: '/evodex',
+    path: '/',
     component: Evodex
   },
   {

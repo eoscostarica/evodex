@@ -5,6 +5,7 @@ import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 
 import EvodexRocketSvg from 'components/Icons/EvodexRocket'
+import TitlePage from 'components/PageTitle'
 
 const useStyles = makeStyles((theme) => ({
   aboutBackLayerRoot: {
@@ -18,7 +19,8 @@ const useStyles = makeStyles((theme) => ({
       paddingRight: theme.spacing(4)
     },
     [theme.breakpoints.up('lg')]: {
-      marginTop: theme.spacing(13)
+      marginTop: theme.spacing(13),
+      padding: theme.spacing(3, 0)
     }
   },
   titleBox: {
@@ -69,6 +71,7 @@ const AboutBackLayer = () => {
 
   return (
     <Box className={classes.aboutBackLayerRoot}>
+      <TitlePage title={t('htmlTitle')} />
       <EvodexRocketSvg classes={classes.rocketSvg} />
       <Box className={classes.titleBox}>
         <Typography variant="h4">{t('title')}</Typography>

@@ -11,7 +11,6 @@ const App = ({ ual }) => (
           <Component ual={ual} />
         </Route>
       ))}
-      <Redirect exact from="/" to="/evodex" />
       <Redirect to="/not-found" />
     </Switch>
   </BrowserRouter>

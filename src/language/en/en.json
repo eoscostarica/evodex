@@ -25,15 +25,17 @@
     "exchange": "Exchange Tokens",
     "liquidity": "Add or Remove Liquidity",
     "voteFee": "Fee",
-    "about": "About EvoDex",
+    "about": "About evodex",
     "faq": "FAQs",
     "contracts": "Ricardian Contracts"
   },
   "ricardianContract": {
-    "title": "Ricardian Contracts"
+    "title": "Ricardian Contracts",
+    "htmlTitle": "EOS Ricardian Contracts for Evolution DEX"
   },
   "liquidity": {
     "title": "Add or Remove Liquidity",
+    "htmlTitle": "Add or Remove Liquidity to EOS DEX pools on evodex",
     "description": "Select a token pair and the amount you want to add or remove to the liquidity pool.",
     "headerTitle": "Token Listings",
     "tableLabelMyPool": "My Pool",
@@ -52,6 +54,7 @@
   },
   "fee": {
     "title": "Vote Your Fee",
+    "htmlTitle": "Vote exchange fees for EOS decentralized exchange dex",
     "description": "Select a Token Pair and the fee you want to vote for the liquidity pool.",
     "headerTitle": "Token Listings",
     "tableLabelMyPool": "My Pool",
@@ -65,7 +68,8 @@
     "successTransaction": "Success transaction"
   },
   "faq": {
-    "title": "FAQ's"
+    "title": "FAQ's",
+    "htmlTitle": "EOS Decentralized Exchange - Frequent Questions"
   },
   "exchange": {
     "headerTitle": "Token Listings",
@@ -75,6 +79,7 @@
     "noAmount": "Please enter the amount to give to continue",
     "successTransaction": "Success transaction",
     "title": "Exchange Has Evolved",
+    "htmlTitle": "Decentralized Exchange and Liquidity Pools for EOS Tokens",
     "description": "A truly decentralized exchange where you decide your pool fee!",
     "youGive": "You Give",
     "youReceive": "You Receive",
@@ -85,6 +90,7 @@
     "btnLabel": "exchange"
   },
   "about": {
-    "title": "About EvoDex"
+    "title": "About evodex",
+    "htmlTitle": "About evodex a decentralized exchange the evolution of DeFi on EOS"
   }
 }

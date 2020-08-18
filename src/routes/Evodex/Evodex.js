@@ -19,11 +19,7 @@ import Sidebar from './Sidebar'
 import SubMenuTopBar from './SubmenuTopbar'
 import Topbar from './Topbar'
 
-const STATIC_PAGES = [
-  '/evodex/faq',
-  '/evodex/about',
-  '/evodex/ricardian-contract'
-]
+const STATIC_PAGES = ['/faq', '/about', '/ricardian-contract']
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {

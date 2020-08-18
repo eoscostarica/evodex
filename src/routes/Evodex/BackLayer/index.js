@@ -29,7 +29,7 @@ const BackLayer = ({ pathname, onReload, ual, isLightMode, showMessage }) => {
   return (
     <Box className={classes.backLayer}>
       <Switch>
-        <Route exact path="/evodex/liquidity">
+        <Route exact path="/liquidity">
           <LiquidityBackLayer
             ual={ual}
             onReload={onReload}
@@ -37,7 +37,7 @@ const BackLayer = ({ pathname, onReload, ual, isLightMode, showMessage }) => {
             showMessage={showMessage}
           />
         </Route>
-        <Route exact path="/evodex/exchange">
+        <Route exact path="/exchange">
           <ExchangeBackLayer
             ual={ual}
             onReload={onReload}
@@ -45,7 +45,7 @@ const BackLayer = ({ pathname, onReload, ual, isLightMode, showMessage }) => {
             showMessage={showMessage}
           />
         </Route>
-        <Route exact path="/evodex/fee">
+        <Route exact path="/fee">
           <FeeBackLayer
             ual={ual}
             onReload={onReload}
@@ -53,14 +53,14 @@ const BackLayer = ({ pathname, onReload, ual, isLightMode, showMessage }) => {
             showMessage={showMessage}
           />
         </Route>
-        <Route exact path="/evodex/faq" component={FaqBackLayer} />
-        <Route exact path="/evodex/about" component={AboutBackLayer} />
+        <Route exact path="/faq" component={FaqBackLayer} />
+        <Route exact path="/about" component={AboutBackLayer} />
         <Route
           exact
-          path="/evodex/ricardian-contract"
+          path="/ricardian-contract"
           component={RicardianContractBackLayer}
         />
-        <Redirect from="/evodex" to="/evodex/exchange" />
+        <Redirect from="/" to="/exchange" />
       </Switch>
     </Box>
   )
