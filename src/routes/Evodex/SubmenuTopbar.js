@@ -18,27 +18,27 @@ import MediumIcon from 'components/Icons/MediumIcon'
 const TOOLS = [
   {
     title: 'exchange',
-    href: '/evodex/exchange'
+    href: '/exchange'
   },
   {
     title: 'liquidity',
-    href: '/evodex/liquidity'
+    href: '/liquidity'
   },
   {
     title: 'voteFee',
-    href: '/evodex/fee'
+    href: '/fee'
   },
   {
     title: 'about',
-    href: '/evodex/about'
+    href: '/about'
   },
   {
     title: 'faq',
-    href: '/evodex/faq'
+    href: '/faq'
   },
   {
     title: 'contracts',
-    href: '/evodex/ricardian-contract'
+    href: '/ricardian-contract'
   }
 ]
 const SOCIAL = [
