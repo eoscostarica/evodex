@@ -345,7 +345,7 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
 
   return (
     <Box className={classes.exchangeRoot}>
-      <TitlePage title={t('tabTitle')} />
+      <TitlePage title={t('htmlTitle')} />
       <EvodexRocketSvg classes={classes.rocketSvg} />
       <Box className={classes.titleBox}>
         <Typography variant="h4">{t('title')}</Typography>

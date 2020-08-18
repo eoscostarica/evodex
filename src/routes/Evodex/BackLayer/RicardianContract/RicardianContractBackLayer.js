@@ -71,7 +71,7 @@ const RicardianContractBackLayer = () => {
 
   return (
     <Box className={classes.ricardianContractRoot}>
-      <TitlePage title={t('tabTitle')} />
+      <TitlePage title={t('htmlTitle')} />
       <EvodexRocketSvg classes={classes.rocketSvg} />
       <Box className={classes.titleBox}>
         <Typography variant="h4">{t('title')}</Typography>
