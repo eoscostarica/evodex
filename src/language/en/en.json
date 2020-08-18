@@ -30,10 +30,12 @@
     "contracts": "Ricardian Contracts"
   },
   "ricardianContract": {
-    "title": "Ricardian Contracts"
+    "title": "Ricardian Contracts",
+    "tabTitle": "Evolution DEX - Ricardian Contracts"
   },
   "liquidity": {
     "title": "Add or Remove Liquidity",
+    "tabTitle": "Evolution DEX - Liquidity",
     "description": "Select a token pair and the amount you want to add or remove to the liquidity pool.",
     "headerTitle": "Token Listings",
     "tableLabelMyPool": "My Pool",
@@ -52,6 +54,7 @@
   },
   "fee": {
     "title": "Vote Your Fee",
+    "tabTitle": "Evolution DEX - Fee",
     "description": "Select a Token Pair and the fee you want to vote for the liquidity pool.",
     "headerTitle": "Token Listings",
     "tableLabelMyPool": "My Pool",
@@ -65,7 +68,8 @@
     "successTransaction": "Success transaction"
   },
   "faq": {
-    "title": "FAQ's"
+    "title": "FAQ's",
+    "tabTitle": "Evolution DEX - FAQ's"
   },
   "exchange": {
     "headerTitle": "Token Listings",
@@ -75,6 +79,7 @@
     "noAmount": "Please enter the amount to give to continue",
     "successTransaction": "Success transaction",
     "title": "Exchange Has Evolved",
+    "tabTitle": "Evolution DEX - Exchange Has Evolved",
     "description": "A truly decentralized exchange where you decide your pool fee!",
     "youGive": "You Give",
     "youReceive": "You Receive",
@@ -85,6 +90,7 @@
     "btnLabel": "exchange"
   },
   "about": {
-    "title": "About EvoDex"
+    "title": "About EvoDex",
+    "tabTitle": "About Evolution DEX"
   }
 }

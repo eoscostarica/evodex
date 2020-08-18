@@ -13,7 +13,7 @@ TitlePage.propTypes = {
 }
 
 TitlePage.defaultProps = {
-  title: ''
+  title: 'Evodex'
 }
 
 export default TitlePage

@@ -10,6 +10,7 @@ import LinearProgress from '@material-ui/core/LinearProgress'
 import Link from '@material-ui/core/Link'
 
 import { ualConfig } from 'config'
+import TitlePage from 'components/PageTitle'
 import InputTextAndSelect from 'components/InputTextAndSelect'
 import EvodexRocketSvg from 'components/Icons/EvodexRocket'
 import Button from 'components/Button'
@@ -28,7 +29,8 @@ const useStyles = makeStyles((theme) => ({
       paddingRight: theme.spacing(4)
     },
     [theme.breakpoints.up('lg')]: {
-      marginTop: theme.spacing(13)
+      marginTop: theme.spacing(13),
+      padding: theme.spacing(3, 0)
     }
   },
   titleBox: {
@@ -315,6 +317,7 @@ const LiquidityBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
 
   return (
     <Box className={classes.liquidityRoot}>
+      <TitlePage title={t('title')} />
       <EvodexRocketSvg classes={classes.rocketSvg} />
       <Box className={classes.titleBox}>
         <Typography variant="h4">{t('title')}</Typography>
