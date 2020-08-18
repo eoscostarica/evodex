@@ -71,7 +71,7 @@ const AboutBackLayer = () => {
 
   return (
     <Box className={classes.aboutBackLayerRoot}>
-      <TitlePage title={t('title')} />
+      <TitlePage title={t('tabTitle')} />
       <EvodexRocketSvg classes={classes.rocketSvg} />
       <Box className={classes.titleBox}>
         <Typography variant="h4">{t('title')}</Typography>

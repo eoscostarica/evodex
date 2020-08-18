@@ -30,10 +30,12 @@
     "contracts": "Contratos Ricardianos"
   },
   "ricardianContract": {
-    "title": "Contratos Ricardianos"
+    "title": "Contratos Ricardianos",
+    "tabTitle": "Evolution DEX - Contratos Ricardianos"
   },
   "liquidity": {
     "title": "Aportar o retirar liquidez",
+    "tabTitle": "Evolution DEX - Liquidez",
     "description": "Selecciona un par y la cantidad y la cantidad de liquidez para aportar o retirar.",
     "headerTitle": "Listados de tokens",
     "tableLabelMyPool": "Mis pooles",
@@ -52,6 +54,7 @@
   },
   "fee": {
     "title": "Votar valor de la comisión",
+    "tabTitle": "Evolution DEX - Comisión",
     "description": "Seleccione un par y el valor que desea votar.",
     "headerTitle": "Listados de tokens",
     "tableLabelMyPool": "Mis pooles",
@@ -65,7 +68,8 @@
     "successTransaction": "Transacción realizada"
   },
   "faq": {
-    "title": "Preguntas frecuentes"
+    "title": "Preguntas frecuentes",
+    "tabTitle": "Evolution DEX - Preguntas frecuentes"
   },
   "exchange": {
     "headerTitle": "Listados de tokens",
@@ -75,6 +79,7 @@
     "noAmount": "Por favor ingrese el monto a enviar para continuar",
     "successTransaction": "Transacción realizada",
     "title": "La evolución del intercambio",
+    "tabTitle": "Evolution DEX - Intercambio",
     "description": "Una casa de cambio decentralizada. Puedes votar el valor de las comisiones!",
     "youGive": "Enviar",
     "youReceive": "Recibir",
@@ -85,6 +90,7 @@
     "btnLabel": "Operar"
   },
   "about": {
-    "title": "Acerca de Evodex"
+    "title": "Acerca de Evodex",
+    "tabTitle": "Evolution DEX - Acerca de Evodex"
   }
 }

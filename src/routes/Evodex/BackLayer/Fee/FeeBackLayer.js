@@ -248,7 +248,7 @@ const FeeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
 
   return (
     <Box className={classes.feeRoot}>
-      <TitlePage title={t('title')} />
+      <TitlePage title={t('tabTitle')} />
       <EvodexRocketSvg classes={classes.rocketSvg} />
       <Box className={classes.titleBox}>
         <Typography variant="h4">{t('title')}</Typography>
