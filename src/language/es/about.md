@@ -1,4 +1,4 @@
-# Sos el Exchange
+# Eres el Exchange
 
 Evodex es una contribución conjunta de dos productores de bloques al ecosistema DE-FI en EOS.
 
