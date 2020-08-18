@@ -1,7 +1,7 @@
 import ReactGA from 'react-ga'
 
 export const InitGA = () => {
-  console.log('%cGA started!', 'background: #222; color: #bada55')
+  console.log('GA started!')
   ReactGA.initialize('UA-157283582-4')
 }
 
