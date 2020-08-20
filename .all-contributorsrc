@@ -1,0 +1,25 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "sergioyuhjtman",
+      "name": "Sergio Yuhjtman",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/39177270?v=4",
+      "profile": "https://github.com/sergioyuhjtman",
+      "contributions": [
+        "ideas",
+        "translation"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "evodex",
+  "projectOwner": "eoscostarica",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
