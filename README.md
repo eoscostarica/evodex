@@ -142,6 +142,11 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds
 <table>
   <tr>
     <td align="center"><a href="https://github.com/sergioyuhjtman"><img src="https://avatars2.githubusercontent.com/u/39177270?v=4" width="100px;" alt=""/><br /><sub><b>Sergio Yuhjtman</b></sub></a><br /><a href="#ideas-sergioyuhjtman" title="Ideas, Planning, & Feedback">🤔</a> <a href="#translation-sergioyuhjtman" title="Translation">🌍</a></td>
+    <td align="center"><a href="http://eoscostarica.io"><img src="https://avatars1.githubusercontent.com/u/1179619?v=4" width="100px;" alt=""/><br /><sub><b>Jorge Murillo</b></sub></a><br /><a href="#design-murillojorge" title="Design">🎨</a></td>
+    <td align="center"><a href="https://github.com/adriexnet"><img src="https://avatars3.githubusercontent.com/u/5375168?v=4" width="100px;" alt=""/><br /><sub><b>adriel</b></sub></a><br /><a href="https://github.com/eoscostarica/evodex/commits?author=adriexnet" title="Code">💻</a> <a href="https://github.com/eoscostarica/evodex/pulls?q=is%3Apr+reviewed-by%3Aadriexnet" title="Reviewed Pull Requests">👀</a></td>
+    <td align="center"><a href="https://eosio.cr"><img src="https://avatars2.githubusercontent.com/u/10634375?v=4" width="100px;" alt=""/><br /><sub><b>Teto Gomez</b></sub></a><br /><a href="https://github.com/eoscostarica/evodex/commits?author=tetogomez" title="Code">💻</a> <a href="https://github.com/eoscostarica/evodex/pulls?q=is%3Apr+reviewed-by%3Atetogomez" title="Reviewed Pull Requests">👀</a></td>
+    <td align="center"><a href="https://eoscostarica.io"><img src="https://avatars0.githubusercontent.com/u/5632966?v=4" width="100px;" alt=""/><br /><sub><b>Xavier Fernandez</b></sub></a><br /><a href="#infra-xavier506" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/eoscostarica/evodex/commits?author=xavier506" title="Documentation">📖</a> <a href="#projectManagement-xavier506" title="Project Management">📆</a></td>
+    <td align="center"><a href="https://esoargentina.io"><img src="https://avatars3.githubusercontent.com/u/16233552?v=4" width="100px;" alt=""/><br /><sub><b>J. Chitty</b></sub></a><br /><a href="#ideas-PixelNoob" title="Ideas, Planning, & Feedback">🤔</a> <a href="#content-PixelNoob" title="Content">🖋</a></td>  
   </tr>
 </table>
 
