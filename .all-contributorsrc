@@ -14,6 +14,15 @@
         "ideas",
         "translation"
       ]
+    },
+    {
+      "login": "murillojorge",
+      "name": "Jorge Murillo",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/1179619?v=4",
+      "profile": "http://eoscostarica.io",
+      "contributions": [
+        "design"
+      ]
     }
   ],
   "contributorsPerLine": 7,
