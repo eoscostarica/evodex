@@ -56,9 +56,9 @@ This frontend features all the latest tools and practices in the industry.
 
 ## Development Environment
 
-[evodex.io}(https://evodex.io) is running on the EOS MainNet and is built from the `master` branch, our production branch.
+[**evodex.io**](https://evodex.io) is running on the EOS MainNet and is built from the `master` branch, our production branch.
 
-[jungle.evodex.io}(https://jungle.evodex.io) is running on the Jungle 3 TestNet and is built from the `develop` branch used for development, integration, and testing new features.  
+[**jungle.evodex.io**](https://jungle.evodex.io) is running on the Jungle 3 TestNet and is built from the `develop` branch used for development, integration, and testing new features.  
 
 ## Installation
 
@@ -77,14 +77,13 @@ Copy the `.env.example` then update the environment variables according to your 
 ```
 cp .env.example .env
 ```
-
-_If you want to the boilerplate using UAL login integration, please make sure that `REACT_APP_USE_UAL` env variable is set as true._
+In order to use  UAL login integration, please make sure that `REACT_APP_USE_UAL` env variable is set as true.
 
 ## Development
 
 ### Quick start
 
-1.  Clone this repo using `git clone --depth=1 https://github.com/eoscostarica/webapp-boilerplate.git <YOUR_PROJECT_NAME>`
+1.  Clone this repo using `git clone --depth=1 https://github.com/eoscostarica/evodex.git <YOUR_PROJECT_NAME>`
 2.  Move to the appropriate directory: `cd <YOUR_PROJECT_NAME>`.
 3.  Run `yarn` in order to install dependencies.
     _At this point you can run `yarn start` to see the example app at `http://localhost:3000`._
@@ -134,7 +133,7 @@ Please Read EOS Costa Rica's [Open Source Contributing Guidelines](https://devel
 Please report bugs big and small by [opening an issue](https://github.com/eoscostarica/evodex/issues)
 
 ## Contributors
-
+Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
@@ -143,12 +142,18 @@ Please report bugs big and small by [opening an issue](https://github.com/eoscos
   <tr>
     <td align="center"><a href="https://github.com/sergioyuhjtman"><img src="https://avatars2.githubusercontent.com/u/39177270?v=4" width="100px;" alt=""/><br /><sub><b>Sergio Yuhjtman</b></sub></a><br /><a href="#ideas-sergioyuhjtman" title="Ideas, Planning, & Feedback">🤔</a> <a href="#translation-sergioyuhjtman" title="Translation">🌍</a></td>
     <td align="center"><a href="http://eoscostarica.io"><img src="https://avatars1.githubusercontent.com/u/1179619?v=4" width="100px;" alt=""/><br /><sub><b>Jorge Murillo</b></sub></a><br /><a href="#design-murillojorge" title="Design">🎨</a></td>
+    <td align="center"><a href="https://github.com/adriexnet"><img src="https://avatars3.githubusercontent.com/u/5375168?v=4" width="100px;" alt=""/><br /><sub><b>adriel</b></sub></a><br /><a href="https://github.com/eoscostarica/evodex/commits?author=adriexnet" title="Code">💻</a> <a href="https://github.com/eoscostarica/evodex/pulls?q=is%3Apr+reviewed-by%3Aadriexnet" title="Reviewed Pull Requests">👀</a></td>
+    <td align="center"><a href="https://eosio.cr"><img src="https://avatars2.githubusercontent.com/u/10634375?v=4" width="100px;" alt=""/><br /><sub><b>Teto Gomez</b></sub></a><br /><a href="https://github.com/eoscostarica/evodex/commits?author=tetogomez" title="Code">💻</a> <a href="https://github.com/eoscostarica/evodex/pulls?q=is%3Apr+reviewed-by%3Atetogomez" title="Reviewed Pull Requests">👀</a></td>
+    <td align="center"><a href="https://eoscostarica.io"><img src="https://avatars0.githubusercontent.com/u/5632966?v=4" width="100px;" alt=""/><br /><sub><b>Xavier Fernandez</b></sub></a><br /><a href="#infra-xavier506" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/eoscostarica/evodex/commits?author=xavier506" title="Documentation">📖</a> <a href="#projectManagement-xavier506" title="Project Management">📆</a></td>
+    <td align="center"><a href="https://esoargentina.io"><img src="https://avatars3.githubusercontent.com/u/16233552?v=4" width="100px;" alt=""/><br /><sub><b>J. Chitty</b></sub></a><br /><a href="#ideas-PixelNoob" title="Ideas, Planning, & Feedback">🤔</a> <a href="#content-PixelNoob" title="Content">🖋</a></td>  
   </tr>
 </table>
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
 <!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!
 
 ## About EOS Costa Rica
 
@@ -159,6 +164,6 @@ Please report bugs big and small by [opening an issue](https://github.com/eoscos
 </p>
 <br/>
 
-EOS Costa Rica is an independently-owned, self-funded, bare-metal Genesis block producer that provides stable and secure infrastructure for EOSIO blockchains. We support open source software for our community while offering enterprise solutions and custom smart contract development for our clients.
+EOS Costa Rica is an independently-owned, self-funded, bare-metal Genesis block producer that provides stable and secure infrastructure for EOSIO blockchains. We support open source software for our community while offering enterprise blockchain development and custom smart contract development for our clients.
 
 [eoscostarica.io](https://eoscostarica.io)
