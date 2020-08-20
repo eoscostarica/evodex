@@ -19,6 +19,8 @@ jobs:
       run: yarn install
     - name: Build page
       run: yarn run build
+    - name: Set 404 page as Homepage
+      run: cp ./build/index.html ./build/404.html
     - name: Deploy to gh-pages
       uses: peaceiris/actions-gh-pages@v3
       with:
