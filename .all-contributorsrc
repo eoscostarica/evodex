@@ -16,6 +16,16 @@
       ]
     },
     {
+      "login": "PixelNoob",
+      "name": "J. Chitty",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/16233552?v=4",
+      "profile": "https://esoargentina.io",
+      "contributions": [
+        "ideas",
+        "content"
+      ]
+     },
+     {
       "login": "adriexnet",
       "name": "adriel",
       "avatar_url": "https://avatars3.githubusercontent.com/u/5375168?v=4",
@@ -44,7 +54,6 @@
         "infra",
         "doc",
         "projectManagement"
-
       ]
     }
   ],
