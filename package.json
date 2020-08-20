@@ -68,7 +68,7 @@
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "yarn format && yarn lint && CI=true yarn test"
+      "pre-commit": "yarn format && yarn lint"
     }
   },
   "devDependencies": {
