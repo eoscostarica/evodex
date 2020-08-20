@@ -16,6 +16,16 @@
       ]
     },
     {
+      "login": "tetogomez",
+      "name": "Teto Gomez",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/10634375?v=4",
+      "profile": "https://eosio.cr",
+      "contributions": [
+        "code",
+        "review"
+      ]
+     },
+     {
       "login": "xavier506",
       "name": "Xavier Fernandez",
       "avatar_url": "https://avatars0.githubusercontent.com/u/5632966?v=4",
@@ -24,6 +34,7 @@
         "infra",
         "doc",
         "projectManagement"
+
       ]
     }
   ],
