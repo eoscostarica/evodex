@@ -24,6 +24,37 @@
         "ideas",
         "content"
       ]
+     },
+     {
+      "login": "adriexnet",
+      "name": "adriel",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/5375168?v=4",
+      "profile": "https://github.com/adriexnet",
+      "contributions": [
+        "code",
+        "review"
+      ]
+     },
+     {
+      "login": "tetogomez",
+      "name": "Teto Gomez",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/10634375?v=4",
+      "profile": "https://eosio.cr",
+      "contributions": [
+        "code",
+        "review"
+      ]
+     },
+     {
+      "login": "xavier506",
+      "name": "Xavier Fernandez",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/5632966?v=4",
+      "profile": "https://eoscostarica.io",
+      "contributions": [
+        "infra",
+        "doc",
+        "projectManagement"
+      ]
     }
   ],
   "contributorsPerLine": 7,
