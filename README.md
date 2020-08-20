@@ -1,4 +1,7 @@
 <p align="center">
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 	<img src="./public/evodex-logo.png" width="600">
 </p>
 
@@ -133,6 +136,18 @@ Please report bugs big and small by [opening an issue](https://github.com/eoscos
 ## Contributors
 
 
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/sergioyuhjtman"><img src="https://avatars2.githubusercontent.com/u/39177270?v=4" width="100px;" alt=""/><br /><sub><b>Sergio Yuhjtman</b></sub></a><br /><a href="#ideas-sergioyuhjtman" title="Ideas, Planning, & Feedback">🤔</a> <a href="#translation-sergioyuhjtman" title="Translation">🌍</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
 
 ## About EOS Costa Rica
 
