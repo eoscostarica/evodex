@@ -88,17 +88,17 @@ const useStyles = makeStyles((theme) => ({
 const TOOLS = [
   {
     title: 'exchange',
-    href: '/evodex/exchange',
+    href: '/exchange',
     icon: <ImportExportIcon />
   },
   {
     title: 'liquidity',
-    href: '/evodex/liquidity',
+    href: '/liquidity',
     icon: <InvertColorsIcon />
   },
   {
     title: 'voteFee',
-    href: '/evodex/fee',
+    href: '/fee',
     icon: <ThumbUpAltIcon />
   }
 ]
@@ -106,17 +106,17 @@ const TOOLS = [
 const INFO = [
   {
     title: 'about',
-    href: '/evodex/about',
+    href: '/about',
     icon: <InfoIcon />
   },
   {
     title: 'faq',
-    href: '/evodex/faq',
+    href: '/faq',
     icon: <HelpIcon />
   },
   {
     title: 'contracts',
-    href: '/evodex/ricardian-contract',
+    href: '/ricardian-contract',
     icon: <DescriptionIcon />
   }
 ]

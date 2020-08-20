@@ -30,23 +30,19 @@ const FrontLayer = ({ handleOnClickRow }) => {
   return (
     <Box className={classes.frontLayer}>
       <Switch>
-        <Route exact path="/evodex/liquidity">
+        <Route exact path="/liquidity">
           <Liquidity onClickRow={handleOnClickRow} />
         </Route>
-        <Route exact path="/evodex/exchange">
+        <Route exact path="/exchange">
           <Exchange onClickRow={handleOnClickRow} />
         </Route>
-        <Route exact path="/evodex/fee">
+        <Route exact path="/fee">
           <Fee onClickRow={handleOnClickRow} />
         </Route>
-        <Route exact path="/evodex/faq" component={Faq} />
-        <Route exact path="/evodex/about" component={About} />
-        <Route
-          exact
-          path="/evodex/ricardian-contract"
-          component={RicardianContract}
-        />
-        <Redirect from="/evodex" to="/evodex/exchange" />
+        <Route exact path="/faq" component={Faq} />
+        <Route exact path="/about" component={About} />
+        <Route exact path="/ricardian-contract" component={RicardianContract} />
+        <Redirect from="/" to="/exchange" />
       </Switch>
     </Box>
   )

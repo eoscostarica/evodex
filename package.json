@@ -1,18 +1,26 @@
 {
-  "name": "evodex", 
+  "name": "evodex",
   "homepage": ".",
   "description": "A web interface that will provide access to liquidity amongst all exchanges that connect to Evolution DEX",
   "author": "EOS Costa Rica",
   "license": "MIT",
   "version": "0.1.0",
-  "keywords": ["eos","dex","defi","decentralized","exchange","token","swap"],
+  "keywords": [
+    "eos",
+    "dex",
+    "defi",
+    "decentralized",
+    "exchange",
+    "token",
+    "swap"
+  ],
   "bugs": {
-      "url": "https://github.com/eoscostarica/evodex/issues/"
-    },
+    "url": "https://github.com/eoscostarica/evodex/issues/"
+  },
   "repository": {
-      "type": "git",
-      "url": "https://github.com/eoscostarica/evodex.git"
-    },
+    "type": "git",
+    "url": "https://github.com/eoscostarica/evodex.git"
+  },
   "dependencies": {
     "@eoscostarica/eoscr-components": "^2.0.2",
     "@eoscostarica/eoscr-theme": "^1.0.3",
@@ -29,6 +37,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-ga": "^3.1.2",
     "react-helmet": "^6.1.0",
     "react-i18next": "^11.4.0",
     "react-markdown": "^4.3.1",
@@ -59,7 +68,7 @@
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "yarn format && yarn lint && CI=true yarn test"
+      "pre-commit": "yarn format && yarn lint"
     }
   },
   "devDependencies": {

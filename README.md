@@ -27,7 +27,7 @@ EOS Costa Rica  is working with EOS Argentina creating a web interface that will
 This project is OpenSource and free for any developers to integrate it to their front end, in this way different exchanges can share the same liquidity.
 
 
-## How is EvoDEX unique ?
+## How is evodex unique ?
 
 The main difference from say Uniswap on Ethereum, is that liquidity providers can vote for the fees they want to charge using a smart contract that calculates the fees proportional to the stake of every participant of the pool.
 
@@ -51,6 +51,12 @@ This frontend features all the latest tools and practices in the industry.
 - _Lint_ - ESlint
 - _Styles_ - Material-UI Theme (customizable)
 
+## Development Environment
+
+[**evodex.io**](https://evodex.io) is running on the EOS MainNet and is built from the `master` branch, our production branch.
+
+[**jungle.evodex.io**](https://jungle.evodex.io) is running on the Jungle 3 TestNet and is built from the `develop` branch used for development, integration, and testing new features.  
+
 ## Installation
 
 ### Before to start
@@ -68,14 +74,13 @@ Copy the `.env.example` then update the environment variables according to your 
 ```
 cp .env.example .env
 ```
-
-_If you want to the boilerplate using UAL login integration, please make sure that `REACT_APP_USE_UAL` env variable is set as true._
+In order to use  UAL login integration, please make sure that `REACT_APP_USE_UAL` env variable is set as true.
 
 ## Development
 
 ### Quick start
 
-1.  Clone this repo using `git clone --depth=1 https://github.com/eoscostarica/webapp-boilerplate.git <YOUR_PROJECT_NAME>`
+1.  Clone this repo using `git clone --depth=1 https://github.com/eoscostarica/evodex.git <YOUR_PROJECT_NAME>`
 2.  Move to the appropriate directory: `cd <YOUR_PROJECT_NAME>`.
 3.  Run `yarn` in order to install dependencies.
     _At this point you can run `yarn start` to see the example app at `http://localhost:3000`._
@@ -85,7 +90,7 @@ _If you want to the boilerplate using UAL login integration, please make sure th
 Within the download you'll find the following directories and files:
 
 ```
-eoscrwebappboilerplate/
+/
 ├── public
 │   ├── index.html
 │   └── manifest.json
@@ -122,21 +127,32 @@ MIT © [EOS Costa Rica](https://eoscostarica.io)
 
 Please Read EOS Costa Rica's [Open Source Contributing Guidelines](https://developers.eoscostarica.io/docs/open-source-guidelines).
 
-Please report bugs big and small by [opening an issue](https://github.com/eoscostarica/webapp-boilerplate/issues)
+Please report bugs big and small by [opening an issue](https://github.com/eoscostarica/evodex/issues)
 
 ## Contributors
-
 Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key)):
 
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/xavier506"><img src="https://avatars0.githubusercontent.com/u/5632966?v=4" width="100px;" alt="Xavier Fernandez"/><br /><sub><b>Xavier Fernandez</b></sub></a><br /><a href="#ideas-xavier506" title="Ideas, Planning, & Feedback">🤔</a> <a href="#blog-xavier506" title="Blogposts">📝</a> <a href="#talk-xavier506" title="Talks">📢</a> <a href="#infra-xavier506" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
- <td align="center"><a href="https://github.com/tetogomez">
-      <img src="https://avatars3.githubusercontent.com/u/10634375?s=460&v=4" width="100px;" alt="Teto Gomez"/><br /><sub><b>Teto Gomez</b></sub></a><br /><a href="https://github.com/eoscostarica/eosrate/commits?author=tetogomez" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/eoscostarica/eosrate/commits?author=tetogomez" title="Code">💻</a> <a href="#review-tetogomez" title="Reviewed Pull Requests">👀</a></td>
-      <td align="center"><a href="https://github.com/adriexnet">
-      <img src="https://avatars3.githubusercontent.com/u/5375168?s=460&u=542a27a00b761d98851991c6a6d5f78d7b35a2b2&v=4" width="100px;" alt="Adriel Diaz"/><br /><sub><b>Adriel Diaz</b></sub></a><br /><a href="https://github.com/eoscostarica/eosrate/commits?author=adriexnet" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/eoscostarica/eosrate/commits?author=adriexnet" title="Code">💻</a> <a href="#review-adriexnet" title="Reviewed Pull Requests">👀</a></td>
+    <td align="center"><a href="https://github.com/sergioyuhjtman"><img src="https://avatars2.githubusercontent.com/u/39177270?v=4" width="100px;" alt=""/><br /><sub><b>Sergio Yuhjtman</b></sub></a><br /><a href="#ideas-sergioyuhjtman" title="Ideas, Planning, & Feedback">🤔</a> <a href="#translation-sergioyuhjtman" title="Translation">🌍</a></td>
+    <td align="center"><a href="http://eoscostarica.io"><img src="https://avatars1.githubusercontent.com/u/1179619?v=4" width="100px;" alt=""/><br /><sub><b>Jorge Murillo</b></sub></a><br /><a href="#design-murillojorge" title="Design">🎨</a></td>
+    <td align="center"><a href="https://github.com/adriexnet"><img src="https://avatars3.githubusercontent.com/u/5375168?v=4" width="100px;" alt=""/><br /><sub><b>adriel</b></sub></a><br /><a href="https://github.com/eoscostarica/evodex/commits?author=adriexnet" title="Code">💻</a> <a href="https://github.com/eoscostarica/evodex/pulls?q=is%3Apr+reviewed-by%3Aadriexnet" title="Reviewed Pull Requests">👀</a></td>
+    <td align="center"><a href="https://eosio.cr"><img src="https://avatars2.githubusercontent.com/u/10634375?v=4" width="100px;" alt=""/><br /><sub><b>Teto Gomez</b></sub></a><br /><a href="https://github.com/eoscostarica/evodex/commits?author=tetogomez" title="Code">💻</a> <a href="https://github.com/eoscostarica/evodex/pulls?q=is%3Apr+reviewed-by%3Atetogomez" title="Reviewed Pull Requests">👀</a></td>
+    <td align="center"><a href="https://eoscostarica.io"><img src="https://avatars0.githubusercontent.com/u/5632966?v=4" width="100px;" alt=""/><br /><sub><b>Xavier Fernandez</b></sub></a><br /><a href="#infra-xavier506" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/eoscostarica/evodex/commits?author=xavier506" title="Documentation">📖</a> <a href="#projectManagement-xavier506" title="Project Management">📆</a></td>
+    <td align="center"><a href="https://esoargentina.io"><img src="https://avatars3.githubusercontent.com/u/16233552?v=4" width="100px;" alt=""/><br /><sub><b>J. Chitty</b></sub></a><br /><a href="#ideas-PixelNoob" title="Ideas, Planning, & Feedback">🤔</a> <a href="#content-PixelNoob" title="Content">🖋</a></td>  
   </tr>
 </table>
+
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!
 
@@ -149,6 +165,6 @@ This project follows the [all-contributors](https://github.com/kentcdodds/all-co
 </p>
 <br/>
 
-EOS Costa Rica is an independently-owned, self-funded, bare-metal Genesis block producer that provides stable and secure infrastructure for EOSIO blockchains. We support open source software for our community while offering enterprise solutions and custom smart contract development for our clients.
+EOS Costa Rica is an independently-owned, self-funded, bare-metal Genesis block producer that provides stable and secure infrastructure for EOSIO blockchains. We support open source software for our community while offering enterprise blockchain development and custom smart contract development for our clients.
 
 [eoscostarica.io](https://eoscostarica.io)

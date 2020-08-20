@@ -13,7 +13,7 @@ TitlePage.propTypes = {
 }
 
 TitlePage.defaultProps = {
-  title: ''
+  title: 'Evodex - EOS decentralized exchange'
 }
 
 export default TitlePage

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import { Link as RouterLink } from 'react-router-dom'
@@ -13,6 +13,7 @@ import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 
 import EvodexLogo from 'components/Icons/EvodexLogo'
+import { InitGA, LogPageView } from 'config/google-analitycs-module'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -86,6 +87,11 @@ const Main = ({
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'), {
     defaultMatches: true
   })
+
+  useEffect(() => {
+    InitGA()
+    LogPageView()
+  }, [])
 
   return (
     <Container component="main" maxWidth="xl" className={classes.root}>

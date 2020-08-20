@@ -1,0 +1,75 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "sergioyuhjtman",
+      "name": "Sergio Yuhjtman",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/39177270?v=4",
+      "profile": "https://github.com/sergioyuhjtman",
+      "contributions": [
+        "ideas",
+        "translation"
+      ]
+    },
+    {
+      "login": "murillojorge",
+      "name": "Jorge Murillo",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/1179619?v=4",
+      "profile": "http://eoscostarica.io",
+      "contributions": [
+        "design"
+      ]
+     },
+     {
+      "login": "PixelNoob",
+      "name": "J. Chitty",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/16233552?v=4",
+      "profile": "https://esoargentina.io",
+      "contributions": [
+        "ideas",
+        "content"
+      ]
+     },
+     {
+      "login": "adriexnet",
+      "name": "adriel",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/5375168?v=4",
+      "profile": "https://github.com/adriexnet",
+      "contributions": [
+        "code",
+        "review"
+      ]
+     },
+     {
+      "login": "tetogomez",
+      "name": "Teto Gomez",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/10634375?v=4",
+      "profile": "https://eosio.cr",
+      "contributions": [
+        "code",
+        "review"
+      ]
+     },
+     {
+      "login": "xavier506",
+      "name": "Xavier Fernandez",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/5632966?v=4",
+      "profile": "https://eoscostarica.io",
+      "contributions": [
+        "infra",
+        "doc",
+        "projectManagement"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "evodex",
+  "projectOwner": "eoscostarica",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
