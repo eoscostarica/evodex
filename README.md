@@ -143,6 +143,7 @@ Please report bugs big and small by [opening an issue](https://github.com/eoscos
   <tr>
     <td align="center"><a href="https://github.com/sergioyuhjtman"><img src="https://avatars2.githubusercontent.com/u/39177270?v=4" width="100px;" alt=""/><br /><sub><b>Sergio Yuhjtman</b></sub></a><br /><a href="#ideas-sergioyuhjtman" title="Ideas, Planning, & Feedback">🤔</a> <a href="#translation-sergioyuhjtman" title="Translation">🌍</a></td>
     <td align="center"><a href="https://eosio.cr"><img src="https://avatars2.githubusercontent.com/u/10634375?v=4" width="100px;" alt=""/><br /><sub><b>Teto Gomez</b></sub></a><br /><a href="https://github.com/eoscostarica/evodex/commits?author=tetogomez" title="Code">💻</a> <a href="https://github.com/eoscostarica/evodex/pulls?q=is%3Apr+reviewed-by%3Atetogomez" title="Reviewed Pull Requests">👀</a></td>
+    <td align="center"><a href="https://eoscostarica.io"><img src="https://avatars0.githubusercontent.com/u/5632966?v=4" width="100px;" alt=""/><br /><sub><b>Xavier Fernandez</b></sub></a><br /><a href="#infra-xavier506" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/eoscostarica/evodex/commits?author=xavier506" title="Documentation">📖</a> <a href="#projectManagement-xavier506" title="Project Management">📆</a></td>
   </tr>
 </table>
 
