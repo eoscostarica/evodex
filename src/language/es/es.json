@@ -8,7 +8,8 @@
     "footer": "Evodex es de código abierto, involúcrate."
   },
   "talkUsModal": {
-    "title": "Evodex es para la comunidad de EOS, involúcrate.",
+    "title": "Evodex es para la comunidad de EOS",
+    "subtitle":"Involúcrate!",
     "description1": "¿Tenes una idea de funcionalidad nueva para evodex?",
     "description2": "¿Encontraste algún problema?",
     "description3": "Por favor utiliza estos canales de comunicación para comunicarte con la comunidad. Bienvenidas las opiniones y sugerencias."

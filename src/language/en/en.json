@@ -8,10 +8,11 @@
     "footer": "Evodex is open source, get involved."
   },
   "talkUsModal": {
-    "title": "Evodex is for the EOS community. Get Involved !",
+    "title": "Evodex is for the EOS community.",
+    "subtitle": "Get Involved!", 
     "description1": "Do you have an idea for a cool feature for evodex?",
     "description2": "Did you find a bug?",
-    "description3": "Please go ahead and use these communication channels to us know. All opinions and suggestions welcome."
+    "description3": "Use these communication channels to get in touch. All opinions and suggestions welcome."
   },
   "notFound": {
     "primaryMessage": "404: The page you are looking for isn’t here",
