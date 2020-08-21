@@ -18,7 +18,6 @@ import FrontLayer from './FrontLayer'
 import Sidebar from './Sidebar'
 import SubMenuTopBar from './SubmenuTopbar'
 import Topbar from './Topbar'
-// import TalkUsModal from './TalkUsModal'
 
 const STATIC_PAGES = ['/faq', '/about', '/ricardian-contract']
 
