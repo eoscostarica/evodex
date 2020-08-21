@@ -8,10 +8,10 @@
     "footer": "Evodex is open source, get involved."
   },
   "talkUsModal": {
-    "title": "Talk to Us!",
+    "title": "Evodex is for the EOS community. Get Involved !",
     "description1": "Do you have an idea for a cool feature for evodex?",
     "description2": "Did you find a bug?",
-    "description3": "Please go ahead and use our communication channels to let us know. We’d be happy to hear your opinions and suggestions."
+    "description3": "Please go ahead and use these communication channels to us know. All opinions and suggestions welcome."
   },
   "notFound": {
     "primaryMessage": "404: The page you are looking for isn’t here",
@@ -58,7 +58,7 @@
     "noTokenSelected": "Please select a token to continue",
     "noAmountAdd": "Please enter the amount to add",
     "noAmountRemove": "Please enter the amount to remove",
-    "successTransaction": "Success transaction"
+    "successTransaction": "Transaction successful"
   },
   "fee": {
     "title": "Vote Your Fee",

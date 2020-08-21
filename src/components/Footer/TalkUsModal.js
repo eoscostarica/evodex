@@ -111,12 +111,12 @@ const TalkUsModal = ({ openModal, setOpenModal }) => {
         </Box>
         <Link
           className={clsx(classes.boxLinks, classes.marginBottomLink)}
-          href="https://github.com/eoscostarica/evodex"
+          href="https://github.com/eoscostarica/evodex/issues/new/choose"
           target="_blank"
           rel="noopener noreferrer"
         >
           <GitHubIcon className={classes.icon} />
-          <Typography variant="body1">github</Typography>
+          <Typography variant="body1">GitHub</Typography>
         </Link>
         <Link
           className={clsx(classes.boxLinks, classes.marginBottomLink)}
