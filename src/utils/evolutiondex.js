@@ -54,7 +54,7 @@ const getInfo = async (ual) => {
 
       return {
         price,
-        fee,
+        fee: isNaN(fee) ? 0 : fee,
         balance,
         token: tokenPair,
         supply: asset(supply),
@@ -69,6 +69,7 @@ const getInfo = async (ual) => {
       }
     })
   )
+
   const tokens = Object.keys(
     pairs.reduce(
       (temp, item) => ({
@@ -221,6 +222,8 @@ const getAddLiquidityAssets = (amount, pair) => {
   const baseAsset = amountToAsset(amount, pair.supply)
   const asset1 = numberToAsset(0, pair.pool1.asset.symbol)
   const asset2 = numberToAsset(0, pair.pool2.asset.symbol)
+
+  console.log({ baseAsset, asset1, asset2 })
 
   asset1.set_amount(
     computeForward(

@@ -8,6 +8,8 @@ import OutlinedInput from '@material-ui/core/OutlinedInput'
 import SearchIcon from '@material-ui/icons/Search'
 
 import Table from 'components/Table'
+import Footer from 'components/Footer'
+import SkeletonTable from 'components/Table/SkeletonTable'
 import { useExchange } from 'context/exchange.context'
 
 const useStyles = makeStyles((theme) => ({
@@ -47,13 +49,19 @@ const useStyles = makeStyles((theme) => ({
       justifyContent: 'space-between',
       alignItems: 'center'
     }
+  },
+  boxContent: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    height: '100%'
   }
 }))
 
 const Exchange = ({ onClickRow }) => {
   const classes = useStyles()
   const { t } = useTranslation('exchange')
-  const [{ pairs }, { update }] = useExchange()
+  const [{ pairs, loading }, { update }] = useExchange()
   const [options, setOptions] = useState([])
   const [filter, setFilter] = useState('')
 
@@ -77,21 +85,29 @@ const Exchange = ({ onClickRow }) => {
   }, [pairs, filter])
 
   return (
-    <Box>
-      <Box className={classes.headerFrontLayer}>
-        <Typography className={classes.labelPage}>
-          {t('headerTitle')}
-        </Typography>
-        <OutlinedInput
-          id="outlined-adornment-amount"
-          startAdornment={<SearchIcon />}
-          className={classes.inputSearch}
-          onChange={(e) => setFilter(e.target.value)}
-          value={filter}
-        />
+    <Box className={classes.boxContent}>
+      <Box>
+        <Box className={classes.headerFrontLayer}>
+          <Typography className={classes.labelPage}>
+            {t('headerTitle')}
+          </Typography>
+          <OutlinedInput
+            id="outlined-adornment-amount"
+            startAdornment={<SearchIcon />}
+            className={classes.inputSearch}
+            onChange={(e) => setFilter(e.target.value)}
+            value={filter}
+          />
+        </Box>
+        {loading && <SkeletonTable />}
+        {!loading && options?.length > 0 && (
+          <Table data={options} onClick={handleOnClick} />
+        )}
+        {!loading && options?.length === 0 && (
+          <Typography>{t('empty')}</Typography>
+        )}
       </Box>
-      {options?.length > 0 && <Table data={options} onClick={handleOnClick} />}
-      {options?.length === 0 && <Typography>{t('empty')}</Typography>}
+      <Footer />
     </Box>
   )
 }
