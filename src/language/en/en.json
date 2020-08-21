@@ -5,7 +5,8 @@
     "logout": "Logout",
     "headerTitle": "Token Listings",
     "version": "Version",
-    "footer": "Evodex is open source, get involved."
+    "footer": "Evodex is open source, get involved.",
+    "placeholder": "This Amount"
   },
   "talkUsModal": {
     "title": "Evodex is for the EOS community.",

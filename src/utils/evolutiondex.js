@@ -40,7 +40,8 @@ const getInfo = async (ual) => {
           Price: price,
           Supply: supply,
           Pool1contract: pool1Contract,
-          Pool2contract: pool2Contract
+          Pool2contract: pool2Contract,
+          error
         }
       } = await axios.get(`${evodexConfig.api}/info`, {
         params: {
@@ -53,6 +54,7 @@ const getInfo = async (ual) => {
       )
 
       return {
+        error,
         price,
         fee: isNaN(fee) ? 0 : fee,
         balance,
@@ -70,8 +72,10 @@ const getInfo = async (ual) => {
     })
   )
 
+  const pairsFiltered = pairs.filter((item) => !item.error)
+
   const tokens = Object.keys(
-    pairs.reduce(
+    pairsFiltered.reduce(
       (temp, item) => ({
         ...temp,
         [item.pool1.asset.symbol
@@ -85,7 +89,7 @@ const getInfo = async (ual) => {
     )
   )
 
-  return { pairs, tokens }
+  return { pairs: pairsFiltered, tokens }
 }
 const getTokensFor = (token, exchangeState = defaultState) => {
   if (!token) {
