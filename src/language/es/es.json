@@ -3,7 +3,14 @@
     "login": "Iniciar sesión",
     "users": "Usuarios",
     "logout": "Salir",
-    "headerTitle": "Listado de Tokens"
+    "headerTitle": "Listado de Tokens",
+    "version": "Versión"
+  },
+  "talkUsModal": {
+    "title": "Habla con nosotros!",
+    "description1": "Encontraste algo malo con Evodex?",
+    "description2": "Encontraste algún problema?",
+    "description3": "Por favor utilice nuestros canales de comunicación para informarnos. Estaremos encantados de escuchar tus opiniones y sugerencias.."
   },
   "notFound": {
     "primaryMessage": "404: no encontramos la página que estás buscando",

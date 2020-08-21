@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography'
 import OutlinedInput from '@material-ui/core/OutlinedInput'
 import SearchIcon from '@material-ui/icons/Search'
 
+import Footer from 'components/Footer'
 import CollapseTable from 'components/CollapseTable'
 import { useExchange } from 'context/exchange.context'
 
@@ -47,6 +48,12 @@ const useStyles = makeStyles((theme) => ({
       justifyContent: 'space-between',
       alignItems: 'center'
     }
+  },
+  boxContent: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    height: '100%'
   }
 }))
 
@@ -79,29 +86,32 @@ const Liquidity = ({ onClickRow }) => {
   }, [pairs, filter])
 
   return (
-    <Box>
-      <Box className={classes.headerFrontLayer}>
-        <Typography className={classes.labelPage}>
-          {t('headerTitle')}
-        </Typography>
-        <OutlinedInput
-          id="outlined-adornment-amount"
-          startAdornment={<SearchIcon />}
-          className={classes.inputSearch}
-          onChange={(e) => setFilter(e.target.value)}
-          value={filter}
+    <Box className={classes.boxContent}>
+      <Box>
+        <Box className={classes.headerFrontLayer}>
+          <Typography className={classes.labelPage}>
+            {t('headerTitle')}
+          </Typography>
+          <OutlinedInput
+            id="outlined-adornment-amount"
+            startAdornment={<SearchIcon />}
+            className={classes.inputSearch}
+            onChange={(e) => setFilter(e.target.value)}
+            value={filter}
+          />
+        </Box>
+        <CollapseTable
+          data={myPools}
+          label={t('tableLabelMyPool')}
+          onClick={handleOnClick}
+        />
+        <CollapseTable
+          data={communityPools}
+          label={t('tableLabelCommunity')}
+          onClick={handleOnClick}
         />
       </Box>
-      <CollapseTable
-        data={myPools}
-        label={t('tableLabelMyPool')}
-        onClick={handleOnClick}
-      />
-      <CollapseTable
-        data={communityPools}
-        label={t('tableLabelCommunity')}
-        onClick={handleOnClick}
-      />
+      <Footer />
     </Box>
   )
 }

@@ -18,6 +18,7 @@ import FrontLayer from './FrontLayer'
 import Sidebar from './Sidebar'
 import SubMenuTopBar from './SubmenuTopbar'
 import Topbar from './Topbar'
+// import TalkUsModal from './TalkUsModal'
 
 const STATIC_PAGES = ['/faq', '/about', '/ricardian-contract']
 
@@ -29,15 +30,6 @@ const useStyles = makeStyles((theme) => ({
     overflowY: 'hidden',
     [theme.breakpoints.up('sm')]: {
       height: '100vh'
-    }
-  },
-  frontLayer: {
-    height: '100%',
-    overflowY: 'auto',
-    padding: 16,
-    [theme.breakpoints.up('lg')]: {
-      paddingRight: theme.spacing(32),
-      paddingLeft: theme.spacing(32)
     }
   },
   backLayer: {
@@ -132,11 +124,17 @@ const Evodex = ({ ual }) => {
   }
 
   const handleOnReload = async () => {
+    setExchangeInfo((prevValue) => ({
+      ...prevValue,
+      loading: true
+    }))
+
     const info = await evolutiondex.getInfo(ual)
 
     setExchangeInfo((prevValue) => ({
       ...prevValue,
-      ...info
+      ...info,
+      loading: false
     }))
   }
 

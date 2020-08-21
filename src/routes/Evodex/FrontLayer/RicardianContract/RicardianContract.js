@@ -5,6 +5,8 @@ import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import { RicardianContract } from '@eoscostarica/eoscr-components'
 
+import Footer from 'components/Footer'
+
 const useStyles = makeStyles((theme) => ({
   wrapper: {
     overflow: 'hidden',
@@ -46,6 +48,11 @@ const useStyles = makeStyles((theme) => ({
   },
   overrideFrontLinearColor: {
     backgroundColor: '#272863'
+  },
+  boxContent: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between'
   }
 }))
 
@@ -54,42 +61,45 @@ const TermsOfUse = () => {
   const [tab, setTab] = useState(0)
 
   return (
-    <>
-      <Tabs
-        value={tab}
-        onChange={(event, newValue) => setTab(newValue)}
-        classes={{ indicator: classes.selectorTab }}
-      >
-        <Tab label="evolutiondex" />
-        <Tab label="wevotethefee" />
-      </Tabs>
-      {tab === 0 && (
-        <Box className={classes.wrapper}>
-          <RicardianContract
-            contractName="evolutiondex"
-            httpEndpoint="https://jungle.eosio.cr"
-            LinearProgressOverrideClasses={{
-              barColorPrimary: classes.overrideFrontLinearColor,
-              colorPrimary: classes.overrideLinearColor
-            }}
-            LinearProgressColor="primary"
-          />
-        </Box>
-      )}
-      {tab === 1 && (
-        <Box className={classes.wrapper}>
-          <RicardianContract
-            contractName="wevotethefee"
-            httpEndpoint="https://jungle.eosio.cr"
-            LinearProgressOverrideClasses={{
-              barColorPrimary: classes.overrideFrontLinearColor,
-              colorPrimary: classes.overrideLinearColor
-            }}
-            LinearProgressColor="primary"
-          />
-        </Box>
-      )}
-    </>
+    <Box className={classes.boxContent}>
+      <Box>
+        <Tabs
+          value={tab}
+          onChange={(event, newValue) => setTab(newValue)}
+          classes={{ indicator: classes.selectorTab }}
+        >
+          <Tab label="evolutiondex" />
+          <Tab label="wevotethefee" />
+        </Tabs>
+        {tab === 0 && (
+          <Box className={classes.wrapper}>
+            <RicardianContract
+              contractName="evolutiondex"
+              httpEndpoint="https://jungle.eosio.cr"
+              LinearProgressOverrideClasses={{
+                barColorPrimary: classes.overrideFrontLinearColor,
+                colorPrimary: classes.overrideLinearColor
+              }}
+              LinearProgressColor="primary"
+            />
+          </Box>
+        )}
+        {tab === 1 && (
+          <Box className={classes.wrapper}>
+            <RicardianContract
+              contractName="wevotethefee"
+              httpEndpoint="https://jungle.eosio.cr"
+              LinearProgressOverrideClasses={{
+                barColorPrimary: classes.overrideFrontLinearColor,
+                colorPrimary: classes.overrideLinearColor
+              }}
+              LinearProgressColor="primary"
+            />
+          </Box>
+        )}
+      </Box>
+      <Footer />
+    </Box>
   )
 }
 

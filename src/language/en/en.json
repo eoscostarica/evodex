@@ -3,7 +3,14 @@
     "login": "Login",
     "users": "Users",
     "logout": "Logout",
-    "headerTitle": "Token Listings"
+    "headerTitle": "Token Listings",
+    "version": "Version"
+  },
+  "talkUsModal": {
+    "title": "Talk to Us!",
+    "description1": "Did you find something wrong with Evodex?",
+    "description2": "Did you find a bug?",
+    "description3": "Please go ahead and use our communication channels to let us know. We’d be happy to hear your opinions and suggestions."
   },
   "notFound": {
     "primaryMessage": "404: The page you are looking for isn’t here",
