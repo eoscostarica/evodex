@@ -5,11 +5,12 @@
     "logout": "Logout",
     "headerTitle": "Token Listings",
     "version": "Version",
-    "footer": "Evodex is open source, get involved."
+    "footer": "Evodex is open source, get involved.",
+    "placeholder": "This Amount"
   },
   "talkUsModal": {
     "title": "Evodex is for the EOS community.",
-    "subtitle": "Get Involved!", 
+    "subtitle": "Get Involved!",
     "description1": "Do you have an idea for a cool feature for evodex?",
     "description2": "Did you find a bug?",
     "description3": "Use these communication channels to get in touch. All opinions and suggestions welcome."
@@ -47,8 +48,8 @@
     "htmlTitle": "Add or Remove Liquidity to EOS DEX pools on evodex",
     "description": "Select a token pair and the amount you want to add or remove to the liquidity pool.",
     "headerTitle": "Token Listings",
-    "tableLabelMyPool": "My Pool",
-    "tableLabelCommunity": "Community Pool",
+    "tableLabelMyPool": "My Pools",
+    "tableLabelCommunity": "Community Pools",
     "inputLabel": "You Give",
     "available": "available",
     "add": "Add",
@@ -66,8 +67,8 @@
     "htmlTitle": "Vote exchange fees for EOS decentralized exchange dex",
     "description": "Select a Token Pair and the fee you want to vote for the liquidity pool.",
     "headerTitle": "Token Listings",
-    "tableLabelMyPool": "My Pool",
-    "tableLabelCommunity": "Community Pool",
+    "tableLabelMyPool": "My Pools",
+    "tableLabelCommunity": "Community Pools",
     "noUser": "Please login to continue",
     "noTokenSelected": "Please select a token to continue",
     "noVote": "Please enter your vote",

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
+import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@material-ui/styles'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
@@ -120,6 +121,7 @@ const InputTextAndSelect = ({
   inputDisabled
 }) => {
   const classes = useStyles()
+  const { t } = useTranslation('translations')
   const textInput = useRef(null)
   const [inputData, setInputData] = useState({})
 
@@ -154,7 +156,7 @@ const InputTextAndSelect = ({
             ref={textInput}
             onChange={(e) => handleOnChange(e.target.value, 'inputValue')}
             value={inputData.inputValue || ''}
-            placeholder="This Amount"
+            placeholder={t('placeholder')}
             readOnly={inputDisabled}
             onKeyPress={(e) => handleOnKeyPress(e.key)}
           />
