@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@material-ui/styles'
 import Box from '@material-ui/core/Box'
-import Typography from '@material-ui/core/Typography'
+import Link from '@material-ui/core/Link'
 import AnnouncementIcon from '@material-ui/icons/Announcement'
 
 import TalkUsModal from './TalkUsModal'
@@ -10,11 +10,12 @@ import TalkUsModal from './TalkUsModal'
 const useStyles = makeStyles((theme) => ({
   footer: {
     display: 'flex',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   labelfooter: {
     fontSize: 12.1,
-    fontWeight: '600',
+    fontWeight: '500',
     lineHeight: 1.32,
     letterSpacing: '0.4px',
     textAlign: 'center',
@@ -41,9 +42,14 @@ const Footer = () => {
     <>
       <TalkUsModal openModal={openModal} setOpenModal={setOpenModal} />
       <Box className={classes.footer}>
-        <Typography className={classes.labelfooter}>
-          {`Copyright © ${1900 + new Date().getYear()}. ${t('version')} 1.0`}
-        </Typography>
+        <Link
+          className={classes.labelfooter}
+          href="https://github.com/eoscostarica/evodex"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {t('footer')}
+        </Link>
         <AnnouncementIcon
           className={classes.iconButton}
           onClick={() => setOpenModal(!openModal)}

@@ -4,11 +4,12 @@
     "users": "Users",
     "logout": "Logout",
     "headerTitle": "Token Listings",
-    "version": "Version"
+    "version": "Version",
+    "footer": "Evodex is open source, get involved."
   },
   "talkUsModal": {
     "title": "Talk to Us!",
-    "description1": "Did you find something wrong with Evodex?",
+    "description1": "Do you have an idea for a cool feature for evodex?",
     "description2": "Did you find a bug?",
     "description3": "Please go ahead and use our communication channels to let us know. We’d be happy to hear your opinions and suggestions."
   },
