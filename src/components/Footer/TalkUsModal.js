@@ -50,7 +50,15 @@ const useStyles = makeStyles((theme) => ({
   info: {
     fontSize: 16,
     fontWeight: '600',
-    lineHeight: 1.48,
+    lineHeight: 1.6,
+    letterSpacing: 0.15,
+    color: 'rgba(0, 0, 0, 0.6)'
+  },
+  infoText: {
+    fontSize: 16,
+    marginTop: theme.spacing(1),
+    fontWeight: '600',
+    lineHeight: 1.2,
     letterSpacing: 0.15,
     color: 'rgba(0, 0, 0, 0.6)'
   },
@@ -99,24 +107,27 @@ const TalkUsModal = ({ openModal, setOpenModal }) => {
           <Typography variant="h1" className={classes.title}>
             {t('title')}
           </Typography>
+          <Typography variant="h2" className={classes.title}>
+            {t('subtitle')}
+          </Typography>
           <Typography variant="h3" className={classes.info}>
             {t('description1')}
           </Typography>
           <Typography variant="h3" className={classes.info}>
             {t('description2')}
           </Typography>
-          <Typography variant="h3" className={classes.info}>
+          <Typography className={classes.infoText}>
             {t('description3')}
           </Typography>
         </Box>
         <Link
           className={clsx(classes.boxLinks, classes.marginBottomLink)}
-          href="https://github.com/eoscostarica/evodex"
+          href="https://github.com/eoscostarica/evodex/issues/new/choose"
           target="_blank"
           rel="noopener noreferrer"
         >
           <GitHubIcon className={classes.icon} />
-          <Typography variant="body1">github</Typography>
+          <Typography variant="body1">GitHub</Typography>
         </Link>
         <Link
           className={clsx(classes.boxLinks, classes.marginBottomLink)}

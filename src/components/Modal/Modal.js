@@ -20,12 +20,12 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     borderRadius: 20,
     width: 280,
-    height: 424,
+    height: 550,
     overflowY: 'auto',
     outlineWidth: 0,
     [theme.breakpoints.up('sm')]: {
       width: 560,
-      height: 370
+      height: 420
     }
   },
   closeIcon: {

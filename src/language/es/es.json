@@ -8,10 +8,11 @@
     "footer": "Evodex es de código abierto, involúcrate."
   },
   "talkUsModal": {
-    "title": "Habla con nosotros!",
+    "title": "Evodex es para la comunidad de EOS",
+    "subtitle":"Involúcrate!",
     "description1": "¿Tenes una idea de funcionalidad nueva para evodex?",
     "description2": "¿Encontraste algún problema?",
-    "description3": "Por favor utiliza nuestros canales de comunicación para dejarnos saber que es lo que pasa. Estaremos felices de escuchar sus opiniones y sugerencias."
+    "description3": "Por favor utiliza estos canales de comunicación para comunicarte con la comunidad. Bienvenidas las opiniones y sugerencias."
   },
   "notFound": {
     "primaryMessage": "404: no encontramos la página que estás buscando",
