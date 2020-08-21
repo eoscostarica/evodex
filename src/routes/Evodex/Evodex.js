@@ -132,11 +132,18 @@ const Evodex = ({ ual }) => {
   }
 
   const handleOnReload = async () => {
+    setExchangeInfo((prevValue) => ({
+      ...prevValue,
+      loading: true
+    }))
+
+    await new Promise((resolve) => setTimeout(resolve, 10000))
     const info = await evolutiondex.getInfo(ual)
 
     setExchangeInfo((prevValue) => ({
       ...prevValue,
-      ...info
+      ...info,
+      loading: false
     }))
   }
 

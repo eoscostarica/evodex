@@ -20,7 +20,8 @@ const exchangeReducer = (state, action) => {
 
 const initialValue = {
   pairs: [],
-  tokens: []
+  tokens: [],
+  loading: false
 }
 
 export const ExchangeProvider = ({ info, ...props }) => {

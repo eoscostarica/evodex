@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 const Exchange = ({ onClickRow }) => {
   const classes = useStyles()
   const { t } = useTranslation('exchange')
-  const [{ pairs }, { update }] = useExchange()
+  const [{ pairs, loading }, { update }] = useExchange()
   const [options, setOptions] = useState([])
   const [filter, setFilter] = useState('')
 
@@ -90,8 +90,13 @@ const Exchange = ({ onClickRow }) => {
           value={filter}
         />
       </Box>
-      {options?.length > 0 && <Table data={options} onClick={handleOnClick} />}
-      {options?.length === 0 && <Typography>{t('empty')}</Typography>}
+      {loading && <Typography>{t('loading')}</Typography>}
+      {!loading && options?.length > 0 && (
+        <Table data={options} onClick={handleOnClick} />
+      )}
+      {!loading && options?.length === 0 && (
+        <Typography>{t('empty')}</Typography>
+      )}
     </Box>
   )
 }
