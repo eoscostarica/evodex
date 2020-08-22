@@ -3,7 +3,17 @@
     "login": "Iniciar sesión",
     "users": "Usuarios",
     "logout": "Salir",
-    "headerTitle": "Listado de Tokens"
+    "headerTitle": "Listado de Tokens",
+    "version": "Versión",
+    "footer": "Evodex es de código abierto, involúcrate.",
+    "placeholder": "Monto"
+  },
+  "talkUsModal": {
+    "title": "Evodex es para la comunidad de EOS",
+    "subtitle":"Involúcrate!",
+    "description1": "¿Tenes una idea de funcionalidad nueva para evodex?",
+    "description2": "¿Encontraste algún problema?",
+    "description3": "Por favor utiliza estos canales de comunicación para comunicarte con la comunidad. Bienvenidas las opiniones y sugerencias."
   },
   "notFound": {
     "primaryMessage": "404: no encontramos la página que estás buscando",

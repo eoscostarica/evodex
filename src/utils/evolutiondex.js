@@ -40,7 +40,8 @@ const getInfo = async (ual) => {
           Price: price,
           Supply: supply,
           Pool1contract: pool1Contract,
-          Pool2contract: pool2Contract
+          Pool2contract: pool2Contract,
+          error
         }
       } = await axios.get(`${evodexConfig.api}/info`, {
         params: {
@@ -53,8 +54,9 @@ const getInfo = async (ual) => {
       )
 
       return {
+        error,
         price,
-        fee,
+        fee: isNaN(fee) ? 0 : fee,
         balance,
         token: tokenPair,
         supply: asset(supply),
@@ -69,8 +71,11 @@ const getInfo = async (ual) => {
       }
     })
   )
+
+  const pairsFiltered = pairs.filter((item) => !item.error)
+
   const tokens = Object.keys(
-    pairs.reduce(
+    pairsFiltered.reduce(
       (temp, item) => ({
         ...temp,
         [item.pool1.asset.symbol
@@ -84,7 +89,7 @@ const getInfo = async (ual) => {
     )
   )
 
-  return { pairs, tokens }
+  return { pairs: pairsFiltered, tokens }
 }
 const getTokensFor = (token, exchangeState = defaultState) => {
   if (!token) {
@@ -221,6 +226,8 @@ const getAddLiquidityAssets = (amount, pair) => {
   const baseAsset = amountToAsset(amount, pair.supply)
   const asset1 = numberToAsset(0, pair.pool1.asset.symbol)
   const asset2 = numberToAsset(0, pair.pool2.asset.symbol)
+
+  console.log({ baseAsset, asset1, asset2 })
 
   asset1.set_amount(
     computeForward(

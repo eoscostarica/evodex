@@ -31,15 +31,6 @@ const useStyles = makeStyles((theme) => ({
       height: '100vh'
     }
   },
-  frontLayer: {
-    height: '100%',
-    overflowY: 'auto',
-    padding: 16,
-    [theme.breakpoints.up('lg')]: {
-      paddingRight: theme.spacing(32),
-      paddingLeft: theme.spacing(32)
-    }
-  },
   backLayer: {
     overflowY: 'auto'
   },
@@ -132,11 +123,17 @@ const Evodex = ({ ual }) => {
   }
 
   const handleOnReload = async () => {
+    setExchangeInfo((prevValue) => ({
+      ...prevValue,
+      loading: true
+    }))
+
     const info = await evolutiondex.getInfo(ual)
 
     setExchangeInfo((prevValue) => ({
       ...prevValue,
-      ...info
+      ...info,
+      loading: false
     }))
   }
 
