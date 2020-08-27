@@ -124,7 +124,7 @@ const INFO = [
 const SOCIAL = [
   {
     title: 'Telegram',
-    href: 'https://t.me/evodexarg',
+    href: 'https://t.me/evodex_io',
     icon: <TelegramIcon />
   },
   {
