@@ -1,8 +1,8 @@
 name: Deployment
 on:
   push:
-    branches:
-      - master
+    tags:
+      - v*
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -12,6 +12,9 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node-version }}
+    - name: Get tag
+        id: tag
+        uses: dawidd6/action-get-tag@v1
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
@@ -25,8 +28,15 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-        publish_dir: ./build
+        publish_dir: ./Build
+    - name: Create Release
+        id: create_release
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          prerelease: true
     env:
+        REACT_APP_PROJECT_VERSION: ${{ steps.tag.outputs.tag }}
         REACT_APP_EOS_API_HOST: api.eosargentina.io
         REACT_APP_EOS_API_PORT: 443
         REACT_APP_EOS_API_PROTOCOL: https
