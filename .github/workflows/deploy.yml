@@ -1,55 +1,56 @@
-name: Deployment
-on:
-  push:
-    tags:
-      - v*
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
-    steps:
-    - name: Use Node.js ${{ matrix.node-version }}
-    - uses: actions/checkout@v1
+  name: Deployment
+  on:
+    push:
+      tags:
+        - v*
+  jobs:
+    deploy:
+      runs-on: ubuntu-latest
+      strategy:
+        matrix:
+          node-version: [12.x]
+      steps:
+      - uses: actions/checkout@v1
 
-    - name: Set Version Tag
-      id: tag
-      uses: dawidd6/action-get-tag@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: Install Packages
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-      run: yarn install
+      - name: Set Version Tag
+        id: tag
+        uses: dawidd6/action-get-tag@v1
 
-    - name: Build page
-      run: yarn run build
+      - name: Install Packages
+        run: yarn install
 
-    - name: Set 404 page as Homepage
-      run: cp ./build/index.html ./build/404.html
+      - name: Build page
+        run: yarn run build
 
-    - name: Deploy to gh-pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-        publish_dir: ./build
+      - name: Set 404 page as index.html
+        run: cp ./build/index.html ./build/404.html
 
-    - name: Create Release
-      id: create_release
-      uses: marvinpinto/action-automatic-releases@latest
-      with:
-        repo_token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-        prerelease: true
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          publish_dir: ./build
 
-    env:
-        REACT_APP_PROJECT_VERSION: ${{ steps.tag.outputs.tag }}
-        REACT_APP_EOS_API_HOST: api.eosargentina.io
-        REACT_APP_EOS_API_PORT: 443
-        REACT_APP_EOS_API_PROTOCOL: https
-        REACT_APP_EOS_CHAIN_ID: aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906
-        REACT_APP_EOS_APP_NAME: EvoDex
-        REACT_APP_EOS_BLOCK_EXPLORER_URL: https://bloks.io
-        REACT_APP_VOTE_CONTRACT: wevotethefee
-        REACT_APP_EVODEX_CONTRACT: evolutiondex
-        REACT_APP_EVODEX_API_URL: https://api.evolutiondex.io
+      - name: Create Release
+        id: create_release
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          prerelease: true
+
+      env:
+          REACT_APP_PROJECT_VERSION: ${{ steps.tag.outputs.tag }}
+          REACT_APP_EOS_API_HOST: api.eosargentina.io
+          REACT_APP_EOS_API_PORT: 443
+          REACT_APP_EOS_API_PROTOCOL: https
+          REACT_APP_EOS_CHAIN_ID: aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906
+          REACT_APP_EOS_APP_NAME: EvoDex
+          REACT_APP_EOS_BLOCK_EXPLORER_URL: https://bloks.io
+          REACT_APP_VOTE_CONTRACT: wevotethefee
+          REACT_APP_EVODEX_CONTRACT: evolutiondex
+          REACT_APP_EVODEX_API_URL: https://api.evolutiondex.io
