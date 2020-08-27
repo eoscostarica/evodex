@@ -33,12 +33,12 @@ The main difference from say Uniswap on Ethereum, is that liquidity providers ca
 
 Another difference between EVODEX and UNISWAP comes from the different blockchains where they both operate, traders only pay fees to liquidity providers, but they don't have to pay transfer fees like in Ethereum and other networks.
 
-#### Telegram Channel : [https://t.me/evodexarg](https://t.me/evodexarg)
+#### Telegram Channel : [https://t.me/evodexarg](https://t.me/evodex_io)
 
 
 ## Version
 
-- 0.1.0
+- 0.1.0-beta
 
 ## Tech Stack
 
