@@ -17,7 +17,6 @@ import TitlePage from 'components/PageTitle'
 import InputTextAndSelect from 'components/InputTextAndSelect'
 import EvodexRocketSvg from 'components/Icons/EvodexRocket'
 import Button from 'components/Button'
-// import CollapseSection from 'components/CollapseSection'
 import { useExchange } from 'context/exchange.context'
 import { evolutiondex } from 'utils'
 
@@ -463,12 +462,6 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
                 variant="body1"
                 className={clsx([classes.textInfo, classes.helperText])}
               >
-                {/* {`Pool: ${
-                  pair.pool2.asset.toString().split(' ')[0]
-                } (${pair.pool2.asset.symbol
-                  .code()
-                  .toString()
-                  .toLowerCase()}.token)`} */}
                 {helperTextReceive}
               </Typography>
             )
@@ -488,75 +481,6 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
           <strong>{`${t('fee')}:`}</strong> {pair ? Number(pair.fee) / 100 : 0}%
         </Typography>
       </Box>
-      {/* {pair && (
-        <Box className={classes.infoBox}>
-          <Box className={classes.infoBoxWrapper}>
-            <Typography variant="body1" className={classes.textInfo}>
-              <strong>{`${t('price')}: `}</strong>
-              {assets && <span>{assets.price}</span>}
-            </Typography>
-            <Typography variant="body1" className={classes.textInfo}>
-              <strong>{`${t('fee')}:`}</strong> {Number(pair.fee) / 100}%
-            </Typography>
-          </Box>
-          <Box className={classes.infoBoxWrapper}>
-            <CollapseSection title="Advanced">
-              <Typography
-                variant="body1"
-                className={clsx([
-                  classes.textInfo,
-                  classes.textWithDescription
-                ])}
-              >
-                <strong>{`${t('pairSupply')}: `}</strong>
-                <span>{pair.supply.toString()}</span>
-              </Typography>
-              <Typography
-                variant="body1"
-                className={clsx([
-                  classes.textInfo,
-                  classes.textWithDescription
-                ])}
-              >
-                <strong>{`${t('estimatedPrice')}: `}</strong>
-                <span>{assets && assets.price}</span>
-              </Typography>
-              <Typography
-                variant="body1"
-                className={clsx([
-                  classes.textInfo,
-                  classes.textWithDescription
-                ])}
-              >
-                <strong>
-                  {pair.pool1.asset.symbol.code().toString()} pool:{' '}
-                </strong>
-                <span>
-                  {pair.pool1.asset.toString().split(' ')[0]} (
-                  {pair.pool1.asset.symbol.code().toString().toLowerCase()}
-                  .token)
-                </span>
-              </Typography>
-              <Typography
-                variant="body1"
-                className={clsx([
-                  classes.textInfo,
-                  classes.textWithDescription
-                ])}
-              >
-                <strong>
-                  {pair.pool2.asset.symbol.code().toString()} pool:{' '}
-                </strong>
-                <span>
-                  {pair.pool2.asset.toString().split(' ')[0]} (
-                  {pair.pool2.asset.symbol.code().toString().toLowerCase()}
-                  .token)
-                </span>
-              </Typography>
-            </CollapseSection>
-          </Box>
-        </Box>
-      )} */}
       {loading && (
         <LinearProgress className={classes.loading} color="secondary" />
       )}
