@@ -200,7 +200,7 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
   const [assets, setAssets] = useState()
   const [options, setOptions] = useState({ youGive: [], youReceive: [] })
   const [youReceive, setYouReceive] = useState({})
-  const [youGive, setYouGive] = useState({})
+  const [youGive, setYouGive] = useState({ walletBalance: {} })
   const [loading, setLoading] = useState(false)
   const [helperTextReceive, setHelperTextReceive] = useState('')
 
@@ -354,6 +354,34 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
   }, [pair, youGive.inputValue])
 
   useEffect(() => {
+    if (!exchangeState.currentPair) {
+      return
+    }
+
+    setHelperTextReceive(
+      `Pool: ${
+        exchangeState.currentPair.pool2.asset.toString().split(' ')[0]
+      } (${exchangeState.currentPair.pool2.asset.symbol
+        .code()
+        .toString()
+        .toLowerCase()}.token)`
+    )
+
+    setYouGive((prevValue) => ({
+      ...prevValue,
+      selectValue: exchangeState.currentPair.pool1.asset.symbol
+        .code()
+        .toString()
+    }))
+    setYouReceive((prevValue) => ({
+      ...prevValue,
+      selectValue: exchangeState.currentPair.pool2.asset.symbol
+        .code()
+        .toString()
+    }))
+  }, [showMessage, exchangeState.currentPair, ual.activeUser])
+
+  useEffect(() => {
     const getCurrencyBalance = async () => {
       let walletPool = {}
 
@@ -361,63 +389,39 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
         const pool1 = await ual.activeUser.rpc.get_currency_balance(
           'eosio.token',
           ual.activeUser.accountName,
-          exchangeState.currentPair.pool1.asset.symbol.code().toString()
+          pair.pool1.asset.symbol.code().toString()
         )
 
         const pool2 = await ual.activeUser.rpc.get_currency_balance(
           'eosio.token',
           ual.activeUser.accountName,
-          exchangeState.currentPair.pool2.asset.symbol.code().toString()
+          pair.pool2.asset.symbol.code().toString()
         )
 
         walletPool = {
-          [exchangeState.currentPair.pool1.asset.symbol
-            .code()
-            .toString()]: pool1.length
+          [pair.pool1.asset.symbol.code().toString()]: pool1.length
             ? pool1[0]
-            : `0 ${exchangeState.currentPair.pool1.asset.symbol
-                .code()
-                .toString()}`,
-          [exchangeState.currentPair.pool2.asset.symbol
-            .code()
-            .toString()]: pool2.length
+            : `0 ${pair.pool1.asset.symbol.code().toString()}`,
+          [pair.pool2.asset.symbol.code().toString()]: pool2.length
             ? pool2[0]
-            : `0 ${exchangeState.currentPair.pool2.asset.symbol
-                .code()
-                .toString()}`
+            : `0 ${pair.pool2.asset.symbol.code().toString()}`
         }
       }
 
-      setHelperTextReceive(
-        `Pool: ${
-          exchangeState.currentPair.pool2.asset.toString().split(' ')[0]
-        } (${exchangeState.currentPair.pool2.asset.symbol
-          .code()
-          .toString()
-          .toLowerCase()}.token)`
-      )
-
       setYouGive((prevValue) => ({
         ...prevValue,
-        selectValue: exchangeState.currentPair.pool1.asset.symbol
-          .code()
-          .toString(),
         walletBalance: walletPool
       }))
-      setYouReceive((prevValue) => ({
-        ...prevValue,
-        selectValue: exchangeState.currentPair.pool2.asset.symbol
-          .code()
-          .toString()
-      }))
+      getTokenValue(youReceive.selectValue)
     }
 
-    if (!exchangeState.currentPair) {
+    if (!pair) {
       return
     }
 
     getCurrencyBalance()
-  }, [showMessage, exchangeState.currentPair, ual.activeUser])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pair])
 
   return (
     <Box className={classes.exchangeRoot}>
