@@ -435,7 +435,8 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
           onChange={handleOnChange('youGive')}
           value={youGive}
           helperText={
-            pair && (
+            pair &&
+            ual.activeUser && (
               <Typography
                 variant="body1"
                 className={clsx([classes.textInfo, classes.helperText])}
