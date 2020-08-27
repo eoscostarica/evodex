@@ -97,7 +97,8 @@
     "rate": "Rate",
     "pairSupply": "Pair Supply",
     "estimatedPrice": "Estimated Price",
-    "btnLabel": "exchange"
+    "btnLabel": "exchange",
+    "price": "Price"
   },
   "about": {
     "title": "About evodex",
