@@ -12,7 +12,7 @@ jobs:
     steps:
     - name: Use Node.js ${{ matrix.node-version }}
     - uses: actions/checkout@v1
-    
+
     - name: Set Version Tag
       id: tag
       uses: dawidd6/action-get-tag@v1
@@ -41,7 +41,7 @@ jobs:
       with:
         repo_token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
         prerelease: true
-        
+
     env:
         REACT_APP_PROJECT_VERSION: ${{ steps.tag.outputs.tag }}
         REACT_APP_EOS_API_HOST: api.eosargentina.io
