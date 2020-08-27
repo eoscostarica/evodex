@@ -11,7 +11,7 @@ jobs:
         node-version: [12.x]
     steps:
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/checkout@v1
+    - uses: actions/checkout@v1
 
     - name: Set Version Tag
       id: tag
