@@ -40,7 +40,7 @@
           id: create_release
           uses: marvinpinto/action-automatic-releases@latest
           with:
-            repo_token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+            repo_token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
             prerelease: true
 
       env:
