@@ -17,7 +17,7 @@ import TitlePage from 'components/PageTitle'
 import InputTextAndSelect from 'components/InputTextAndSelect'
 import EvodexRocketSvg from 'components/Icons/EvodexRocket'
 import Button from 'components/Button'
-import CollapseSection from 'components/CollapseSection'
+// import CollapseSection from 'components/CollapseSection'
 import { useExchange } from 'context/exchange.context'
 import { evolutiondex } from 'utils'
 
@@ -33,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
       paddingRight: theme.spacing(4)
     },
     [theme.breakpoints.up('lg')]: {
-      marginTop: theme.spacing(13),
       padding: theme.spacing(3, 0)
     }
   },
@@ -97,6 +96,14 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.up('sm')]: {
       flexDirection: 'row'
+    },
+    [theme.breakpoints.up('lg')]: {
+      marginTop: theme.spacing(0),
+      padding: theme.spacing(0),
+      alignItems: 'start',
+      '& > .MuiBox-root': {
+        marginTop: theme.spacing(2)
+      }
     }
   },
   infoBox: {
@@ -108,10 +115,10 @@ const useStyles = makeStyles((theme) => ({
   infoBoxWrapper: {
     width: '100%',
     display: 'flex',
-    justifyContent: 'space-between',
-    [theme.breakpoints.up('md')]: {
-      maxWidth: '60%'
-    }
+    justifyContent: 'center'
+  },
+  feeSpace: {
+    marginLeft: theme.spacing(2)
   },
   textInfo: {
     fontSize: 16.2,
@@ -126,6 +133,11 @@ const useStyles = makeStyles((theme) => ({
     '& span': {
       color: 'rgba(255, 255, 255, 0.6)'
     }
+  },
+  helperText: {
+    display: 'flex',
+    fontSize: 12,
+    marginLeft: theme.spacing(1)
   },
   rocketSvg: {
     zIndex: 0,
@@ -191,6 +203,23 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
   const [youReceive, setYouReceive] = useState({})
   const [youGive, setYouGive] = useState({})
   const [loading, setLoading] = useState(false)
+  const [helperTextReceive, setHelperTextReceive] = useState('')
+
+  const getTokenValue = (token) => {
+    let result = ''
+
+    if (token === pair.pool1.asset.symbol.code().toString().toUpperCase()) {
+      result = `Pool: ${
+        pair.pool1.asset.toString().split(' ')[0]
+      } (${pair.pool1.asset.symbol.code().toString().toLowerCase()}.token)`
+    } else {
+      result = `Pool: ${
+        pair.pool2.asset.toString().split(' ')[0]
+      } (${pair.pool2.asset.symbol.code().toString().toLowerCase()}.token)`
+    }
+
+    setHelperTextReceive(result)
+  }
 
   const handleOnChange = (key) => (value) => {
     let set
@@ -216,6 +245,7 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
     setYouReceive({
       selectValue: youGive.selectValue
     })
+    getTokenValue(youGive.selectValue)
     setYouGive({
       ...youGive,
       selectValue: youReceive.selectValue
@@ -325,23 +355,70 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
   }, [pair, youGive.inputValue])
 
   useEffect(() => {
+    const getCurrencyBalance = async () => {
+      let walletPool = {}
+
+      if (ual.activeUser) {
+        const pool1 = await ual.activeUser.rpc.get_currency_balance(
+          'eosio.token',
+          ual.activeUser.accountName,
+          exchangeState.currentPair.pool1.asset.symbol.code().toString()
+        )
+
+        const pool2 = await ual.activeUser.rpc.get_currency_balance(
+          'eosio.token',
+          ual.activeUser.accountName,
+          exchangeState.currentPair.pool2.asset.symbol.code().toString()
+        )
+
+        walletPool = {
+          [exchangeState.currentPair.pool1.asset.symbol
+            .code()
+            .toString()]: pool1.length
+            ? pool1[0]
+            : `0 ${exchangeState.currentPair.pool1.asset.symbol
+                .code()
+                .toString()}`,
+          [exchangeState.currentPair.pool2.asset.symbol
+            .code()
+            .toString()]: pool2.length
+            ? pool2[0]
+            : `0 ${exchangeState.currentPair.pool2.asset.symbol
+                .code()
+                .toString()}`
+        }
+      }
+
+      setHelperTextReceive(
+        `Pool: ${
+          exchangeState.currentPair.pool2.asset.toString().split(' ')[0]
+        } (${exchangeState.currentPair.pool2.asset.symbol
+          .code()
+          .toString()
+          .toLowerCase()}.token)`
+      )
+
+      setYouGive((prevValue) => ({
+        ...prevValue,
+        selectValue: exchangeState.currentPair.pool1.asset.symbol
+          .code()
+          .toString(),
+        walletBalance: walletPool
+      }))
+      setYouReceive((prevValue) => ({
+        ...prevValue,
+        selectValue: exchangeState.currentPair.pool2.asset.symbol
+          .code()
+          .toString()
+      }))
+    }
+
     if (!exchangeState.currentPair) {
       return
     }
 
-    setYouGive((prevValue) => ({
-      ...prevValue,
-      selectValue: exchangeState.currentPair.pool1.asset.symbol
-        .code()
-        .toString()
-    }))
-    setYouReceive((prevValue) => ({
-      ...prevValue,
-      selectValue: exchangeState.currentPair.pool2.asset.symbol
-        .code()
-        .toString()
-    }))
-  }, [showMessage, exchangeState.currentPair])
+    getCurrencyBalance()
+  }, [showMessage, exchangeState.currentPair, ual.activeUser])
 
   return (
     <Box className={classes.exchangeRoot}>
@@ -358,6 +435,17 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
           options={options.youGive}
           onChange={handleOnChange('youGive')}
           value={youGive}
+          helperText={
+            pair && (
+              <Typography
+                variant="body1"
+                className={clsx([classes.textInfo, classes.helperText])}
+              >
+                {`Your Wallet: ${youGive.walletBalance[youGive.selectValue]}`}
+              </Typography>
+            )
+          }
+          useHelperTextAsNode
         />
         <IconButton aria-label="switch" onClick={handleOnSwitchValues}>
           {isDesktop ? <SwapHorizIcon /> : <ImportExportIcon />}
@@ -369,19 +457,43 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
           onChange={handleOnChange('youReceive')}
           value={youReceive}
           inputDisabled
+          helperText={
+            pair && (
+              <Typography
+                variant="body1"
+                className={clsx([classes.textInfo, classes.helperText])}
+              >
+                {/* {`Pool: ${
+                  pair.pool2.asset.toString().split(' ')[0]
+                } (${pair.pool2.asset.symbol
+                  .code()
+                  .toString()
+                  .toLowerCase()}.token)`} */}
+                {helperTextReceive}
+              </Typography>
+            )
+          }
+          useHelperTextAsNode
         />
       </Box>
-      {pair && (
+      <Box className={classes.infoBoxWrapper}>
+        <Typography variant="body1" className={classes.textInfo}>
+          <strong>{`${t('price')}: `}</strong>
+          {assets ? <span>{assets.price}</span> : 0}
+        </Typography>
+        <Typography
+          variant="body1"
+          className={clsx(classes.textInfo, classes.feeSpace)}
+        >
+          <strong>{`${t('fee')}:`}</strong> {pair ? Number(pair.fee) / 100 : 0}%
+        </Typography>
+      </Box>
+      {/* {pair && (
         <Box className={classes.infoBox}>
           <Box className={classes.infoBoxWrapper}>
             <Typography variant="body1" className={classes.textInfo}>
-              <strong>{`${t('rate')}: `}</strong>
-              {assets && (
-                <span>
-                  {assets.assetToGive.toString()} ={' '}
-                  {assets.assetToReceive.toString()}
-                </span>
-              )}
+              <strong>{`${t('price')}: `}</strong>
+              {assets && <span>{assets.price}</span>}
             </Typography>
             <Typography variant="body1" className={classes.textInfo}>
               <strong>{`${t('fee')}:`}</strong> {Number(pair.fee) / 100}%
@@ -444,7 +556,7 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
             </CollapseSection>
           </Box>
         </Box>
-      )}
+      )} */}
       {loading && (
         <LinearProgress className={classes.loading} color="secondary" />
       )}
