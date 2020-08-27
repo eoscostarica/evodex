@@ -10,31 +10,38 @@ jobs:
       matrix:
         node-version: [12.x]
     steps:
-    - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node-version }}
-    - name: Get tag
-        id: tag
-        uses: dawidd6/action-get-tag@v1
+    - uses: actions/checkout@v1
+    
+    - name: Set Version Tag
+      id: tag
+      uses: dawidd6/action-get-tag@v1
+
+    - name: Install Packages
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: Install Packages
       run: yarn install
+
     - name: Build page
       run: yarn run build
+
     - name: Set 404 page as Homepage
       run: cp ./build/index.html ./build/404.html
+
     - name: Deploy to gh-pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-        publish_dir: ./Build
+        publish_dir: ./build
+
     - name: Create Release
-        id: create_release
-        uses: marvinpinto/action-automatic-releases@latest
-        with:
-          repo_token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          prerelease: true
+      id: create_release
+      uses: marvinpinto/action-automatic-releases@latest
+      with:
+        repo_token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+        prerelease: true
+        
     env:
         REACT_APP_PROJECT_VERSION: ${{ steps.tag.outputs.tag }}
         REACT_APP_EOS_API_HOST: api.eosargentina.io
