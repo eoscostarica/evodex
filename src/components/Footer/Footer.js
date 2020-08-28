@@ -7,10 +7,12 @@ import AnnouncementIcon from '@material-ui/icons/Announcement'
 
 import TalkUsModal from './TalkUsModal'
 
+const appVersion = process.env.REACT_APP_PROJECT_VERSION
+
 const useStyles = makeStyles((theme) => ({
   footer: {
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center'
   },
   labelfooter: {
@@ -19,9 +21,8 @@ const useStyles = makeStyles((theme) => ({
     lineHeight: 1.32,
     letterSpacing: '0.4px',
     textAlign: 'center',
-    width: '100%',
     color: 'rgba(0, 0, 0, 0.6)',
-    paddingLeft: 20
+    paddingRight: 10
   },
   iconButton: {
     width: 20,
@@ -48,7 +49,7 @@ const Footer = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          {t('footer')}
+          {`${t('footer')} ${appVersion}`}
         </Link>
         <AnnouncementIcon
           className={classes.iconButton}

@@ -107,6 +107,9 @@ const useStyles = makeStyles((theme) => ({
     lineHeight: 1.48,
     letterSpacing: '0.15px',
     color: '#ffffff'
+  },
+  boxInputContainer: {
+    width: '100%'
   }
 }))
 
@@ -118,7 +121,8 @@ const InputTextAndSelect = ({
   options,
   selected,
   value,
-  inputDisabled
+  inputDisabled,
+  useHelperTextAsNode
 }) => {
   const classes = useStyles()
   const { t } = useTranslation('translations')
@@ -144,7 +148,7 @@ const InputTextAndSelect = ({
   }, [value])
 
   return (
-    <Box width="100%">
+    <Box className={classes.boxInputContainer}>
       <form autoComplete="off" className={classes.rootContainer}>
         <Box className={classes.inputWrapper}>
           <Typography className={classes.labelText} variant="body1">
@@ -190,7 +194,11 @@ const InputTextAndSelect = ({
         </FormControl>
       </form>
 
-      <Typography className={classes.helperText}>{helperText}</Typography>
+      {useHelperTextAsNode ? (
+        helperText
+      ) : (
+        <Typography className={classes.helperText}>{helperText}</Typography>
+      )}
     </Box>
   )
 }
@@ -199,19 +207,21 @@ InputTextAndSelect.propTypes = {
   id: PropTypes.string,
   label: PropTypes.string,
   selected: PropTypes.any,
-  helperText: PropTypes.string,
+  helperText: PropTypes.any,
   onChange: PropTypes.func,
   options: PropTypes.array,
   value: PropTypes.any,
-  inputDisabled: PropTypes.bool
+  inputDisabled: PropTypes.bool,
+  useHelperTextAsNode: PropTypes.bool
 }
 
 InputTextAndSelect.defaultProps = {
   label: '',
   selected: null,
-  helperText: '',
+  helperText: null,
   onChange: () => {},
-  options: []
+  options: [],
+  useHelperTextAsNode: false
 }
 
 export default InputTextAndSelect

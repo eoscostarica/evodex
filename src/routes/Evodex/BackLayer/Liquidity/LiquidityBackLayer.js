@@ -29,8 +29,7 @@ const useStyles = makeStyles((theme) => ({
       paddingRight: theme.spacing(4)
     },
     [theme.breakpoints.up('lg')]: {
-      marginTop: theme.spacing(13),
-      padding: theme.spacing(3, 0)
+      padding: theme.spacing(3, 0, 0, 0)
     }
   },
   titleBox: {
@@ -135,6 +134,10 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.up('md')]: {
       width: 800
+    },
+    [theme.breakpoints.up('lg')]: {
+      marginTop: theme.spacing(0),
+      paddingBottom: theme.spacing(1)
     }
   },
   contentWrapper: {

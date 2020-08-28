@@ -16,9 +16,13 @@ For each registered pair there will be a standard token backed by the assets in 
 
 Each trading pair has an associated fee value that might be variable. The value of evotokens rises as fees are collected from the exchange and the addition of liquidity operations. The action of removing liquidity (selling evotokens) is free of charge.
 
-## How can I provide Liquidity to the pool?
+## How can I provide Liquidity to a pool?
 
-You can go to the “Liquidity” section to add or remove liquidity. You need to have the same amount (in value) of both tokens of the pool to provide liquidity.
+You can go to the “Liquidity” section to add or remove liquidity. You need to have the same amount (in value) of both tokens of the pool to provide liquidity. When providing liquidity you have to pay the pool’s fee, this is done to prevent a flash attack when someone would join a pool, change the fee and then quickly exit. Removing liquidity has no fees. 
+
+## How can I vote on the pool’s fee?
+
+Once you have provided liquidity to a pool you are entitled to vote on the fee that future traders and liquidity providers pay. To vote, go to the “vote fee” tab and select any value from 0.01% to a maximum of 3%, the contract will then average your vote based on the porcentage you own of the pool and update the fee accordingly.
 
 ## Can I create my own trading pair?
 
