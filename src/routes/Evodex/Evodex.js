@@ -69,11 +69,10 @@ const useStyles = makeStyles((theme) => ({
   },
   rootDark: {
     background:
-      'linear-gradient(180deg, rgba(35, 43, 85, 0.9822303921568627) 2%, rgba(39,40,99,1) 31%, rgba(39,40,99,1) 100%)',
+      'linear-gradient(180deg, rgba(11, 11, 51, 0.98) 2%, rgb(23, 23, 68) 31%, rgb(39, 40, 99) 100%)',
     borderWidth: 2,
     borderStyle: 'solid',
-    borderImage:
-      'linear-gradient( to bottom, #272863, rgba(0, 0, 0, 0)) 1 100%',
+    borderColor: 'rgba(0,0,0,0)',
     borderBottomWidth: 0,
     overflowX: 'hidden'
   },

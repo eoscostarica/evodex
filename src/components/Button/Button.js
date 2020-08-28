@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   rootDark: {
-    color: '#fff',
+    color: '#000',
     borderRadius: 30,
     padding: '6px 16px',
     backgroundColor: '#60afff',
