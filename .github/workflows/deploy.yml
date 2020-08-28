@@ -2,27 +2,25 @@ name: Deployment
 on:
   push:
     tags:
-      - v*
+      - v*-beta*
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
+
     steps:
       - uses: actions/checkout@v1
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 12.x
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 12.x
 
       - name: Set Version Tag
         id: tag
         uses: dawidd6/action-get-tag@v1
 
       - name: Install Packages
-        run: yarn install
+        run: yarn --frozen-lockfile
 
       - name: Build page
         run: yarn run build
@@ -40,7 +38,7 @@ jobs:
         id: create_release
         uses: marvinpinto/action-automatic-releases@latest
         with:
-          repo_token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
           prerelease: true
 
     env:
@@ -49,7 +47,7 @@ jobs:
       REACT_APP_EOS_API_PORT: 443
       REACT_APP_EOS_API_PROTOCOL: https
       REACT_APP_EOS_CHAIN_ID: aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906
-      REACT_APP_EOS_APP_NAME: EvoDex
+      REACT_APP_EOS_APP_NAME: Evodex
       REACT_APP_EOS_BLOCK_EXPLORER_URL: https://bloks.io
       REACT_APP_VOTE_CONTRACT: wevotethefee
       REACT_APP_EVODEX_CONTRACT: evolutiondex
