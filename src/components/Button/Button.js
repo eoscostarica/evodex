@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 
 const useStyles = makeStyles((theme) => ({
-  rootLigth: {
+  rootLight: {
     color: '#fff',
     borderRadius: 30,
     padding: '6px 16px',
@@ -29,7 +29,7 @@ const ButtomStyled = ({ isLightMode, ...props }) => {
 
   return (
     <Button
-      classes={{ root: isLightMode ? classes.rootLigth : classes.rootDark }}
+      classes={{ root: isLightMode ? classes.rootLight : classes.rootDark }}
       {...props}
     />
   )
