@@ -8,6 +8,7 @@ const useStyles = makeStyles((theme) => ({
     color: '#fff',
     borderRadius: 30,
     padding: '6px 16px',
+    fontWeight: 600,
     backgroundColor: '#f4511e',
     '&:hover': {
       backgroundColor: '#cc6d2e'
@@ -17,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
     color: '#000',
     borderRadius: 30,
     padding: '6px 16px',
+    fontWeight: 600,
     backgroundColor: '#60afff',
     '&:hover': {
       backgroundColor: '#488dc7'
