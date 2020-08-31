@@ -25,11 +25,7 @@ const useStyles = makeStyles((theme) => ({
   backdrop: {
     position: 'relative',
     width: '100vw',
-    height: '100vh',
-    overflowY: 'hidden',
-    [theme.breakpoints.up('sm')]: {
-      height: '100vh'
-    }
+    overflowY: 'hidden'
   },
   backLayer: {
     overflowY: 'auto'

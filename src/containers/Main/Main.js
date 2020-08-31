@@ -15,63 +15,68 @@ import MenuIcon from '@material-ui/icons/Menu'
 import EvodexLogo from 'components/Icons/EvodexLogo'
 import { InitGA, LogPageView } from 'config/google-analitycs-module'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    padding: 0,
-    display: 'flex'
-  },
-  appBar: {
-    boxShadow: 'none',
-    backgroundColor: 'transparent',
-    color: '#fff !important'
-  },
-  drawer: {
-    width: 0,
-    transition: 'width 225ms cubic-bezier(0, 0, 0.2, 1) 0ms'
-  },
-  drawerDesktop: {
-    width: 240
-  },
-  drawerPaper: {
-    width: 240
-  },
-  drawerToggle: {
-    marginLeft: -12,
-    [theme.breakpoints.up('lg')]: {
-      display: 'none'
+const useStyles = makeStyles((theme) => {
+  const vh = window.innerHeight * 0.01
+
+  return {
+    root: {
+      padding: 0,
+      display: 'flex',
+      height: `calc(${vh}px * 100)`
+    },
+    appBar: {
+      boxShadow: 'none',
+      backgroundColor: 'transparent',
+      color: '#fff !important'
+    },
+    drawer: {
+      width: 0,
+      transition: 'width 225ms cubic-bezier(0, 0, 0.2, 1) 0ms'
+    },
+    drawerDesktop: {
+      width: 240
+    },
+    drawerPaper: {
+      width: 240
+    },
+    drawerToggle: {
+      marginLeft: -12,
+      [theme.breakpoints.up('lg')]: {
+        display: 'none'
+      }
+    },
+    drawerContent: {
+      backgroundColor: theme.palette.white,
+      height: '100%'
+    },
+    logo: {
+      height: 25,
+      [theme.breakpoints.up('lg')]: {
+        height: 29
+      }
+    },
+    linkRef: {
+      display: 'flex'
+    },
+    secondaryMenu: {
+      display: 'none',
+      backgroundColor: '#00000040',
+      width: '100%',
+      height: 'fit-content',
+      paddingLeft: theme.spacing(2.5),
+      paddingRight: theme.spacing(2.5),
+      [theme.breakpoints.up('lg')]: {
+        display: 'initial'
+      }
+    },
+    toolBar: {
+      backgroundColor: '#272863'
+    },
+    toolBarLigth: {
+      backgroundColor: '#1976d2'
     }
-  },
-  drawerContent: {
-    backgroundColor: theme.palette.white,
-    height: '100%'
-  },
-  logo: {
-    height: 25,
-    [theme.breakpoints.up('lg')]: {
-      height: 29
-    }
-  },
-  linkRef: {
-    display: 'flex'
-  },
-  secondaryMenu: {
-    display: 'none',
-    backgroundColor: '#00000040',
-    width: '100%',
-    height: 'fit-content',
-    paddingLeft: theme.spacing(2.5),
-    paddingRight: theme.spacing(2.5),
-    [theme.breakpoints.up('lg')]: {
-      display: 'initial'
-    }
-  },
-  toolBar: {
-    backgroundColor: '#272863'
-  },
-  toolBarLigth: {
-    backgroundColor: '#1976d2'
   }
-}))
+})
 
 const Main = ({
   children,
