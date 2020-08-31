@@ -17,7 +17,7 @@ jobs:
 
       - name: Set Version Tag
         id: tag
-        uses: dawidd6/action-get-tag@v1
+        run: echo ::set-env name=REACT_APP_PROJECT_VERSION::${GITHUB_REF#refs/*/}
 
       - name: Install Packages
         run: yarn --frozen-lockfile
@@ -42,7 +42,6 @@ jobs:
           prerelease: true
 
     env:
-      REACT_APP_PROJECT_VERSION: ${{ steps.tag.outputs.tag }}
       REACT_APP_EOS_API_HOST: api.eosargentina.io
       REACT_APP_EOS_API_PORT: 443
       REACT_APP_EOS_API_PROTOCOL: https
