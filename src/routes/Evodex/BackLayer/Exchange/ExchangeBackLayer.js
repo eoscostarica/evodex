@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
       paddingRight: theme.spacing(4)
     },
     [theme.breakpoints.up('lg')]: {
-      padding: theme.spacing(3, 0)
+      padding: theme.spacing(4, 0)
     }
   },
   titleBox: {
@@ -97,11 +97,11 @@ const useStyles = makeStyles((theme) => ({
       flexDirection: 'row'
     },
     [theme.breakpoints.up('lg')]: {
-      marginTop: theme.spacing(0),
-      padding: theme.spacing(0),
+      //marginTop: theme.spacing(0),
+      //padding: theme.spacing(0),
       alignItems: 'start',
       '& > .MuiBox-root': {
-        marginTop: theme.spacing(2)
+        marginTop: theme.spacing(1)
       }
     }
   },
@@ -173,7 +173,7 @@ const useStyles = makeStyles((theme) => ({
       }
     },
     [theme.breakpoints.up('lg')]: {
-      paddingTop: theme.spacing(2)
+      //paddingTop: theme.spacing(2)
     }
   },
   message: {
@@ -231,7 +231,7 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
         set = setYouReceive
         break
       default:
-        set = () => {}
+        set = () => { }
     }
 
     set((prevState) => ({
