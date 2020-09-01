@@ -16,10 +16,12 @@ const useStyles = makeStyles((theme) => ({
       fontWeight: 'normal'
     },
     '& img': {
-      width: '30px !important'
+      width: '24px !important',
+      marginBottom: '18px'
     },
     '& h4': {
-      fontSize: '15px !important',
+      fontSize: '30px !important',
+      marginBottom: '10px',
       fontWeight: '600'
     },
     '& a': {
@@ -31,11 +33,13 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 'normal'
       },
       '& img': {
-        width: '40px !important'
+        width: '24px !important',
+        marginBottom: '18px'
       },
 
       '& h4': {
         fontSize: '30px !important',
+        marginBottom: '10px',
         fontWeight: 'normal'
       }
     }
