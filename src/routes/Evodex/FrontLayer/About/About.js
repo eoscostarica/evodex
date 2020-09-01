@@ -11,17 +11,19 @@ const useStyles = makeStyles((theme) => ({
   aboutRoot: {
     display: 'flex',
     flexDirection: 'column',
-    height: '100vh',
     paddingBottom: theme.spacing(3),
     '& h2': {
       marginBottom: 0
     }
   },
   boxContent: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    height: '100%'
+    height: '100%',
+    overflowY: 'scroll',
+    [theme.breakpoints.up('sm')]: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between'
+    }
   }
 }))
 

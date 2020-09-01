@@ -11,7 +11,6 @@ const useStyles = makeStyles((theme) => ({
   faqRoot: {
     display: 'flex',
     flexDirection: 'column',
-    height: '100vh',
     paddingBottom: theme.spacing(2),
     '& h2': {
       margin: theme.spacing(1, 0)
@@ -21,9 +20,13 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   boxContent: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between'
+    height: '100%',
+    overflowY: 'scroll',
+    [theme.breakpoints.up('sm')]: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between'
+    }
   }
 }))
 
