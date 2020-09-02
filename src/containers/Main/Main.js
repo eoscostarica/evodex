@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => {
     },
     secondaryMenu: {
       display: 'none',
-      backgroundColor: '#00000040',
+      backgroundColor: 'none',
       width: '100%',
       height: 'fit-content',
       paddingLeft: theme.spacing(2.5),

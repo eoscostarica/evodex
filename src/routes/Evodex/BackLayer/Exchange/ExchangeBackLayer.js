@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     width: 225,
     paddingLeft: theme.spacing(2),
     '& h4': {
-      fontSize: 33,
+      fontSize: 28,
       letterSpacing: '-0.49px',
       color: '#ffffff',
       fontWeight: 'bold'
@@ -88,6 +88,10 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     marginTop: theme.spacing(1),
     padding: theme.spacing(2, 0),
+    width: '70%',
+    [theme.breakpoints.down('sm')]: {
+      width: '100%'
+    },
     '& svg': {
       color: '#fff',
       fontSize: 30,
@@ -112,7 +116,10 @@ const useStyles = makeStyles((theme) => ({
     flexFlow: 'column'
   },
   infoBoxWrapper: {
-    width: '100%',
+    width: '70%',
+    [theme.breakpoints.down('sm')]: {
+      width: '100%'
+    },
     display: 'flex',
     justifyContent: 'center'
   },
@@ -155,6 +162,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     paddingTop: theme.spacing(4),
+    width: '70%',
+    [theme.breakpoints.down('sm')]: {
+      width: '100%'
+    },
     '& button': {
       width: 162,
       height: 36

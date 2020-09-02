@@ -14,7 +14,8 @@ const useStyles = makeStyles((theme) => ({
     width: '50%',
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
+    borderRadius: '5px'
   },
   helperText: {
     fontSize: '12.1px !important',
@@ -73,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'rgba(255,255,255,0.05)',
     borderTopLeftRadius: 4,
     borderTopRightRadius: 4,
-    borderBottom: '2px solid rgba(255,255,255,0.38)',
+    borderBottom: '0px solid rgba(255,255,255,0.38)',
     padding: '5px 14px 0 14px'
   },
   inputText: {
