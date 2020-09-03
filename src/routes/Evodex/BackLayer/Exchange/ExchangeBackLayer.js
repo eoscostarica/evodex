@@ -97,8 +97,6 @@ const useStyles = makeStyles((theme) => ({
       flexDirection: 'row'
     },
     [theme.breakpoints.up('lg')]: {
-      // marginTop: theme.spacing(0),
-      // padding: theme.spacing(0),
       alignItems: 'start',
       '& > .MuiBox-root': {
         marginTop: theme.spacing(1)
@@ -172,9 +170,7 @@ const useStyles = makeStyles((theme) => ({
         width: 300
       }
     },
-    [theme.breakpoints.up('lg')]: {
-      // paddingTop: theme.spacing(2)
-    }
+    [theme.breakpoints.up('lg')]: {}
   },
   message: {
     display: 'flex',
