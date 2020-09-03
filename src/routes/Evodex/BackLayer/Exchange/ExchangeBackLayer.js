@@ -10,179 +10,148 @@ import ImportExportIcon from '@material-ui/icons/ImportExport'
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz'
 import IconButton from '@material-ui/core/IconButton'
 import LinearProgress from '@material-ui/core/LinearProgress'
-import Link from '@material-ui/core/Link'
 
 import { ualConfig } from 'config'
 import TitlePage from 'components/PageTitle'
 import InputTextAndSelect from 'components/InputTextAndSelect'
 import EvodexRocketSvg from 'components/Icons/EvodexRocket'
+import MessageLink from 'components/MessageLink'
 import Button from 'components/Button'
 import { useExchange } from 'context/exchange.context'
-import { evolutiondex } from 'utils'
+import { evolutiondex, commonStyles } from 'utils'
 
-const useStyles = makeStyles((theme) => ({
-  exchangeRoot: {
-    marginTop: theme.spacing(7),
-    padding: theme.spacing(3, 1, 0, 1),
-    [`${theme.breakpoints.down('sm')} and (orientation: landscape)`]: {
-      marginTop: theme.spacing(4)
-    },
-    [theme.breakpoints.up('md')]: {
-      paddingLeft: theme.spacing(4),
-      paddingRight: theme.spacing(4)
-    },
-    [theme.breakpoints.up('lg')]: {
-      padding: theme.spacing(4, 0)
-    }
-  },
-  titleBox: {
-    width: 225,
-    paddingLeft: theme.spacing(2),
-    '& h4': {
-      fontSize: 33,
-      letterSpacing: '-0.49px',
-      color: '#ffffff',
-      fontWeight: 'bold'
-    },
-    '& p': {
-      fontSize: 16.2,
-      letterSpacing: '0.2px',
-      color: 'rgba(255, 255, 255, 0.6)',
-      fontWeight: 400
-    },
-    [`${theme.breakpoints.down('sm')} and (orientation: landscape)`]: {
-      width: '70% !important',
-      '& h4': {
-        fontSize: '33px !important',
-        letterSpacing: '-0.49px !important',
-        color: '#ffffff',
-        fontWeight: 'bold'
+const useStyles = makeStyles((theme) => {
+  const {
+    inputBox,
+    rocketSvg,
+    btnExchange,
+    titleBox,
+    message,
+    loading
+  } = commonStyles(theme)
+
+  return {
+    exchangeRoot: {
+      marginTop: theme.spacing(7),
+      padding: theme.spacing(3, 1, 0, 1),
+      [`${theme.breakpoints.down('sm')} and (orientation: landscape)`]: {
+        marginTop: theme.spacing(4)
       },
+      [theme.breakpoints.up('md')]: {
+        paddingLeft: theme.spacing(4),
+        paddingRight: theme.spacing(4)
+      },
+      [theme.breakpoints.up('lg')]: {
+        padding: theme.spacing(4, 0)
+      }
+    },
+    titleBox: {
+      ...titleBox,
       '& p': {
-        fontSize: '16.2px !important',
-        letterSpacing: '0.2px !important',
+        fontSize: 16.2,
+        letterSpacing: '0.2px',
         color: 'rgba(255, 255, 255, 0.6)',
         fontWeight: 400
-      }
-    },
-    [theme.breakpoints.up('sm')]: {
-      width: '100%',
-      '& p': {
-        fontSize: 20.2,
-        letterSpacing: '0.25px'
       },
-      '& h4': {
-        letterSpacing: '-0.91px',
-        fontSize: 59.2
-      }
-    },
+      [`${theme.breakpoints.down('sm')} and (orientation: landscape)`]: {
+        width: '70% !important',
+        '& h4': {
+          fontSize: '33px !important',
+          letterSpacing: '-0.49px !important',
+          color: '#ffffff',
+          fontWeight: 'bold'
+        },
+        '& p': {
+          fontSize: '16.2px !important',
+          letterSpacing: '0.2px !important',
+          color: 'rgba(255, 255, 255, 0.6)',
+          fontWeight: 400
+        }
+      },
+      [theme.breakpoints.up('sm')]: {
+        width: '100%',
+        '& p': {
+          fontSize: 20.2,
+          letterSpacing: '0.25px'
+        },
+        '& h4': {
+          letterSpacing: '-0.91px',
+          fontSize: 59.2
+        }
+      },
 
-    [theme.breakpoints.up('lg')]: {
-      paddingLeft: theme.spacing(0)
-    }
-  },
-  inputBox: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: theme.spacing(1),
-    padding: theme.spacing(2, 0),
-    '& svg': {
-      color: '#fff',
-      fontSize: 30,
-      margin: theme.spacing(1, 0)
-    },
-    [theme.breakpoints.up('sm')]: {
-      flexDirection: 'row'
-    },
-    [theme.breakpoints.up('lg')]: {
-      alignItems: 'start',
-      '& > .MuiBox-root': {
-        marginTop: theme.spacing(1)
-      }
-    }
-  },
-  infoBox: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexFlow: 'column'
-  },
-  infoBoxWrapper: {
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'center'
-  },
-  feeSpace: {
-    marginLeft: theme.spacing(2)
-  },
-  textInfo: {
-    fontSize: 16.2,
-    fontWeight: 500,
-    letterSpacing: '0.5px',
-    lineHeight: 1.73,
-    color: '#fff'
-  },
-  textWithDescription: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    '& span': {
-      color: 'rgba(255, 255, 255, 0.6)'
-    }
-  },
-  helperText: {
-    display: 'flex',
-    fontSize: 12,
-    marginLeft: theme.spacing(1)
-  },
-  rocketSvg: {
-    zIndex: 0,
-    position: 'absolute',
-    height: 260,
-    right: '-10px',
-    top: 0,
-    [theme.breakpoints.up('md')]: {
-      top: 62,
-      height: 450,
-      right: '-50px',
-      opacity: 0.2
-    }
-  },
-  btnExchange: {
-    display: 'flex',
-    justifyContent: 'center',
-    paddingTop: theme.spacing(4),
-    '& button': {
-      width: 162,
-      height: 36
-    },
-    [theme.breakpoints.up('sm')]: {
-      '& button': {
-        width: 266
+      [theme.breakpoints.up('lg')]: {
+        paddingLeft: theme.spacing(0)
       }
     },
-    [`${theme.breakpoints.down('sm')} and (orientation: landscape)`]: {
-      paddingTop: theme.spacing(1)
-    },
-    [theme.breakpoints.up('md')]: {
-      '& button': {
-        width: 300
+    inputBox: {
+      ...inputBox,
+      [theme.breakpoints.up('sm')]: {
+        flexDirection: 'row'
+      },
+      [theme.breakpoints.up('lg')]: {
+        marginTop: theme.spacing(0),
+        padding: theme.spacing(0),
+        alignItems: 'start',
+        '& > .MuiBox-root': {
+          marginTop: theme.spacing(1)
+        }
       }
     },
-    [theme.breakpoints.up('lg')]: {}
-  },
-  message: {
-    display: 'flex',
-    paddingTop: theme.spacing(2),
-    justifyContent: 'center',
-    minWidth: '100%'
-  },
-  loading: {
-    marginTop: theme.spacing(2),
-    minWidth: '100%'
+    infoBox: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexFlow: 'column'
+    },
+    infoBoxWrapper: {
+      width: '100%',
+      display: 'flex',
+      justifyContent: 'center'
+    },
+    feeSpace: {
+      marginLeft: theme.spacing(2)
+    },
+    textInfo: {
+      fontSize: 16.2,
+      fontWeight: 500,
+      letterSpacing: '0.5px',
+      lineHeight: 1.73,
+      color: '#fff'
+    },
+    textWithDescription: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      '& span': {
+        color: 'rgba(255, 255, 255, 0.6)'
+      }
+    },
+    helperText: {
+      display: 'flex',
+      fontSize: 12,
+      marginLeft: theme.spacing(1)
+    },
+    btnExchange: {
+      ...btnExchange,
+      [theme.breakpoints.up('sm')]: {
+        '& button': {
+          width: 266
+        }
+      },
+      [`${theme.breakpoints.down('sm')} and (orientation: landscape)`]: {
+        paddingTop: theme.spacing(1)
+      },
+      [theme.breakpoints.up('md')]: {
+        '& button': {
+          width: 300
+        }
+      }
+    },
+    message,
+    loading,
+    rocketSvg
   }
-}))
+})
 
 const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
   const { t } = useTranslation('exchange')
@@ -280,16 +249,11 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
       showMessage({
         type: 'success',
         content: (
-          <span>
-            {`${t('successTransaction')}: `}
-            <Link
-              href={`${ualConfig.blockExplorerUrl}/transaction/${transactionId}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {transactionId}
-            </Link>
-          </span>
+          <MessageLink
+            text={`${t('successTransaction')}: `}
+            href={`${ualConfig.blockExplorerUrl}/transaction/${transactionId}`}
+            transactionId={transactionId}
+          />
         )
       })
       onReload()

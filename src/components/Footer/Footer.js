@@ -22,15 +22,17 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: '0.4px',
     textAlign: 'center',
     color: 'rgba(0, 0, 0, 0.6)',
-    paddingRight: 10
+    alignItems: 'center',
+    display: 'flex',
+    '&:hover': {
+      cursor: 'pointer'
+    }
   },
   iconButton: {
     width: 20,
     height: 20,
     color: '#272863',
-    '&:hover': {
-      cursor: 'pointer'
-    }
+    paddingLeft: 5
   }
 }))
 
@@ -44,17 +46,12 @@ const Footer = () => {
       <TalkUsModal openModal={openModal} setOpenModal={setOpenModal} />
       <Box className={classes.footer}>
         <Link
+          onClick={() => setOpenModal(!openModal)}
           className={classes.labelfooter}
-          href="https://github.com/eoscostarica/evodex"
-          target="_blank"
-          rel="noopener noreferrer"
         >
           {`${t('footer')} ${appVersion}`}
+          <AnnouncementIcon className={classes.iconButton} />
         </Link>
-        <AnnouncementIcon
-          className={classes.iconButton}
-          onClick={() => setOpenModal(!openModal)}
-        />
       </Box>
     </>
   )
