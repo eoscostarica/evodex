@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   rootDark: {
-    color: '#fff',
+    color: '#000',
     borderRadius: 30,
     padding: '6px 16px',
     fontWeight: 700,
@@ -31,7 +31,7 @@ const ButtomStyled = ({ isLightMode, ...props }) => {
 
   return (
     <Button
-      classes={{ root: isLightMode ? classes.rootLigth : classes.rootDark }}
+      classes={{ root: isLightMode ? classes.rootLight : classes.rootDark }}
       {...props}
     />
   )
