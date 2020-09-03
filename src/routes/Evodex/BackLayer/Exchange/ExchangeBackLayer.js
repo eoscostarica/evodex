@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
       paddingRight: theme.spacing(4)
     },
     [theme.breakpoints.up('lg')]: {
-      padding: theme.spacing(3, 0)
+      padding: theme.spacing(4, 0)
     }
   },
   titleBox: {
@@ -91,17 +91,15 @@ const useStyles = makeStyles((theme) => ({
     '& svg': {
       color: '#fff',
       fontSize: 30,
-      margin: theme.spacing(3, 0)
+      margin: theme.spacing(1, 0)
     },
     [theme.breakpoints.up('sm')]: {
       flexDirection: 'row'
     },
     [theme.breakpoints.up('lg')]: {
-      marginTop: theme.spacing(0),
-      padding: theme.spacing(0),
       alignItems: 'start',
       '& > .MuiBox-root': {
-        marginTop: theme.spacing(2)
+        marginTop: theme.spacing(1)
       }
     }
   },
@@ -172,9 +170,7 @@ const useStyles = makeStyles((theme) => ({
         width: 300
       }
     },
-    [theme.breakpoints.up('lg')]: {
-      paddingTop: theme.spacing(2)
-    }
+    [theme.breakpoints.up('lg')]: {}
   },
   message: {
     display: 'flex',
@@ -210,11 +206,11 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
     if (token === pair.pool1.asset.symbol.code().toString().toUpperCase()) {
       result = `Pool: ${
         pair.pool1.asset.toString().split(' ')[0]
-      } (${pair.pool1.asset.symbol.code().toString().toLowerCase()}.token)`
+        } (${pair.pool1.asset.symbol.code().toString().toLowerCase()}.token)`
     } else {
       result = `Pool: ${
         pair.pool2.asset.toString().split(' ')[0]
-      } (${pair.pool2.asset.symbol.code().toString().toLowerCase()}.token)`
+        } (${pair.pool2.asset.symbol.code().toString().toLowerCase()}.token)`
     }
 
     setHelperTextReceive(result)
@@ -231,7 +227,7 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
         set = setYouReceive
         break
       default:
-        set = () => {}
+        set = () => { }
     }
 
     set((prevState) => ({
@@ -360,7 +356,7 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
 
     setHelperTextReceive(
       `Pool: ${
-        exchangeState.currentPair.pool2.asset.toString().split(' ')[0]
+      exchangeState.currentPair.pool2.asset.toString().split(' ')[0]
       } (${exchangeState.currentPair.pool2.asset.symbol
         .code()
         .toString()
