@@ -12,11 +12,24 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     paddingBottom: theme.spacing(2),
+    '& h1': {
+      fontSize: '50px !important',
+      fontWeight: 'normal',
+      marginBottom: theme.spacing(0)
+    },
     '& h2': {
-      margin: theme.spacing(1, 0)
+      margin: theme.spacing(1, 0),
+      fontWeight: 'normal',
+      marginTop: theme.spacing(4)
     },
     '& p': {
-      margin: 0
+      margin: 0,
+      color: '#212121',
+      fontSize: 15.8,
+      fontWeight: 'normal',
+      lineHeight: 1.77,
+      letterSpacing: 0.5,
+      fontFamily: '"rawline", sans-serif'
     }
   },
   boxContent: {

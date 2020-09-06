@@ -63,7 +63,11 @@ const useStyles = makeStyles((theme) => ({
   tabsHeader: {
     backgroundColor: '#fafafa',
     color: '#000',
-    boxShadow: 'none'
+    boxShadow: 'none',
+    [theme.breakpoints.up('lg')]: {
+      paddingRight: theme.spacing(32),
+      paddingLeft: theme.spacing(32)
+    }
   }
 }))
 
