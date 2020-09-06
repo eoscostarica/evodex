@@ -261,6 +261,16 @@ const addLiquidity = async (amount, pair, ual) => {
         permission: 'active'
       }
     ]
+    const poolObject = {
+      account: evodexConfig.contract,
+      name: 'closeext',
+      authorization,
+      data: {
+        user: ual.activeUser.accountName,
+        to: ual.activeUser.accountName,
+        memo: ''
+      }
+    }
     const result = await ual.activeUser.signTransaction(
       {
         actions: [
@@ -324,31 +334,23 @@ const addLiquidity = async (amount, pair, ual) => {
             }
           },
           {
-            account: evodexConfig.contract,
-            name: 'closeext',
-            authorization,
+            ...poolObject,
             data: {
-              user: ual.activeUser.accountName,
-              to: ual.activeUser.accountName,
+              ...poolObject.data,
               ext_symbol: {
                 contract: pair.pool1.contract,
                 sym: pair.pool1.asset.symbol.toString()
-              },
-              memo: ''
+              }
             }
           },
           {
-            account: evodexConfig.contract,
-            name: 'closeext',
-            authorization,
+            ...poolObject,
             data: {
-              user: ual.activeUser.accountName,
-              to: ual.activeUser.accountName,
+              ...poolObject.data,
               ext_symbol: {
                 contract: pair.pool2.contract,
                 sym: pair.pool2.asset.symbol.toString()
-              },
-              memo: ''
+              }
             }
           }
         ]

@@ -227,7 +227,13 @@ const Evodex = ({ ual }) => {
               </Snackbar>
             </>
           }
-          frontLayer={<FrontLayer handleOnClickRow={handleOnClickRow} />}
+          frontLayer={
+            <FrontLayer
+              handleOnClickRow={handleOnClickRow}
+              pathname={location.pathname}
+              isMobile={isMobile}
+            />
+          }
           headerText={
             <Typography className={classes.labelBackdrop}>
               {t(title)}

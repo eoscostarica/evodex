@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/styles'
+import PropTypes from 'prop-types'
 import Box from '@material-ui/core/Box'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
+import AppBar from '@material-ui/core/AppBar'
 import { RicardianContract } from '@eoscostarica/eoscr-components'
 
 import Footer from 'components/Footer'
@@ -57,24 +59,32 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between'
+  },
+  tabsHeader: {
+    backgroundColor: '#fafafa',
+    color: '#000',
+    boxShadow: 'none'
   }
 }))
 
-const TermsOfUse = () => {
+const TermsOfUse = ({ isMobile }) => {
   const classes = useStyles()
   const [tab, setTab] = useState(0)
 
   return (
     <Box className={classes.boxContent}>
       <Box>
-        <Tabs
-          value={tab}
-          onChange={(event, newValue) => setTab(newValue)}
-          classes={{ indicator: classes.selectorTab }}
-        >
-          <Tab label="evolutiondex" />
-          <Tab label="wevotethefee" />
-        </Tabs>
+        <AppBar position="absolute" className={classes.tabsHeader}>
+          <Tabs
+            value={tab}
+            onChange={(event, newValue) => setTab(newValue)}
+            classes={{ indicator: classes.selectorTab }}
+            variant={isMobile ? 'fullWidth' : ''}
+          >
+            <Tab label="evolutiondex" />
+            <Tab label="wevotethefee" />
+          </Tabs>
+        </AppBar>
         {tab === 0 && (
           <Box className={classes.wrapper}>
             <RicardianContract
@@ -105,6 +115,10 @@ const TermsOfUse = () => {
       <Footer />
     </Box>
   )
+}
+
+TermsOfUse.propTypes = {
+  isMobile: PropTypes.bool
 }
 
 export default TermsOfUse
