@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     paddingBottom: theme.spacing(3),
     '& h1': {
-      fontSize: '50px !important',
+      fontSize: '30px !important',
       fontWeight: 'normal'
     },
     '& p': {
@@ -25,6 +25,11 @@ const useStyles = makeStyles((theme) => ({
       letterSpacing: 0.5,
       fontFamily: '"rawline", sans-serif',
       marginBottom: theme.spacing(4)
+    },
+    [theme.breakpoints.up('lg')]: {
+      '& h1': {
+        fontSize: '50px !important'
+      }
     }
   },
   boxContent: {
