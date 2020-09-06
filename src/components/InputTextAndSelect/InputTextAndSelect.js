@@ -197,8 +197,8 @@ const InputTextAndSelect = ({
       {useHelperTextAsNode ? (
         helperText
       ) : (
-        <Typography className={classes.helperText}>{helperText}</Typography>
-      )}
+          <Typography className={classes.helperText}>{helperText}</Typography>
+        )}
     </Box>
   )
 }
@@ -219,7 +219,7 @@ InputTextAndSelect.defaultProps = {
   label: '',
   selected: null,
   helperText: null,
-  onChange: () => {},
+  onChange: () => { },
   options: [],
   useHelperTextAsNode: false
 }
