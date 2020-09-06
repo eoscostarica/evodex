@@ -1,4 +1,5 @@
 import React from 'react'
+import clsx from 'clsx'
 import PropTypes from 'prop-types'
 import { Route, Redirect, Switch } from 'react-router-dom'
 import { makeStyles } from '@material-ui/styles'
@@ -21,14 +22,22 @@ const useStyles = makeStyles((theme) => ({
       paddingRight: theme.spacing(32),
       paddingLeft: theme.spacing(32)
     }
+  },
+  noPaddingTop: {
+    paddingTop: '0px !important',
+    marginTop: theme.spacing(5)
   }
 }))
 
-const FrontLayer = ({ handleOnClickRow }) => {
+const FrontLayer = ({ handleOnClickRow, pathname, isMobile }) => {
   const classes = useStyles()
 
   return (
-    <Box className={classes.frontLayer}>
+    <Box
+      className={clsx(classes.frontLayer, {
+        [classes.noPaddingTop]: pathname === '/ricardian-contract'
+      })}
+    >
       <Switch>
         <Route exact path="/liquidity">
           <Liquidity onClickRow={handleOnClickRow} />
@@ -41,7 +50,9 @@ const FrontLayer = ({ handleOnClickRow }) => {
         </Route>
         <Route exact path="/faq" component={Faq} />
         <Route exact path="/about" component={About} />
-        <Route exact path="/ricardian-contract" component={RicardianContract} />
+        <Route exact path="/ricardian-contract">
+          <RicardianContract isMobile={isMobile} />
+        </Route>
         <Redirect from="/" to="/exchange" />
       </Switch>
     </Box>
@@ -49,7 +60,9 @@ const FrontLayer = ({ handleOnClickRow }) => {
 }
 
 FrontLayer.propTypes = {
-  handleOnClickRow: PropTypes.func
+  handleOnClickRow: PropTypes.func,
+  pathname: PropTypes.string,
+  isMobile: PropTypes.bool
 }
 
 export default FrontLayer
