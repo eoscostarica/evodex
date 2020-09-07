@@ -7,8 +7,10 @@ import { makeStyles, useTheme } from '@material-ui/styles'
 import { useLocation } from 'react-router-dom'
 import { Backdrop } from '@eoscostarica/eoscr-components'
 import Snackbar from '@material-ui/core/Snackbar'
+import Box from '@material-ui/core/Box'
 import Alert from '@material-ui/lab/Alert'
 
+import Footer from 'components/Footer'
 import { MainContainer } from 'containers'
 import { evolutiondex } from 'utils'
 import { ExchangeProvider } from 'context/exchange.context'
@@ -88,6 +90,13 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.primary.contrastText,
       lineBreak: 'anywhere'
     }
+  },
+  footer: {
+    height: 54,
+    backgroundColor: 'rgba(151, 151, 151, 0.06)',
+    display: 'flex',
+    paddingRight: theme.spacing(2),
+    paddingLeft: theme.spacing(2)
   }
 }))
 
@@ -228,11 +237,16 @@ const Evodex = ({ ual }) => {
             </>
           }
           frontLayer={
-            <FrontLayer
-              handleOnClickRow={handleOnClickRow}
-              pathname={location.pathname}
-              isMobile={isMobile}
-            />
+            <>
+              <FrontLayer
+                handleOnClickRow={handleOnClickRow}
+                pathname={location.pathname}
+                isMobile={isMobile}
+              />
+              <Box className={classes.footer}>
+                <Footer />
+              </Box>
+            </>
           }
           headerText={
             <Typography className={classes.labelBackdrop}>

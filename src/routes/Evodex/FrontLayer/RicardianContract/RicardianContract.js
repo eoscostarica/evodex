@@ -7,8 +7,6 @@ import Tab from '@material-ui/core/Tab'
 import AppBar from '@material-ui/core/AppBar'
 import { RicardianContract } from '@eoscostarica/eoscr-components'
 
-import Footer from 'components/Footer'
-
 const useStyles = makeStyles((theme) => ({
   wrapper: {
     overflow: 'hidden',
@@ -116,7 +114,6 @@ const TermsOfUse = ({ isMobile }) => {
           </Box>
         )}
       </Box>
-      <Footer />
     </Box>
   )
 }

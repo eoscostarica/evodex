@@ -15,7 +15,7 @@ import Fee from './Fee'
 
 const useStyles = makeStyles((theme) => ({
   frontLayer: {
-    height: '100%',
+    height: 'calc(100% - 54px)',
     overflowY: 'auto',
     padding: 16,
     [theme.breakpoints.up('lg')]: {
@@ -25,7 +25,8 @@ const useStyles = makeStyles((theme) => ({
   },
   noPaddingTop: {
     paddingTop: '0px !important',
-    marginTop: theme.spacing(5)
+    marginTop: theme.spacing(5),
+    height: 'calc(100% - 94px)'
   }
 }))
 
