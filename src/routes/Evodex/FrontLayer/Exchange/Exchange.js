@@ -8,7 +8,6 @@ import OutlinedInput from '@material-ui/core/OutlinedInput'
 import SearchIcon from '@material-ui/icons/Search'
 
 import Table from 'components/Table'
-import Footer from 'components/Footer'
 import SkeletonTable from 'components/Table/SkeletonTable'
 import { useExchange } from 'context/exchange.context'
 
@@ -107,7 +106,6 @@ const Exchange = ({ onClickRow }) => {
           <Typography>{t('empty')}</Typography>
         )}
       </Box>
-      <Footer />
     </Box>
   )
 }

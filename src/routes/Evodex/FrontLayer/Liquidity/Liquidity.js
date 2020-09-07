@@ -7,7 +7,6 @@ import Typography from '@material-ui/core/Typography'
 import OutlinedInput from '@material-ui/core/OutlinedInput'
 import SearchIcon from '@material-ui/icons/Search'
 
-import Footer from 'components/Footer'
 import CollapseTable from 'components/CollapseTable'
 import { useExchange } from 'context/exchange.context'
 
@@ -111,7 +110,6 @@ const Liquidity = ({ onClickRow }) => {
           onClick={handleOnClick}
         />
       </Box>
-      <Footer />
     </Box>
   )
 }

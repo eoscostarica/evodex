@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import Box from '@material-ui/core/Box'
 import ReactMarkdown from 'react-markdown'
 
-import Footer from 'components/Footer'
 import getMarkdownByLanguage from 'utils/getMarkdownByLanguage'
 
 const useStyles = makeStyles((theme) => ({
@@ -67,7 +66,6 @@ const About = () => {
       <Box className={classes.aboutRoot}>
         <ReactMarkdown source={content} />
       </Box>
-      <Footer />
     </Box>
   )
 }
