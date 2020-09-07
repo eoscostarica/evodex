@@ -25,7 +25,8 @@ const useStyles = makeStyles((theme) => ({
   },
   noPaddingTop: {
     paddingTop: '0px !important',
-    marginTop: theme.spacing(5)
+    marginTop: theme.spacing(5),
+    height: 'calc(100% - 94px)'
   }
 }))
 
