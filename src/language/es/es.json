@@ -5,7 +5,7 @@
     "logout": "Salir",
     "headerTitle": "Listado de Tokens",
     "version": "Versión",
-    "footer": "Evodex es de código abierto, involúcrate.",
+    "footer": "Evodex es código abierto, involúcrate.",
     "placeholder": "Monto"
   },
   "talkUsModal": {
@@ -44,7 +44,7 @@
     "htmlTitle": "Contratos Ricardianos en EOS - evolutiondex & wevotethefee"
   },
   "liquidity": {
-    "title": "Aportar o retirar liquidez",
+    "title": "Aportar o Retirar Liquidez",
     "htmlTitle": "Agregar o eliminar liquidez a los pools de DEX para EOS",
     "description": "Selecciona un par y la cantidad y la cantidad de liquidez para aportar o retirar.",
     "headerTitle": "Listados de tokens",
@@ -63,7 +63,7 @@
     "successTransaction": "Transacción realizada"
   },
   "fee": {
-    "title": "Votar valor de la comisión",
+    "title": "Votar Valor de la Comisión",
     "htmlTitle": "Vote por las tarifas de intercambio descentralizado de tokens en EOS",
     "description": "Seleccione un par y el valor que desea votar.",
     "headerTitle": "Listados de tokens",
@@ -78,7 +78,7 @@
     "successTransaction": "Transacción realizada"
   },
   "faq": {
-    "title": "Preguntas frecuentes",
+    "title": "Preguntas Frecuentes",
     "htmlTitle": "Intercambio descentralizado EOS: preguntas frecuentes"
   },
   "exchange": {
@@ -88,7 +88,7 @@
     "noTokenSelected": "Por favor seleccione ambos tokens para continuar",
     "noAmount": "Por favor ingrese el monto a enviar para continuar",
     "successTransaction": "Transacción realizada",
-    "title": "La evolución del intercambio",
+    "title": "La Evolución Del Intercambio",
     "htmlTitle": "Exchange descentralizado para intercambio y liquidez de tokens EOS",
     "description": "Una casa de cambio decentralizada. Puedes votar el valor de las comisiones!",
     "youGive": "Enviar",
@@ -101,7 +101,7 @@
     "price": "Precio"
   },
   "about": {
-    "title": "Acerca de Evodex",
+    "title": "Acerca de evodex",
     "htmlTitle": "Acerca de evodex un intercambio descentralizado la evolución de DeFi en EOS"
   }
 }
