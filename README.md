@@ -38,7 +38,15 @@ Another difference between EVODEX and UNISWAP comes from the different blockchai
 
 ## Version
 
-- 0.1.0-beta
+Evodex is ready for our first group of beta testers to try the next generation decentralized exchange for EOS
+
+**Currently evodex is still in beta pre-release `v0.1.0-beta.xx`**
+
+We release the production software version using github tags following [Semver](http://semver.org/). 
+
+We also use the git commit messages to generate the project [change log](https://github.com/eoscostarica/evodex/releases).
+
+Using the `yarn version` command you can update the version of your package via the command line.
 
 ## Tech Stack
 
