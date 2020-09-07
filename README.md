@@ -20,7 +20,7 @@
 
 # Official Web Interface for Evolution DEX
 
-[Evolution DEX]( ​https://github.com/eosargentina/evolutiondex) is a Protocol created by EOS Argentina that allows anyone to create and launch their own trading pairs in a decentralized exchange and gain trading fees by adding liquidity to the token’s pool.
+[Evolution DEX](https://github.com/eosargentina/evolutiondex) is a Protocol created by EOS Argentina that allows anyone to create and launch their own trading pairs in a decentralized exchange and gain trading fees by adding liquidity to the token’s pool.
 
 EOS Costa Rica  is working with EOS Argentina creating a web interface that will provide access to liquidity amongst all exchanges that connect to Evolution DEX.
 
@@ -33,7 +33,7 @@ The main difference from say Uniswap on Ethereum, is that liquidity providers ca
 
 Another difference between EVODEX and UNISWAP comes from the different blockchains where they both operate, traders only pay fees to liquidity providers, but they don't have to pay transfer fees like in Ethereum and other networks.
 
-#### Telegram Channel : [https://t.me/evodexarg](https://t.me/evodex_io)
+#### Telegram Channel : [https://t.me/evodex_io](https://t.me/evodex_io)
 
 
 ## Version
