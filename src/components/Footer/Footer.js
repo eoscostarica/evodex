@@ -1,19 +1,23 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@material-ui/styles'
+import clsx from 'clsx'
 import Box from '@material-ui/core/Box'
-import Link from '@material-ui/core/Link'
+import Typography from '@material-ui/core/Typography'
 import AnnouncementIcon from '@material-ui/icons/Announcement'
 
 import TalkUsModal from './TalkUsModal'
 
 const appVersion = process.env.REACT_APP_PROJECT_VERSION
-
 const useStyles = makeStyles((theme) => ({
   footer: {
     display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      justifyContent: 'flex-start'
+    }
   },
   labelfooter: {
     fontSize: 12.1,
@@ -22,14 +26,33 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: '0.4px',
     textAlign: 'center',
     color: 'rgba(0, 0, 0, 0.6)',
-    paddingRight: 10
+    '&:hover': {
+      cursor: 'pointer'
+    },
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: -73
+    }
+  },
+  labelVersion: {
+    width: 73,
+    fontWeight: '600',
+    marginTop: -5,
+    marginLeft: '0px !important',
+    '&:hover': {
+      cursor: 'auto'
+    }
   },
   iconButton: {
     width: 20,
     height: 20,
     color: '#272863',
-    '&:hover': {
-      cursor: 'pointer'
+    marginLeft: 5
+  },
+  boxFooter: {
+    display: 'flex',
+    justifyContent: 'center',
+    [theme.breakpoints.up('sm')]: {
+      width: 'calc(100% - 73px)'
     }
   }
 }))
@@ -43,18 +66,25 @@ const Footer = () => {
     <>
       <TalkUsModal openModal={openModal} setOpenModal={setOpenModal} />
       <Box className={classes.footer}>
-        <Link
-          className={classes.labelfooter}
-          href="https://github.com/eoscostarica/evodex"
-          target="_blank"
-          rel="noopener noreferrer"
+        <Typography
+          variant="body1"
+          className={clsx(classes.labelfooter, classes.labelVersion)}
         >
-          {`${t('footer')} ${appVersion}`}
-        </Link>
-        <AnnouncementIcon
-          className={classes.iconButton}
-          onClick={() => setOpenModal(!openModal)}
-        />
+          {appVersion}
+        </Typography>
+        <Box className={classes.boxFooter}>
+          <Typography
+            variant="body1"
+            className={classes.labelfooter}
+            onClick={() => setOpenModal(!openModal)}
+          >
+            {t('footer')}
+          </Typography>
+          <AnnouncementIcon
+            className={classes.iconButton}
+            onClick={() => setOpenModal(!openModal)}
+          />
+        </Box>
       </Box>
     </>
   )

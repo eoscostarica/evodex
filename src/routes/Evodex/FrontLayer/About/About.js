@@ -4,24 +4,41 @@ import { useTranslation } from 'react-i18next'
 import Box from '@material-ui/core/Box'
 import ReactMarkdown from 'react-markdown'
 
-import Footer from 'components/Footer'
 import getMarkdownByLanguage from 'utils/getMarkdownByLanguage'
 
 const useStyles = makeStyles((theme) => ({
   aboutRoot: {
     display: 'flex',
     flexDirection: 'column',
-    height: '100vh',
     paddingBottom: theme.spacing(3),
-    '& h2': {
-      marginBottom: 0
+    '& h1': {
+      fontSize: '30px !important',
+      fontWeight: 'normal'
+    },
+    '& p': {
+      margin: 0,
+      color: '#212121',
+      fontSize: 15.8,
+      fontWeight: 'normal',
+      lineHeight: 1.77,
+      letterSpacing: 0.5,
+      fontFamily: '"rawline", sans-serif',
+      marginBottom: theme.spacing(4)
+    },
+    [theme.breakpoints.up('lg')]: {
+      '& h1': {
+        fontSize: '50px !important'
+      }
     }
   },
   boxContent: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    height: '100%'
+    height: '100%',
+    overflowY: 'scroll',
+    [theme.breakpoints.up('sm')]: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between'
+    }
   }
 }))
 
@@ -49,7 +66,6 @@ const About = () => {
       <Box className={classes.aboutRoot}>
         <ReactMarkdown source={content} />
       </Box>
-      <Footer />
     </Box>
   )
 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
@@ -7,6 +7,7 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
+import TableSortLabel from '@material-ui/core/TableSortLabel'
 import Box from '@material-ui/core/Box'
 
 const useStyles = makeStyles((theme) => ({
@@ -48,11 +49,27 @@ const useStyles = makeStyles((theme) => ({
   },
   clickable: {
     cursor: 'pointer'
+  },
+  visuallyHidden: {
+    border: 0,
+    clip: 'rect(0 0 0 0)',
+    height: 1,
+    margin: -1,
+    overflow: 'hidden',
+    padding: 0,
+    position: 'absolute',
+    top: 20,
+    width: 1
+  },
+  underline: {
+    textDecoration: 'underline'
   }
 }))
 
 const TableData = ({ data, onClick }) => {
   const classes = useStyles()
+  const [order, setOrder] = useState('desc')
+  const [orderBy, setOrderBy] = useState('pool1')
 
   const handleOnClick = (row) => {
     if (!onClick) {
@@ -62,6 +79,47 @@ const TableData = ({ data, onClick }) => {
     onClick(row)
   }
 
+  const descendingComparator = (a, b) => {
+    let valueA = a[orderBy]
+    let valueB = b[orderBy]
+
+    if (orderBy.includes('pool')) {
+      valueA = Number.parseInt(a[orderBy].asset.amount)
+      valueB = Number.parseInt(b[orderBy].asset.amount)
+    }
+
+    if (valueB < valueA) return -1
+
+    if (valueB > valueA) return 1
+
+    return 0
+  }
+
+  const getComparator = (order) => {
+    return order === 'desc'
+      ? (a, b) => descendingComparator(a, b)
+      : (a, b) => -descendingComparator(a, b)
+  }
+
+  const stableSort = (array, comparator) => {
+    const stabilizedThis = array.map((el, index) => [el, index])
+
+    stabilizedThis.sort((a, b) => {
+      const order = comparator(a[0], b[0])
+      if (order !== 0) return order
+      return a[1] - b[1]
+    })
+
+    return stabilizedThis.map((el) => el[0])
+  }
+
+  const handleRequestSort = (property) => {
+    const isAsc = orderBy === property && order === 'asc'
+    
+    setOrder(isAsc ? 'desc' : 'asc')
+    setOrderBy(property)
+  }
+
   return (
     <Box className={classes.root}>
       <Table className={classes.table}>
@@ -69,41 +127,72 @@ const TableData = ({ data, onClick }) => {
           <TableRow>
             <TableCell
               className={clsx(classes.tableHeadCell, classes.firstTableHeadRow)}
+              sortDirection={false}
             >
-              TOKEN PAIR
+              <TableSortLabel
+                className={clsx({ [classes.underline]: orderBy === 'token' })}
+                onClick={() => handleRequestSort('token')}
+                hideSortIcon
+              >
+                TOKEN PAIR
+              </TableSortLabel>
             </TableCell>
-            <TableCell className={classes.tableHeadCell}>POOL 1</TableCell>
-            <TableCell className={classes.tableHeadCell}>POOL 2</TableCell>
-            <TableCell className={classes.tableHeadCell}>FEE</TableCell>
+            <TableCell className={classes.tableHeadCell}>
+              <TableSortLabel
+                className={clsx({ [classes.underline]: orderBy === 'pool1' })}
+                onClick={() => handleRequestSort('pool1')}
+                hideSortIcon
+              >
+                POOL 1
+              </TableSortLabel>
+            </TableCell>
+            <TableCell className={classes.tableHeadCell}>
+              <TableSortLabel
+                className={clsx({ [classes.underline]: orderBy === 'pool2' })}
+                onClick={() => handleRequestSort('pool2')}
+                hideSortIcon
+              >
+                POOL 2
+              </TableSortLabel>
+            </TableCell>
+            <TableCell className={classes.tableHeadCell}>
+              <TableSortLabel
+                className={clsx({ [classes.underline]: orderBy === 'fee' })}
+                direction="asc"
+                onClick={() => handleRequestSort('fee')}
+                hideSortIcon
+              >
+                FEE
+              </TableSortLabel>
+            </TableCell>
           </TableRow>
         </TableHead>
+
         <TableBody>
-          {data.map((n, index) => {
-            return (
-              <TableRow
-                key={`${n.token}-${index}`}
-                className={onClick ? classes.clickable : ''}
-                onClick={() => handleOnClick(n)}
+          {stableSort(data, getComparator(order)).map((n, index) => (
+            <TableRow
+              key={`${n.token}-${index}`}
+              className={onClick ? classes.clickable : ''}
+              onClick={() => handleOnClick(n)}
+            >
+              <TableCell
+                component="th"
+                scope="row"
+                className={clsx(classes.tableCell, classes.firstTableBodyRow)}
               >
-                <TableCell
-                  component="th"
-                  scope="row"
-                  className={clsx(classes.tableCell, classes.firstTableBodyRow)}
-                >
-                  {n.token}
-                </TableCell>
-                <TableCell className={classes.tableCell}>
-                  {n.pool1.asset.toString()}
-                </TableCell>
-                <TableCell className={classes.tableCell}>
-                  {n.pool2.asset.toString()}
-                </TableCell>
-                <TableCell className={classes.tableCell}>
-                  {n.fee ? n.fee / 100 : 0}%
-                </TableCell>
-              </TableRow>
-            )
-          })}
+                {n.token}
+              </TableCell>
+              <TableCell className={classes.tableCell}>
+                {n.pool1.asset.toString()}
+              </TableCell>
+              <TableCell className={classes.tableCell}>
+                {n.pool2.asset.toString()}
+              </TableCell>
+              <TableCell className={classes.tableCell}>
+                {n.fee ? n.fee / 100 : 0}%
+              </TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </Box>

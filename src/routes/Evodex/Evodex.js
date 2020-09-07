@@ -7,8 +7,10 @@ import { makeStyles, useTheme } from '@material-ui/styles'
 import { useLocation } from 'react-router-dom'
 import { Backdrop } from '@eoscostarica/eoscr-components'
 import Snackbar from '@material-ui/core/Snackbar'
+import Box from '@material-ui/core/Box'
 import Alert from '@material-ui/lab/Alert'
 
+import Footer from 'components/Footer'
 import { MainContainer } from 'containers'
 import { evolutiondex } from 'utils'
 import { ExchangeProvider } from 'context/exchange.context'
@@ -25,11 +27,7 @@ const useStyles = makeStyles((theme) => ({
   backdrop: {
     position: 'relative',
     width: '100vw',
-    height: '100vh',
-    overflowY: 'hidden',
-    [theme.breakpoints.up('sm')]: {
-      height: '100vh'
-    }
+    overflowY: 'hidden'
   },
   backLayer: {
     overflowY: 'auto'
@@ -69,11 +67,10 @@ const useStyles = makeStyles((theme) => ({
   },
   rootDark: {
     background:
-      'linear-gradient(180deg, rgba(35, 43, 85, 0.9822303921568627) 2%, rgba(39,40,99,1) 31%, rgba(39,40,99,1) 100%)',
+      'linear-gradient(180deg, rgba(11, 11, 51, 0.98) 2%, rgb(23, 23, 68) 31%, rgb(39, 40, 99) 100%)',
     borderWidth: 2,
     borderStyle: 'solid',
-    borderImage:
-      'linear-gradient( to bottom, #272863, rgba(0, 0, 0, 0)) 1 100%',
+    borderColor: 'rgba(0,0,0,0)',
     borderBottomWidth: 0,
     overflowX: 'hidden'
   },
@@ -93,6 +90,13 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.primary.contrastText,
       lineBreak: 'anywhere'
     }
+  },
+  footer: {
+    height: 54,
+    backgroundColor: 'rgba(151, 151, 151, 0.06)',
+    display: 'flex',
+    paddingRight: theme.spacing(2),
+    paddingLeft: theme.spacing(2)
   }
 }))
 
@@ -232,7 +236,18 @@ const Evodex = ({ ual }) => {
               </Snackbar>
             </>
           }
-          frontLayer={<FrontLayer handleOnClickRow={handleOnClickRow} />}
+          frontLayer={
+            <>
+              <FrontLayer
+                handleOnClickRow={handleOnClickRow}
+                pathname={location.pathname}
+                isMobile={isMobile}
+              />
+              <Box className={classes.footer}>
+                <Footer />
+              </Box>
+            </>
+          }
           headerText={
             <Typography className={classes.labelBackdrop}>
               {t(title)}

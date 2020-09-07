@@ -5,157 +5,130 @@ import { makeStyles } from '@material-ui/styles'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import LinearProgress from '@material-ui/core/LinearProgress'
-import Link from '@material-ui/core/Link'
 
 import { ualConfig } from 'config'
 import TitlePage from 'components/PageTitle'
 import InputTextAndSelect from 'components/InputTextAndSelect'
 import EvodexRocketSvg from 'components/Icons/EvodexRocket'
+import MessageLink from 'components/MessageLink'
 import Button from 'components/Button'
 import { useExchange } from 'context/exchange.context'
-import { evolutiondex } from 'utils'
+import { evolutiondex, commonStyles } from 'utils'
 
-const useStyles = makeStyles((theme) => ({
-  feeRoot: {
-    marginTop: theme.spacing(7),
-    padding: theme.spacing(3, 1, 0, 1),
-    [`${theme.breakpoints.down('sm')} and (orientation: landscape)`]: {
-      marginTop: theme.spacing(4)
-    },
-    [theme.breakpoints.up('md')]: {
-      paddingLeft: theme.spacing(4),
-      paddingRight: theme.spacing(4)
-    },
-    [theme.breakpoints.up('lg')]: {
-      padding: theme.spacing(3, 0, 0, 0)
-    }
-  },
-  titleBox: {
-    width: 225,
-    paddingLeft: theme.spacing(2),
-    '& h4': {
-      fontSize: 33,
-      letterSpacing: '-0.49px',
-      color: '#ffffff',
-      fontWeight: 'bold'
-    },
-    '& p': {
-      fontSize: 20.2,
-      letterSpacing: '0.2px',
-      color: 'rgba(255, 255, 255, 0.6)',
-      fontWeight: 400
-    },
-    [`${theme.breakpoints.down('sm')} and (orientation: landscape)`]: {
-      width: '70% !important',
-      '& h4': {
-        fontSize: '33px !important',
-        letterSpacing: '-0.49px !important',
-        color: '#ffffff',
-        fontWeight: 'bold'
+const useStyles = makeStyles((theme) => {
+  const { rocketSvg, btnExchange, titleBox, message, loading } = commonStyles(
+    theme
+  )
+
+  return {
+    feeRoot: {
+      marginTop: theme.spacing(7),
+      padding: theme.spacing(3, 1, 0, 1),
+      [`${theme.breakpoints.down('sm')} and (orientation: landscape)`]: {
+        marginTop: theme.spacing(4)
       },
-      '& p': {
-        fontSize: '16.2px !important',
-        letterSpacing: '0.2px !important',
-        color: 'rgba(255, 255, 255, 0.6)',
-        fontWeight: 400
+      [theme.breakpoints.up('md')]: {
+        paddingLeft: theme.spacing(4),
+        paddingRight: theme.spacing(4)
+      },
+      [theme.breakpoints.up('lg')]: {
+        padding: theme.spacing(3, 0, 0, 0)
       }
     },
-    [theme.breakpoints.up('sm')]: {
-      width: '100%',
+    titleBox: {
+      ...titleBox,
       '& p': {
         fontSize: 20.2,
-        letterSpacing: '0.25px'
+        letterSpacing: '0.2px',
+        color: 'rgba(255, 255, 255, 0.6)',
+        fontWeight: 400
       },
-      '& h4': {
-        letterSpacing: '-0.91px',
-        fontSize: 59.2
+      [`${theme.breakpoints.down('sm')} and (orientation: landscape)`]: {
+        width: '70% !important',
+        '& h4': {
+          fontSize: '33px !important',
+          letterSpacing: '-0.49px !important',
+          color: '#ffffff',
+          fontWeight: 'bold'
+        },
+        '& p': {
+          fontSize: '16.2px !important',
+          letterSpacing: '0.2px !important',
+          color: 'rgba(255, 255, 255, 0.6)',
+          fontWeight: 400
+        }
+      },
+      [theme.breakpoints.up('sm')]: {
+        width: '100%',
+        '& p': {
+          fontSize: 20.2,
+          letterSpacing: '0.25px'
+        },
+        '& h4': {
+          letterSpacing: '-0.91px',
+          fontSize: 59.2
+        }
+      },
+      [theme.breakpoints.up('lg')]: {
+        paddingLeft: theme.spacing(0)
       }
     },
-    [theme.breakpoints.up('lg')]: {
-      paddingLeft: theme.spacing(0)
-    }
-  },
-  rateFeeBox: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    '& p': {
-      fontSize: 16.2,
-      fontWeight: 500,
-      letterSpacing: '0.5px',
-      lineHeight: 1.73,
-      color: '#fff'
+    rateFeeBox: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      '& p': {
+        fontSize: 16.2,
+        fontWeight: 500,
+        letterSpacing: '0.5px',
+        lineHeight: 1.73,
+        color: '#fff'
+      },
+      [theme.breakpoints.up('md')]: {
+        width: 800
+      }
     },
-    [theme.breakpoints.up('md')]: {
-      width: 800
-    }
-  },
-  rocketSvg: {
-    zIndex: 0,
-    position: 'absolute',
-    height: 260,
-    right: '-10px',
-    top: 0,
-    [theme.breakpoints.up('md')]: {
-      top: 62,
-      height: 450,
-      right: '-50px',
-      opacity: 0.2
-    }
-  },
-  btnExchange: {
-    display: 'flex',
-    justifyContent: 'center',
-    paddingTop: theme.spacing(4),
-    '& button': {
-      width: 162,
-      height: 36
+    btnExchange: {
+      ...btnExchange,
+      [`${theme.breakpoints.down('sm')} and (orientation: landscape)`]: {
+        paddingTop: theme.spacing(1)
+      },
+      [theme.breakpoints.up('md')]: {
+        width: 500
+      }
     },
-    [`${theme.breakpoints.down('sm')} and (orientation: landscape)`]: {
-      paddingTop: theme.spacing(1)
-    },
-    [theme.breakpoints.up('md')]: {
-      width: 500
-    }
-  },
-  inputBox: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: theme.spacing(1),
-    padding: theme.spacing(2, 0),
-    '& .MuiTextField-root': {
-      width: '100%'
-    },
-    '& svg': {
-      color: '#fff',
-      fontSize: 30,
-      margin: theme.spacing(3, 0)
-    },
-    [theme.breakpoints.up('md')]: {
-      width: 800
-    }
-  },
-  contentWrapper: {
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
+    inputBox: {
       display: 'flex',
       flexDirection: 'column',
-      alignItems: 'center'
-    }
-  },
-  message: {
-    display: 'flex',
-    paddingTop: theme.spacing(2),
-    justifyContent: 'center',
-    minWidth: '100%'
-  },
-  loading: {
-    marginTop: theme.spacing(2),
-    minWidth: '100%'
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: theme.spacing(1),
+      padding: theme.spacing(2, 0),
+      '& .MuiTextField-root': {
+        width: '100%'
+      },
+      '& svg': {
+        color: '#fff',
+        fontSize: 30,
+        margin: theme.spacing(3, 0)
+      },
+      [theme.breakpoints.up('md')]: {
+        width: 800
+      }
+    },
+    contentWrapper: {
+      width: '100%',
+      [theme.breakpoints.up('md')]: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
+      }
+    },
+    message,
+    loading,
+    rocketSvg
   }
-}))
+})
 
 const FeeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
   const classes = useStyles()
@@ -206,16 +179,11 @@ const FeeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
         ...prevState,
         type: 'success',
         content: (
-          <span>
-            {`${t('successTransaction')}: `}
-            <Link
-              href={`${ualConfig.blockExplorerUrl}/transaction/${transactionId}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {transactionId}
-            </Link>
-          </span>
+          <MessageLink
+            text={`${t('successTransaction')}: `}
+            href={`${ualConfig.blockExplorerUrl}/transaction/${transactionId}`}
+            transactionId={transactionId}
+          />
         )
       }))
       onReload()

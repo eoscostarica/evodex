@@ -4,22 +4,24 @@ import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 
 const useStyles = makeStyles((theme) => ({
-  rootLigth: {
+  rootLight: {
     color: '#fff',
     borderRadius: 30,
     padding: '6px 16px',
+    fontWeight: 650,
     backgroundColor: '#f4511e',
     '&:hover': {
       backgroundColor: '#cc6d2e'
     }
   },
   rootDark: {
-    color: '#fff',
+    color: '#000',
     borderRadius: 30,
     padding: '6px 16px',
-    backgroundColor: '#60afff',
+    fontWeight: 650,
+    backgroundColor: '#488dc7',
     '&:hover': {
-      backgroundColor: '#488dc7'
+      backgroundColor: '#60afff'
     }
   }
 }))
@@ -29,7 +31,7 @@ const ButtomStyled = ({ isLightMode, ...props }) => {
 
   return (
     <Button
-      classes={{ root: isLightMode ? classes.rootLigth : classes.rootDark }}
+      classes={{ root: isLightMode ? classes.rootLight : classes.rootDark }}
       {...props}
     />
   )
