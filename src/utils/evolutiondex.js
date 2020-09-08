@@ -197,7 +197,7 @@ const exchange = async (amount, pair, ual) => {
               quantity: assetToGive.toString(),
               memo: `exchange: ${
                 pair.token
-              },${assetToReceive.toString()},send using evodex.netlify.app`
+                },${assetToReceive.toString()},sent using evodex.io`
             }
           }
         ]
