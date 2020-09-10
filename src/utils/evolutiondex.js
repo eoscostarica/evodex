@@ -1,12 +1,13 @@
-import axios from 'axios'
 import * as eosCommon from 'eos-common'
 
 import { evodexConfig } from '../config'
 
 import { getScatterError } from './getScatterError'
+import axiosUtil from './axios.util'
 
 const { asset, number_to_asset: numberToAsset } = eosCommon
 const defaultState = { pairs: [], tokens: [] }
+const axios = axiosUtil(evodexConfig.api, evodexConfig.apiFailover)
 
 const amountToAsset = (amount = '0', currentAsset) => {
   if (isNaN(amount)) {
@@ -23,7 +24,7 @@ const amountToAsset = (amount = '0', currentAsset) => {
   return asset(`${validAmount} ${currentAsset.symbol.code().toString()}`)
 }
 const getInfo = async (ual) => {
-  const { data } = await axios.get(`${evodexConfig.api}/list`)
+  const { data } = await axios.get('/list')
   let userPools = []
 
   if (ual?.activeUser) {
@@ -43,7 +44,7 @@ const getInfo = async (ual) => {
           Pool2contract: pool2Contract,
           error
         }
-      } = await axios.get(`${evodexConfig.api}/info`, {
+      } = await axios.get('/info', {
         params: {
           pair: tokenPair
         }
@@ -197,7 +198,7 @@ const exchange = async (amount, pair, ual) => {
               quantity: assetToGive.toString(),
               memo: `exchange: ${
                 pair.token
-                },${assetToReceive.toString()},sent using evodex.io`
+              },${assetToReceive.toString()},sent using evodex.io`
             }
           }
         ]
