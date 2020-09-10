@@ -163,8 +163,35 @@ const getExchangeAssets = (amount, pair) => {
     pair.from.asset.amount.plus(assetToGive.amount),
     pair.fee
   ).abs()
-
   assetToReceive.set_amount(computeForwardAmount)
+
+  return {
+    assetToGive,
+    assetToReceive,
+    price: amountToAsset(
+      (
+        parseFloat(assetToReceive.toString().split(' ')[0]) /
+        parseFloat(assetToGive.toString().split(' ')[0])
+      ).toFixed(assetToReceive.symbol.precision()),
+      assetToReceive
+    ).toString()
+  }
+}
+const getExchangeAssetsFromToken2 = (amount, pair) => {
+  const assetToGive = numberToAsset(0, pair.from.asset.symbol)
+  const assetToReceive = amountToAsset(amount, pair.to.asset)
+  const amountToReceive = assetToReceive.amount
+  amountToReceive.plus(
+    amountToReceive.multiply(pair.fee).plus(9999).divide(10000)
+  )
+  const computeForwardAmount = computeForward(
+    amountToReceive,
+    pair.from.asset.amount,
+    pair.to.asset.amount.minus(amountToReceive),
+    0
+  ).abs()
+  assetToGive.set_amount(computeForwardAmount)
+
   return {
     assetToGive,
     assetToReceive,
@@ -530,6 +557,7 @@ export const evolutiondex = {
   getTokensFor,
   getPair,
   getExchangeAssets,
+  getExchangeAssetsFromToken2,
   exchange,
   getUserPools,
   getAddLiquidityAssets,

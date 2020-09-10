@@ -168,6 +168,8 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
   const [youGive, setYouGive] = useState({ walletBalance: {} })
   const [loading, setLoading] = useState(false)
   const [helperTextReceive, setHelperTextReceive] = useState('')
+  const [userChangeInput, setUserChangeInput] = useState('')
+  const [, setLastInterval] = useState('')
 
   const getTokenValue = (token) => {
     if (!pair) {
@@ -207,6 +209,7 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
       ...prevState,
       ...value
     }))
+    setUserChangeInput(key)
   }
 
   const handleOnSwitchValues = () => {
@@ -298,6 +301,10 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
   ])
 
   useEffect(() => {
+    if (userChangeInput !== 'youGive') {
+      return
+    }
+
     if (!pair || !youGive.inputValue) {
       setYouReceive((prevState) => ({
         ...prevState,
@@ -309,13 +316,43 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
     }
 
     const assets = evolutiondex.getExchangeAssets(youGive.inputValue, pair)
-
     setAssets(assets)
     setYouReceive((prevState) => ({
       ...prevState,
       inputValue: assets.assetToReceive.toString().split(' ')[0]
     }))
-  }, [pair, youGive.inputValue])
+  }, [userChangeInput, pair, youGive.inputValue])
+
+  useEffect(() => {
+    if (userChangeInput !== 'youReceive') {
+      return
+    }
+
+    setLastInterval((lastValue) => {
+      clearInterval(lastValue)
+
+      return null
+    })
+
+    if (!pair || !youReceive.inputValue) {
+      setYouGive((prevState) => ({
+        ...prevState,
+        inputValue: ''
+      }))
+      setAssets(null)
+
+      return
+    }
+
+    const assets = evolutiondex.getExchangeAssetsFromToken2(youReceive.inputValue, pair)
+
+    setAssets(assets)
+    setYouGive((prevState) => ({
+      ...prevState,
+      inputValue: assets.assetToGive.toString().split(' ')[0]
+    }))
+    setLastInterval(setTimeout(() => { setUserChangeInput('youGive') }, 2000))
+  }, [userChangeInput, pair, youReceive.inputValue])
 
   useEffect(() => {
     if (!exchangeState.currentPair) {
@@ -424,7 +461,6 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
           options={options.youReceive}
           onChange={handleOnChange('youReceive')}
           value={youReceive}
-          inputDisabled
           helperText={
             pair && (
               <Typography
