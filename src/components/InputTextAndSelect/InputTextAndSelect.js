@@ -122,7 +122,8 @@ const InputTextAndSelect = ({
   selected,
   value,
   inputDisabled,
-  useHelperTextAsNode
+  useHelperTextAsNode,
+  placeholder
 }) => {
   const classes = useStyles()
   const { t } = useTranslation('translations')
@@ -160,7 +161,7 @@ const InputTextAndSelect = ({
             ref={textInput}
             onChange={(e) => handleOnChange(e.target.value, 'inputValue')}
             value={inputData.inputValue || ''}
-            placeholder={t('placeholder')}
+            placeholder={placeholder || t('placeholder')}
             readOnly={inputDisabled}
             onKeyPress={(e) => handleOnKeyPress(e.key)}
           />
@@ -212,7 +213,8 @@ InputTextAndSelect.propTypes = {
   options: PropTypes.array,
   value: PropTypes.any,
   inputDisabled: PropTypes.bool,
-  useHelperTextAsNode: PropTypes.bool
+  useHelperTextAsNode: PropTypes.bool,
+  placeholder: PropTypes.string
 }
 
 InputTextAndSelect.defaultProps = {
@@ -221,7 +223,8 @@ InputTextAndSelect.defaultProps = {
   helperText: null,
   onChange: () => { },
   options: [],
-  useHelperTextAsNode: false
+  useHelperTextAsNode: false,
+  placeholder: null
 }
 
 export default InputTextAndSelect
