@@ -170,16 +170,20 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
   const [helperTextReceive, setHelperTextReceive] = useState('')
 
   const getTokenValue = (token) => {
+    if (!pair) {
+      return
+    }
+
     let result = ''
 
     if (token === pair.pool1.asset.symbol.code().toString().toUpperCase()) {
       result = `Pool: ${
         pair.pool1.asset.toString().split(' ')[0]
-        } (${pair.pool1.asset.symbol.code().toString().toLowerCase()}.token)`
+      } (${pair.pool1.asset.symbol.code().toString().toLowerCase()}.token)`
     } else {
       result = `Pool: ${
         pair.pool2.asset.toString().split(' ')[0]
-        } (${pair.pool2.asset.symbol.code().toString().toLowerCase()}.token)`
+      } (${pair.pool2.asset.symbol.code().toString().toLowerCase()}.token)`
     }
 
     setHelperTextReceive(result)
@@ -196,7 +200,7 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
         set = setYouReceive
         break
       default:
-        set = () => { }
+        set = () => {}
     }
 
     set((prevState) => ({
@@ -320,7 +324,7 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
 
     setHelperTextReceive(
       `Pool: ${
-      exchangeState.currentPair.pool2.asset.toString().split(' ')[0]
+        exchangeState.currentPair.pool2.asset.toString().split(' ')[0]
       } (${exchangeState.currentPair.pool2.asset.symbol
         .code()
         .toString()
