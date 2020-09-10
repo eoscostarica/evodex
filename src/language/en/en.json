@@ -75,7 +75,8 @@
     "inputLabel": "Vote",
     "supply": "Supply",
     "fee": "Fee",
-    "successTransaction": "Success transaction"
+    "successTransaction": "Success transaction",
+    "placeholder": "This Percentage"
   },
   "faq": {
     "title": "FAQ's",

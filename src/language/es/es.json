@@ -75,7 +75,8 @@
     "inputLabel": "Votar",
     "supply": "Circulante",
     "fee": "Comisión",
-    "successTransaction": "Transacción realizada"
+    "successTransaction": "Transacción realizada",
+    "placeholder": "Este Porcentaje"
   },
   "faq": {
     "title": "Preguntas Frecuentes",

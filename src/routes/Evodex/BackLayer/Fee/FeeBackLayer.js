@@ -232,6 +232,7 @@ const FeeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
             label={t('inputLabel')}
             onChange={handleOnChange}
             value={yourVote}
+            placeholder={t('placeholder')}
           />
         </Box>
         {pair && (
