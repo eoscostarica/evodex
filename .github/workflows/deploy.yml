@@ -51,3 +51,5 @@ jobs:
       REACT_APP_VOTE_CONTRACT: wevotethefee
       REACT_APP_EVODEX_CONTRACT: evolutiondex
       REACT_APP_EVODEX_API_URL: https://api.evolutiondex.io
+      REACT_APP_EVODEX_API_URL_FAILOVER: https://api-2.evolutiondex.io
+      
