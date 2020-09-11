@@ -477,7 +477,7 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
           useHelperTextAsNode
           hasError={
             userBalance
-              ? userBalance[youGive.selectValue].amount <
+              ? (userBalance[youGive.selectValue]?.amount || 0) <
                 parseFloat(youGive.inputValue || 0)
               : false
           }
