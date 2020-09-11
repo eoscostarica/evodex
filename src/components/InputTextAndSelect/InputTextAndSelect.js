@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
 import clsx from 'clsx'
-
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@material-ui/styles'

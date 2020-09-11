@@ -203,19 +203,53 @@ const getExchangeAssetsFromToken2 = (amount, pair) => {
     ).toString()
   }
 }
+const getUserTokenBalance = async (ual, pool) => {
+  if (!ual.activeUser) {
+    return
+  }
+
+  const response = await ual.activeUser.rpc.get_currency_balance(
+    pool.contract,
+    ual.activeUser.accountName,
+    pool.asset.symbol.code().toString()
+  )
+
+  return response.length > 0 ? response[0] : null
+}
 const exchange = async (amount, pair, ual) => {
   try {
     const { assetToGive, assetToReceive } = getExchangeAssets(amount, pair)
+    const authorization = [
+      {
+        actor: ual.activeUser.accountName,
+        permission: 'active'
+      }
+    ]
+    let aditionalActions = []
+    const balance = await getUserTokenBalance(ual, pair.pool2)
+
+    if (!balance) {
+      aditionalActions = [
+        ...aditionalActions,
+        {
+          authorization,
+          account: pair.pool2.contract,
+          name: 'open',
+          data: {
+            owner: ual.activeUser.accountName,
+            symbol: pair.pool2.asset.symbol.toString(),
+            ram_payer: ual.activeUser.accountName
+          }
+        }
+      ]
+    }
+
     const result = await ual.activeUser.signTransaction(
       {
         actions: [
+          ...aditionalActions,
           {
-            authorization: [
-              {
-                actor: ual.activeUser.accountName,
-                permission: 'active'
-              }
-            ],
+            authorization,
             account: pair.from.contract,
             name: 'transfer',
             data: {
@@ -557,6 +591,7 @@ export const evolutiondex = {
   getPair,
   getExchangeAssets,
   getExchangeAssetsFromToken2,
+  getUserTokenBalance,
   exchange,
   getUserPools,
   getAddLiquidityAssets,

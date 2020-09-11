@@ -99,7 +99,8 @@
     "pairSupply": "Circulante",
     "estimatedPrice": "Precio",
     "btnLabel": "Operar",
-    "price": "Precio"
+    "price": "Precio",
+    "yourWallet": "Su billetera"
   },
   "about": {
     "title": "Acerca de evodex",
