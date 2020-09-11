@@ -180,9 +180,8 @@ const getExchangeAssets = (amount, pair) => {
 const getExchangeAssetsFromToken2 = (amount, pair) => {
   const assetToGive = numberToAsset(0, pair.from.asset.symbol)
   const assetToReceive = amountToAsset(amount, pair.to.asset)
-  const amountToReceive = assetToReceive.amount
-  amountToReceive.plus(
-    amountToReceive.multiply(pair.fee).plus(9999).divide(10000)
+  const amountToReceive = assetToReceive.amount.plus(
+    assetToReceive.amount.multiply(pair.fee).plus(9999).divide(10000)
   )
   const computeForwardAmount = computeForward(
     amountToReceive,
