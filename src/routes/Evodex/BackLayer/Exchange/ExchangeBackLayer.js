@@ -169,6 +169,7 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
   const [loading, setLoading] = useState(false)
   const [helperTextReceive, setHelperTextReceive] = useState('')
   const [userChangeInput, setUserChangeInput] = useState('')
+  const [userBalance, setUserBalance] = useState()
   const [, setLastInterval] = useState('')
 
   const getTokenValue = (token) => {
@@ -344,14 +345,21 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
       return
     }
 
-    const assets = evolutiondex.getExchangeAssetsFromToken2(youReceive.inputValue, pair)
+    const assets = evolutiondex.getExchangeAssetsFromToken2(
+      youReceive.inputValue,
+      pair
+    )
 
     setAssets(assets)
     setYouGive((prevState) => ({
       ...prevState,
       inputValue: assets.assetToGive.toString().split(' ')[0]
     }))
-    setLastInterval(setTimeout(() => { setUserChangeInput('youGive') }, 2000))
+    setLastInterval(
+      setTimeout(() => {
+        setUserChangeInput('youGive')
+      }, 2000)
+    )
   }, [userChangeInput, pair, youReceive.inputValue])
 
   useEffect(() => {
@@ -383,8 +391,13 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
   }, [showMessage, exchangeState.currentPair, ual.activeUser])
 
   useEffect(() => {
+    if (!pair) {
+      return
+    }
+
     const getCurrencyBalance = async () => {
       let walletPool = {}
+      let userbalance = null
 
       if (ual.activeUser) {
         const pool1 = await ual.activeUser.rpc.get_currency_balance(
@@ -407,6 +420,17 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
             ? pool2[0]
             : `0 ${pair.pool2.asset.symbol.code().toString()}`
         }
+
+        userbalance = {
+          [pair.pool1.asset.symbol.code().toString()]: {
+            token: pair.pool1.asset.symbol.code().toString(),
+            amount: pool1.length ? parseFloat(pool1[0].split(' ')[0]) : 0
+          },
+          [pair.pool2.asset.symbol.code().toString()]: {
+            token: pair.pool2.asset.symbol.code().toString(),
+            amount: pool2.length ? parseFloat(pool2[0].split(' ')[0]) : 0
+          }
+        }
       }
 
       setYouGive((prevValue) => ({
@@ -414,10 +438,7 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
         walletBalance: walletPool
       }))
       getTokenValue(youReceive.selectValue)
-    }
-
-    if (!pair) {
-      return
+      setUserBalance(userbalance)
     }
 
     getCurrencyBalance()
@@ -440,17 +461,26 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
           onChange={handleOnChange('youGive')}
           value={youGive}
           helperText={
-            pair &&
-            ual.activeUser && (
+            pair && (
               <Typography
                 variant="body1"
                 className={clsx([classes.textInfo, classes.helperText])}
               >
-                {`Your Wallet: ${youGive.walletBalance[youGive.selectValue]}`}
+                {ual.activeUser
+                  ? `Your Wallet: ${
+                      youGive.walletBalance[youGive.selectValue] || ''
+                    }`
+                  : `Your Wallet: 0 ${youGive.selectValue}`}
               </Typography>
             )
           }
           useHelperTextAsNode
+          hasError={
+            userBalance
+              ? (userBalance[youGive.selectValue]?.amount || 0) <
+                parseFloat(youGive.inputValue || 0)
+              : false
+          }
         />
         <IconButton aria-label="switch" onClick={handleOnSwitchValues}>
           {isDesktop ? <SwapHorizIcon /> : <ImportExportIcon />}
