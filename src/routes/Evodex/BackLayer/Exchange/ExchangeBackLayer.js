@@ -400,35 +400,26 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
       let userbalance = null
 
       if (ual.activeUser) {
-        const pool1 = await ual.activeUser.rpc.get_currency_balance(
-          'eosio.token',
-          ual.activeUser.accountName,
-          pair.pool1.asset.symbol.code().toString()
-        )
-
-        const pool2 = await ual.activeUser.rpc.get_currency_balance(
-          'eosio.token',
-          ual.activeUser.accountName,
-          pair.pool2.asset.symbol.code().toString()
-        )
+        const pool1 =
+          (await evolutiondex.getUserTokenBalance(ual, pair.pool1)) ||
+          `0 ${pair.pool1.asset.symbol.code().toString()}`
+        const pool2 =
+          (await evolutiondex.getUserTokenBalance(ual, pair.pool2)) ||
+          `0 ${pair.pool2.asset.symbol.code().toString()}`
 
         walletPool = {
-          [pair.pool1.asset.symbol.code().toString()]: pool1.length
-            ? pool1[0]
-            : `0 ${pair.pool1.asset.symbol.code().toString()}`,
-          [pair.pool2.asset.symbol.code().toString()]: pool2.length
-            ? pool2[0]
-            : `0 ${pair.pool2.asset.symbol.code().toString()}`
+          [pair.pool1.asset.symbol.code().toString()]: pool1,
+          [pair.pool2.asset.symbol.code().toString()]: pool2
         }
 
         userbalance = {
           [pair.pool1.asset.symbol.code().toString()]: {
             token: pair.pool1.asset.symbol.code().toString(),
-            amount: pool1.length ? parseFloat(pool1[0].split(' ')[0]) : 0
+            amount: parseFloat(pool1.split(' ')[0])
           },
           [pair.pool2.asset.symbol.code().toString()]: {
             token: pair.pool2.asset.symbol.code().toString(),
-            amount: pool2.length ? parseFloat(pool2[0].split(' ')[0]) : 0
+            amount: parseFloat(pool2[0].split(' ')[0])
           }
         }
       }
@@ -467,10 +458,10 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
                 className={clsx([classes.textInfo, classes.helperText])}
               >
                 {ual.activeUser
-                  ? `Your Wallet: ${
+                  ? `${t('yourWallet')}: ${
                       youGive.walletBalance[youGive.selectValue] || ''
                     }`
-                  : `Your Wallet: 0 ${youGive.selectValue}`}
+                  : `${t('yourWallet')}: 0 ${youGive.selectValue}`}
               </Typography>
             )
           }
