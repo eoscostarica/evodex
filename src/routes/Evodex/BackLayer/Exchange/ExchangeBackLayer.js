@@ -412,8 +412,6 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
           [pair.pool2.asset.symbol.code().toString()]: pool2
         }
 
-        console.log(walletPool)
-
         userbalance = {
           [pair.pool1.asset.symbol.code().toString()]: {
             token: pair.pool1.asset.symbol.code().toString(),
