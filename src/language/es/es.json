@@ -104,7 +104,8 @@
     "estimatedPrice": "Precio",
     "btnLabel": "Operar",
     "price": "Precio",
-    "yourWallet": "Su Billetera"
+    "yourWallet": "Su Billetera",
+    "pool": "Pool"
   },
   "about": {
     "title": "Acerca de evodex",
