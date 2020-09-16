@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => {
     root: {
       padding: 0,
       display: 'flex',
+      maxWidth: '100%',
       height: `calc(${vh}px * 100)`
     },
     appBar: {
@@ -99,7 +100,7 @@ const Main = ({
   }, [])
 
   return (
-    <Container component="main" maxWidth="xl" className={classes.root}>
+    <Container component="main" className={classes.root}>
       <AppBar className={classes.appBar}>
         <Toolbar
           className={clsx(classes.toolBar, {

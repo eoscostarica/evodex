@@ -141,7 +141,7 @@ const TalkUsModal = ({ openModal, setOpenModal }) => {
 
         <Link
           className={clsx(classes.boxLinks, classes.marginBottomLink)}
-          href="https://twitter.com/eosargentina"
+          href="https://twitter.com/evodex_io"
           target="_blank"
           rel="noopener noreferrer"
         >

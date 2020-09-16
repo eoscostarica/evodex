@@ -184,7 +184,7 @@ const InputTextAndSelect = ({
           <Select
             id={id}
             onChange={(e) => handleOnChange(e.target.value, 'selectValue')}
-            value={inputData.selectValue || ''}
+            value={inputData.selectValue || t('selected')}
             renderValue={(selected) => {
               if (!selected) {
                 return (
@@ -192,7 +192,7 @@ const InputTextAndSelect = ({
                     className={classes.placeholderSelect}
                     variant="body1"
                   >
-                    This Token
+                    {t('selected')}
                   </Typography>
                 )
               }
