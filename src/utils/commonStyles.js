@@ -53,5 +53,23 @@ export const commonStyles = (theme) => ({
   loading: {
     marginTop: theme.spacing(2),
     minWidth: '100%'
+  },
+  boxMessage: {
+    marginTop: theme.spacing(2),
+    display: 'flex',
+    '& p': {
+      marginRight: 5,
+      fontSize: 12.1,
+      fontWeight: '600',
+      lineHeight: 1.32,
+      letterSpacing: 0.4,
+      color: 'rgba(0, 0, 0, 0.6)'
+    }
+  },
+  link: {
+    textDecoration: 'underline',
+    '&:hover': {
+      cursor: 'pointer'
+    }
   }
 })

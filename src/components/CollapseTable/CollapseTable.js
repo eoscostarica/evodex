@@ -7,30 +7,38 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Collapse from '@material-ui/core/Collapse'
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
-import { Typography } from '@material-ui/core'
+import Typography from '@material-ui/core/Typography'
+import Box from '@material-ui/core/Box'
 
 import Table from '../Table'
+import { commonStyles } from 'utils'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%'
-  },
-  bar: {
-    borderBottom: '1px solid rgba(0, 0, 0, 0.87)',
-    width: '100%',
-    height: 30,
-    padding: 0,
-    '& span': {
-      fontSize: 12.1,
-      fontWeight: 600,
-      lineHeight: 1.32,
-      letterSpacing: '2px',
-      color: 'rgba(0, 0, 0, 0.87)'
-    }
+const useStyles = makeStyles((theme) => {
+  const { boxMessage, link } = commonStyles(theme)
+
+  return {
+    root: {
+      width: '100%'
+    },
+    bar: {
+      borderBottom: '1px solid rgba(0, 0, 0, 0.87)',
+      width: '100%',
+      height: 30,
+      padding: 0,
+      '& span': {
+        fontSize: 12.1,
+        fontWeight: 600,
+        lineHeight: 1.32,
+        letterSpacing: '2px',
+        color: 'rgba(0, 0, 0, 0.87)'
+      }
+    },
+    boxMessage,
+    link
   }
-}))
+})
 
-const CollapseTable = ({ data, label, onClick }) => {
+const CollapseTable = ({ data, label, onClick, message }) => {
   const classes = useStyles()
   const [open, setOpen] = React.useState(true)
 
@@ -45,8 +53,32 @@ const CollapseTable = ({ data, label, onClick }) => {
         {open ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
       </ListItem>
       <Collapse in={open} timeout="auto" unmountOnExit>
+        {/* {data?.length === 0 && !isActiveUser && (
+          <Box className={classes.boxMessage}>
+            <Typography onClick={onClickLink} className={classes.link}>
+              Login
+            </Typography>
+            <Typography>to view your pools.</Typography>
+          </Box>
+        )}
+        {data?.length === 0 && isActiveUser && (
+          <Box className={classes.boxMessage}>
+            <Typography>No token pairs found.</Typography>
+            {showAddLiquidityLink && (
+              <Typography onClick={onClickLink} className={classes.link}>
+                Add liquidity now.
+              </Typography>
+            )}
+          </Box>
+        )} */}
+        {!data?.length && !message ? (
+          <Box className={classes.boxMessage}>
+            <Typography>No token pairs found.</Typography>
+          </Box>
+        ) : (
+          message
+        )}
         {data?.length > 0 && <Table data={data} onClick={onClick} />}
-        {data?.length === 0 && <Typography>Empty</Typography>}
       </Collapse>
     </List>
   )
@@ -55,7 +87,13 @@ const CollapseTable = ({ data, label, onClick }) => {
 CollapseTable.propTypes = {
   data: PropTypes.array,
   label: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  message: PropTypes.any
+}
+
+CollapseTable.defaultProps = {
+  onClick: () => {},
+  message: false
 }
 
 export default CollapseTable

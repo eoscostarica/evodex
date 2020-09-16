@@ -6,7 +6,8 @@
     "headerTitle": "Listado de Tokens",
     "version": "Versión",
     "footer": "Evodex es código abierto, involúcrate.",
-    "placeholder": "Monto"
+    "placeholder": "Monto",
+    "selected": "Seleccionar"
   },
   "talkUsModal": {
     "title": "Evodex es para la comunidad de EOS",

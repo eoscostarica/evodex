@@ -129,8 +129,13 @@ const useStyles = makeStyles((theme) => {
         alignItems: 'center'
       }
     },
+    loading: {
+      ...loading,
+      [theme.breakpoints.up('md')]: {
+        minWidth: 800
+      }
+    },
     message,
-    loading,
     rocketSvg
   }
 })
@@ -350,6 +355,9 @@ const LiquidityBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
             </Typography>
           </Box>
         )}
+        {loading && (
+          <LinearProgress className={classes.loading} color="secondary" />
+        )}
         <Box className={classes.btnExchange}>
           <Button
             onClick={handleOnAddLiquidity}
@@ -359,9 +367,6 @@ const LiquidityBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
           >
             {t('add').toLocaleUpperCase()}
           </Button>
-          {loading && (
-            <LinearProgress className={classes.loading} color="secondary" />
-          )}
           <Button
             onClick={handleOnRemoveLiquidity}
             isLightMode={isLightMode}

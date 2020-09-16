@@ -242,6 +242,8 @@ const Evodex = ({ ual }) => {
                 handleOnClickRow={handleOnClickRow}
                 pathname={location.pathname}
                 isMobile={isMobile}
+                isActiveUser={Boolean(ual.activeUser)}
+                onLogin={() => ual.showModal()}
               />
               <Box className={classes.footer}>
                 <Footer />

@@ -6,7 +6,8 @@
     "headerTitle": "Token Listings",
     "version": "Version",
     "footer": "Evodex is open source, get involved.",
-    "placeholder": "This Amount"
+    "placeholder": "This Amount",
+    "selected": "Selected"
   },
   "talkUsModal": {
     "title": "Evodex is for the EOS community.",
