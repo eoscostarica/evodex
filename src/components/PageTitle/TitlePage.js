@@ -24,7 +24,10 @@ const TitlePage = ({ title }) => (
       property="og:description"
       content="Evodex is a decentralized exchange that promotes the use of EOS for DeFi. The project is completely open source and free for developers to build on the protocol"
     />
-    <meta property="og:image" content="https://evodex.io/imag.png" />
+    <meta
+      property="og:image"
+      content="https://evodex.io/social-preview-image.png"
+    />
     {/* Twitter */}
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://evodex.io/" />
@@ -36,7 +39,10 @@ const TitlePage = ({ title }) => (
       property="twitter:description"
       content="Evodex is a decentralized exchange that promotes the use of EOS for DeFi. The project is completely open source and free for developers to build on the protocol"
     />
-    <meta property="twitter:image" content="https://evodex.io/imag.png" />
+    <meta
+      property="twitter:image"
+      content="https://evodex.io/social-preview-image.png"
+    />
   </Helmet>
 )
 
