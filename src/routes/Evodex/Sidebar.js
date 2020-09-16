@@ -129,7 +129,7 @@ const SOCIAL = [
   },
   {
     title: 'Twitter',
-    href: 'https://twitter.com/eosargentina',
+    href: 'https://twitter.com/evodex_io',
     icon: <TwitterIcon />
   }
 ]
