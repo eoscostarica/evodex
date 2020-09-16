@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
@@ -11,23 +12,25 @@ const EmptyMessage = ({
   onClickLink,
   useLink
 }) => {
+  const { t } = useTranslation('translations')
+
   if (!isActiveUser)
     return (
       <Box className={classes.boxMessage}>
         <Typography onClick={onLogin} className={classes.link}>
-          Login
+          {t('login')}
         </Typography>
-        <Typography>to view your pools.</Typography>
+        <Typography>{t('noUserPools')}</Typography>
       </Box>
     )
 
   if (isEmptyData)
     return (
       <Box className={classes.boxMessage}>
-        <Typography>No token pairs found.</Typography>
+        <Typography>{t('noTokensFound')}</Typography>
         {useLink && (
           <Typography onClick={onClickLink} className={classes.link}>
-            Add liquidity now.
+            {t('addLiquidity')}
           </Typography>
         )}
       </Box>

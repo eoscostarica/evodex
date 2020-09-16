@@ -7,7 +7,10 @@
     "version": "Versión",
     "footer": "Evodex es código abierto, involúcrate.",
     "placeholder": "Monto",
-    "selected": "Seleccionar"
+    "selected": "Seleccionar",
+    "noTokensFound": "No se encontraron pares de tokens.",
+    "noUserPools": "para ver tus pooles.",
+    "addLiquidity": "Agregue liquidez ahora."
   },
   "talkUsModal": {
     "title": "Evodex es para la comunidad de EOS",

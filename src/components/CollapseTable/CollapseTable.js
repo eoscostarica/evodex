@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -40,7 +41,8 @@ const useStyles = makeStyles((theme) => {
 
 const CollapseTable = ({ data, label, onClick, message }) => {
   const classes = useStyles()
-  const [open, setOpen] = React.useState(true)
+  const { t } = useTranslation('translations')
+  const [open, setOpen] = useState(true)
 
   const handleClick = () => {
     setOpen(!open)
@@ -53,27 +55,9 @@ const CollapseTable = ({ data, label, onClick, message }) => {
         {open ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
       </ListItem>
       <Collapse in={open} timeout="auto" unmountOnExit>
-        {/* {data?.length === 0 && !isActiveUser && (
-          <Box className={classes.boxMessage}>
-            <Typography onClick={onClickLink} className={classes.link}>
-              Login
-            </Typography>
-            <Typography>to view your pools.</Typography>
-          </Box>
-        )}
-        {data?.length === 0 && isActiveUser && (
-          <Box className={classes.boxMessage}>
-            <Typography>No token pairs found.</Typography>
-            {showAddLiquidityLink && (
-              <Typography onClick={onClickLink} className={classes.link}>
-                Add liquidity now.
-              </Typography>
-            )}
-          </Box>
-        )} */}
         {!data?.length && !message ? (
           <Box className={classes.boxMessage}>
-            <Typography>No token pairs found.</Typography>
+            <Typography>{t('noTokensFound')}</Typography>
           </Box>
         ) : (
           message

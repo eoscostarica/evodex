@@ -7,7 +7,10 @@
     "version": "Version",
     "footer": "Evodex is open source, get involved.",
     "placeholder": "This Amount",
-    "selected": "Selected"
+    "selected": "Selected",
+    "noTokensFound": "No token pairs found.",
+    "noUserPools": "to view your pools.",
+    "addLiquidity": "Add liquidity now."
   },
   "talkUsModal": {
     "title": "Evodex is for the EOS community.",
