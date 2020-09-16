@@ -104,7 +104,8 @@
     "estimatedPrice": "Estimated Price",
     "btnLabel": "exchange",
     "price": "Price",
-    "yourWallet": "Your Wallet"
+    "yourWallet": "Your Wallet",
+    "pool": "Pool"
   },
   "about": {
     "title": "About evodex",
