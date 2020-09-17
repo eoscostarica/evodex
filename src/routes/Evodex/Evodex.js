@@ -13,7 +13,7 @@ import Alert from '@material-ui/lab/Alert'
 import Footer from 'components/Footer'
 import TourGuide from 'components/TourGuide'
 import { MainContainer } from 'containers'
-import { evolutiondex, getTourStepsByPathname } from 'utils'
+import { evolutiondex } from 'utils'
 import { ExchangeProvider } from 'context/exchange.context'
 
 import BackLayer from './BackLayer'
@@ -115,7 +115,7 @@ const Evodex = ({ ual }) => {
   const [exgangeInfo, setExchangeInfo] = useState(null)
   const [isStaticPage, setIsStaticPage] = useState(false)
   const [message, setMessage] = useState()
-  const [steps, setSteps] = useState([])
+  const [stepsByPage, setStepsByPage] = useState('')
   const isLandscape = useMediaQuery('(orientation: landscape)')
   const isMobile = useMediaQuery(theme.breakpoints.down('xs'), {
     defaultMatches: true
@@ -124,7 +124,7 @@ const Evodex = ({ ual }) => {
   const height = window.innerHeight
 
   const handleGetTourSteps = (pathname) => {
-    setSteps(getTourStepsByPathname(pathname))
+    setStepsByPage(pathname)
     setIsTourOpen(true)
   }
 
@@ -271,7 +271,7 @@ const Evodex = ({ ual }) => {
         <TourGuide
           isTourOpen={isTourOpen}
           setIsTourOpen={setIsTourOpen}
-          steps={steps}
+          stepsByPage={stepsByPage}
         />
       </MainContainer>
     </ExchangeProvider>
