@@ -1,4 +1,8 @@
 export const commonStyles = (theme) => ({
+  helpIcon: {
+    color: '#ffffff',
+    marginLeft: theme.spacing(1)
+  },
   inputBox: {
     display: 'flex',
     flexDirection: 'column',

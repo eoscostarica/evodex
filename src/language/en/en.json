@@ -48,7 +48,7 @@
     "htmlTitle": "EOS Ricardian Contracts for Evolution DEX"
   },
   "liquidity": {
-    "title": "Add or Remove Liquidity",
+    "title": "Manage Liquidity",
     "htmlTitle": "Add or Remove Liquidity to EOS DEX pools on evodex",
     "description": "Select a token pair and the amount you want to add or remove to the liquidity pool.",
     "headerTitle": "Token Listings",

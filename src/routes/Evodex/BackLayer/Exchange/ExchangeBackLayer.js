@@ -10,6 +10,7 @@ import ImportExportIcon from '@material-ui/icons/ImportExport'
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz'
 import IconButton from '@material-ui/core/IconButton'
 import LinearProgress from '@material-ui/core/LinearProgress'
+import HelpIcon from '@material-ui/icons/Help'
 import Link from '@material-ui/core/Link'
 
 import { ualConfig } from 'config'
@@ -28,7 +29,8 @@ const useStyles = makeStyles((theme) => {
     btnExchange,
     titleBox,
     message,
-    loading
+    loading,
+    helpIcon
   } = commonStyles(theme)
 
   return {
@@ -134,6 +136,7 @@ const useStyles = makeStyles((theme) => {
     },
     btnExchange: {
       ...btnExchange,
+      alignItems: 'center',
       [theme.breakpoints.up('sm')]: {
         '& button': {
           width: 266
@@ -152,13 +155,20 @@ const useStyles = makeStyles((theme) => {
       color: theme.palette.primary.contrastText,
       textDecoration: 'none'
     },
+    helpIcon,
     message,
     loading,
     rocketSvg
   }
 })
 
-const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
+const ExchangeBackLayer = ({
+  onReload,
+  ual,
+  isLightMode,
+  showMessage,
+  getTourSteps
+}) => {
   const { t } = useTranslation('exchange')
   const classes = useStyles()
   const theme = useTheme()
@@ -404,6 +414,7 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
       <Box className={classes.inputBox}>
         <InputTextAndSelect
           id="exchangeYouGive"
+          containerId="youGive"
           label={t('youGive')}
           options={options.youGive}
           onChange={handleOnChange('youGive')}
@@ -444,6 +455,7 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
         </IconButton>
         <InputTextAndSelect
           id="exchangeYouReceive"
+          containerId="youReceive"
           label={t('youReceive')}
           options={options.youReceive}
           onChange={handleOnChange('youReceive')}
@@ -497,6 +509,10 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
         >
           {t('btnLabel').toLocaleUpperCase()}
         </Button>
+        <HelpIcon
+          className={classes.helpIcon}
+          onClick={() => getTourSteps('exchange')}
+        />
       </Box>
     </Box>
   )
@@ -506,7 +522,8 @@ ExchangeBackLayer.propTypes = {
   ual: PropTypes.object,
   onReload: PropTypes.func,
   isLightMode: PropTypes.bool,
-  showMessage: PropTypes.func
+  showMessage: PropTypes.func,
+  getTourSteps: PropTypes.func
 }
 
 export default ExchangeBackLayer

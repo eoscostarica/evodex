@@ -48,7 +48,7 @@
     "htmlTitle": "Contratos Ricardianos en EOS - evolutiondex & wevotethefee"
   },
   "liquidity": {
-    "title": "Aportar o Retirar Liquidez",
+    "title": "Gestionar Liquidez",
     "htmlTitle": "Agregar o eliminar liquidez a los pools de DEX para EOS",
     "description": "Selecciona un par y la cantidad y la cantidad de liquidez para aportar o retirar.",
     "headerTitle": "Listados de tokens",

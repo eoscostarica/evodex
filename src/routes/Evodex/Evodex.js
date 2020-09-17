@@ -11,8 +11,9 @@ import Box from '@material-ui/core/Box'
 import Alert from '@material-ui/lab/Alert'
 
 import Footer from 'components/Footer'
+import TourGuide from 'components/TourGuide'
 import { MainContainer } from 'containers'
-import { evolutiondex } from 'utils'
+import { evolutiondex, getTourStepsByPathname } from 'utils'
 import { ExchangeProvider } from 'context/exchange.context'
 
 import BackLayer from './BackLayer'
@@ -107,18 +108,25 @@ const Evodex = ({ ual }) => {
   const location = useLocation()
   const backdropRef = useRef()
   const [openSidebar, setOpenSidebar] = useState(false)
+  const [isTourOpen, setIsTourOpen] = useState(false)
   const [title, setTitle] = useState('headerTitle')
   const [isLightMode, setIsLightMode] = useState(false)
   const [layerHeightUp, setLayerHeightUp] = useState(51)
   const [exgangeInfo, setExchangeInfo] = useState(null)
   const [isStaticPage, setIsStaticPage] = useState(false)
   const [message, setMessage] = useState()
+  const [steps, setSteps] = useState([])
   const isLandscape = useMediaQuery('(orientation: landscape)')
   const isMobile = useMediaQuery(theme.breakpoints.down('xs'), {
     defaultMatches: true
   })
 
   const height = window.innerHeight
+
+  const handleGetTourSteps = (pathname) => {
+    setSteps(getTourStepsByPathname(pathname))
+    setIsTourOpen(true)
+  }
 
   const handleOnClickRow = () => {
     if (backdropRef?.current?.toggleOnClickMobile) {
@@ -220,6 +228,7 @@ const Evodex = ({ ual }) => {
                 pathname={location.pathname}
                 isLightMode={isLightMode}
                 showMessage={setMessage}
+                getTourSteps={handleGetTourSteps}
               />
               <Snackbar
                 open={!!message}
@@ -258,6 +267,11 @@ const Evodex = ({ ual }) => {
           backgroundColor={isLightMode ? '#1976d2' : '#272863'}
           layerHeightUp={layerHeightUp}
           isStaticPage={isStaticPage}
+        />
+        <TourGuide
+          isTourOpen={isTourOpen}
+          setIsTourOpen={setIsTourOpen}
+          steps={steps}
         />
       </MainContainer>
     </ExchangeProvider>

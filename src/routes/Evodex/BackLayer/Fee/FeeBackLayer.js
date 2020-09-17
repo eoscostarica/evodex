@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/styles'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import LinearProgress from '@material-ui/core/LinearProgress'
+import HelpIcon from '@material-ui/icons/Help'
 
 import { ualConfig } from 'config'
 import TitlePage from 'components/PageTitle'
@@ -16,9 +17,14 @@ import { useExchange } from 'context/exchange.context'
 import { evolutiondex, commonStyles } from 'utils'
 
 const useStyles = makeStyles((theme) => {
-  const { rocketSvg, btnExchange, titleBox, message, loading } = commonStyles(
-    theme
-  )
+  const {
+    rocketSvg,
+    btnExchange,
+    titleBox,
+    message,
+    loading,
+    helpIcon
+  } = commonStyles(theme)
 
   return {
     feeRoot: {
@@ -90,6 +96,7 @@ const useStyles = makeStyles((theme) => {
     },
     btnExchange: {
       ...btnExchange,
+      alignItems: 'center',
       [`${theme.breakpoints.down('sm')} and (orientation: landscape)`]: {
         paddingTop: theme.spacing(1)
       },
@@ -124,13 +131,20 @@ const useStyles = makeStyles((theme) => {
         alignItems: 'center'
       }
     },
+    helpIcon,
     message,
     loading,
     rocketSvg
   }
 })
 
-const FeeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
+const FeeBackLayer = ({
+  onReload,
+  ual,
+  isLightMode,
+  showMessage,
+  getTourSteps
+}) => {
   const classes = useStyles()
   const { t } = useTranslation('fee')
   const [{ pairs, currentPair }] = useExchange()
@@ -229,6 +243,7 @@ const FeeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
               label: pair.token
             }))}
             id="feeYouVote"
+            containerId="youGive"
             label={t('inputLabel')}
             onChange={handleOnChange}
             value={yourVote}
@@ -256,6 +271,10 @@ const FeeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
           >
             {t('inputLabel').toLocaleUpperCase()}
           </Button>
+          <HelpIcon
+            className={classes.helpIcon}
+            onClick={() => getTourSteps('fee')}
+          />
         </Box>
       </Box>
     </Box>
@@ -266,7 +285,8 @@ FeeBackLayer.propTypes = {
   ual: PropTypes.object,
   onReload: PropTypes.func,
   isLightMode: PropTypes.bool,
-  showMessage: PropTypes.func
+  showMessage: PropTypes.func,
+  getTourSteps: PropTypes.func
 }
 
 export default FeeBackLayer
