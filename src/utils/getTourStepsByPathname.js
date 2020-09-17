@@ -19,7 +19,7 @@ export const getTourStepsByPathname = (pathname) => {
         {
           selector: '#youGive',
           content:
-            'Enter a valid amount and use the dropdown menu to select the token you own and want to exchange.'
+            'Here you can look up the current exchange fee for each token using the dropdown menu.'
         }
       ]
 
@@ -28,7 +28,7 @@ export const getTourStepsByPathname = (pathname) => {
         {
           selector: '#youGive',
           content:
-            'Enter a valid amount and use the dropdown menu to select the token you own and want to exchange.'
+            'Here you may vote for the fee you consider to be the fairest for each token. Please, use a percentage with one decimal format. For example: 0.1%.'
         }
       ]
 
