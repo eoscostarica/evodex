@@ -23,14 +23,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const BackLayer = ({
-  pathname,
-  onReload,
-  ual,
-  isLightMode,
-  showMessage,
-  getTourSteps
-}) => {
+const BackLayer = ({ pathname, onReload, ual, isLightMode, showMessage }) => {
   const classes = useStyles()
 
   return (
@@ -42,7 +35,6 @@ const BackLayer = ({
             onReload={onReload}
             isLightMode={isLightMode}
             showMessage={showMessage}
-            getTourSteps={getTourSteps}
           />
         </Route>
         <Route exact path="/exchange">
@@ -51,7 +43,6 @@ const BackLayer = ({
             onReload={onReload}
             isLightMode={isLightMode}
             showMessage={showMessage}
-            getTourSteps={getTourSteps}
           />
         </Route>
         <Route exact path="/fee">
@@ -60,7 +51,6 @@ const BackLayer = ({
             onReload={onReload}
             isLightMode={isLightMode}
             showMessage={showMessage}
-            getTourSteps={getTourSteps}
           />
         </Route>
         <Route exact path="/faq" component={FaqBackLayer} />
@@ -81,8 +71,7 @@ BackLayer.propTypes = {
   ual: PropTypes.object,
   onReload: PropTypes.func,
   isLightMode: PropTypes.bool,
-  showMessage: PropTypes.func,
-  getTourSteps: PropTypes.func
+  showMessage: PropTypes.func
 }
 
 export default BackLayer

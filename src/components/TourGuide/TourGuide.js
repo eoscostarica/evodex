@@ -70,6 +70,7 @@ const TourGuide = ({ setIsTourOpen, isTourOpen, stepsByPage }) => {
       rounded={10}
       className={classes.helper}
       accentColor="#757575"
+      getCurrentStep={(curr) => console.log(`The current step is ${curr + 1}`)}
     />
   )
 }

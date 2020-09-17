@@ -14,6 +14,7 @@ import HelpIcon from '@material-ui/icons/Help'
 import Link from '@material-ui/core/Link'
 
 import { ualConfig } from 'config'
+import TourGuide from 'components/TourGuide'
 import TitlePage from 'components/PageTitle'
 import InputTextAndSelect from 'components/InputTextAndSelect'
 import EvodexRocketSvg from 'components/Icons/EvodexRocket'
@@ -182,6 +183,7 @@ const ExchangeBackLayer = ({
   const [youReceive, setYouReceive] = useState({})
   const [youGive, setYouGive] = useState({})
   const [loading, setLoading] = useState(false)
+  const [isTourOpen, setIsTourOpen] = useState(false)
   const [userChangeInput, setUserChangeInput] = useState('')
   const [userBalance, setUserBalance] = useState({})
   const [, setLastInterval] = useState('')
@@ -511,9 +513,14 @@ const ExchangeBackLayer = ({
         </Button>
         <HelpIcon
           className={classes.helpIcon}
-          onClick={() => getTourSteps('exchange')}
+          onClick={() => setIsTourOpen(true)}
         />
       </Box>
+      <TourGuide
+        isTourOpen={isTourOpen}
+        setIsTourOpen={setIsTourOpen}
+        stepsByPage="exchange"
+      />
     </Box>
   )
 }

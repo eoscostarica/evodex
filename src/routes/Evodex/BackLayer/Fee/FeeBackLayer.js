@@ -8,6 +8,7 @@ import LinearProgress from '@material-ui/core/LinearProgress'
 import HelpIcon from '@material-ui/icons/Help'
 
 import { ualConfig } from 'config'
+import TourGuide from 'components/TourGuide'
 import TitlePage from 'components/PageTitle'
 import InputTextAndSelect from 'components/InputTextAndSelect'
 import EvodexRocketSvg from 'components/Icons/EvodexRocket'
@@ -149,6 +150,7 @@ const FeeBackLayer = ({
   const { t } = useTranslation('fee')
   const [{ pairs, currentPair }] = useExchange()
   const [pair, setPair] = useState()
+  const [isTourOpen, setIsTourOpen] = useState(false)
   const [yourVote, setYourVote] = useState({})
   const [loading, setLoading] = useState(false)
 
@@ -273,10 +275,15 @@ const FeeBackLayer = ({
           </Button>
           <HelpIcon
             className={classes.helpIcon}
-            onClick={() => getTourSteps('fee')}
+            onClick={() => setIsTourOpen(true)}
           />
         </Box>
       </Box>
+      <TourGuide
+        isTourOpen={isTourOpen}
+        setIsTourOpen={setIsTourOpen}
+        stepsByPage="fee"
+      />
     </Box>
   )
 }

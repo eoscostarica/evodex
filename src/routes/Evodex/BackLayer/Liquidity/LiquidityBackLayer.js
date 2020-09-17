@@ -11,6 +11,7 @@ import LinearProgress from '@material-ui/core/LinearProgress'
 import Link from '@material-ui/core/Link'
 
 import { ualConfig } from 'config'
+import TourGuide from 'components/TourGuide'
 import TitlePage from 'components/PageTitle'
 import InputTextAndSelect from 'components/InputTextAndSelect'
 import EvodexRocketSvg from 'components/Icons/EvodexRocket'
@@ -169,6 +170,7 @@ const LiquidityBackLayer = ({
   const [pair, setPair] = useState()
   const [toBuy, setToBuy] = useState()
   const [toSell, setToSell] = useState()
+  const [isTourOpen, setIsTourOpen] = useState(false)
   const [youGive, setYouGive] = useState({})
   const [loading, setLoading] = useState(false)
 
@@ -401,10 +403,15 @@ const LiquidityBackLayer = ({
 
           <HelpIcon
             className={classes.helpIcon}
-            onClick={() => getTourSteps('liquidity')}
+            onClick={() => setIsTourOpen(true)}
           />
         </Box>
       </Box>
+      <TourGuide
+        isTourOpen={isTourOpen}
+        setIsTourOpen={setIsTourOpen}
+        stepsByPage="liquidity"
+      />
     </Box>
   )
 }
