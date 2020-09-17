@@ -30,7 +30,13 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const FrontLayer = ({ handleOnClickRow, pathname, isMobile }) => {
+const FrontLayer = ({
+  handleOnClickRow,
+  pathname,
+  isMobile,
+  isActiveUser,
+  onLogin
+}) => {
   const classes = useStyles()
 
   return (
@@ -41,13 +47,21 @@ const FrontLayer = ({ handleOnClickRow, pathname, isMobile }) => {
     >
       <Switch>
         <Route exact path="/liquidity">
-          <Liquidity onClickRow={handleOnClickRow} />
+          <Liquidity
+            onClickRow={handleOnClickRow}
+            isActiveUser={isActiveUser}
+            onLogin={onLogin}
+          />
         </Route>
         <Route exact path="/exchange">
           <Exchange onClickRow={handleOnClickRow} />
         </Route>
         <Route exact path="/fee">
-          <Fee onClickRow={handleOnClickRow} />
+          <Fee
+            onClickRow={handleOnClickRow}
+            isActiveUser={isActiveUser}
+            onLogin={onLogin}
+          />
         </Route>
         <Route exact path="/faq" component={Faq} />
         <Route exact path="/about" component={About} />
@@ -63,7 +77,9 @@ const FrontLayer = ({ handleOnClickRow, pathname, isMobile }) => {
 FrontLayer.propTypes = {
   handleOnClickRow: PropTypes.func,
   pathname: PropTypes.string,
-  isMobile: PropTypes.bool
+  isMobile: PropTypes.bool,
+  isActiveUser: PropTypes.bool,
+  onLogin: PropTypes.func
 }
 
 export default FrontLayer

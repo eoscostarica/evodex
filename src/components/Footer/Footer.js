@@ -30,11 +30,11 @@ const useStyles = makeStyles((theme) => ({
       cursor: 'pointer'
     },
     [theme.breakpoints.up('sm')]: {
-      marginLeft: -73
+      marginLeft: -100
     }
   },
   labelVersion: {
-    width: 73,
+    width: 100,
     fontWeight: '600',
     marginTop: -5,
     marginLeft: '0px !important',
@@ -51,7 +51,9 @@ const useStyles = makeStyles((theme) => ({
   boxFooter: {
     display: 'flex',
     justifyContent: 'center',
+    alignItems: 'center',
     [theme.breakpoints.up('sm')]: {
+      alignItems: 'initial',
       width: 'calc(100% - 73px)'
     }
   }

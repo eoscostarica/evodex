@@ -1,12 +1,13 @@
-import axios from 'axios'
 import * as eosCommon from 'eos-common'
 
 import { evodexConfig } from '../config'
 
 import { getScatterError } from './getScatterError'
+import axiosUtil from './axios.util'
 
 const { asset, number_to_asset: numberToAsset } = eosCommon
 const defaultState = { pairs: [], tokens: [] }
+const axios = axiosUtil(evodexConfig.api, evodexConfig.apiFailover)
 
 const amountToAsset = (amount = '0', currentAsset) => {
   if (isNaN(amount)) {
@@ -23,7 +24,7 @@ const amountToAsset = (amount = '0', currentAsset) => {
   return asset(`${validAmount} ${currentAsset.symbol.code().toString()}`)
 }
 const getInfo = async (ual) => {
-  const { data } = await axios.get(`${evodexConfig.api}/list`)
+  const { data } = await axios.get('/list')
   let userPools = []
 
   if (ual?.activeUser) {
@@ -43,7 +44,7 @@ const getInfo = async (ual) => {
           Pool2contract: pool2Contract,
           error
         }
-      } = await axios.get(`${evodexConfig.api}/info`, {
+      } = await axios.get('/info', {
         params: {
           pair: tokenPair
         }
@@ -162,8 +163,8 @@ const getExchangeAssets = (amount, pair) => {
     pair.from.asset.amount.plus(assetToGive.amount),
     pair.fee
   ).abs()
-
   assetToReceive.set_amount(computeForwardAmount)
+
   return {
     assetToGive,
     assetToReceive,
@@ -176,19 +177,79 @@ const getExchangeAssets = (amount, pair) => {
     ).toString()
   }
 }
+const getExchangeAssetsFromToken2 = (amount, pair) => {
+  const assetToGive = numberToAsset(0, pair.from.asset.symbol)
+  const assetToReceive = amountToAsset(amount, pair.to.asset)
+  const amountToReceive = assetToReceive.amount.plus(
+    assetToReceive.amount.multiply(pair.fee).plus(9999).divide(10000)
+  )
+  const computeForwardAmount = computeForward(
+    amountToReceive,
+    pair.from.asset.amount,
+    pair.to.asset.amount.minus(amountToReceive),
+    0
+  ).abs()
+  assetToGive.set_amount(computeForwardAmount)
+
+  return {
+    assetToGive,
+    assetToReceive,
+    price: amountToAsset(
+      (
+        parseFloat(assetToReceive.toString().split(' ')[0]) /
+        parseFloat(assetToGive.toString().split(' ')[0])
+      ).toFixed(assetToReceive.symbol.precision()),
+      assetToReceive
+    ).toString()
+  }
+}
+const getUserTokenBalance = async (ual, pool) => {
+  if (!ual.activeUser) {
+    return
+  }
+
+  const response = await ual.activeUser.rpc.get_currency_balance(
+    pool.contract,
+    ual.activeUser.accountName,
+    pool.asset.symbol.code().toString()
+  )
+
+  return response.length > 0 ? response[0] : null
+}
 const exchange = async (amount, pair, ual) => {
   try {
     const { assetToGive, assetToReceive } = getExchangeAssets(amount, pair)
+    const authorization = [
+      {
+        actor: ual.activeUser.accountName,
+        permission: 'active'
+      }
+    ]
+    let aditionalActions = []
+    const balance = await getUserTokenBalance(ual, pair.pool2)
+
+    if (!balance) {
+      aditionalActions = [
+        ...aditionalActions,
+        {
+          authorization,
+          account: pair.pool2.contract,
+          name: 'open',
+          data: {
+            owner: ual.activeUser.accountName,
+            symbol: pair.pool2.asset.symbol.toString(),
+            ram_payer: ual.activeUser.accountName
+          }
+        }
+      ]
+    }
+
     const result = await ual.activeUser.signTransaction(
       {
         actions: [
+          ...aditionalActions,
           {
-            authorization: [
-              {
-                actor: ual.activeUser.accountName,
-                permission: 'active'
-              }
-            ],
+            authorization,
             account: pair.from.contract,
             name: 'transfer',
             data: {
@@ -197,7 +258,7 @@ const exchange = async (amount, pair, ual) => {
               quantity: assetToGive.toString(),
               memo: `exchange: ${
                 pair.token
-              },${assetToReceive.toString()},send using evodex.netlify.app`
+              },${assetToReceive.toString()},sent using evodex.io`
             }
           }
         ]
@@ -226,8 +287,6 @@ const getAddLiquidityAssets = (amount, pair) => {
   const baseAsset = amountToAsset(amount, pair.supply)
   const asset1 = numberToAsset(0, pair.pool1.asset.symbol)
   const asset2 = numberToAsset(0, pair.pool2.asset.symbol)
-
-  console.log({ baseAsset, asset1, asset2 })
 
   asset1.set_amount(
     computeForward(
@@ -529,6 +588,8 @@ export const evolutiondex = {
   getTokensFor,
   getPair,
   getExchangeAssets,
+  getExchangeAssetsFromToken2,
+  getUserTokenBalance,
   exchange,
   getUserPools,
   getAddLiquidityAssets,

@@ -6,7 +6,11 @@
     "headerTitle": "Token Listings",
     "version": "Version",
     "footer": "Evodex is open source, get involved.",
-    "placeholder": "This Amount"
+    "placeholder": "Enter Amount",
+    "selected": "Select",
+    "noTokensFound": "No token pairs found.",
+    "noUserPools": "to view your pools.",
+    "addLiquidity": "Add liquidity now."
   },
   "talkUsModal": {
     "title": "Evodex is for the EOS community.",
@@ -50,7 +54,7 @@
     "headerTitle": "Token Listings",
     "tableLabelMyPool": "My Pools",
     "tableLabelCommunity": "Community Pools",
-    "inputLabel": "You Give",
+    "inputLabel": "Add / Remove",
     "available": "available",
     "add": "Add",
     "remove": "Remove",
@@ -75,7 +79,8 @@
     "inputLabel": "Vote",
     "supply": "Supply",
     "fee": "Fee",
-    "successTransaction": "Success transaction"
+    "successTransaction": "Success transaction",
+    "placeholder": "This Percentage"
   },
   "faq": {
     "title": "FAQ's",
@@ -98,7 +103,9 @@
     "pairSupply": "Pair Supply",
     "estimatedPrice": "Estimated Price",
     "btnLabel": "exchange",
-    "price": "Price"
+    "price": "Price",
+    "yourWallet": "Your Wallet",
+    "pool": "Pool"
   },
   "about": {
     "title": "About evodex",

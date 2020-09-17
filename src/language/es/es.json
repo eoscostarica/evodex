@@ -6,7 +6,11 @@
     "headerTitle": "Listado de Tokens",
     "version": "Versión",
     "footer": "Evodex es código abierto, involúcrate.",
-    "placeholder": "Monto"
+    "placeholder": "Monto",
+    "selected": "Seleccionar",
+    "noTokensFound": "No se encontraron pares de tokens.",
+    "noUserPools": "para ver tus pooles.",
+    "addLiquidity": "Agregue liquidez ahora."
   },
   "talkUsModal": {
     "title": "Evodex es para la comunidad de EOS",
@@ -50,7 +54,7 @@
     "headerTitle": "Listados de tokens",
     "tableLabelMyPool": "Mis pooles",
     "tableLabelCommunity": "Pooles comunitarios",
-    "inputLabel": "Cantidad",
+    "inputLabel": "Aportar / Retirar",
     "available": "disponible",
     "add": "Agregar",
     "remove": "Retirar",
@@ -75,7 +79,8 @@
     "inputLabel": "Votar",
     "supply": "Circulante",
     "fee": "Comisión",
-    "successTransaction": "Transacción realizada"
+    "successTransaction": "Transacción realizada",
+    "placeholder": "Este Porcentaje"
   },
   "faq": {
     "title": "Preguntas Frecuentes",
@@ -98,7 +103,9 @@
     "pairSupply": "Circulante",
     "estimatedPrice": "Precio",
     "btnLabel": "Operar",
-    "price": "Precio"
+    "price": "Precio",
+    "yourWallet": "Su Billetera",
+    "pool": "Pool"
   },
   "about": {
     "title": "Acerca de evodex",

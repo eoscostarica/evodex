@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import clsx from 'clsx'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@material-ui/styles'
@@ -76,6 +77,12 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: '2px solid rgba(255,255,255,0.38)',
     padding: '5px 14px 0 14px'
   },
+  rootContainerError: {
+    borderBottom: `2px solid ${theme.palette.error.main}`,
+    '& p': {
+      color: theme.palette.error.main
+    }
+  },
   inputText: {
     fontSize: 16.2,
     lineHeight: 1.48,
@@ -122,7 +129,9 @@ const InputTextAndSelect = ({
   selected,
   value,
   inputDisabled,
-  useHelperTextAsNode
+  useHelperTextAsNode,
+  placeholder,
+  hasError
 }) => {
   const classes = useStyles()
   const { t } = useTranslation('translations')
@@ -149,7 +158,13 @@ const InputTextAndSelect = ({
 
   return (
     <Box className={classes.boxInputContainer}>
-      <form autoComplete="off" className={classes.rootContainer}>
+      <form
+        autoComplete="off"
+        className={clsx({
+          [classes.rootContainer]: true,
+          [classes.rootContainerError]: hasError
+        })}
+      >
         <Box className={classes.inputWrapper}>
           <Typography className={classes.labelText} variant="body1">
             {label}
@@ -160,7 +175,7 @@ const InputTextAndSelect = ({
             ref={textInput}
             onChange={(e) => handleOnChange(e.target.value, 'inputValue')}
             value={inputData.inputValue || ''}
-            placeholder={t('placeholder')}
+            placeholder={placeholder || t('placeholder')}
             readOnly={inputDisabled}
             onKeyPress={(e) => handleOnKeyPress(e.key)}
           />
@@ -169,7 +184,7 @@ const InputTextAndSelect = ({
           <Select
             id={id}
             onChange={(e) => handleOnChange(e.target.value, 'selectValue')}
-            value={inputData.selectValue || ''}
+            value={inputData.selectValue || t('selected')}
             renderValue={(selected) => {
               if (!selected) {
                 return (
@@ -177,7 +192,7 @@ const InputTextAndSelect = ({
                     className={classes.placeholderSelect}
                     variant="body1"
                   >
-                    This Token
+                    {t('selected')}
                   </Typography>
                 )
               }
@@ -197,8 +212,8 @@ const InputTextAndSelect = ({
       {useHelperTextAsNode ? (
         helperText
       ) : (
-          <Typography className={classes.helperText}>{helperText}</Typography>
-        )}
+        <Typography className={classes.helperText}>{helperText}</Typography>
+      )}
     </Box>
   )
 }
@@ -212,16 +227,19 @@ InputTextAndSelect.propTypes = {
   options: PropTypes.array,
   value: PropTypes.any,
   inputDisabled: PropTypes.bool,
-  useHelperTextAsNode: PropTypes.bool
+  useHelperTextAsNode: PropTypes.bool,
+  placeholder: PropTypes.string,
+  hasError: PropTypes.bool
 }
 
 InputTextAndSelect.defaultProps = {
   label: '',
   selected: null,
   helperText: null,
-  onChange: () => { },
+  onChange: () => {},
   options: [],
-  useHelperTextAsNode: false
+  useHelperTextAsNode: false,
+  placeholder: null
 }
 
 export default InputTextAndSelect

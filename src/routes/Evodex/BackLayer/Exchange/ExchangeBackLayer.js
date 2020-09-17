@@ -10,6 +10,7 @@ import ImportExportIcon from '@material-ui/icons/ImportExport'
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz'
 import IconButton from '@material-ui/core/IconButton'
 import LinearProgress from '@material-ui/core/LinearProgress'
+import Link from '@material-ui/core/Link'
 
 import { ualConfig } from 'config'
 import TitlePage from 'components/PageTitle'
@@ -127,9 +128,9 @@ const useStyles = makeStyles((theme) => {
       }
     },
     helperText: {
-      display: 'flex',
       fontSize: 12,
-      marginLeft: theme.spacing(1)
+      marginLeft: theme.spacing(1),
+      minHeight: 20
     },
     btnExchange: {
       ...btnExchange,
@@ -146,6 +147,10 @@ const useStyles = makeStyles((theme) => {
           width: 300
         }
       }
+    },
+    poolContractLink: {
+      color: theme.palette.primary.contrastText,
+      textDecoration: 'none'
     },
     message,
     loading,
@@ -165,25 +170,11 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
   const [assets, setAssets] = useState()
   const [options, setOptions] = useState({ youGive: [], youReceive: [] })
   const [youReceive, setYouReceive] = useState({})
-  const [youGive, setYouGive] = useState({ walletBalance: {} })
+  const [youGive, setYouGive] = useState({})
   const [loading, setLoading] = useState(false)
-  const [helperTextReceive, setHelperTextReceive] = useState('')
-
-  const getTokenValue = (token) => {
-    let result = ''
-
-    if (token === pair.pool1.asset.symbol.code().toString().toUpperCase()) {
-      result = `Pool: ${
-        pair.pool1.asset.toString().split(' ')[0]
-        } (${pair.pool1.asset.symbol.code().toString().toLowerCase()}.token)`
-    } else {
-      result = `Pool: ${
-        pair.pool2.asset.toString().split(' ')[0]
-        } (${pair.pool2.asset.symbol.code().toString().toLowerCase()}.token)`
-    }
-
-    setHelperTextReceive(result)
-  }
+  const [userChangeInput, setUserChangeInput] = useState('')
+  const [userBalance, setUserBalance] = useState({})
+  const [, setLastInterval] = useState('')
 
   const handleOnChange = (key) => (value) => {
     let set
@@ -196,20 +187,20 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
         set = setYouReceive
         break
       default:
-        set = () => { }
+        set = () => {}
     }
 
     set((prevState) => ({
       ...prevState,
       ...value
     }))
+    setUserChangeInput(key)
   }
 
   const handleOnSwitchValues = () => {
     setYouReceive({
       selectValue: youGive.selectValue
     })
-    getTokenValue(youGive.selectValue)
     setYouGive({
       ...youGive,
       selectValue: youReceive.selectValue
@@ -294,6 +285,10 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
   ])
 
   useEffect(() => {
+    if (userChangeInput !== 'youGive') {
+      return
+    }
+
     if (!pair || !youGive.inputValue) {
       setYouReceive((prevState) => ({
         ...prevState,
@@ -305,78 +300,93 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
     }
 
     const assets = evolutiondex.getExchangeAssets(youGive.inputValue, pair)
-
     setAssets(assets)
     setYouReceive((prevState) => ({
       ...prevState,
       inputValue: assets.assetToReceive.toString().split(' ')[0]
     }))
-  }, [pair, youGive.inputValue])
+  }, [userChangeInput, pair, youGive.inputValue])
 
   useEffect(() => {
-    if (!exchangeState.currentPair) {
+    if (userChangeInput !== 'youReceive') {
       return
     }
 
-    setHelperTextReceive(
-      `Pool: ${
-      exchangeState.currentPair.pool2.asset.toString().split(' ')[0]
-      } (${exchangeState.currentPair.pool2.asset.symbol
-        .code()
-        .toString()
-        .toLowerCase()}.token)`
+    setLastInterval((lastValue) => {
+      clearInterval(lastValue)
+
+      return null
+    })
+
+    if (!pair || !youReceive.inputValue) {
+      setYouGive((prevState) => ({
+        ...prevState,
+        inputValue: ''
+      }))
+      setAssets(null)
+
+      return
+    }
+
+    const assets = evolutiondex.getExchangeAssetsFromToken2(
+      youReceive.inputValue,
+      pair
     )
 
-    setYouGive((prevValue) => ({
-      ...prevValue,
-      selectValue: exchangeState.currentPair.pool1.asset.symbol
-        .code()
-        .toString()
+    setAssets(assets)
+    setYouGive((prevState) => ({
+      ...prevState,
+      inputValue: assets.assetToGive.toString().split(' ')[0]
     }))
-    setYouReceive((prevValue) => ({
-      ...prevValue,
-      selectValue: exchangeState.currentPair.pool2.asset.symbol
-        .code()
-        .toString()
-    }))
-  }, [showMessage, exchangeState.currentPair, ual.activeUser])
+    setLastInterval(
+      setTimeout(() => {
+        setUserChangeInput('youGive')
+      }, 2000)
+    )
+  }, [userChangeInput, pair, youReceive.inputValue])
 
   useEffect(() => {
+    if (!pair) {
+      return
+    }
+
     const getCurrencyBalance = async () => {
-      let walletPool = {}
-
-      if (ual.activeUser) {
-        const pool1 = await ual.activeUser.rpc.get_currency_balance(
-          'eosio.token',
-          ual.activeUser.accountName,
-          pair.pool1.asset.symbol.code().toString()
-        )
-
-        const pool2 = await ual.activeUser.rpc.get_currency_balance(
-          'eosio.token',
-          ual.activeUser.accountName,
-          pair.pool2.asset.symbol.code().toString()
-        )
-
-        walletPool = {
-          [pair.pool1.asset.symbol.code().toString()]: pool1.length
-            ? pool1[0]
-            : `0 ${pair.pool1.asset.symbol.code().toString()}`,
-          [pair.pool2.asset.symbol.code().toString()]: pool2.length
-            ? pool2[0]
-            : `0 ${pair.pool2.asset.symbol.code().toString()}`
+      let userbalance = {
+        [pair.pool1.asset.symbol.code().toString()]: {
+          poolAsset: pair.pool1.asset.toString(),
+          token: pair.pool1.asset.symbol.code().toString(),
+          contract: pair.pool1.contract
+        },
+        [pair.pool2.asset.symbol.code().toString()]: {
+          poolAsset: pair.pool2.asset.toString(),
+          token: pair.pool2.asset.symbol.code().toString(),
+          contract: pair.pool2.contract
         }
       }
 
-      setYouGive((prevValue) => ({
-        ...prevValue,
-        walletBalance: walletPool
-      }))
-      getTokenValue(youReceive.selectValue)
-    }
+      if (ual.activeUser) {
+        const pool1 =
+          (await evolutiondex.getUserTokenBalance(ual, pair.pool1)) ||
+          `0 ${pair.pool1.asset.symbol.code().toString()}`
+        const pool2 =
+          (await evolutiondex.getUserTokenBalance(ual, pair.pool2)) ||
+          `0 ${pair.pool2.asset.symbol.code().toString()}`
 
-    if (!pair) {
-      return
+        userbalance = {
+          [pair.pool1.asset.symbol.code().toString()]: {
+            ...userbalance[pair.pool1.asset.symbol.code().toString()],
+            amount: parseFloat(pool1.split(' ')[0] || 0),
+            userAsset: pool1
+          },
+          [pair.pool2.asset.symbol.code().toString()]: {
+            ...userbalance[pair.pool2.asset.symbol.code().toString()],
+            amount: parseFloat(pool2.split(' ')[0] || 0),
+            userAsset: pool2
+          }
+        }
+      }
+
+      setUserBalance(userbalance)
     }
 
     getCurrencyBalance()
@@ -399,17 +409,35 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
           onChange={handleOnChange('youGive')}
           value={youGive}
           helperText={
-            pair &&
-            ual.activeUser && (
-              <Typography
-                variant="body1"
-                className={clsx([classes.textInfo, classes.helperText])}
-              >
-                {`Your Wallet: ${youGive.walletBalance[youGive.selectValue]}`}
-              </Typography>
-            )
+            <Typography
+              variant="body1"
+              className={clsx([classes.textInfo, classes.helperText])}
+            >
+              {pair && <span>{t('yourWallet')}: </span>}
+              {userBalance[youGive.selectValue] && (
+                <>
+                  <span>{userBalance[youGive.selectValue].userAsset} </span>
+                  <Link
+                    className={classes.poolContractLink}
+                    href={`${ualConfig.blockExplorerUrl}/account/${
+                      userBalance[youGive.selectValue].contract
+                    }`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    ({userBalance[youGive.selectValue].contract}){' '}
+                  </Link>
+                </>
+              )}
+            </Typography>
           }
           useHelperTextAsNode
+          hasError={
+            userBalance[youGive.selectValue]
+              ? userBalance[youGive.selectValue].amount <
+                parseFloat(youGive.inputValue || 0)
+              : false
+          }
         />
         <IconButton aria-label="switch" onClick={handleOnSwitchValues}>
           {isDesktop ? <SwapHorizIcon /> : <ImportExportIcon />}
@@ -420,16 +448,28 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
           options={options.youReceive}
           onChange={handleOnChange('youReceive')}
           value={youReceive}
-          inputDisabled
           helperText={
-            pair && (
-              <Typography
-                variant="body1"
-                className={clsx([classes.textInfo, classes.helperText])}
-              >
-                {helperTextReceive}
-              </Typography>
-            )
+            <Typography
+              variant="body1"
+              className={clsx([classes.textInfo, classes.helperText])}
+            >
+              {pair && <span>{t('pool')}: </span>}
+              {userBalance[youReceive.selectValue] && (
+                <>
+                  <span>{userBalance[youReceive.selectValue].poolAsset} </span>
+                  <Link
+                    className={classes.poolContractLink}
+                    href={`${ualConfig.blockExplorerUrl}/account/${
+                      userBalance[youReceive.selectValue].contract
+                    }`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    ({userBalance[youReceive.selectValue].contract})
+                  </Link>
+                </>
+              )}
+            </Typography>
           }
           useHelperTextAsNode
         />

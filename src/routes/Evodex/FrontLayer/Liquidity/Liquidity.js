@@ -8,55 +8,63 @@ import OutlinedInput from '@material-ui/core/OutlinedInput'
 import SearchIcon from '@material-ui/icons/Search'
 
 import CollapseTable from 'components/CollapseTable'
+import EmptyMessage from 'components/EmptyTableMessage'
 import { useExchange } from 'context/exchange.context'
+import { commonStyles } from 'utils'
 
-const useStyles = makeStyles((theme) => ({
-  inputSearch: {
-    height: 48,
-    width: '100%',
-    [`${theme.breakpoints.down('sm')} and (orientation: landscape)`]: {
-      width: '100% !important'
+const useStyles = makeStyles((theme) => {
+  const { boxMessage, link } = commonStyles(theme)
+
+  return {
+    inputSearch: {
+      height: 48,
+      width: '100%',
+      [`${theme.breakpoints.down('sm')} and (orientation: landscape)`]: {
+        width: '100% !important'
+      },
+      [theme.breakpoints.up('sm')]: {
+        width: 275
+      },
+      [theme.breakpoints.up('lg')]: {
+        width: 298
+      }
     },
-    [theme.breakpoints.up('sm')]: {
-      width: 275
+    labelPage: {
+      fontSize: 20.2,
+      fontWeight: 600,
+      letterSpacing: '0.25px',
+      color: 'rgba(0, 0, 0, 0.6)',
+      display: 'none',
+      [`${theme.breakpoints.down('sm')} and (orientation: landscape)`]: {
+        display: 'none !important'
+      },
+      [theme.breakpoints.up('sm')]: {
+        display: 'block'
+      }
     },
-    [theme.breakpoints.up('lg')]: {
-      width: 298
-    }
-  },
-  labelPage: {
-    fontSize: 20.2,
-    fontWeight: 600,
-    letterSpacing: '0.25px',
-    color: 'rgba(0, 0, 0, 0.6)',
-    display: 'none',
-    [`${theme.breakpoints.down('sm')} and (orientation: landscape)`]: {
-      display: 'none !important'
+    headerFrontLayer: {
+      display: 'flex',
+      [`${theme.breakpoints.down('sm')} and (orientation: landscape)`]: {
+        justifyContent: 'space-between',
+        alignItems: 'center'
+      },
+      [theme.breakpoints.up('sm')]: {
+        justifyContent: 'space-between',
+        alignItems: 'center'
+      }
     },
-    [theme.breakpoints.up('sm')]: {
-      display: 'block'
-    }
-  },
-  headerFrontLayer: {
-    display: 'flex',
-    [`${theme.breakpoints.down('sm')} and (orientation: landscape)`]: {
+    boxContent: {
+      display: 'flex',
+      flexDirection: 'column',
       justifyContent: 'space-between',
-      alignItems: 'center'
+      height: '100%'
     },
-    [theme.breakpoints.up('sm')]: {
-      justifyContent: 'space-between',
-      alignItems: 'center'
-    }
-  },
-  boxContent: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    height: '100%'
+    boxMessage,
+    link
   }
-}))
+})
 
-const Liquidity = ({ onClickRow }) => {
+const Liquidity = ({ onClickRow, isActiveUser, onLogin }) => {
   const classes = useStyles()
   const { t } = useTranslation('liquidity')
   const [{ pairs }, { update }] = useExchange()
@@ -103,6 +111,14 @@ const Liquidity = ({ onClickRow }) => {
           data={myPools}
           label={t('tableLabelMyPool')}
           onClick={handleOnClick}
+          message={
+            <EmptyMessage
+              isActiveUser={isActiveUser}
+              isEmptyData={myPools?.length === 0}
+              classes={classes}
+              onLogin={onLogin}
+            />
+          }
         />
         <CollapseTable
           data={communityPools}
@@ -115,7 +131,9 @@ const Liquidity = ({ onClickRow }) => {
 }
 
 Liquidity.propTypes = {
-  onClickRow: PropTypes.func
+  onClickRow: PropTypes.func,
+  isActiveUser: PropTypes.bool,
+  onLogin: PropTypes.func
 }
 
 export default Liquidity
