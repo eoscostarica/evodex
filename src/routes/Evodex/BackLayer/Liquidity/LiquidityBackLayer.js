@@ -6,10 +6,12 @@ import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import AddIcon from '@material-ui/icons/Add'
 import RemoveIcon from '@material-ui/icons/Remove'
+import HelpIcon from '@material-ui/icons/Help'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import Link from '@material-ui/core/Link'
 
 import { ualConfig } from 'config'
+import TourGuide from 'components/TourGuide'
 import TitlePage from 'components/PageTitle'
 import InputTextAndSelect from 'components/InputTextAndSelect'
 import EvodexRocketSvg from 'components/Icons/EvodexRocket'
@@ -19,7 +21,9 @@ import { useExchange } from 'context/exchange.context'
 import { evolutiondex, commonStyles } from 'utils'
 
 const useStyles = makeStyles((theme) => {
-  const { inputBox, rocketSvg, message, loading } = commonStyles(theme)
+  const { inputBox, rocketSvg, message, loading, helpIcon } = commonStyles(
+    theme
+  )
 
   return {
     liquidityRoot: {
@@ -98,17 +102,29 @@ const useStyles = makeStyles((theme) => {
     },
     btnExchange: {
       display: 'flex',
-      justifyContent: 'space-evenly',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
       paddingTop: theme.spacing(4),
       '& button': {
         width: 162,
-        height: 36
+        height: 36,
+        marginBottom: theme.spacing(2)
       },
       [`${theme.breakpoints.down('sm')} and (orientation: landscape)`]: {
-        paddingTop: theme.spacing(1)
+        paddingTop: theme.spacing(1),
+        flexDirection: 'row',
+        '& button': {
+          marginRight: theme.spacing(2),
+          marginBottom: 0
+        }
       },
-      [theme.breakpoints.up('md')]: {
-        width: 500
+      [theme.breakpoints.up('sm')]: {
+        flexDirection: 'row',
+        '& button': {
+          marginRight: theme.spacing(2),
+          marginBottom: 0
+        }
       }
     },
     inputBox: {
@@ -135,18 +151,26 @@ const useStyles = makeStyles((theme) => {
         minWidth: 800
       }
     },
+    helpIcon,
     message,
     rocketSvg
   }
 })
 
-const LiquidityBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
+const LiquidityBackLayer = ({
+  onReload,
+  ual,
+  isLightMode,
+  showMessage,
+  getTourSteps
+}) => {
   const classes = useStyles()
   const { t } = useTranslation('liquidity')
   const [{ pairs, currentPair }] = useExchange()
   const [pair, setPair] = useState()
   const [toBuy, setToBuy] = useState()
   const [toSell, setToSell] = useState()
+  const [isTourOpen, setIsTourOpen] = useState(false)
   const [youGive, setYouGive] = useState({})
   const [loading, setLoading] = useState(false)
 
@@ -309,6 +333,7 @@ const LiquidityBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
               label: pair.token
             }))}
             id="liquidityYouGive"
+            containerId="youGive"
             label={t('inputLabel')}
             helperText={
               pair
@@ -375,8 +400,18 @@ const LiquidityBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
           >
             {t('remove').toLocaleUpperCase()}
           </Button>
+
+          <HelpIcon
+            className={classes.helpIcon}
+            onClick={() => setIsTourOpen(true)}
+          />
         </Box>
       </Box>
+      <TourGuide
+        isTourOpen={isTourOpen}
+        setIsTourOpen={setIsTourOpen}
+        stepsByPage="liquidity"
+      />
     </Box>
   )
 }
@@ -385,7 +420,8 @@ LiquidityBackLayer.propTypes = {
   ual: PropTypes.object,
   onReload: PropTypes.func,
   isLightMode: PropTypes.bool,
-  showMessage: PropTypes.func
+  showMessage: PropTypes.func,
+  getTourSteps: PropTypes.func
 }
 
 export default LiquidityBackLayer

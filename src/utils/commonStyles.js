@@ -1,4 +1,11 @@
 export const commonStyles = (theme) => ({
+  helpIcon: {
+    color: '#ffffff',
+    marginLeft: theme.spacing(1),
+    '&:hover': {
+      cursor: 'pointer'
+    }
+  },
   inputBox: {
     display: 'flex',
     flexDirection: 'column',
