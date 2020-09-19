@@ -51,6 +51,10 @@ const LanguageSelector = ({ alt }) => {
     {
       value: 'es',
       label: 'Español'
+    },
+    {
+      value: 'zh',
+      label: '中文'
     }
   ]
 
