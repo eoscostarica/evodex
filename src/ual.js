@@ -40,7 +40,7 @@ export default {
       new Lynx([this.network]),
       new Ledger([this.network]),
       new Scatter([this.network], { appName: this.appName }),
-      new TokenPocket([this.network.chainId]),
+      new TokenPocket([this.network]),
       new MeetOne([this.network.chainId]),
       new Anchor([this.network], { appName: this.appName })
     ]
