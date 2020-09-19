@@ -170,7 +170,7 @@ const Submenu = ({ pathname }) => {
         <ListItem className={classes.itemSocial} disableGutters>
           <Link
             className={classes.button}
-            href="https://medium.com/eos-argentina"
+            href="https://medium.com/evodex-io"
             target="_blank"
             rel="noopener noreferrer"
           >
