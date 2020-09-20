@@ -337,9 +337,9 @@ const LiquidityBackLayer = ({
             label={t('inputLabel')}
             helperText={
               pair
-                ? `${pair.balance ? pair.balance.toString() : 0} ${t(
-                    'available'
-                  )}`
+                ? `${t(
+                  'available'
+                )}: ${pair.balance ? pair.balance.toString() : 0}`
                 : ''
             }
             onChange={handleOnChange}
