@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import Table from '@material-ui/core/Table'
@@ -68,6 +69,7 @@ const useStyles = makeStyles((theme) => ({
 
 const TableData = ({ data, onClick }) => {
   const classes = useStyles()
+  const { t } = useTranslation('translations')
   const [order, setOrder] = useState('desc')
   const [orderBy, setOrderBy] = useState('pool1')
 
@@ -115,7 +117,7 @@ const TableData = ({ data, onClick }) => {
 
   const handleRequestSort = (property) => {
     const isAsc = orderBy === property && order === 'asc'
-    
+
     setOrder(isAsc ? 'desc' : 'asc')
     setOrderBy(property)
   }
@@ -134,7 +136,7 @@ const TableData = ({ data, onClick }) => {
                 onClick={() => handleRequestSort('token')}
                 hideSortIcon
               >
-                TOKEN PAIR
+                {t('tokenPair').toUpperCase()}
               </TableSortLabel>
             </TableCell>
             <TableCell className={classes.tableHeadCell}>
@@ -143,7 +145,7 @@ const TableData = ({ data, onClick }) => {
                 onClick={() => handleRequestSort('pool1')}
                 hideSortIcon
               >
-                POOL 1
+                {`${t('pool')} 1`.toUpperCase()}
               </TableSortLabel>
             </TableCell>
             <TableCell className={classes.tableHeadCell}>
@@ -152,7 +154,7 @@ const TableData = ({ data, onClick }) => {
                 onClick={() => handleRequestSort('pool2')}
                 hideSortIcon
               >
-                POOL 2
+                {`${t('pool')} 2`.toUpperCase()}
               </TableSortLabel>
             </TableCell>
             <TableCell className={classes.tableHeadCell}>
@@ -162,7 +164,7 @@ const TableData = ({ data, onClick }) => {
                 onClick={() => handleRequestSort('fee')}
                 hideSortIcon
               >
-                FEE
+                {t('fee').toUpperCase()}
               </TableSortLabel>
             </TableCell>
           </TableRow>
