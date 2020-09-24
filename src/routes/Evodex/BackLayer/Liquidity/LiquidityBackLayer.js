@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import clsx from 'clsx'
 import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@material-ui/styles'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import AddIcon from '@material-ui/icons/Add'
 import RemoveIcon from '@material-ui/icons/Remove'
-import HelpIcon from '@material-ui/icons/Help'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import Link from '@material-ui/core/Link'
 
@@ -21,7 +21,7 @@ import { useExchange } from 'context/exchange.context'
 import { evolutiondex, commonStyles } from 'utils'
 
 const useStyles = makeStyles((theme) => {
-  const { inputBox, rocketSvg, message, loading, helpIcon } = commonStyles(
+  const { inputBox, rocketSvg, message, loading, helpText } = commonStyles(
     theme
   )
 
@@ -151,7 +151,10 @@ const useStyles = makeStyles((theme) => {
         minWidth: 800
       }
     },
-    helpIcon,
+    noPadding: {
+      padding: 0
+    },
+    helpText,
     message,
     rocketSvg
   }
@@ -337,9 +340,9 @@ const LiquidityBackLayer = ({
             label={t('inputLabel')}
             helperText={
               pair
-                ? `${t(
-                  'available'
-                )}: ${pair.balance ? pair.balance.toString() : 0}`
+                ? `${t('available')}: ${
+                    pair.balance ? pair.balance.toString() : 0
+                  }`
                 : ''
             }
             onChange={handleOnChange}
@@ -400,11 +403,15 @@ const LiquidityBackLayer = ({
           >
             {t('remove').toLocaleUpperCase()}
           </Button>
-
-          <HelpIcon
-            className={classes.helpIcon}
+        </Box>
+        <Box className={clsx(classes.btnExchange, classes.noPadding)}>
+          <Typography
             onClick={() => setIsTourOpen(true)}
-          />
+            variant="body1"
+            className={classes.helpText}
+          >
+            HELP
+          </Typography>
         </Box>
       </Box>
       <TourGuide

@@ -5,7 +5,6 @@ import { makeStyles } from '@material-ui/styles'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import LinearProgress from '@material-ui/core/LinearProgress'
-import HelpIcon from '@material-ui/icons/Help'
 
 import { ualConfig } from 'config'
 import TourGuide from 'components/TourGuide'
@@ -24,7 +23,7 @@ const useStyles = makeStyles((theme) => {
     titleBox,
     message,
     loading,
-    helpIcon
+    helpText
   } = commonStyles(theme)
 
   return {
@@ -98,6 +97,7 @@ const useStyles = makeStyles((theme) => {
     btnExchange: {
       ...btnExchange,
       alignItems: 'center',
+      flexDirection: 'column',
       [`${theme.breakpoints.down('sm')} and (orientation: landscape)`]: {
         paddingTop: theme.spacing(1)
       },
@@ -132,7 +132,7 @@ const useStyles = makeStyles((theme) => {
         alignItems: 'center'
       }
     },
-    helpIcon,
+    helpText,
     message,
     loading,
     rocketSvg
@@ -273,10 +273,13 @@ const FeeBackLayer = ({
           >
             {t('inputLabel').toLocaleUpperCase()}
           </Button>
-          <HelpIcon
-            className={classes.helpIcon}
+          <Typography
             onClick={() => setIsTourOpen(true)}
-          />
+            variant="body1"
+            className={classes.helpText}
+          >
+            HELP
+          </Typography>
         </Box>
       </Box>
       <TourGuide

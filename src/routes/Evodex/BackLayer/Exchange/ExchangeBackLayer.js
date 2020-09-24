@@ -10,7 +10,6 @@ import ImportExportIcon from '@material-ui/icons/ImportExport'
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz'
 import IconButton from '@material-ui/core/IconButton'
 import LinearProgress from '@material-ui/core/LinearProgress'
-import HelpIcon from '@material-ui/icons/Help'
 import Link from '@material-ui/core/Link'
 
 import { ualConfig } from 'config'
@@ -31,7 +30,7 @@ const useStyles = makeStyles((theme) => {
     titleBox,
     message,
     loading,
-    helpIcon
+    helpText
   } = commonStyles(theme)
 
   return {
@@ -138,6 +137,7 @@ const useStyles = makeStyles((theme) => {
     btnExchange: {
       ...btnExchange,
       alignItems: 'center',
+      flexDirection: 'column',
       [theme.breakpoints.up('sm')]: {
         '& button': {
           width: 266
@@ -156,7 +156,7 @@ const useStyles = makeStyles((theme) => {
       color: theme.palette.primary.contrastText,
       textDecoration: 'none'
     },
-    helpIcon,
+    helpText,
     message,
     loading,
     rocketSvg
@@ -422,27 +422,38 @@ const ExchangeBackLayer = ({
           onChange={handleOnChange('youGive')}
           value={youGive}
           helperText={
-            <Typography
-              variant="body1"
-              className={clsx([classes.textInfo, classes.helperText])}
-            >
-              {pair && <span>{t('yourWallet')}: </span>}
-              {userBalance[youGive.selectValue] && (
-                <>
-                  <span>{userBalance[youGive.selectValue].userAsset} </span>
-                  <Link
-                    className={classes.poolContractLink}
-                    href={`${ualConfig.blockExplorerUrl}/account/${
-                      userBalance[youGive.selectValue].contract
-                    }`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    ({userBalance[youGive.selectValue].contract}){' '}
-                  </Link>
-                </>
+            <>
+              {pair && userBalance[youGive.selectValue] && (
+                <Typography
+                  variant="body1"
+                  className={clsx([classes.textInfo, classes.helperText])}
+                >
+                  <span>{t('pool')}: </span>
+                  {userBalance[youGive.selectValue].poolAsset}
+                </Typography>
               )}
-            </Typography>
+              <Typography
+                variant="body1"
+                className={clsx([classes.textInfo, classes.helperText])}
+              >
+                {pair && <span>{t('yourWallet')}: </span>}
+                {userBalance[youGive.selectValue] && (
+                  <>
+                    <span>{userBalance[youGive.selectValue].userAsset}</span>
+                    <Link
+                      className={classes.poolContractLink}
+                      href={`${ualConfig.blockExplorerUrl}/account/${
+                        userBalance[youGive.selectValue].contract
+                      }`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      ({userBalance[youGive.selectValue].contract}){' '}
+                    </Link>
+                  </>
+                )}
+              </Typography>
+            </>
           }
           useHelperTextAsNode
           hasError={
@@ -511,10 +522,13 @@ const ExchangeBackLayer = ({
         >
           {t('btnLabel').toLocaleUpperCase()}
         </Button>
-        <HelpIcon
-          className={classes.helpIcon}
+        <Typography
           onClick={() => setIsTourOpen(true)}
-        />
+          variant="body1"
+          className={classes.helpText}
+        >
+          HELP
+        </Typography>
       </Box>
       <TourGuide
         isTourOpen={isTourOpen}
