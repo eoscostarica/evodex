@@ -10,7 +10,14 @@
     "selected": "Select",
     "noTokensFound": "No token pairs found.",
     "noUserPools": "to view your pools.",
-    "addLiquidity": "Add liquidity now."
+    "addLiquidity": "Add liquidity now.",
+    "exchangeStep1": "Enter a valid amount and use the dropdown menu to select the token you own and want to exchange.",
+    "exchangeStep2": "Select the token you wish to receive. We will calculate this amount for you. You can use the reverse icon anytime.",
+    "feeStep1": "Here you may vote for the fee you consider to be the fairest for each token. Please, use a percentage with one decimal format. For example: 0.1%.",
+    "liquidityStep1": "Here you can look up the current exchange fee for each token using the dropdown menu.",
+    "pool": "Pool",
+    "tokenPair": "Token Pair",
+    "fee": "Fee"
   },
   "talkUsModal": {
     "title": "Evodex is for the EOS community.",
@@ -48,14 +55,14 @@
     "htmlTitle": "EOS Ricardian Contracts for Evolution DEX"
   },
   "liquidity": {
-    "title": "Add or Remove Liquidity",
+    "title": "Manage Liquidity",
     "htmlTitle": "Add or Remove Liquidity to EOS DEX pools on evodex",
     "description": "Select a token pair and the amount you want to add or remove to the liquidity pool.",
     "headerTitle": "Token Listings",
     "tableLabelMyPool": "My Pools",
     "tableLabelCommunity": "Community Pools",
     "inputLabel": "Add / Remove",
-    "available": "available",
+    "available": "Current supply",
     "add": "Add",
     "remove": "Remove",
     "and": "and",

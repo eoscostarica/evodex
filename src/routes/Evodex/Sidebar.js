@@ -195,7 +195,7 @@ const DashboardSidebarContent = ({
       <ListItem className={classes.item} disableGutters>
         <Link
           className={classes.boxLinks}
-          href="https://medium.com/eos-argentina"
+          href="https://medium.com/evodex-io"
           target="_blank"
           rel="noopener noreferrer"
           onClick={() => setOpenSidebar(false)}

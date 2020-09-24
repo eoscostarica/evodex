@@ -1,0 +1,121 @@
+{
+  "translations": {
+    "login": "登录",
+    "users": "用户",
+    "logout": "登出",
+    "headerTitle": "代币列表",
+    "version": "版本",
+    "footer": "Evodex 是开源的，参与进来.",
+    "placeholder": "输入数量",
+    "selected": "选择",
+    "noTokensFound": "没有找到交易对.",
+    "noUserPools": "查看你的流动性池.",
+    "addLiquidity": "添加流动性",
+    "exchangeStep1": "输入一个数量然后选择你想要进行兑换的代币",
+    "exchangeStep2": "选择你想要收到的代币，会自动计算数量，你也可以使用反转图标进行调换。",
+    "feeStep1": "在这里，你可以投票选择你认为对一个交易对来说最公平的手续费。请使用一个十进制格式的百分比。例如：0.1%。",
+    "liquidityStep1": "在这里，您可以使用下拉菜单查找每个交易对的当前手续费。",
+    "pool": "池",
+    "tokenPair": "代币列表",
+    "fee": "费"
+  },
+  "talkUsModal": {
+    "title": "Evodex 是为了 EOS 社区.",
+    "subtitle": "参与进来!",
+    "description1": "你有关于evodex好的功能建议么？",
+    "description2": "你找到了一个BUG？",
+    "description3": "用以下联系方式联系我们，欢迎各种观点和建议。"
+  },
+  "notFound": {
+    "primaryMessage": "404: 页面不存在",
+    "secondaryMessage": "你可能走错地方了",
+    "buttonLabel": "返回首页"
+  },
+  "subMenu": {
+    "exchange": "交易",
+    "liquidity": "流动性",
+    "voteFee": "费率投票",
+    "about": "关于",
+    "faq": "faq",
+    "contracts": "合约"
+  },
+  "sidebar": {
+    "tool": "工具",
+    "information": "信息",
+    "social": "社交",
+    "exchange": "兑换代币",
+    "liquidity": "添加或移除流动性",
+    "voteFee": "费率投票",
+    "about": "关于evodex",
+    "faq": "FAQs",
+    "contracts": "合约"
+  },
+  "ricardianContract": {
+    "title": "李嘉图合约",
+    "htmlTitle": "Evolution 交易所的 EOS 李嘉图合约 "
+  },
+  "liquidity": {
+    "title": "管理流动性",
+    "htmlTitle": "添加或移除流动性在evodex",
+    "description": "选择一个你想要添加流动性的交易对和的数量",
+    "headerTitle": "代币列表",
+    "tableLabelMyPool": "我的流动性池",
+    "tableLabelCommunity": "社区的流动性池",
+    "inputLabel": "添加 / 移除",
+    "available": "可用",
+    "add": "添加",
+    "remove": "移除",
+    "and": "和",
+    "fee": "费",
+    "noUser": "登录以继续",
+    "noTokenSelected": "请选择代币以继续",
+    "noAmountAdd": "请填写一个数量 添加",
+    "noAmountRemove": "请填写一个数量 移除",
+    "successTransaction": "交易成功"
+  },
+  "fee": {
+    "title": "费率投票",
+    "htmlTitle": "投票决定去中心化交易所的手续费",
+    "description": "选择一个交易对和你希望的费率并进行投票",
+    "headerTitle": "代币列表",
+    "tableLabelMyPool": "我的流动性池",
+    "tableLabelCommunity": "社区的流动性池",
+    "noUser": "登录以继续",
+    "noTokenSelected": "请选择代币以继续",
+    "noVote": "Please enter your vote",
+    "inputLabel": "投票",
+    "supply": "提供",
+    "fee": "手续费",
+    "successTransaction": "交易成功",
+    "placeholder": "百分比"
+  },
+  "faq": {
+    "title": "FAQ's",
+    "htmlTitle": "EOS 去中心化交易所 - 常见问题"
+  },
+  "exchange": {
+    "headerTitle": "代币列表",
+    "empty": "空",
+    "noUser": "登录以继续",
+    "noTokenSelected": "请选择两代币以继续",
+    "noAmount": "请填写一个数量",
+    "successTransaction": "交易成功",
+    "title": "交易所已经进化升级",
+    "htmlTitle": "EOS代币的去中心化交易所和流动性池",
+    "description": "一个真正的去中心化交易所 你可以决定你流动性池子的费率",
+    "youGive": "发送",
+    "youReceive": "收到",
+    "fee": "手续费",
+    "rate": "费率",
+    "pairSupply": "交易对供给",
+    "estimatedPrice": "预估价格",
+    "btnLabel": "交易",
+    "price": "价格",
+    "yourWallet": "你的钱包",
+    "pool": "池"
+  },
+  "about": {
+    "title": "关于 evodex",
+    "htmlTitle": "关于 evodex 是一个EOS上的去中心化交易所"
+  }
+}

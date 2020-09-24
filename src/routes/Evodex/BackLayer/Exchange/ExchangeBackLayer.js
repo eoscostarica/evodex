@@ -13,6 +13,7 @@ import LinearProgress from '@material-ui/core/LinearProgress'
 import Link from '@material-ui/core/Link'
 
 import { ualConfig } from 'config'
+import TourGuide from 'components/TourGuide'
 import TitlePage from 'components/PageTitle'
 import InputTextAndSelect from 'components/InputTextAndSelect'
 import EvodexRocketSvg from 'components/Icons/EvodexRocket'
@@ -28,7 +29,8 @@ const useStyles = makeStyles((theme) => {
     btnExchange,
     titleBox,
     message,
-    loading
+    loading,
+    helpText
   } = commonStyles(theme)
 
   return {
@@ -134,6 +136,8 @@ const useStyles = makeStyles((theme) => {
     },
     btnExchange: {
       ...btnExchange,
+      alignItems: 'center',
+      flexDirection: 'column',
       [theme.breakpoints.up('sm')]: {
         '& button': {
           width: 266
@@ -152,13 +156,20 @@ const useStyles = makeStyles((theme) => {
       color: theme.palette.primary.contrastText,
       textDecoration: 'none'
     },
+    helpText,
     message,
     loading,
     rocketSvg
   }
 })
 
-const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
+const ExchangeBackLayer = ({
+  onReload,
+  ual,
+  isLightMode,
+  showMessage,
+  getTourSteps
+}) => {
   const { t } = useTranslation('exchange')
   const classes = useStyles()
   const theme = useTheme()
@@ -172,6 +183,7 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
   const [youReceive, setYouReceive] = useState({})
   const [youGive, setYouGive] = useState({})
   const [loading, setLoading] = useState(false)
+  const [isTourOpen, setIsTourOpen] = useState(false)
   const [userChangeInput, setUserChangeInput] = useState('')
   const [userBalance, setUserBalance] = useState({})
   const [, setLastInterval] = useState('')
@@ -404,32 +416,44 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
       <Box className={classes.inputBox}>
         <InputTextAndSelect
           id="exchangeYouGive"
+          containerId="youGive"
           label={t('youGive')}
           options={options.youGive}
           onChange={handleOnChange('youGive')}
           value={youGive}
           helperText={
-            <Typography
-              variant="body1"
-              className={clsx([classes.textInfo, classes.helperText])}
-            >
-              {pair && <span>{t('yourWallet')}: </span>}
-              {userBalance[youGive.selectValue] && (
-                <>
-                  <span>{userBalance[youGive.selectValue].userAsset} </span>
-                  <Link
-                    className={classes.poolContractLink}
-                    href={`${ualConfig.blockExplorerUrl}/account/${
-                      userBalance[youGive.selectValue].contract
-                    }`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    ({userBalance[youGive.selectValue].contract}){' '}
-                  </Link>
-                </>
+            <>
+              {pair && userBalance[youGive.selectValue] && (
+                <Typography
+                  variant="body1"
+                  className={clsx([classes.textInfo, classes.helperText])}
+                >
+                  <span>{t('pool')}: </span>
+                  {userBalance[youGive.selectValue].poolAsset}
+                </Typography>
               )}
-            </Typography>
+              <Typography
+                variant="body1"
+                className={clsx([classes.textInfo, classes.helperText])}
+              >
+                {pair && <span>{t('yourWallet')}: </span>}
+                {userBalance[youGive.selectValue] && (
+                  <>
+                    <span>{userBalance[youGive.selectValue].userAsset}</span>
+                    <Link
+                      className={classes.poolContractLink}
+                      href={`${ualConfig.blockExplorerUrl}/account/${
+                        userBalance[youGive.selectValue].contract
+                      }`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      ({userBalance[youGive.selectValue].contract}){' '}
+                    </Link>
+                  </>
+                )}
+              </Typography>
+            </>
           }
           useHelperTextAsNode
           hasError={
@@ -444,6 +468,7 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
         </IconButton>
         <InputTextAndSelect
           id="exchangeYouReceive"
+          containerId="youReceive"
           label={t('youReceive')}
           options={options.youReceive}
           onChange={handleOnChange('youReceive')}
@@ -497,7 +522,19 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
         >
           {t('btnLabel').toLocaleUpperCase()}
         </Button>
+        <Typography
+          onClick={() => setIsTourOpen(true)}
+          variant="body1"
+          className={classes.helpText}
+        >
+          HELP
+        </Typography>
       </Box>
+      <TourGuide
+        isTourOpen={isTourOpen}
+        setIsTourOpen={setIsTourOpen}
+        stepsByPage="exchange"
+      />
     </Box>
   )
 }
@@ -506,7 +543,8 @@ ExchangeBackLayer.propTypes = {
   ual: PropTypes.object,
   onReload: PropTypes.func,
   isLightMode: PropTypes.bool,
-  showMessage: PropTypes.func
+  showMessage: PropTypes.func,
+  getTourSteps: PropTypes.func
 }
 
 export default ExchangeBackLayer

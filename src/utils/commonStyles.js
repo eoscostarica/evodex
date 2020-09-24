@@ -1,15 +1,31 @@
 export const commonStyles = (theme) => ({
+  helpIcon: {
+    color: '#ffffff',
+    marginLeft: theme.spacing(1),
+    '&:hover': {
+      cursor: 'pointer'
+    }
+  },
+  helpText: {
+    fontSize: 14.1,
+    fontWeight: 600,
+    letterSpacing: 1.25,
+    lineHeight: 1.73,
+    color: 'rgba(255, 255, 255, 0.6)',
+    marginTop: theme.spacing(1)
+  },
   inputBox: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center',
     marginTop: theme.spacing(1),
     padding: theme.spacing(2, 0),
     '& svg': {
       color: '#fff',
       fontSize: 30,
-      margin: theme.spacing(1, 0)
+      [theme.breakpoints.up('md')]: {
+        marginTop: -30
+      }
     }
   },
   rocketSvg: {
@@ -28,7 +44,7 @@ export const commonStyles = (theme) => ({
   btnExchange: {
     display: 'flex',
     justifyContent: 'center',
-    paddingTop: theme.spacing(4),
+    paddingTop: theme.spacing(3),
     '& button': {
       width: 162,
       height: 36

@@ -131,7 +131,8 @@ const InputTextAndSelect = ({
   inputDisabled,
   useHelperTextAsNode,
   placeholder,
-  hasError
+  hasError,
+  containerId
 }) => {
   const classes = useStyles()
   const { t } = useTranslation('translations')
@@ -157,7 +158,7 @@ const InputTextAndSelect = ({
   }, [value])
 
   return (
-    <Box className={classes.boxInputContainer}>
+    <Box className={classes.boxInputContainer} id={containerId}>
       <form
         autoComplete="off"
         className={clsx({
@@ -229,7 +230,8 @@ InputTextAndSelect.propTypes = {
   inputDisabled: PropTypes.bool,
   useHelperTextAsNode: PropTypes.bool,
   placeholder: PropTypes.string,
-  hasError: PropTypes.bool
+  hasError: PropTypes.bool,
+  containerId: PropTypes.string
 }
 
 InputTextAndSelect.defaultProps = {
