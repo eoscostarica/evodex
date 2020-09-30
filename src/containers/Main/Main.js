@@ -150,7 +150,7 @@ Main.propTypes = {
 
 Main.defaultProps = {
   openSidebar: false,
-  setOpenSidebar: () => {}
+  setOpenSidebar: () => { }
 }
 
 export default Main

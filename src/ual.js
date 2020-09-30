@@ -1,8 +1,4 @@
-import { Scatter } from 'ual-scatter'
-import { Ledger } from 'ual-ledger'
-import { Lynx } from 'ual-lynx'
 import { TokenPocket } from 'ual-token-pocket'
-import { MeetOne } from 'ual-meetone'
 import { Anchor } from 'ual-anchor'
 
 import { ualConfig } from './config'
@@ -37,11 +33,7 @@ export default {
   },
   get authenticators() {
     return [
-      new Lynx([this.network]),
-      new Ledger([this.network]),
-      new Scatter([this.network], { appName: this.appName }),
       new TokenPocket([this.network]),
-      new MeetOne([this.network.chainId]),
       new Anchor([this.network], { appName: this.appName })
     ]
   }
