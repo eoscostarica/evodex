@@ -154,7 +154,8 @@ const useStyles = makeStyles((theme) => {
     },
     poolContractLink: {
       color: theme.palette.primary.contrastText,
-      textDecoration: 'none'
+      textDecoration: 'none',
+      marginLeft: theme.spacing(1)
     },
     helpText,
     message,
@@ -271,6 +272,45 @@ const ExchangeBackLayer = ({
     setLoading(false)
   }
 
+  const getCurrencyBalance = async (pairToken) => {
+    let userbalance = {
+      [pairToken.pool1.asset.symbol.code().toString()]: {
+        poolAsset: pairToken.pool1.asset.toString(),
+        token: pairToken.pool1.asset.symbol.code().toString(),
+        contract: pairToken.pool1.contract
+      },
+      [pairToken.pool2.asset.symbol.code().toString()]: {
+        poolAsset: pairToken.pool2.asset.toString(),
+        token: pairToken.pool2.asset.symbol.code().toString(),
+        contract: pairToken.pool2.contract
+      }
+    }
+
+    if (ual.activeUser) {
+      const pool1 =
+        (await evolutiondex.getUserTokenBalance(ual, pairToken.pool1)) ||
+        `0 ${pairToken.pool1.asset.symbol.code().toString()}`
+      const pool2 =
+        (await evolutiondex.getUserTokenBalance(ual, pairToken.pool2)) ||
+        `0 ${pairToken.pool2.asset.symbol.code().toString()}`
+
+      userbalance = {
+        [pairToken.pool1.asset.symbol.code().toString()]: {
+          ...userbalance[pairToken.pool1.asset.symbol.code().toString()],
+          amount: parseFloat(pool1.split(' ')[0] || 0),
+          userAsset: pool1
+        },
+        [pairToken.pool2.asset.symbol.code().toString()]: {
+          ...userbalance[pairToken.pool2.asset.symbol.code().toString()],
+          amount: parseFloat(pool2.split(' ')[0] || 0),
+          userAsset: pool2
+        }
+      }
+    }
+
+    setUserBalance(userbalance)
+  }
+
   useEffect(() => {
     setOptions((prevState) => ({
       ...prevState,
@@ -358,52 +398,30 @@ const ExchangeBackLayer = ({
   }, [userChangeInput, pair, youReceive.inputValue])
 
   useEffect(() => {
-    if (!pair) {
-      return
-    }
+    if (!pair) return
 
-    const getCurrencyBalance = async () => {
-      let userbalance = {
-        [pair.pool1.asset.symbol.code().toString()]: {
-          poolAsset: pair.pool1.asset.toString(),
-          token: pair.pool1.asset.symbol.code().toString(),
-          contract: pair.pool1.contract
-        },
-        [pair.pool2.asset.symbol.code().toString()]: {
-          poolAsset: pair.pool2.asset.toString(),
-          token: pair.pool2.asset.symbol.code().toString(),
-          contract: pair.pool2.contract
-        }
-      }
-
-      if (ual.activeUser) {
-        const pool1 =
-          (await evolutiondex.getUserTokenBalance(ual, pair.pool1)) ||
-          `0 ${pair.pool1.asset.symbol.code().toString()}`
-        const pool2 =
-          (await evolutiondex.getUserTokenBalance(ual, pair.pool2)) ||
-          `0 ${pair.pool2.asset.symbol.code().toString()}`
-
-        userbalance = {
-          [pair.pool1.asset.symbol.code().toString()]: {
-            ...userbalance[pair.pool1.asset.symbol.code().toString()],
-            amount: parseFloat(pool1.split(' ')[0] || 0),
-            userAsset: pool1
-          },
-          [pair.pool2.asset.symbol.code().toString()]: {
-            ...userbalance[pair.pool2.asset.symbol.code().toString()],
-            amount: parseFloat(pool2.split(' ')[0] || 0),
-            userAsset: pool2
-          }
-        }
-      }
-
-      setUserBalance(userbalance)
-    }
-
-    getCurrencyBalance()
+    getCurrencyBalance(pair)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pair])
+
+  useEffect(() => {
+    if (!exchangeState.currentPair) return
+
+    setPair(exchangeState.currentPair)
+    setYouGive({
+      ...youGive,
+      selectValue: exchangeState.currentPair.pool1.asset.symbol
+        .code()
+        .toString()
+    })
+    setYouReceive({
+      ...youReceive,
+      selectValue: exchangeState.currentPair.pool2.asset.symbol
+        .code()
+        .toString()
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [exchangeState.currentPair])
 
   return (
     <Box className={classes.exchangeRoot}>
@@ -430,6 +448,16 @@ const ExchangeBackLayer = ({
                 >
                   <span>{t('pool')}: </span>
                   {userBalance[youGive.selectValue].poolAsset}
+                  <Link
+                    className={classes.poolContractLink}
+                    href={`${ualConfig.blockExplorerUrl}/account/${
+                      userBalance[youGive.selectValue].contract
+                    }`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    ({userBalance[youGive.selectValue].contract})
+                  </Link>
                 </Typography>
               )}
               <Typography
@@ -438,19 +466,7 @@ const ExchangeBackLayer = ({
               >
                 {pair && <span>{t('yourWallet')}: </span>}
                 {userBalance[youGive.selectValue] && (
-                  <>
-                    <span>{userBalance[youGive.selectValue].userAsset}</span>
-                    <Link
-                      className={classes.poolContractLink}
-                      href={`${ualConfig.blockExplorerUrl}/account/${
-                        userBalance[youGive.selectValue].contract
-                      }`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      ({userBalance[youGive.selectValue].contract}){' '}
-                    </Link>
-                  </>
+                  <span>{userBalance[youGive.selectValue].userAsset}</span>
                 )}
               </Typography>
             </>
@@ -481,7 +497,7 @@ const ExchangeBackLayer = ({
               {pair && <span>{t('pool')}: </span>}
               {userBalance[youReceive.selectValue] && (
                 <>
-                  <span>{userBalance[youReceive.selectValue].poolAsset} </span>
+                  <span>{userBalance[youReceive.selectValue].poolAsset}</span>
                   <Link
                     className={classes.poolContractLink}
                     href={`${ualConfig.blockExplorerUrl}/account/${

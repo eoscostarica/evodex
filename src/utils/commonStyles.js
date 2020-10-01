@@ -12,7 +12,10 @@ export const commonStyles = (theme) => ({
     letterSpacing: 1.25,
     lineHeight: 1.73,
     color: 'rgba(255, 255, 255, 0.6)',
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing(1),
+    '&:hover': {
+      cursor: 'pointer'
+    }
   },
   inputBox: {
     display: 'flex',
@@ -23,8 +26,8 @@ export const commonStyles = (theme) => ({
     '& svg': {
       color: '#fff',
       fontSize: 30,
-      [theme.breakpoints.up('md')]: {
-        marginTop: -30
+      [theme.breakpoints.up('lg')]: {
+        marginTop: 15
       }
     }
   },
