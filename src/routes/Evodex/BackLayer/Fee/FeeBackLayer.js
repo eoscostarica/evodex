@@ -278,7 +278,7 @@ const FeeBackLayer = ({
             variant="body1"
             className={classes.helpText}
           >
-            HELP
+            {t('help').toUpperCase()}
           </Typography>
         </Box>
       </Box>
