@@ -13,11 +13,12 @@
     "addLiquidity": "Agregue liquidez ahora.",
     "exchangeStep1": "Ingrese una cantidad válida y use el menú desplegable para seleccionar el token que posee y desea intercambiar.",
     "exchangeStep2": "Seleccione el token que desea recibir. Calcularemos esta cantidad por usted. Puede utilizar el icono de retroceso en cualquier momento.",
-    "feeStep1": "Aquí puede votar por la tarifa que considere más justa para cada token. Por favor, use un porcentaje con un formato decimal. Por ejemplo: 0,1%.",
+    "feeStep1": "Aquí puede votar por la tarifa que considere más justa para cada token. La tarifa debe ser superior a cero y no superior al 3%. Por favor, use un porcentaje con un formato decimal. Por ejemplo: 0.1%.",
     "liquidityStep1": "Aquí puede buscar la tarifa de cambio actual para cada token usando el menú desplegable.",
     "pool": "Pool",
     "tokenPair": "Token",
-    "fee": "Comisión"
+    "fee": "Comisión",
+    "help": "Ayuda"
   },
   "talkUsModal": {
     "title": "Evodex es para la comunidad de EOS",
@@ -71,7 +72,8 @@
     "noTokenSelected": "Por favor seleccione un token para continuar",
     "noAmountAdd": "Por favor ingrese el monto a enviar",
     "noAmountRemove": "Por favor ingrese el monto a retirar",
-    "successTransaction": "Transacción realizada"
+    "successTransaction": "Transacción realizada",
+    "help": "Ayuda"
   },
   "fee": {
     "title": "Votar Valor de la Comisión",
@@ -87,7 +89,8 @@
     "supply": "Circulante",
     "fee": "Comisión",
     "successTransaction": "Transacción realizada",
-    "placeholder": "Este Porcentaje"
+    "placeholder": "Este Porcentaje",
+    "help": "Ayuda"
   },
   "faq": {
     "title": "Preguntas Frecuentes",
@@ -112,7 +115,8 @@
     "btnLabel": "Operar",
     "price": "Precio",
     "yourWallet": "Su Billetera",
-    "pool": "Pool"
+    "pool": "Pool",
+    "help": "Ayuda"
   },
   "about": {
     "title": "Acerca de evodex",

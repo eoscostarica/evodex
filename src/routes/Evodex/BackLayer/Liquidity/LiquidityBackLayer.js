@@ -340,9 +340,8 @@ const LiquidityBackLayer = ({
             label={t('inputLabel')}
             helperText={
               pair
-                ? `${t('available')}: ${
-                    pair.balance ? pair.balance.toString() : 0
-                  }`
+                ? `${t('available')}: ${pair.balance ? pair.balance.toString() : 0
+                }`
                 : ''
             }
             onChange={handleOnChange}
@@ -410,7 +409,7 @@ const LiquidityBackLayer = ({
             variant="body1"
             className={classes.helpText}
           >
-            HELP
+            {t('help').toUpperCase()}
           </Typography>
         </Box>
       </Box>

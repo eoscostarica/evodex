@@ -200,7 +200,7 @@ const ExchangeBackLayer = ({
         set = setYouReceive
         break
       default:
-        set = () => {}
+        set = () => { }
     }
 
     set((prevState) => ({
@@ -450,9 +450,8 @@ const ExchangeBackLayer = ({
                   {userBalance[youGive.selectValue].poolAsset}
                   <Link
                     className={classes.poolContractLink}
-                    href={`${ualConfig.blockExplorerUrl}/account/${
-                      userBalance[youGive.selectValue].contract
-                    }`}
+                    href={`${ualConfig.blockExplorerUrl}/account/${userBalance[youGive.selectValue].contract
+                      }`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -475,7 +474,7 @@ const ExchangeBackLayer = ({
           hasError={
             userBalance[youGive.selectValue]
               ? userBalance[youGive.selectValue].amount <
-                parseFloat(youGive.inputValue || 0)
+              parseFloat(youGive.inputValue || 0)
               : false
           }
         />
@@ -500,9 +499,8 @@ const ExchangeBackLayer = ({
                   <span>{userBalance[youReceive.selectValue].poolAsset}</span>
                   <Link
                     className={classes.poolContractLink}
-                    href={`${ualConfig.blockExplorerUrl}/account/${
-                      userBalance[youReceive.selectValue].contract
-                    }`}
+                    href={`${ualConfig.blockExplorerUrl}/account/${userBalance[youReceive.selectValue].contract
+                      }`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -543,7 +541,7 @@ const ExchangeBackLayer = ({
           variant="body1"
           className={classes.helpText}
         >
-          HELP
+          {t('help').toUpperCase()}
         </Typography>
       </Box>
       <TourGuide

@@ -13,7 +13,7 @@
     "addLiquidity": "添加流动性",
     "exchangeStep1": "输入一个数量然后选择你想要进行兑换的代币",
     "exchangeStep2": "选择你想要收到的代币，会自动计算数量，你也可以使用反转图标进行调换。",
-    "feeStep1": "在这里，你可以投票选择你认为对一个交易对来说最公平的手续费。请使用一个十进制格式的百分比。例如：0.1%。",
+    "feeStep1": "在这里，你可以投票选择你认为对一个交易对来说最公平的手续费。费用必须大于零且不大于3％ 请使用一个十进制格式的百分比。例如：0.1%",
     "liquidityStep1": "在这里，您可以使用下拉菜单查找每个交易对的当前手续费。",
     "pool": "池",
     "tokenPair": "代币列表",
@@ -71,7 +71,8 @@
     "noTokenSelected": "请选择代币以继续",
     "noAmountAdd": "请填写一个数量 添加",
     "noAmountRemove": "请填写一个数量 移除",
-    "successTransaction": "交易成功"
+    "successTransaction": "交易成功",
+    "help": "帮帮我"
   },
   "fee": {
     "title": "费率投票",
@@ -87,7 +88,8 @@
     "supply": "提供",
     "fee": "手续费",
     "successTransaction": "交易成功",
-    "placeholder": "百分比"
+    "placeholder": "百分比",
+    "help": "帮帮我"
   },
   "faq": {
     "title": "FAQ's",
@@ -112,7 +114,8 @@
     "btnLabel": "交易",
     "price": "价格",
     "yourWallet": "你的钱包",
-    "pool": "池"
+    "pool": "池",
+    "help": "帮帮我"
   },
   "about": {
     "title": "关于 evodex",
