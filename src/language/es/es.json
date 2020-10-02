@@ -18,7 +18,13 @@
     "pool": "Pool",
     "tokenPair": "Token",
     "fee": "Comisión",
-    "help": "Ayuda"
+    "help": "Ayuda",
+    "htmlTitleContract": "Contratos Ricardianos en EOS - evolutiondex & wevotethefee",
+    "htmlTitleLiquidity": "Agregar o eliminar liquidez a los pools de DEX para EOS",
+    "htmlTitleFee": "Vote por las tarifas de intercambio descentralizado de tokens en EOS",
+    "htmlTitleExchange": "Exchange descentralizado para intercambio y liquidez de tokens EOS",
+    "htmlTitleFaq": "Intercambio descentralizado EOS: preguntas frecuentes",
+    "htmlTitleAbout": "Acerca de evodex un intercambio descentralizado la evolución de DeFi en EOS"
   },
   "talkUsModal": {
     "title": "Evodex es para la comunidad de EOS",
@@ -52,12 +58,10 @@
     "contracts": "Contratos Ricardianos"
   },
   "ricardianContract": {
-    "title": "Contratos Ricardianos",
-    "htmlTitle": "Contratos Ricardianos en EOS - evolutiondex & wevotethefee"
+    "title": "Contratos Ricardianos"
   },
   "liquidity": {
     "title": "Gestionar Liquidez",
-    "htmlTitle": "Agregar o eliminar liquidez a los pools de DEX para EOS",
     "description": "Selecciona un par y la cantidad y la cantidad de liquidez para aportar o retirar.",
     "headerTitle": "Listados de tokens",
     "tableLabelMyPool": "Mis pooles",
@@ -77,7 +81,6 @@
   },
   "fee": {
     "title": "Votar Valor de la Comisión",
-    "htmlTitle": "Vote por las tarifas de intercambio descentralizado de tokens en EOS",
     "description": "Seleccione un par y el valor que desea votar.",
     "headerTitle": "Listados de tokens",
     "tableLabelMyPool": "Mis pooles",
@@ -93,8 +96,7 @@
     "help": "Ayuda"
   },
   "faq": {
-    "title": "Preguntas Frecuentes",
-    "htmlTitle": "Intercambio descentralizado EOS: preguntas frecuentes"
+    "title": "Preguntas Frecuentes"
   },
   "exchange": {
     "headerTitle": "Listados de tokens",
@@ -104,7 +106,6 @@
     "noAmount": "Por favor ingrese el monto a enviar para continuar",
     "successTransaction": "Transacción realizada",
     "title": "La Evolución Del Intercambio",
-    "htmlTitle": "Exchange descentralizado para intercambio y liquidez de tokens EOS",
     "description": "Una casa de cambio decentralizada. Puedes votar el valor de las comisiones!",
     "youGive": "Enviar",
     "youReceive": "Recibir",
@@ -119,7 +120,6 @@
     "help": "Ayuda"
   },
   "about": {
-    "title": "Acerca de evodex",
-    "htmlTitle": "Acerca de evodex un intercambio descentralizado la evolución de DeFi en EOS"
+    "title": "Acerca de evodex"
   }
 }

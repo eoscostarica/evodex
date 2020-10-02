@@ -1,1 +1,1 @@
-export { default } from './TitlePage'
+export { default } from './HelmetMetaData'

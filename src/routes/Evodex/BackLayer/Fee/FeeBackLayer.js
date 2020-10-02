@@ -8,7 +8,6 @@ import LinearProgress from '@material-ui/core/LinearProgress'
 
 import { ualConfig } from 'config'
 import TourGuide from 'components/TourGuide'
-import TitlePage from 'components/PageTitle'
 import InputTextAndSelect from 'components/InputTextAndSelect'
 import EvodexRocketSvg from 'components/Icons/EvodexRocket'
 import MessageLink from 'components/MessageLink'
@@ -231,7 +230,6 @@ const FeeBackLayer = ({
 
   return (
     <Box className={classes.feeRoot}>
-      <TitlePage title={t('htmlTitle')} />
       <EvodexRocketSvg classes={classes.rocketSvg} />
       <Box className={classes.titleBox}>
         <Typography variant="h4">{t('title')}</Typography>
