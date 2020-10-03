@@ -19,7 +19,7 @@ import Button from 'components/Button'
 import { useExchange } from 'context/exchange.context'
 import { evolutiondex, commonStyles } from 'utils'
 
-const LIQUIDITY_MAX_VALUE = Math.pow(2, 63)
+const LIQUIDITY_MAX_VALUE = Math.pow(2, 62)
 
 const useStyles = makeStyles((theme) => {
   const { inputBox, rocketSvg, message, loading, helpText } = commonStyles(

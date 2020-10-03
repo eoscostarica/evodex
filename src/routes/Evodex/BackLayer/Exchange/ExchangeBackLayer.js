@@ -21,7 +21,7 @@ import Button from 'components/Button'
 import { useExchange } from 'context/exchange.context'
 import { evolutiondex, commonStyles } from 'utils'
 
-const EXCHANGE_MAX_VALUE = Math.pow(2, 63)
+const EXCHANGE_MAX_VALUE = Math.pow(2, 62)
 
 const useStyles = makeStyles((theme) => {
   const {

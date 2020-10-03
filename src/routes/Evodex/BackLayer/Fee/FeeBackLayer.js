@@ -254,7 +254,7 @@ const FeeBackLayer = ({
             suffix="%"
             isValueAllowed={({ floatValue }) => {
               if (floatValue > 100) {
-                setShowHelperText('The max value allowed is 100%')
+                setShowHelperText(t('maxValueAllowed'))
 
                 return false
               }

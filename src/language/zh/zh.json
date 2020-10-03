@@ -92,7 +92,8 @@
     "fee": "手续费",
     "successTransaction": "交易成功",
     "placeholder": "百分比",
-    "help": "帮帮我"
+    "help": "帮帮我",
+    "maxValueAllowed": "The max value allowed is 100%"
   },
   "faq": {
     "title": "FAQ's"
