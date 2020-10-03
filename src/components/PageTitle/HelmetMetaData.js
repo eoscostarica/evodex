@@ -18,10 +18,6 @@ const HelmetMetaData = () => {
   const [navigationTabTitle, setNavigationTabTitle] = useState(
     'htmlTitleExchange'
   )
-  const title = 'Evolution DEX - Decentralized Exchange on EOS'
-  const image = 'https://evodex.io/social-preview-image.png'
-  const description =
-    'Evodex is a decentralized exchange that promotes the use of EOS for DeFi. The project is completely open source and free for developers to build on the protocol'
 
   useEffect(() => {
     const path = location.pathname.replace(/\//g, '')
@@ -33,7 +29,7 @@ const HelmetMetaData = () => {
   return (
     <Helmet>
       <title>{navigationTabTitle}</title>
-      <meta charset="utf-8" />
+      {/* <meta charset="utf-8" />
       <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
       <meta name="csrf_token" content="" />
       <meta property="type" content="website" />
@@ -45,18 +41,36 @@ const HelmetMetaData = () => {
       <meta name="theme-color" content="#ffffff" />
       <meta name="_token" content="" />
       <meta name="robots" content="noodp" />
-      <meta name="title" content={title} />
-      <meta name="description" content={description} />
-      <meta property="image" content={image} />
+      <meta
+        name="title"
+        content="Evolution DEX - Decentralized Exchange on EOS"
+      />
+      <meta
+        name="description"
+        content="Evodex is a decentralized exchange that promotes the use of EOS for DeFi. The project is completely open source and free for developers to build on the protocol"
+      />
+      <meta
+        property="image"
+        content="https://evodex.io/social-preview-image.png"
+      />
       <meta property="og:type" content="website" />
-      <meta property="og:title" content={title} />
-      <meta property="og:image" content={image} />
+      <meta
+        property="og:title"
+        content="Evolution DEX - Decentralized Exchange on EOS"
+      />
+      <meta
+        property="og:image"
+        content="https://evodex.io/social-preview-image.png"
+      />
       <meta content="image/*" property="og:image:type" />
       <meta property="og:url" content="https://evodex.io/" />
       <meta property="og:site_name" content="Evolution DEX" />
-      <meta property="og:description" content={description} />
+      <meta
+        property="og:description"
+        content="Evodex is a decentralized exchange that promotes the use of EOS for DeFi. The project is completely open source and free for developers to build on the protocol"
+      />
       <meta property="twitter:card" content="summary_large_image" />
-      <meta property="twitter:url" content="https://evodex.io/" />
+      <meta property="twitter:url" content="https://evodex.io/" /> */}
     </Helmet>
   )
 }
