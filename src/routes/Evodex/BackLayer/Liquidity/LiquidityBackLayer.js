@@ -19,6 +19,8 @@ import Button from 'components/Button'
 import { useExchange } from 'context/exchange.context'
 import { evolutiondex, commonStyles } from 'utils'
 
+const LIQUIDITY_MAX_VALUE = Math.pow(2, 63)
+
 const useStyles = makeStyles((theme) => {
   const { inputBox, rocketSvg, message, loading, helpText } = commonStyles(
     theme
@@ -338,12 +340,19 @@ const LiquidityBackLayer = ({
             label={t('inputLabel')}
             helperText={
               pair
-                ? `${t('available')}: ${pair.balance ? pair.balance.toString() : 0
-                }`
+                ? `${t('available')}: ${
+                    pair.balance ? pair.balance.toString() : 0
+                  }`
                 : ''
             }
             onChange={handleOnChange}
             value={youGive}
+            decimalScale={4}
+            isValueAllowed={({ floatValue }) => {
+              if (!floatValue) return true
+
+              return floatValue < LIQUIDITY_MAX_VALUE
+            }}
           />
         </Box>
         {pair && (

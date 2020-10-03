@@ -21,6 +21,8 @@ import Button from 'components/Button'
 import { useExchange } from 'context/exchange.context'
 import { evolutiondex, commonStyles } from 'utils'
 
+const EXCHANGE_MAX_VALUE = Math.pow(2, 63)
+
 const useStyles = makeStyles((theme) => {
   const {
     inputBox,
@@ -208,6 +210,12 @@ const ExchangeBackLayer = ({
     }))
     setUserChangeInput(key)
   }
+
+  const handleIsValueAllowed = ({ floatValue }) => {
+    if (!floatValue) return true
+
+    return floatValue < EXCHANGE_MAX_VALUE
+  } 
 
   const handleOnSwitchValues = () => {
     setYouReceive({
@@ -478,6 +486,8 @@ const ExchangeBackLayer = ({
                 parseFloat(youGive.inputValue || 0)
               : false
           }
+          decimalScale={4}
+          isValueAllowed={handleIsValueAllowed}
         />
         <IconButton aria-label="switch" onClick={handleOnSwitchValues}>
           {isDesktop ? <SwapHorizIcon /> : <ImportExportIcon />}
@@ -513,6 +523,8 @@ const ExchangeBackLayer = ({
             </Typography>
           }
           useHelperTextAsNode
+          decimalScale={4}
+          isValueAllowed={handleIsValueAllowed}
         />
       </Box>
       <Box className={classes.infoBoxWrapper}>

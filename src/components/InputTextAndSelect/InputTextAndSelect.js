@@ -3,6 +3,7 @@ import clsx from 'clsx'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@material-ui/styles'
+import NumberFormat from 'react-number-format'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import Select from '@material-ui/core/Select'
@@ -132,7 +133,10 @@ const InputTextAndSelect = ({
   useHelperTextAsNode,
   placeholder,
   hasError,
-  containerId
+  containerId,
+  isValueAllowed,
+  decimalScale,
+  suffix
 }) => {
   const classes = useStyles()
   const { t } = useTranslation('translations')
@@ -170,15 +174,20 @@ const InputTextAndSelect = ({
           <Typography className={classes.labelText} variant="body1">
             {label}
           </Typography>
-          <InputBase
+          <NumberFormat
+            customInput={InputBase}
+            decimalScale={decimalScale}
             className={classes.inputText}
-            type="number"
             ref={textInput}
-            onChange={(e) => handleOnChange(e.target.value, 'inputValue')}
+            onValueChange={(inputVal) =>
+              handleOnChange(inputVal.value, 'inputValue')
+            }
             value={inputData.inputValue || ''}
+            isAllowed={isValueAllowed}
             placeholder={placeholder || t('placeholder')}
             readOnly={inputDisabled}
             onKeyPress={(e) => handleOnKeyPress(e.key)}
+            suffix={suffix}
           />
         </Box>
         <FormControl className={classes.formControl} disabled={!options.length}>
@@ -231,7 +240,10 @@ InputTextAndSelect.propTypes = {
   useHelperTextAsNode: PropTypes.bool,
   placeholder: PropTypes.string,
   hasError: PropTypes.bool,
-  containerId: PropTypes.string
+  containerId: PropTypes.string,
+  isValueAllowed: PropTypes.func,
+  decimalScale: PropTypes.number,
+  suffix: PropTypes.string
 }
 
 InputTextAndSelect.defaultProps = {
@@ -241,7 +253,10 @@ InputTextAndSelect.defaultProps = {
   onChange: () => {},
   options: [],
   useHelperTextAsNode: false,
-  placeholder: null
+  placeholder: null,
+  decimalScale: 2,
+  isValueAllowed: () => {},
+  suffix: ''
 }
 
 export default InputTextAndSelect
