@@ -14,7 +14,6 @@ import Link from '@material-ui/core/Link'
 
 import { ualConfig } from 'config'
 import TourGuide from 'components/TourGuide'
-import TitlePage from 'components/PageTitle'
 import InputTextAndSelect from 'components/InputTextAndSelect'
 import EvodexRocketSvg from 'components/Icons/EvodexRocket'
 import MessageLink from 'components/MessageLink'
@@ -425,7 +424,6 @@ const ExchangeBackLayer = ({
 
   return (
     <Box className={classes.exchangeRoot}>
-      <TitlePage title={t('htmlTitle')} />
       <EvodexRocketSvg classes={classes.rocketSvg} />
       <Box className={classes.titleBox}>
         <Typography variant="h4">{t('title')}</Typography>

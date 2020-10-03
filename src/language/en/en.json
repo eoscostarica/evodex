@@ -17,7 +17,13 @@
     "liquidityStep1": "Here you can look up the current exchange fee for each token using the dropdown menu.",
     "pool": "Pool",
     "tokenPair": "Token Pair",
-    "fee": "Fee"
+    "fee": "Fee",
+    "htmlTitleContract": "EOS Ricardian Contracts for Evolution DEX",
+    "htmlTitleLiquidity": "Add or Remove Liquidity to EOS DEX pools on evodex",
+    "htmlTitleFee": "Vote exchange fees for EOS decentralized exchange dex",
+    "htmlTitleExchange": "Decentralized Exchange and Liquidity Pools for EOS Tokens",
+    "htmlTitleFaq": "EOS Decentralized Exchange - Frequent Questions",
+    "htmlTitleAbout": "About evodex a decentralized exchange the evolution of DeFi on EOS"
   },
   "talkUsModal": {
     "title": "Evodex is for the EOS community.",
@@ -51,12 +57,10 @@
     "contracts": "Ricardian Contracts"
   },
   "ricardianContract": {
-    "title": "Ricardian Contracts",
-    "htmlTitle": "EOS Ricardian Contracts for Evolution DEX"
+    "title": "Ricardian Contracts"
   },
   "liquidity": {
     "title": "Manage Liquidity",
-    "htmlTitle": "Add or Remove Liquidity to EOS DEX pools on evodex",
     "description": "Select a token pair and the amount you want to add or remove to the liquidity pool.",
     "headerTitle": "Token Listings",
     "tableLabelMyPool": "My Pools",
@@ -76,7 +80,6 @@
   },
   "fee": {
     "title": "Vote Your Fee",
-    "htmlTitle": "Vote exchange fees for EOS decentralized exchange dex",
     "description": "Select a Token Pair and the fee you want to vote for the liquidity pool.",
     "headerTitle": "Token Listings",
     "tableLabelMyPool": "My Pools",
@@ -92,8 +95,7 @@
     "help": "Help"
   },
   "faq": {
-    "title": "FAQ's",
-    "htmlTitle": "EOS Decentralized Exchange - Frequent Questions"
+    "title": "FAQ's"
   },
   "exchange": {
     "headerTitle": "Token Listings",
@@ -103,7 +105,6 @@
     "noAmount": "Please enter the amount to give to continue",
     "successTransaction": "Success transaction",
     "title": "Exchange Has Evolved",
-    "htmlTitle": "Decentralized Exchange and Liquidity Pools for EOS Tokens",
     "description": "A truly decentralized exchange where you decide your pool fee!",
     "youGive": "You Give",
     "youReceive": "You Receive",
@@ -118,7 +119,6 @@
     "help": "Help"
   },
   "about": {
-    "title": "About evodex",
-    "htmlTitle": "About evodex a decentralized exchange the evolution of DeFi on EOS"
+    "title": "About evodex"
   }
 }

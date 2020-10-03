@@ -17,7 +17,13 @@
     "liquidityStep1": "在这里，您可以使用下拉菜单查找每个交易对的当前手续费。",
     "pool": "池",
     "tokenPair": "代币列表",
-    "fee": "费"
+    "fee": "费",
+    "htmlTitleContract": "Evolution 交易所的 EOS 李嘉图合约 ",
+    "htmlTitleLiquidity": "添加或移除流动性在evodex",
+    "htmlTitleFee": "投票决定去中心化交易所的手续费",
+    "htmlTitleExchange": "EOS代币的去中心化交易所和流动性池",
+    "htmlTitleFaq": "EOS 去中心化交易所 - 常见问题",
+    "htmlTitleAbout": "关于 evodex 是一个EOS上的去中心化交易所"
   },
   "talkUsModal": {
     "title": "Evodex 是为了 EOS 社区.",
@@ -51,12 +57,10 @@
     "contracts": "合约"
   },
   "ricardianContract": {
-    "title": "李嘉图合约",
-    "htmlTitle": "Evolution 交易所的 EOS 李嘉图合约 "
+    "title": "李嘉图合约"
   },
   "liquidity": {
     "title": "管理流动性",
-    "htmlTitle": "添加或移除流动性在evodex",
     "description": "选择一个你想要添加流动性的交易对和的数量",
     "headerTitle": "代币列表",
     "tableLabelMyPool": "我的流动性池",
@@ -76,7 +80,6 @@
   },
   "fee": {
     "title": "费率投票",
-    "htmlTitle": "投票决定去中心化交易所的手续费",
     "description": "选择一个交易对和你希望的费率并进行投票",
     "headerTitle": "代币列表",
     "tableLabelMyPool": "我的流动性池",
@@ -92,8 +95,7 @@
     "help": "帮帮我"
   },
   "faq": {
-    "title": "FAQ's",
-    "htmlTitle": "EOS 去中心化交易所 - 常见问题"
+    "title": "FAQ's"
   },
   "exchange": {
     "headerTitle": "代币列表",
@@ -103,7 +105,6 @@
     "noAmount": "请填写一个数量",
     "successTransaction": "交易成功",
     "title": "交易所已经进化升级",
-    "htmlTitle": "EOS代币的去中心化交易所和流动性池",
     "description": "一个真正的去中心化交易所 你可以决定你流动性池子的费率",
     "youGive": "发送",
     "youReceive": "收到",
@@ -118,7 +119,6 @@
     "help": "帮帮我"
   },
   "about": {
-    "title": "关于 evodex",
-    "htmlTitle": "关于 evodex 是一个EOS上的去中心化交易所"
+    "title": "关于 evodex"
   }
 }
