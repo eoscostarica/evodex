@@ -488,7 +488,7 @@ const ExchangeBackLayer = ({
                 parseFloat(youGive.inputValue || 0)
               : false
           }
-          decimalScale={6}
+          decimalScale={18}
           isValueAllowed={handleIsValueAllowed}
         />
         <IconButton aria-label="switch" onClick={handleOnSwitchValues}>
@@ -525,7 +525,7 @@ const ExchangeBackLayer = ({
             </Typography>
           }
           useHelperTextAsNode
-          decimalScale={4}
+          decimalScale={18}
           isValueAllowed={handleIsValueAllowed}
         />
       </Box>

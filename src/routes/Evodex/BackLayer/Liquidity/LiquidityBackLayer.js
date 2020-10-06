@@ -347,7 +347,7 @@ const LiquidityBackLayer = ({
             }
             onChange={handleOnChange}
             value={youGive}
-            decimalScale={6}
+            decimalScale={18}
             isValueAllowed={({ floatValue, value }) => {
               if (value === '-' || floatValue < 0) return false
 
