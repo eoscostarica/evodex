@@ -35,7 +35,7 @@ const FrontLayer = ({
   pathname,
   isMobile,
   isActiveUser,
-  onLogin
+  handleOnLogin
 }) => {
   const classes = useStyles()
 
@@ -50,7 +50,7 @@ const FrontLayer = ({
           <Liquidity
             onClickRow={handleOnClickRow}
             isActiveUser={isActiveUser}
-            onLogin={onLogin}
+            onLogin={handleOnLogin}
           />
         </Route>
         <Route exact path="/exchange">
@@ -60,7 +60,7 @@ const FrontLayer = ({
           <Fee
             onClickRow={handleOnClickRow}
             isActiveUser={isActiveUser}
-            onLogin={onLogin}
+            onLogin={handleOnLogin}
           />
         </Route>
         <Route exact path="/faq" component={Faq} />
@@ -79,7 +79,7 @@ FrontLayer.propTypes = {
   pathname: PropTypes.string,
   isMobile: PropTypes.bool,
   isActiveUser: PropTypes.bool,
-  onLogin: PropTypes.func
+  handleOnLogin: PropTypes.func
 }
 
 export default FrontLayer
