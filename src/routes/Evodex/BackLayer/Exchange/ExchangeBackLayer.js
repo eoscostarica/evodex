@@ -211,11 +211,13 @@ const ExchangeBackLayer = ({
     setUserChangeInput(key)
   }
 
-  const handleIsValueAllowed = ({ floatValue }) => {
+  const handleIsValueAllowed = ({ floatValue, value }) => {
+    if (value === '-' || floatValue < 0) return false
+
     if (!floatValue) return true
 
     return floatValue < EXCHANGE_MAX_VALUE
-  } 
+  }
 
   const handleOnSwitchValues = () => {
     setYouReceive({
