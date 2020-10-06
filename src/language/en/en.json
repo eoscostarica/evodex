@@ -92,7 +92,9 @@
     "fee": "Fee",
     "successTransaction": "Success transaction",
     "placeholder": "This Percentage",
-    "help": "Help"
+    "help": "Help",
+    "maxValueAllowed": "The max value allowed is 3%",
+    "minValueAllowed": "Fee has to be larger than 0"
   },
   "faq": {
     "title": "FAQ's"

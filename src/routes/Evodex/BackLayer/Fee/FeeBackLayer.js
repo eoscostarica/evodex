@@ -150,6 +150,7 @@ const FeeBackLayer = ({
   const [{ pairs, currentPair }] = useExchange()
   const [pair, setPair] = useState()
   const [isTourOpen, setIsTourOpen] = useState(false)
+  const [showHelperText, setShowHelperText] = useState('')
   const [yourVote, setYourVote] = useState({})
   const [loading, setLoading] = useState(false)
 
@@ -248,6 +249,21 @@ const FeeBackLayer = ({
             onChange={handleOnChange}
             value={yourVote}
             placeholder={t('placeholder')}
+            helperText={showHelperText}
+            suffix="%"
+            isValueAllowed={({ floatValue, value }) => {
+              if (value === '-' || floatValue < 0 || value === '00')
+                return false
+
+              if (floatValue > 3) {
+                setShowHelperText(t('maxValueAllowed'))
+
+                return false
+              }
+
+              setShowHelperText(floatValue === 0 ? t('minValueAllowed') : '')
+              return true
+            }}
           />
         </Box>
         {pair && (
