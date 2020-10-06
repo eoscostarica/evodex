@@ -93,7 +93,8 @@
     "successTransaction": "交易成功",
     "placeholder": "百分比",
     "help": "帮帮我",
-    "maxValueAllowed": "The max value allowed is 100%"
+    "maxValueAllowed": "允许的最大值是3％",
+    "minValueAllowed": "费用必须大于0"
   },
   "faq": {
     "title": "FAQ's"

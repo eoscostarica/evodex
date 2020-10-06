@@ -155,7 +155,6 @@ const FeeBackLayer = ({
   const [loading, setLoading] = useState(false)
 
   const handleOnChange = (value) => {
-    console.log('esoooo', value)
     setYourVote((prevState) => ({
       ...prevState,
       ...value
@@ -252,14 +251,17 @@ const FeeBackLayer = ({
             placeholder={t('placeholder')}
             helperText={showHelperText}
             suffix="%"
-            isValueAllowed={({ floatValue }) => {
-              if (floatValue > 100) {
+            isValueAllowed={({ floatValue, value }) => {
+              if (value === '-' || floatValue < 0 || value === '00')
+                return false
+
+              if (floatValue > 3) {
                 setShowHelperText(t('maxValueAllowed'))
 
                 return false
               }
 
-              setShowHelperText('')
+              setShowHelperText(floatValue === 0 ? t('minValueAllowed') : '')
               return true
             }}
           />

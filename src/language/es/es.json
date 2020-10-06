@@ -94,7 +94,8 @@
     "successTransaction": "Transacción realizada",
     "placeholder": "Este Porcentaje",
     "help": "Ayuda",
-    "maxValueAllowed": "Valor máximo permitido es 100%"
+    "maxValueAllowed": "Valor máximo permitido es 3%",
+    "minValueAllowed": "La tarifa debe ser mayor que 0"
   },
   "faq": {
     "title": "Preguntas Frecuentes"
