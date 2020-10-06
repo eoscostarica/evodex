@@ -186,19 +186,12 @@ const Evodex = ({ ual }) => {
         topbarContent={
           <Topbar
             user={ual.activeUser}
-            onLogout={() => ual.logout()}
-            onLogin={() => ual.showModal()}
+            handleOnLogout={() => ual.logout()}
+            handleOnLogin={() => ual.showModal()}
             onChangeDarkMode={setIsLightMode}
           />
         }
-        sidebarContent={
-          <Sidebar
-            user={ual.activeUser}
-            onLogout={() => ual.logout()}
-            onLogin={() => ual.showModal()}
-            setOpenSidebar={setOpenSidebar}
-          />
-        }
+        sidebarContent={<Sidebar setOpenSidebar={setOpenSidebar} />}
       >
         <Backdrop
           ref={backdropRef}
@@ -243,7 +236,7 @@ const Evodex = ({ ual }) => {
                 pathname={location.pathname}
                 isMobile={isMobile}
                 isActiveUser={Boolean(ual.activeUser)}
-                onLogin={() => ual.showModal()}
+                handleOnLogin={() => ual.showModal()}
               />
               <Box className={classes.footer}>
                 <Footer />

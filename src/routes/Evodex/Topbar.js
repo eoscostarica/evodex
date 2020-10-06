@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const DashboardTopbar = ({ user, onLogout, onLogin }) => {
+const DashboardTopbar = ({ user, handleOnLogout, handleOnLogin }) => {
   const classes = useStyles()
   const { t } = useTranslation('translations')
 
@@ -49,13 +49,13 @@ const DashboardTopbar = ({ user, onLogout, onLogin }) => {
               {user.accountName}
             </Typography>
           </IconButton>
-          <IconButton color="inherit" onClick={onLogout}>
+          <IconButton color="inherit" onClick={handleOnLogout}>
             <LogoutIcon />
           </IconButton>
         </Box>
       )}
       {!user && (
-        <IconButton color="inherit" onClick={onLogin}>
+        <IconButton color="inherit" onClick={handleOnLogin}>
           <FingerprintIcon />
           <Typography className={classes.sessionText}>{t('login')}</Typography>
         </IconButton>
@@ -66,8 +66,8 @@ const DashboardTopbar = ({ user, onLogout, onLogin }) => {
 
 DashboardTopbar.propTypes = {
   user: PropTypes.object,
-  onLogout: PropTypes.func,
-  onLogin: PropTypes.func
+  handleOnLogout: PropTypes.func,
+  handleOnLogin: PropTypes.func
 }
 
 export default DashboardTopbar
