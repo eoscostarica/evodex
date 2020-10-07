@@ -134,12 +134,7 @@ const SOCIAL = [
   }
 ]
 
-const DashboardSidebarContent = ({
-  user,
-  onLogout,
-  onLogin,
-  setOpenSidebar
-}) => {
+const DashboardSidebarContent = ({ setOpenSidebar }) => {
   const classes = useStyles()
   const { t } = useTranslation('sidebar')
 
@@ -223,9 +218,6 @@ const DashboardSidebarContent = ({
 }
 
 DashboardSidebarContent.propTypes = {
-  user: PropTypes.object,
-  onLogout: PropTypes.func,
-  onLogin: PropTypes.func,
   setOpenSidebar: PropTypes.func
 }
 
