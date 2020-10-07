@@ -191,24 +191,72 @@ const ExchangeBackLayer = ({
   const [, setLastInterval] = useState('')
 
   const handleOnChange = (key) => (value) => {
+    console.log({ value })
+
+    /**
+     * step 1
+     * - Validate if pairs of tokens was selected in order to get
+     */
+
     let set
 
     switch (key) {
       case 'youGive':
-        set = setYouGive
+        {
+          setYouGive((prevState) => ({
+            ...prevState,
+            ...value
+          }))
+
+          if (pair) {
+            console.log({ pair })
+
+            const assets = evolutiondex.getExchangeAssets(
+              youGive.inputValue,
+              pair
+            )
+
+            console.log({assets})
+
+            setAssets(assets)
+            setYouReceive((prevState) => ({
+              ...prevState,
+              inputValue: assets.assetToReceive.toString().split(' ')[0]
+            }))
+          }
+        }
         break
       case 'youReceive':
-        set = setYouReceive
+        {
+          setYouReceive((prevState) => ({
+            ...prevState,
+            ...value
+          }))
+
+          if (pair) {
+            const assets = evolutiondex.getExchangeAssetsFromToken2(
+              youReceive.inputValue,
+              pair
+            )
+
+            setAssets(assets)
+            setYouGive((prevState) => ({
+              ...prevState,
+              inputValue: assets.assetToGive.toString().split(' ')[0]
+            }))
+          }
+        }
         break
       default:
         set = () => {}
     }
 
-    set((prevState) => ({
-      ...prevState,
-      ...value
-    }))
-    setUserChangeInput(key)
+    // set((prevState) => ({
+    //   ...prevState,
+    //   ...value
+    // }))
+
+    // setUserChangeInput(key)
   }
 
   const handleIsValueAllowed = ({ floatValue, value }) => {
@@ -321,6 +369,9 @@ const ExchangeBackLayer = ({
   }
 
   useEffect(() => {
+    console.log({ youGive, youReceive })
+
+    
     setOptions((prevState) => ({
       ...prevState,
       youGive: evolutiondex
@@ -330,6 +381,7 @@ const ExchangeBackLayer = ({
         .getTokensFor(youGive.selectValue, exchangeState)
         .map((token) => ({ label: token, value: token }))
     }))
+
     setPair(
       evolutiondex.getPair(
         youGive.selectValue,
@@ -345,68 +397,76 @@ const ExchangeBackLayer = ({
     youReceive.selectValue
   ])
 
+  // useEffect(() => {
+  //   console.log('change pair and youGive --> Adriel fix')
+
+  //   if (userChangeInput !== 'youGive') {
+  //     return
+  //   }
+
+  //   if (!pair || !youGive.inputValue) {
+  //     setYouReceive((prevState) => ({
+  //       ...prevState,
+  //       inputValue: ''
+  //     }))
+  //     setAssets(null)
+
+  //     return
+  //   }
+
+  //   const assets = evolutiondex.getExchangeAssets(youGive.inputValue, pair)
+  //   setAssets(assets)
+  //   setYouReceive((prevState) => ({
+  //     ...prevState,
+  //     inputValue: assets.assetToReceive.toString().split(' ')[0]
+  //   }))
+  // }, [userChangeInput, pair, youGive.inputValue])
+
+  // useEffect(() => {
+  //   console.log('change pair and youReceive --> Adriel fix')
+
+  //   if (userChangeInput !== 'youReceive') {
+  //     return
+  //   }
+
+  //   setLastInterval((lastValue) => {
+  //     clearInterval(lastValue)
+
+  //     return null
+  //   })
+
+  //   if (!pair || !youReceive.inputValue) {
+  //     setYouGive((prevState) => ({
+  //       ...prevState,
+  //       inputValue: ''
+  //     }))
+  //     setAssets(null)
+
+  //     return
+  //   }
+
+  //   const assets = evolutiondex.getExchangeAssetsFromToken2(
+  //     youReceive.inputValue,
+  //     pair
+  //   )
+
+  //   setAssets(assets)
+  //   setYouGive((prevState) => ({
+  //     ...prevState,
+  //     inputValue: assets.assetToGive.toString().split(' ')[0]
+  //   }))
+  //   setLastInterval(
+  //     setTimeout(() => {
+  //       setUserChangeInput('youGive')
+  //     }, 2000)
+  //   )
+  // }, [userChangeInput, pair, youReceive.inputValue])
+
+  // EVERYTHING IS GOOD HERE!
+
   useEffect(() => {
-    if (userChangeInput !== 'youGive') {
-      return
-    }
+    console.log('change pair --> Adriel fix')
 
-    if (!pair || !youGive.inputValue) {
-      setYouReceive((prevState) => ({
-        ...prevState,
-        inputValue: ''
-      }))
-      setAssets(null)
-
-      return
-    }
-
-    const assets = evolutiondex.getExchangeAssets(youGive.inputValue, pair)
-    setAssets(assets)
-    setYouReceive((prevState) => ({
-      ...prevState,
-      inputValue: assets.assetToReceive.toString().split(' ')[0]
-    }))
-  }, [userChangeInput, pair, youGive.inputValue])
-
-  useEffect(() => {
-    if (userChangeInput !== 'youReceive') {
-      return
-    }
-
-    setLastInterval((lastValue) => {
-      clearInterval(lastValue)
-
-      return null
-    })
-
-    if (!pair || !youReceive.inputValue) {
-      setYouGive((prevState) => ({
-        ...prevState,
-        inputValue: ''
-      }))
-      setAssets(null)
-
-      return
-    }
-
-    const assets = evolutiondex.getExchangeAssetsFromToken2(
-      youReceive.inputValue,
-      pair
-    )
-
-    setAssets(assets)
-    setYouGive((prevState) => ({
-      ...prevState,
-      inputValue: assets.assetToGive.toString().split(' ')[0]
-    }))
-    setLastInterval(
-      setTimeout(() => {
-        setUserChangeInput('youGive')
-      }, 2000)
-    )
-  }, [userChangeInput, pair, youReceive.inputValue])
-
-  useEffect(() => {
     if (!pair) return
 
     getCurrencyBalance(pair)
@@ -414,6 +474,7 @@ const ExchangeBackLayer = ({
   }, [pair])
 
   useEffect(() => {
+    console.log('current pair --> teto fix')
     if (!exchangeState.currentPair) return
 
     setPair(exchangeState.currentPair)
