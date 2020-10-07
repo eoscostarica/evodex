@@ -4,7 +4,7 @@
   "description": "A web interface that will provide access to liquidity amongst all exchanges that connect to Evolution DEX",
   "author": "EOS Costa Rica",
   "license": "MIT",
-  "version": "0.1.0-beta.4",
+  "version": "0.0.1-beta.4-rollback",
   "keywords": [
     "eos",
     "dex",
