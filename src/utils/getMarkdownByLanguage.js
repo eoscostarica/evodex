@@ -4,6 +4,8 @@ import aboutEN from 'language/en/about.md'
 import faqEN from 'language/en/faq.md'
 import aboutZH from 'language/zh/about.md'
 import faqZH from 'language/zh/faq.md'
+import aboutRU from 'language/ru/about.md'
+import faqRU from 'language/ru/faq.md'
 
 const getMarkdownByLanguage = (page) => {
   let result = null
@@ -31,6 +33,14 @@ const getMarkdownByLanguage = (page) => {
 
     case 'zh/faq':
       result = faqZH
+      break
+
+    case 'ru/about':
+      result = aboutRU
+      break
+
+    case 'ru/faq':
+      result = faqRU
       break
 
     default:
