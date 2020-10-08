@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import clsx from 'clsx'
+import debounce from 'lodash.debounce'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@material-ui/styles'
@@ -143,9 +144,14 @@ const InputTextAndSelect = ({
   const textInput = useRef(null)
   const [inputData, setInputData] = useState({})
 
-  const handleOnChange = (value, type) => {
-    setInputData({ ...inputData, [type]: value })
-    onChange({ ...inputData, [type]: value })
+  const handleOnChange = debounce((value) => {
+    setInputData({ ...inputData, inputValue: value })
+    onChange({ ...inputData, inputValue: value })
+  }, 500)
+
+  const handleOnChangeSelect = (value) => {
+    setInputData({ ...inputData, selectValue: value })
+    onChange({ ...inputData, selectValue: value })
   }
 
   const handleOnKeyPress = (key) => {
@@ -179,9 +185,7 @@ const InputTextAndSelect = ({
             decimalScale={decimalScale}
             className={classes.inputText}
             ref={textInput}
-            onValueChange={(inputVal) =>
-              handleOnChange(inputVal.value, 'inputValue')
-            }
+            onValueChange={(inputVal) => handleOnChange(inputVal.value)}
             value={inputData.inputValue || ''}
             isAllowed={isValueAllowed}
             placeholder={placeholder || t('placeholder')}
@@ -193,7 +197,7 @@ const InputTextAndSelect = ({
         <FormControl className={classes.formControl} disabled={!options.length}>
           <Select
             id={id}
-            onChange={(e) => handleOnChange(e.target.value, 'selectValue')}
+            onChange={(e) => handleOnChangeSelect(e.target.value)}
             value={inputData.selectValue || t('selected')}
             renderValue={(selected) => {
               if (!selected) {

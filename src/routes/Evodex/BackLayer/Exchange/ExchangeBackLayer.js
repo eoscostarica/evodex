@@ -186,77 +186,74 @@ const ExchangeBackLayer = ({
   const [youGive, setYouGive] = useState({})
   const [loading, setLoading] = useState(false)
   const [isTourOpen, setIsTourOpen] = useState(false)
-  const [userChangeInput, setUserChangeInput] = useState('')
+  const [stopCallBack, setStopCallBack] = useState(false)
   const [userBalance, setUserBalance] = useState({})
-  const [, setLastInterval] = useState('')
+
+  const handleOnSetData = (
+    getExchangeAssets,
+    inputValue,
+    setField,
+    assetTo
+  ) => {
+    if (pair) {
+      const assets = getExchangeAssets(inputValue, pair)
+
+      setAssets(assets)
+      setStopCallBack(true)
+      setField((prevState) => ({
+        ...prevState,
+        inputValue: assets[assetTo].toString().split(' ')[0]
+      }))
+    }
+  }
 
   const handleOnChange = (key) => (value) => {
-    console.log({ value })
-
-    /**
-     * step 1
-     * - Validate if pairs of tokens was selected in order to get
-     */
-
-    let set
-
     switch (key) {
-      case 'youGive':
-        {
-          setYouGive((prevState) => ({
-            ...prevState,
-            ...value
-          }))
+      case 'youGive': {
+        if (stopCallBack) {
+          setStopCallBack(false)
 
-          if (pair) {
-            console.log({ pair })
-
-            const assets = evolutiondex.getExchangeAssets(
-              youGive.inputValue,
-              pair
-            )
-
-            console.log({assets})
-
-            setAssets(assets)
-            setYouReceive((prevState) => ({
-              ...prevState,
-              inputValue: assets.assetToReceive.toString().split(' ')[0]
-            }))
-          }
+          break
         }
+
+        setYouGive((prevState) => ({
+          ...prevState,
+          ...value
+        }))
+
+        handleOnSetData(
+          evolutiondex.getExchangeAssets,
+          value.inputValue,
+          setYouReceive,
+          'assetToReceive'
+        )
+
         break
-      case 'youReceive':
-        {
-          setYouReceive((prevState) => ({
-            ...prevState,
-            ...value
-          }))
+      }
+      case 'youReceive': {
+        if (stopCallBack) {
+          setStopCallBack(false)
 
-          if (pair) {
-            const assets = evolutiondex.getExchangeAssetsFromToken2(
-              youReceive.inputValue,
-              pair
-            )
-
-            setAssets(assets)
-            setYouGive((prevState) => ({
-              ...prevState,
-              inputValue: assets.assetToGive.toString().split(' ')[0]
-            }))
-          }
+          break
         }
+
+        setYouReceive((prevState) => ({
+          ...prevState,
+          ...value
+        }))
+
+        handleOnSetData(
+          evolutiondex.getExchangeAssetsFromToken2,
+          value.inputValue,
+          setYouGive,
+          'assetToGive'
+        )
+
         break
+      }
       default:
-        set = () => {}
+        break
     }
-
-    // set((prevState) => ({
-    //   ...prevState,
-    //   ...value
-    // }))
-
-    // setUserChangeInput(key)
   }
 
   const handleIsValueAllowed = ({ floatValue, value }) => {
@@ -268,13 +265,11 @@ const ExchangeBackLayer = ({
   }
 
   const handleOnSwitchValues = () => {
-    setYouReceive({
-      selectValue: youGive.selectValue
-    })
-    setYouGive({
-      ...youGive,
-      selectValue: youReceive.selectValue
-    })
+    if (!pair) return
+
+    setStopCallBack(true)
+    setYouReceive(youGive)
+    setYouGive(youReceive)
   }
 
   const handleOnExchange = async () => {
@@ -369,9 +364,6 @@ const ExchangeBackLayer = ({
   }
 
   useEffect(() => {
-    console.log({ youGive, youReceive })
-
-    
     setOptions((prevState) => ({
       ...prevState,
       youGive: evolutiondex
@@ -397,76 +389,7 @@ const ExchangeBackLayer = ({
     youReceive.selectValue
   ])
 
-  // useEffect(() => {
-  //   console.log('change pair and youGive --> Adriel fix')
-
-  //   if (userChangeInput !== 'youGive') {
-  //     return
-  //   }
-
-  //   if (!pair || !youGive.inputValue) {
-  //     setYouReceive((prevState) => ({
-  //       ...prevState,
-  //       inputValue: ''
-  //     }))
-  //     setAssets(null)
-
-  //     return
-  //   }
-
-  //   const assets = evolutiondex.getExchangeAssets(youGive.inputValue, pair)
-  //   setAssets(assets)
-  //   setYouReceive((prevState) => ({
-  //     ...prevState,
-  //     inputValue: assets.assetToReceive.toString().split(' ')[0]
-  //   }))
-  // }, [userChangeInput, pair, youGive.inputValue])
-
-  // useEffect(() => {
-  //   console.log('change pair and youReceive --> Adriel fix')
-
-  //   if (userChangeInput !== 'youReceive') {
-  //     return
-  //   }
-
-  //   setLastInterval((lastValue) => {
-  //     clearInterval(lastValue)
-
-  //     return null
-  //   })
-
-  //   if (!pair || !youReceive.inputValue) {
-  //     setYouGive((prevState) => ({
-  //       ...prevState,
-  //       inputValue: ''
-  //     }))
-  //     setAssets(null)
-
-  //     return
-  //   }
-
-  //   const assets = evolutiondex.getExchangeAssetsFromToken2(
-  //     youReceive.inputValue,
-  //     pair
-  //   )
-
-  //   setAssets(assets)
-  //   setYouGive((prevState) => ({
-  //     ...prevState,
-  //     inputValue: assets.assetToGive.toString().split(' ')[0]
-  //   }))
-  //   setLastInterval(
-  //     setTimeout(() => {
-  //       setUserChangeInput('youGive')
-  //     }, 2000)
-  //   )
-  // }, [userChangeInput, pair, youReceive.inputValue])
-
-  // EVERYTHING IS GOOD HERE!
-
   useEffect(() => {
-    console.log('change pair --> Adriel fix')
-
     if (!pair) return
 
     getCurrencyBalance(pair)
@@ -474,21 +397,22 @@ const ExchangeBackLayer = ({
   }, [pair])
 
   useEffect(() => {
-    console.log('current pair --> teto fix')
     if (!exchangeState.currentPair) return
+    const youGiveValueSelected = exchangeState.currentPair.pool1.asset.symbol
+      .code()
+      .toString()
+    const youReceiveValueSelected = exchangeState.currentPair.pool2.asset.symbol
+      .code()
+      .toString()
 
     setPair(exchangeState.currentPair)
     setYouGive({
       ...youGive,
-      selectValue: exchangeState.currentPair.pool1.asset.symbol
-        .code()
-        .toString()
+      selectValue: youGiveValueSelected
     })
     setYouReceive({
       ...youReceive,
-      selectValue: exchangeState.currentPair.pool2.asset.symbol
-        .code()
-        .toString()
+      selectValue: youReceiveValueSelected
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [exchangeState.currentPair])
