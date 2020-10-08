@@ -186,29 +186,74 @@ const ExchangeBackLayer = ({
   const [youGive, setYouGive] = useState({})
   const [loading, setLoading] = useState(false)
   const [isTourOpen, setIsTourOpen] = useState(false)
-  const [userChangeInput, setUserChangeInput] = useState('')
+  const [stopCallBack, setStopCallBack] = useState(false)
   const [userBalance, setUserBalance] = useState({})
-  const [, setLastInterval] = useState('')
+
+  const handleOnSetData = (
+    getExchangeAssets,
+    inputValue,
+    setField,
+    assetTo
+  ) => {
+    if (pair) {
+      const assets = getExchangeAssets(inputValue, pair)
+
+      setAssets(assets)
+      setStopCallBack(true)
+      setField((prevState) => ({
+        ...prevState,
+        inputValue: assets[assetTo].toString().split(' ')[0]
+      }))
+    }
+  }
 
   const handleOnChange = (key) => (value) => {
-    let set
-
     switch (key) {
-      case 'youGive':
-        set = setYouGive
-        break
-      case 'youReceive':
-        set = setYouReceive
-        break
-      default:
-        set = () => {}
-    }
+      case 'youGive': {
+        if (stopCallBack) {
+          setStopCallBack(false)
 
-    set((prevState) => ({
-      ...prevState,
-      ...value
-    }))
-    setUserChangeInput(key)
+          break
+        }
+
+        setYouGive((prevState) => ({
+          ...prevState,
+          ...value
+        }))
+
+        handleOnSetData(
+          evolutiondex.getExchangeAssets,
+          value.inputValue,
+          setYouReceive,
+          'assetToReceive'
+        )
+
+        break
+      }
+      case 'youReceive': {
+        if (stopCallBack) {
+          setStopCallBack(false)
+
+          break
+        }
+
+        setYouReceive((prevState) => ({
+          ...prevState,
+          ...value
+        }))
+
+        handleOnSetData(
+          evolutiondex.getExchangeAssetsFromToken2,
+          value.inputValue,
+          setYouGive,
+          'assetToGive'
+        )
+
+        break
+      }
+      default:
+        break
+    }
   }
 
   const handleIsValueAllowed = ({ floatValue, value }) => {
@@ -220,13 +265,11 @@ const ExchangeBackLayer = ({
   }
 
   const handleOnSwitchValues = () => {
-    setYouReceive({
-      selectValue: youGive.selectValue
-    })
-    setYouGive({
-      ...youGive,
-      selectValue: youReceive.selectValue
-    })
+    if (!pair) return
+
+    setStopCallBack(true)
+    setYouReceive(youGive)
+    setYouGive(youReceive)
   }
 
   const handleOnExchange = async () => {
@@ -330,6 +373,7 @@ const ExchangeBackLayer = ({
         .getTokensFor(youGive.selectValue, exchangeState)
         .map((token) => ({ label: token, value: token }))
     }))
+
     setPair(
       evolutiondex.getPair(
         youGive.selectValue,
@@ -346,67 +390,6 @@ const ExchangeBackLayer = ({
   ])
 
   useEffect(() => {
-    if (userChangeInput !== 'youGive') {
-      return
-    }
-
-    if (!pair || !youGive.inputValue) {
-      setYouReceive((prevState) => ({
-        ...prevState,
-        inputValue: ''
-      }))
-      setAssets(null)
-
-      return
-    }
-
-    const assets = evolutiondex.getExchangeAssets(youGive.inputValue, pair)
-    setAssets(assets)
-    setYouReceive((prevState) => ({
-      ...prevState,
-      inputValue: assets.assetToReceive.toString().split(' ')[0]
-    }))
-  }, [userChangeInput, pair, youGive.inputValue])
-
-  useEffect(() => {
-    if (userChangeInput !== 'youReceive') {
-      return
-    }
-
-    setLastInterval((lastValue) => {
-      clearInterval(lastValue)
-
-      return null
-    })
-
-    if (!pair || !youReceive.inputValue) {
-      setYouGive((prevState) => ({
-        ...prevState,
-        inputValue: ''
-      }))
-      setAssets(null)
-
-      return
-    }
-
-    const assets = evolutiondex.getExchangeAssetsFromToken2(
-      youReceive.inputValue,
-      pair
-    )
-
-    setAssets(assets)
-    setYouGive((prevState) => ({
-      ...prevState,
-      inputValue: assets.assetToGive.toString().split(' ')[0]
-    }))
-    setLastInterval(
-      setTimeout(() => {
-        setUserChangeInput('youGive')
-      }, 2000)
-    )
-  }, [userChangeInput, pair, youReceive.inputValue])
-
-  useEffect(() => {
     if (!pair) return
 
     getCurrencyBalance(pair)
@@ -415,19 +398,21 @@ const ExchangeBackLayer = ({
 
   useEffect(() => {
     if (!exchangeState.currentPair) return
+    const youGiveValueSelected = exchangeState.currentPair.pool1.asset.symbol
+      .code()
+      .toString()
+    const youReceiveValueSelected = exchangeState.currentPair.pool2.asset.symbol
+      .code()
+      .toString()
 
     setPair(exchangeState.currentPair)
     setYouGive({
       ...youGive,
-      selectValue: exchangeState.currentPair.pool1.asset.symbol
-        .code()
-        .toString()
+      selectValue: youGiveValueSelected
     })
     setYouReceive({
       ...youReceive,
-      selectValue: exchangeState.currentPair.pool2.asset.symbol
-        .code()
-        .toString()
+      selectValue: youReceiveValueSelected
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [exchangeState.currentPair])
