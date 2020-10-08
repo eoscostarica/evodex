@@ -187,6 +187,7 @@ const ExchangeBackLayer = ({
   const [loading, setLoading] = useState(false)
   const [isTourOpen, setIsTourOpen] = useState(false)
   const [stopCallBack, setStopCallBack] = useState(false)
+  const [switchValues, setSwitchValues] = useState(false)
   const [userBalance, setUserBalance] = useState({})
 
   const handleOnSetData = (
@@ -195,7 +196,7 @@ const ExchangeBackLayer = ({
     setField,
     assetTo
   ) => {
-    if (pair) {
+    if (pair && inputValue) {
       const assets = getExchangeAssets(inputValue, pair)
 
       setAssets(assets)
@@ -208,14 +209,14 @@ const ExchangeBackLayer = ({
   }
 
   const handleOnChange = (key) => (value) => {
+    if (stopCallBack) {
+      setStopCallBack(false)
+
+      return
+    }
+
     switch (key) {
       case 'youGive': {
-        if (stopCallBack) {
-          setStopCallBack(false)
-
-          break
-        }
-
         setYouGive((prevState) => ({
           ...prevState,
           ...value
@@ -231,12 +232,6 @@ const ExchangeBackLayer = ({
         break
       }
       case 'youReceive': {
-        if (stopCallBack) {
-          setStopCallBack(false)
-
-          break
-        }
-
         setYouReceive((prevState) => ({
           ...prevState,
           ...value
@@ -268,6 +263,7 @@ const ExchangeBackLayer = ({
     if (!pair) return
 
     setStopCallBack(true)
+    setSwitchValues(true)
     setYouReceive(youGive)
     setYouGive(youReceive)
   }
@@ -393,6 +389,21 @@ const ExchangeBackLayer = ({
     if (!pair) return
 
     getCurrencyBalance(pair)
+
+    if (switchValues) {
+      setYouGive(youGive)
+      setYouReceive(youReceive)
+      setSwitchValues(false)
+    } else {
+      setYouGive({
+        ...youGive,
+        inputValue: ''
+      })
+      setYouReceive({
+        ...youReceive,
+        inputValue: ''
+      })
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pair])
 
@@ -407,11 +418,11 @@ const ExchangeBackLayer = ({
 
     setPair(exchangeState.currentPair)
     setYouGive({
-      ...youGive,
+      inputValue: '',
       selectValue: youGiveValueSelected
     })
     setYouReceive({
-      ...youReceive,
+      inputValue: '',
       selectValue: youReceiveValueSelected
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps

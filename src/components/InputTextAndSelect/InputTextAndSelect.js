@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import clsx from 'clsx'
-import debounce from 'lodash.debounce'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@material-ui/styles'
@@ -129,7 +128,7 @@ const InputTextAndSelect = ({
   onChange,
   options,
   selected,
-  value,
+  value: inputValRef,
   inputDisabled,
   useHelperTextAsNode,
   placeholder,
@@ -142,30 +141,18 @@ const InputTextAndSelect = ({
   const classes = useStyles()
   const { t } = useTranslation('translations')
   const textInput = useRef(null)
-  const [inputData, setInputData] = useState({})
 
-  const handleOnChange = debounce((value) => {
-    setInputData({ ...inputData, inputValue: value })
-    onChange({ ...inputData, inputValue: value })
-  }, 500)
+  const handleOnChange = (value) => {
+    onChange({ ...inputValRef, inputValue: value })
+  }
 
   const handleOnChangeSelect = (value) => {
-    setInputData({ ...inputData, selectValue: value })
-    onChange({ ...inputData, selectValue: value })
+    onChange({ ...inputValRef, selectValue: value })
   }
 
   const handleOnKeyPress = (key) => {
     if (key === 'Enter') textInput.current.blur()
   }
-
-  useEffect(() => {
-    setInputData(
-      value || {
-        inputValue: '',
-        selectValue: 0
-      }
-    )
-  }, [value])
 
   return (
     <Box className={classes.boxInputContainer} id={containerId}>
@@ -186,7 +173,7 @@ const InputTextAndSelect = ({
             className={classes.inputText}
             ref={textInput}
             onValueChange={(inputVal) => handleOnChange(inputVal.value)}
-            value={inputData.inputValue || ''}
+            value={inputValRef.inputValue || ''}
             isAllowed={isValueAllowed}
             placeholder={placeholder || t('placeholder')}
             readOnly={inputDisabled}
@@ -198,7 +185,7 @@ const InputTextAndSelect = ({
           <Select
             id={id}
             onChange={(e) => handleOnChangeSelect(e.target.value)}
-            value={inputData.selectValue || t('selected')}
+            value={inputValRef.selectValue || t('selected')}
             renderValue={(selected) => {
               if (!selected) {
                 return (
