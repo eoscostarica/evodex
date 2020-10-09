@@ -5,9 +5,23 @@ import { evodexConfig } from '../config'
 import { getScatterError } from './getScatterError'
 import axiosUtil from './axios.util'
 
+import { JsonRpc } from 'eosjs'
+
 const { asset, number_to_asset: numberToAsset } = eosCommon
 const defaultState = { pairs: [], tokens: [] }
 const axios = axiosUtil(evodexConfig.api, evodexConfig.apiFailover)
+
+const getRpc = (ual) => {
+  const endpoint = ual.chains[0].rpcEndpoints[0]
+
+  const rpcEndpoint = ual.activeUser.buildRpcEndpoint(endpoint)
+
+  return new JsonRpc(rpcEndpoint)
+}
+
+const getAccountName = async (ual) => {
+  return await ual.activeUser.getAccountName(ual)
+}
 
 const amountToAsset = (amount = '0', currentAsset) => {
   if (isNaN(amount)) {
@@ -208,9 +222,11 @@ const getUserTokenBalance = async (ual, pool) => {
     return
   }
 
-  const response = await ual.activeUser.rpc.get_currency_balance(
+  const rpc = getRpc(ual)
+
+  const response = await rpc.get_currency_balance(
     pool.contract,
-    ual.activeUser.accountName,
+    await getAccountName(ual),
     pool.asset.symbol.code().toString()
   )
 
@@ -221,7 +237,7 @@ const exchange = async (amount, pair, ual) => {
     const { assetToGive, assetToReceive } = getExchangeAssets(amount, pair)
     const authorization = [
       {
-        actor: ual.activeUser.accountName,
+        actor: await getAccountName(ual),
         permission: 'active'
       }
     ]
@@ -236,9 +252,9 @@ const exchange = async (amount, pair, ual) => {
           account: pair.pool2.contract,
           name: 'open',
           data: {
-            owner: ual.activeUser.accountName,
+            owner: await getAccountName(ual),
             symbol: pair.pool2.asset.symbol.toString(),
-            ram_payer: ual.activeUser.accountName
+            ram_payer: await getAccountName(ual)
           }
         }
       ]
@@ -253,12 +269,12 @@ const exchange = async (amount, pair, ual) => {
             account: pair.from.contract,
             name: 'transfer',
             data: {
-              from: ual.activeUser.accountName,
+              from: await getAccountName(ual),
               to: evodexConfig.contract,
               quantity: assetToGive.toString(),
               memo: `exchange: ${
                 pair.token
-              },${assetToReceive.toString()},sent using evodex.io`
+          },${assetToReceive.toString()},sent using evodex.io`
             }
           }
         ]
@@ -273,11 +289,16 @@ const exchange = async (amount, pair, ual) => {
     throw new Error(getScatterError(error))
   }
 }
+
+
 const getUserPools = async (ual) => {
-  const { rows } = await ual.activeUser.rpc.get_table_rows({
+
+  const rpc = getRpc(ual)
+
+  const { rows } = await rpc.get_table_rows({
     json: true,
     code: evodexConfig.contract,
-    scope: ual.activeUser.accountName,
+    scope: await getAccountName(ual),
     table: 'accounts'
   })
 
@@ -316,7 +337,7 @@ const addLiquidity = async (amount, pair, ual) => {
     const { baseAsset, asset1, asset2 } = getAddLiquidityAssets(amount, pair)
     const authorization = [
       {
-        actor: ual.activeUser.accountName,
+        actor: await getAccountName(ual),
         permission: 'active'
       }
     ]
@@ -325,8 +346,8 @@ const addLiquidity = async (amount, pair, ual) => {
       name: 'closeext',
       authorization,
       data: {
-        user: ual.activeUser.accountName,
-        to: ual.activeUser.accountName,
+        user: await getAccountName(ual),
+        to: await getAccountName(ual),
         memo: ''
       }
     }
@@ -338,8 +359,8 @@ const addLiquidity = async (amount, pair, ual) => {
             name: 'openext',
             authorization,
             data: {
-              user: ual.activeUser.accountName,
-              payer: ual.activeUser.accountName,
+              user: await getAccountName(ual),
+              payer: await getAccountName(ual),
               ext_symbol: {
                 contract: pair.pool1.contract,
                 sym: pair.pool1.asset.symbol.toString()
@@ -351,8 +372,8 @@ const addLiquidity = async (amount, pair, ual) => {
             name: 'openext',
             authorization,
             data: {
-              user: ual.activeUser.accountName,
-              payer: ual.activeUser.accountName,
+              user: await getAccountName(ual),
+              payer: await getAccountName(ual),
               ext_symbol: {
                 contract: pair.pool2.contract,
                 sym: pair.pool2.asset.symbol.toString()
@@ -364,7 +385,7 @@ const addLiquidity = async (amount, pair, ual) => {
             name: 'transfer',
             authorization,
             data: {
-              from: ual.activeUser.accountName,
+              from: await getAccountName(ual),
               to: evodexConfig.contract,
               quantity: asset1.toString(),
               memo: ''
@@ -375,7 +396,7 @@ const addLiquidity = async (amount, pair, ual) => {
             name: 'transfer',
             authorization,
             data: {
-              from: ual.activeUser.accountName,
+              from: await getAccountName(ual),
               to: evodexConfig.contract,
               quantity: asset2.toString(),
               memo: ''
@@ -386,7 +407,7 @@ const addLiquidity = async (amount, pair, ual) => {
             name: 'addliquidity',
             authorization,
             data: {
-              user: ual.activeUser.accountName,
+              user: await getAccountName(ual),
               to_buy: baseAsset.toString(),
               max_asset1: asset1.toString(),
               max_asset2: asset2.toString()
@@ -457,7 +478,7 @@ const removeLiquidity = async (amount, pair, ual) => {
     const { baseAsset, asset1, asset2 } = getRemoveLiquidityAssets(amount, pair)
     const authorization = [
       {
-        actor: ual.activeUser.accountName,
+        actor: await getAccountName(ual),
         permission: 'active'
       }
     ]
@@ -469,8 +490,8 @@ const removeLiquidity = async (amount, pair, ual) => {
             name: 'openext',
             authorization,
             data: {
-              user: ual.activeUser.accountName,
-              payer: ual.activeUser.accountName,
+              user: await getAccountName(ual),
+              payer: await getAccountName(ual),
               ext_symbol: {
                 contract: pair.pool1.contract,
                 sym: pair.pool1.asset.symbol.toString()
@@ -482,8 +503,8 @@ const removeLiquidity = async (amount, pair, ual) => {
             name: 'openext',
             authorization,
             data: {
-              user: ual.activeUser.accountName,
-              payer: ual.activeUser.accountName,
+              user: await getAccountName(ual),
+              payer: await getAccountName(ual),
               ext_symbol: {
                 contract: pair.pool2.contract,
                 sym: pair.pool2.asset.symbol.toString()
@@ -495,7 +516,7 @@ const removeLiquidity = async (amount, pair, ual) => {
             name: 'remliquidity',
             authorization,
             data: {
-              user: ual.activeUser.accountName,
+              user: await getAccountName(ual),
               to_sell: baseAsset.toString(),
               min_asset1: asset1.toString(),
               min_asset2: asset2.toString()
@@ -506,8 +527,8 @@ const removeLiquidity = async (amount, pair, ual) => {
             name: 'closeext',
             authorization,
             data: {
-              user: ual.activeUser.accountName,
-              to: ual.activeUser.accountName,
+              user: await getAccountName(ual),
+              to: await getAccountName(ual),
               ext_symbol: {
                 contract: pair.pool1.contract,
                 sym: pair.pool1.asset.symbol.toString()
@@ -520,8 +541,8 @@ const removeLiquidity = async (amount, pair, ual) => {
             name: 'closeext',
             authorization,
             data: {
-              user: ual.activeUser.accountName,
-              to: ual.activeUser.accountName,
+              user: await getAccountName(ual),
+              to: await getAccountName(ual),
               ext_symbol: {
                 contract: pair.pool2.contract,
                 sym: pair.pool2.asset.symbol.toString()
@@ -545,7 +566,7 @@ const voteFee = async (amount, pair, ual) => {
   try {
     const authorization = [
       {
-        actor: ual.activeUser.accountName,
+        actor: await getAccountName(ual),
         permission: 'active'
       }
     ]
@@ -557,7 +578,7 @@ const voteFee = async (amount, pair, ual) => {
             name: 'votefee',
             authorization,
             data: {
-              user: ual.activeUser.accountName,
+              user: await getAccountName(ual),
               pair_token: pair.supply.symbol.code().toString(),
               fee_voted: parseInt(parseFloat(amount) * 100)
             }
