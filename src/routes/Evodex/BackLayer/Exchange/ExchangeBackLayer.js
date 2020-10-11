@@ -165,13 +165,7 @@ const useStyles = makeStyles((theme) => {
   }
 })
 
-const ExchangeBackLayer = ({
-  onReload,
-  ual,
-  isLightMode,
-  showMessage,
-  getTourSteps
-}) => {
+const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
   const { t } = useTranslation('exchange')
   const classes = useStyles()
   const theme = useTheme()
@@ -186,6 +180,7 @@ const ExchangeBackLayer = ({
   const [loading, setLoading] = useState(false)
   const [isTourOpen, setIsTourOpen] = useState(false)
   const [switchValues, setSwitchValues] = useState(false)
+  const [stopCallback, setStopCallback] = useState(false)
   const [userBalance, setUserBalance] = useState({})
 
   const handleOnSetData = (
@@ -195,12 +190,14 @@ const ExchangeBackLayer = ({
     mainField,
     secondField
   ) => {
-    const lastCharacter = value.inputValue.charAt(value.inputValue.length - 1)
+    const lastCharacter =
+      value.inputValue && value.inputValue.charAt(value.inputValue.length - 1)
 
     if (lastCharacter !== '.' && pair && value.inputValue) {
       const assets = getExchangeAssets(value.inputValue, pair)
 
       setAssets(assets)
+      setStopCallback(true)
       setInputsData((prevState) => ({
         [mainField]: { ...prevState[mainField], ...value },
         [secondField]: {
@@ -216,7 +213,15 @@ const ExchangeBackLayer = ({
     }
   }
 
+  console.log('current value:', stopCallback)
+
   const handleOnChange = (key) => (value) => {
+    if (stopCallback && value.inputValue === inputsData[key].inputValue) {
+      setStopCallback(false)
+
+      return
+    }
+
     switch (key) {
       case 'youGive': {
         handleOnSetData(
@@ -575,8 +580,7 @@ ExchangeBackLayer.propTypes = {
   ual: PropTypes.object,
   onReload: PropTypes.func,
   isLightMode: PropTypes.bool,
-  showMessage: PropTypes.func,
-  getTourSteps: PropTypes.func
+  showMessage: PropTypes.func
 }
 
 export default ExchangeBackLayer
