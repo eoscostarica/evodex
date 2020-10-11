@@ -182,66 +182,60 @@ const ExchangeBackLayer = ({
   const [pair, setPair] = useState()
   const [assets, setAssets] = useState()
   const [options, setOptions] = useState({ youGive: [], youReceive: [] })
-  const [youReceive, setYouReceive] = useState({})
-  const [youGive, setYouGive] = useState({})
+  const [inputsData, setInputsData] = useState({ youGive: {}, youReceive: {} })
   const [loading, setLoading] = useState(false)
   const [isTourOpen, setIsTourOpen] = useState(false)
-  const [stopCallBack, setStopCallBack] = useState(false)
   const [switchValues, setSwitchValues] = useState(false)
   const [userBalance, setUserBalance] = useState({})
 
   const handleOnSetData = (
     getExchangeAssets,
-    inputValue,
-    setField,
-    assetTo
+    value,
+    assetTo,
+    mainField,
+    secondField
   ) => {
-    if (pair && inputValue) {
-      const assets = getExchangeAssets(inputValue, pair)
+    const lastCharacter = value.inputValue.charAt(value.inputValue.length - 1)
+
+    if (lastCharacter !== '.' && pair && value.inputValue) {
+      const assets = getExchangeAssets(value.inputValue, pair)
 
       setAssets(assets)
-      setStopCallBack(true)
-      setField((prevState) => ({
+      setInputsData((prevState) => ({
+        [mainField]: { ...prevState[mainField], ...value },
+        [secondField]: {
+          ...prevState[secondField],
+          inputValue: assets[assetTo].toString().split(' ')[0]
+        }
+      }))
+    } else {
+      setInputsData((prevState) => ({
         ...prevState,
-        inputValue: assets[assetTo].toString().split(' ')[0]
+        [mainField]: { ...prevState[mainField], ...value }
       }))
     }
   }
 
   const handleOnChange = (key) => (value) => {
-    if (stopCallBack) {
-      setStopCallBack(false)
-
-      return
-    }
-
     switch (key) {
       case 'youGive': {
-        setYouGive((prevState) => ({
-          ...prevState,
-          ...value
-        }))
-
         handleOnSetData(
           evolutiondex.getExchangeAssets,
-          value.inputValue,
-          setYouReceive,
-          'assetToReceive'
+          value,
+          'assetToReceive',
+          key,
+          'youReceive'
         )
 
         break
       }
       case 'youReceive': {
-        setYouReceive((prevState) => ({
-          ...prevState,
-          ...value
-        }))
-
         handleOnSetData(
           evolutiondex.getExchangeAssetsFromToken2,
-          value.inputValue,
-          setYouGive,
-          'assetToGive'
+          value,
+          'assetToGive',
+          key,
+          'youGive'
         )
 
         break
@@ -252,7 +246,7 @@ const ExchangeBackLayer = ({
   }
 
   const handleIsValueAllowed = ({ floatValue, value }) => {
-    if (value === '-' || floatValue < 0) return false
+    if (value === '-' || floatValue < 0 || value === '.') return false
 
     if (!floatValue) return true
 
@@ -262,10 +256,11 @@ const ExchangeBackLayer = ({
   const handleOnSwitchValues = () => {
     if (!pair) return
 
-    setStopCallBack(true)
     setSwitchValues(true)
-    setYouReceive(youGive)
-    setYouGive(youReceive)
+    setInputsData({
+      youGive: inputsData.youReceive,
+      youReceive: inputsData.youGive
+    })
   }
 
   const handleOnExchange = async () => {
@@ -282,7 +277,7 @@ const ExchangeBackLayer = ({
       return
     }
 
-    if (!youGive.inputValue) {
+    if (!inputsData.youGive.inputValue) {
       showMessage({
         type: 'warning',
         content: t('noAmount')
@@ -294,7 +289,7 @@ const ExchangeBackLayer = ({
 
     try {
       const { transactionId } = await evolutiondex.exchange(
-        youGive.inputValue,
+        inputsData.youGive.inputValue,
         pair,
         ual
       )
@@ -363,17 +358,17 @@ const ExchangeBackLayer = ({
     setOptions((prevState) => ({
       ...prevState,
       youGive: evolutiondex
-        .getTokensFor(youReceive.selectValue, exchangeState)
+        .getTokensFor(inputsData.youReceive.selectValue, exchangeState)
         .map((token) => ({ label: token, value: token })),
       youReceive: evolutiondex
-        .getTokensFor(youGive.selectValue, exchangeState)
+        .getTokensFor(inputsData.youGive.selectValue, exchangeState)
         .map((token) => ({ label: token, value: token }))
     }))
 
     setPair(
       evolutiondex.getPair(
-        youGive.selectValue,
-        youReceive.selectValue,
+        inputsData.youGive.selectValue,
+        inputsData.youReceive.selectValue,
         exchangeState
       )
     )
@@ -381,8 +376,8 @@ const ExchangeBackLayer = ({
   }, [
     exchangeState.pairs,
     exchangeState.tokens,
-    youGive.selectValue,
-    youReceive.selectValue
+    inputsData.youGive.selectValue,
+    inputsData.youReceive.selectValue
   ])
 
   useEffect(() => {
@@ -391,17 +386,22 @@ const ExchangeBackLayer = ({
     getCurrencyBalance(pair)
 
     if (switchValues) {
-      setYouGive(youGive)
-      setYouReceive(youReceive)
+      setInputsData({
+        youGive: inputsData.youGive,
+        youReceive: inputsData.youReceive
+      })
+
       setSwitchValues(false)
     } else {
-      setYouGive({
-        ...youGive,
-        inputValue: ''
-      })
-      setYouReceive({
-        ...youReceive,
-        inputValue: ''
+      setInputsData({
+        youGive: {
+          ...inputsData.youGive,
+          inputValue: ''
+        },
+        youReceive: {
+          ...inputsData.youReceive,
+          inputValue: ''
+        }
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -417,13 +417,15 @@ const ExchangeBackLayer = ({
       .toString()
 
     setPair(exchangeState.currentPair)
-    setYouGive({
-      inputValue: '',
-      selectValue: youGiveValueSelected
-    })
-    setYouReceive({
-      inputValue: '',
-      selectValue: youReceiveValueSelected
+    setInputsData({
+      youGive: {
+        inputValue: '',
+        selectValue: youGiveValueSelected
+      },
+      youReceive: {
+        inputValue: '',
+        selectValue: youReceiveValueSelected
+      }
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [exchangeState.currentPair])
@@ -442,25 +444,25 @@ const ExchangeBackLayer = ({
           label={t('youGive')}
           options={options.youGive}
           onChange={handleOnChange('youGive')}
-          value={youGive}
+          value={inputsData.youGive}
           helperText={
             <>
-              {pair && userBalance[youGive.selectValue] && (
+              {pair && userBalance[inputsData.youGive.selectValue] && (
                 <Typography
                   variant="body1"
                   className={clsx([classes.textInfo, classes.helperText])}
                 >
                   <span>{t('pool')}: </span>
-                  {userBalance[youGive.selectValue].poolAsset}
+                  {userBalance[inputsData.youGive.selectValue].poolAsset}
                   <Link
                     className={classes.poolContractLink}
                     href={`${ualConfig.blockExplorerUrl}/account/${
-                      userBalance[youGive.selectValue].contract
+                      userBalance[inputsData.youGive.selectValue].contract
                     }`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    ({userBalance[youGive.selectValue].contract})
+                    ({userBalance[inputsData.youGive.selectValue].contract})
                   </Link>
                 </Typography>
               )}
@@ -470,8 +472,10 @@ const ExchangeBackLayer = ({
                   className={clsx([classes.textInfo, classes.helperText])}
                 >
                   {pair && <span>{t('yourWallet')}: </span>}
-                  {userBalance[youGive.selectValue] && (
-                    <span>{userBalance[youGive.selectValue].userAsset}</span>
+                  {userBalance[inputsData.youGive.selectValue] && (
+                    <span>
+                      {userBalance[inputsData.youGive.selectValue].userAsset}
+                    </span>
                   )}
                 </Typography>
               )}
@@ -479,9 +483,9 @@ const ExchangeBackLayer = ({
           }
           useHelperTextAsNode
           hasError={
-            userBalance[youGive.selectValue]
-              ? userBalance[youGive.selectValue].amount <
-                parseFloat(youGive.inputValue || 0)
+            userBalance[inputsData.youGive.selectValue]
+              ? userBalance[inputsData.youGive.selectValue].amount <
+                parseFloat(inputsData.youGive.inputValue || 0)
               : false
           }
           decimalScale={18}
@@ -496,25 +500,27 @@ const ExchangeBackLayer = ({
           label={t('youReceive')}
           options={options.youReceive}
           onChange={handleOnChange('youReceive')}
-          value={youReceive}
+          value={inputsData.youReceive}
           helperText={
             <Typography
               variant="body1"
               className={clsx([classes.textInfo, classes.helperText])}
             >
               {pair && <span>{t('pool')}: </span>}
-              {userBalance[youReceive.selectValue] && (
+              {userBalance[inputsData.youReceive.selectValue] && (
                 <>
-                  <span>{userBalance[youReceive.selectValue].poolAsset}</span>
+                  <span>
+                    {userBalance[inputsData.youReceive.selectValue].poolAsset}
+                  </span>
                   <Link
                     className={classes.poolContractLink}
                     href={`${ualConfig.blockExplorerUrl}/account/${
-                      userBalance[youReceive.selectValue].contract
+                      userBalance[inputsData.youReceive.selectValue].contract
                     }`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    ({userBalance[youReceive.selectValue].contract})
+                    ({userBalance[inputsData.youReceive.selectValue].contract})
                   </Link>
                 </>
               )}
