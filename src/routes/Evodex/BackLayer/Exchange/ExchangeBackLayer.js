@@ -195,11 +195,13 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
 
     if (lastCharacter !== '.' && pair && value.inputValue) {
       const assets = getExchangeAssets(value.inputValue, pair)
-
       setAssets(assets)
       setStopCallback(true)
       setInputsData((prevState) => ({
-        [mainField]: { ...prevState[mainField], ...value },
+        [mainField]: {
+          ...prevState[mainField],
+          ...value
+        },
         [secondField]: {
           ...prevState[secondField],
           inputValue: assets[assetTo].toString().split(' ')[0]
@@ -208,12 +210,14 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
     } else {
       setInputsData((prevState) => ({
         ...prevState,
-        [mainField]: { ...prevState[mainField], ...value }
+        [mainField]: { ...prevState[mainField], ...value },
+        [secondField]: {
+          ...prevState[secondField],
+          inputValue: !value.inputValue ? '' : prevState[secondField].inputValue
+        }
       }))
     }
   }
-
-  console.log('current value:', stopCallback)
 
   const handleOnChange = (key) => (value) => {
     if (stopCallback && value.inputValue === inputsData[key].inputValue) {
@@ -534,6 +538,12 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
           useHelperTextAsNode
           decimalScale={18}
           isValueAllowed={handleIsValueAllowed}
+          hasError={
+            pair && inputsData.youReceive.inputValue
+              ? pair.to?.amount <
+                parseFloat(inputsData.youReceive.inputValue || 0)
+              : false
+          }
         />
       </Box>
       <Box className={classes.infoBoxWrapper}>

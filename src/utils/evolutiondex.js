@@ -67,6 +67,10 @@ const getInfo = async (ual) => {
       const balance = userPools.find(
         (item) => item.symbol.code().toString() === tokenPair
       )
+      const assetPool1 = asset(pool1)
+      const [amountPool1] = assetPool1.toString().split(' ')
+      const assetPool2 = asset(pool2)
+      const [amountPool2] = assetPool2.toString().split(' ')
 
       return {
         error,
@@ -76,12 +80,14 @@ const getInfo = async (ual) => {
         token: tokenPair,
         supply: asset(supply),
         pool1: {
-          asset: asset(pool1),
-          contract: pool1Contract
+          asset: assetPool1,
+          contract: pool1Contract,
+          amount: parseFloat(amountPool1)
         },
         pool2: {
-          asset: asset(pool2),
-          contract: pool2Contract
+          asset: assetPool2,
+          contract: pool2Contract,
+          amount: parseFloat(amountPool2)
         }
       }
     })
@@ -194,9 +200,10 @@ const getExchangeAssets = (amount, pair) => {
 const getExchangeAssetsFromToken2 = (amount, pair) => {
   const assetToGive = numberToAsset(0, pair.from.asset.symbol)
   const assetToReceive = amountToAsset(amount, pair.to.asset)
-  const amountToReceive = assetToReceive.amount.plus(
-    assetToReceive.amount.multiply(pair.fee).plus(9999).divide(10000)
-  )
+  const amountToReceive = assetToReceive.amount
+    .multiply(10000)
+    .plus(9999 - pair.fee)
+    .divide(10000 - pair.fee)
   const computeForwardAmount = computeForward(
     amountToReceive,
     pair.from.asset.amount,
@@ -274,7 +281,7 @@ const exchange = async (amount, pair, ual) => {
               quantity: assetToGive.toString(),
               memo: `exchange: ${
                 pair.token
-          },${assetToReceive.toString()},sent using evodex.io`
+              },${assetToReceive.toString()},sent using evodex.io`
             }
           }
         ]
@@ -290,9 +297,7 @@ const exchange = async (amount, pair, ual) => {
   }
 }
 
-
 const getUserPools = async (ual) => {
-
   const rpc = getRpc(ual)
 
   const { rows } = await rpc.get_table_rows({
