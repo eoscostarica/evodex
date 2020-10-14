@@ -140,7 +140,7 @@ const InputTextAndSelect = ({
   const classes = useStyles()
   const { t } = useTranslation('translations')
   const inputEl = useRef(null)
-  const [valuePrefix, setValuePrefix] = useState('')
+  const [internalValue, setInternalValue] = useState('')
 
   const handleOnKeyPress = (key) => {
     if (key === 'Enter' && inputEl?.current) {
@@ -168,7 +168,7 @@ const InputTextAndSelect = ({
         element.setSelectionRange(inputValue.length, inputValue.length)
       }, 0)
 
-    setValuePrefix(`${inputValue || ''}${inputValue ? suffix : ''}`)
+    setInternalValue(`${inputValue || ''}${inputValue ? suffix : ''}`)
     onChange({ ...inputValRef, inputValue })
   }
 
@@ -177,7 +177,7 @@ const InputTextAndSelect = ({
   }
 
   useEffect(() => {
-    setValuePrefix(
+    setInternalValue(
       `${inputValRef.inputValue || ''}${inputValRef.inputValue ? suffix : ''}`
     )
   }, [inputValRef.inputValue, suffix])
@@ -198,7 +198,7 @@ const InputTextAndSelect = ({
           <TextField
             ref={inputEl}
             onKeyPress={(e) => handleOnKeyPress(e.key)}
-            value={valuePrefix}
+            value={internalValue}
             classes={{
               root: classes.inputText
             }}
