@@ -119,7 +119,9 @@
     "price": "Precio",
     "yourWallet": "Su Billetera",
     "pool": "Pool",
-    "help": "Ayuda"
+    "help": "Ayuda",
+    "valueOverWalletBalance": "El valor supera el balance de su billetera",
+    "valueOverPoolBalance": "El valor supera el balance del pool"
   },
   "about": {
     "title": "Acerca de evodex"

@@ -118,7 +118,9 @@
     "price": "Price",
     "yourWallet": "Your Wallet",
     "pool": "Pool",
-    "help": "Help"
+    "help": "Help",
+    "valueOverWalletBalance": "Value is over your wallet balance",
+    "valueOverPoolBalance": "Value is over pool balance"
   },
   "about": {
     "title": "About evodex"

@@ -116,7 +116,9 @@
     "price": "Цена",
     "yourWallet": "Ваш кошелек",
     "pool": "Пул",
-    "help": "Помощь"
+    "help": "Помощь",
+    "valueOverWalletBalance": "Ценность над балансом вашего кошелька",
+    "valueOverPoolBalance": "Ценность над балансом пула"
   },
   "about": {
     "title": "О evodex"

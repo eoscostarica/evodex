@@ -153,6 +153,7 @@ const FeeBackLayer = ({
   const [showHelperText, setShowHelperText] = useState('')
   const [yourVote, setYourVote] = useState({})
   const [loading, setLoading] = useState(false)
+  const validInput = RegExp('^([0-9]+([.][0-9]*)?|[.][0-9]+)$')
 
   const handleOnChange = (value) => {
     setYourVote((prevState) => ({
@@ -251,9 +252,18 @@ const FeeBackLayer = ({
             placeholder={t('placeholder')}
             helperText={showHelperText}
             suffix="%"
-            isValueAllowed={({ floatValue, value }) => {
-              if (value === '-' || floatValue < 0 || value === '00')
+            isValueAllowed={(value) => {
+              if (!value) {
+                return true
+              }
+
+              if (!validInput.test(value)) {
                 return false
+              }
+
+              const floatValue = parseFloat(value)
+
+              if (floatValue < 0 || value === '00') return false
 
               if (floatValue > 3) {
                 setShowHelperText(t('maxValueAllowed'))

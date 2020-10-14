@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import { useTranslation } from 'react-i18next'
@@ -10,7 +10,6 @@ import ImportExportIcon from '@material-ui/icons/ImportExport'
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz'
 import IconButton from '@material-ui/core/IconButton'
 import LinearProgress from '@material-ui/core/LinearProgress'
-import Link from '@material-ui/core/Link'
 
 import { ualConfig } from 'config'
 import TourGuide from 'components/TourGuide'
@@ -20,6 +19,8 @@ import MessageLink from 'components/MessageLink'
 import Button from 'components/Button'
 import { useExchange } from 'context/exchange.context'
 import { evolutiondex, commonStyles } from 'utils'
+
+import HelpeText from './HelpeText'
 
 const EXCHANGE_MAX_VALUE = Math.pow(2, 62)
 
@@ -90,8 +91,10 @@ const useStyles = makeStyles((theme) => {
     },
     inputBox: {
       ...inputBox,
+      alignItems: 'center',
       [theme.breakpoints.up('sm')]: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        alignItems: 'start'
       },
       [theme.breakpoints.up('lg')]: {
         marginTop: theme.spacing(0),
@@ -158,6 +161,9 @@ const useStyles = makeStyles((theme) => {
       textDecoration: 'none',
       marginLeft: theme.spacing(1)
     },
+    error: {
+      color: theme.palette.error.main
+    },
     helpText,
     message,
     loading,
@@ -179,73 +185,163 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
   const [inputsData, setInputsData] = useState({ youGive: {}, youReceive: {} })
   const [loading, setLoading] = useState(false)
   const [isTourOpen, setIsTourOpen] = useState(false)
-  const [switchValues, setSwitchValues] = useState(false)
-  const [stopCallback, setStopCallback] = useState(false)
-  const [userBalance, setUserBalance] = useState({})
+  const [balance, setBalance] = useState({})
+  const [inputError, setInputError] = useState({})
+  const validInput = RegExp('^([0-9]+([.][0-9]*)?|[.][0-9]+)$')
 
-  const handleOnSetData = (
+  const isValueAllowed = (key) => (value) => {
+    if (!value) {
+      return true
+    }
+
+    if (!validInput.test(value)) {
+      return false
+    }
+
+    const [, floatSection = ''] = value.split('.')
+
+    if (pair && floatSection.length > pair[key].asset.symbol.precision()) {
+      return false
+    }
+
+    const floatValue = parseFloat(value)
+
+    return floatValue < EXCHANGE_MAX_VALUE
+  }
+
+  const calculateNewInputValues = (
     getExchangeAssets,
     value,
     assetTo,
     mainField,
-    secondField
+    secondField,
+    validate
   ) => {
-    const lastCharacter =
-      value.inputValue && value.inputValue.charAt(value.inputValue.length - 1)
-
-    if (lastCharacter !== '.' && pair && value.inputValue) {
-      const assets = getExchangeAssets(value.inputValue, pair)
-      setAssets(assets)
-      setStopCallback(true)
-      setInputsData((prevState) => ({
-        [mainField]: {
-          ...prevState[mainField],
-          ...value
-        },
-        [secondField]: {
-          ...prevState[secondField],
-          inputValue: assets[assetTo].toString().split(' ')[0]
-        }
-      }))
-    } else {
+    if (!pair) {
       setInputsData((prevState) => ({
         ...prevState,
-        [mainField]: { ...prevState[mainField], ...value },
-        [secondField]: {
-          ...prevState[secondField],
-          inputValue: !value.inputValue ? '' : prevState[secondField].inputValue
-        }
+        [mainField]: value
       }))
-    }
-  }
-
-  const handleOnChange = (key) => (value) => {
-    if (stopCallback && value.inputValue === inputsData[key].inputValue) {
-      setStopCallback(false)
 
       return
     }
 
+    if (!value.inputValue) {
+      setInputsData((prevState) => ({
+        ...prevState,
+        [mainField]: value,
+        [secondField]: {
+          ...prevState[secondField],
+          inputValue: ''
+        }
+      }))
+
+      return
+    }
+
+    const assets = getExchangeAssets(value.inputValue, pair)
+    setAssets(assets)
+    setInputsData((prevState) => {
+      const data = {
+        ...prevState[secondField],
+        inputValue: assets[assetTo].toString().split(' ')[0]
+      }
+      validate(data)
+
+      return {
+        [mainField]: {
+          ...prevState[mainField],
+          ...value
+        },
+        [secondField]: data
+      }
+    })
+  }
+
+  const validateYouGive = (value) => {
+    const tokenBalance = balance[value.selectValue]
+    let errorMessage = ''
+
+    if (
+      tokenBalance &&
+      typeof tokenBalance.userAmount !== 'undefined' &&
+      tokenBalance.userAmount < parseFloat(value.inputValue || 0)
+    ) {
+      errorMessage = 'valueOverWalletBalance'
+    }
+
+    setInputError((prev) => ({ ...prev, youGive: errorMessage }))
+  }
+
+  const validateYouReceive = (value) => {
+    if (!pair || !balance || !value.inputValue) {
+      setInputError((prev) => ({
+        ...prev,
+        youReceive: ''
+      }))
+
+      return true
+    }
+
+    const tokenBalance = balance[value.selectValue]
+    const tokenPrecision = Math.pow(10, pair.to.asset.symbol.precision())
+    const fee = tokenBalance?.poolAmount * (pair.fee / 10000)
+    const maxValue =
+      Math.floor((tokenBalance?.poolAmount - fee) * tokenPrecision) /
+      tokenPrecision
+
+    if (isNaN(maxValue) || parseFloat(value.inputValue) < maxValue) {
+      setInputError((prev) => ({
+        ...prev,
+        youReceive: ''
+      }))
+
+      return true
+    }
+
+    setInputsData((prevState) => ({
+      youReceive: {
+        ...prevState.youReceive,
+        ...value
+      },
+      youGive: {
+        ...prevState.youGive,
+        inputValue: ''
+      }
+    }))
+    setInputError({
+      youGive: '',
+      youReceive: 'valueOverPoolBalance'
+    })
+
+    return false
+  }
+
+  const handleOnChange = (key) => (value) => {
     switch (key) {
       case 'youGive': {
-        handleOnSetData(
+        validateYouGive(value)
+        calculateNewInputValues(
           evolutiondex.getExchangeAssets,
           value,
           'assetToReceive',
           key,
-          'youReceive'
+          'youReceive',
+          validateYouReceive
         )
 
         break
       }
       case 'youReceive': {
-        handleOnSetData(
-          evolutiondex.getExchangeAssetsFromToken2,
-          value,
-          'assetToGive',
-          key,
-          'youGive'
-        )
+        validateYouReceive(value) &&
+          calculateNewInputValues(
+            evolutiondex.getExchangeAssetsFromToken2,
+            value,
+            'assetToGive',
+            key,
+            'youGive',
+            validateYouGive
+          )
 
         break
       }
@@ -254,21 +350,16 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
     }
   }
 
-  const handleIsValueAllowed = ({ floatValue, value }) => {
-    if (value === '-' || floatValue < 0 || value === '.') return false
-
-    if (!floatValue) return true
-
-    return floatValue < EXCHANGE_MAX_VALUE
-  }
-
   const handleOnSwitchValues = () => {
-    if (!pair) return
-
-    setSwitchValues(true)
     setInputsData({
-      youGive: inputsData.youReceive,
-      youReceive: inputsData.youGive
+      youGive: {
+        ...inputsData.youGive,
+        selectValue: inputsData.youReceive.selectValue
+      },
+      youReceive: {
+        ...inputsData.youReceive,
+        selectValue: inputsData.youGive.selectValue
+      }
     })
   }
 
@@ -324,44 +415,28 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
     setLoading(false)
   }
 
-  const getCurrencyBalance = async (pairToken) => {
-    let userbalance = {
-      [pairToken.pool1.asset.symbol.code().toString()]: {
-        poolAsset: pairToken.pool1.asset.toString(),
-        token: pairToken.pool1.asset.symbol.code().toString(),
-        contract: pairToken.pool1.contract
+  useEffect(() => {
+    if (!exchangeState.currentPair) return
+
+    const youGiveValueSelected = exchangeState.currentPair.pool1.asset.symbol
+      .code()
+      .toString()
+    const youReceiveValueSelected = exchangeState.currentPair.pool2.asset.symbol
+      .code()
+      .toString()
+
+    setInputsData({
+      youGive: {
+        ...inputsData.youGive,
+        selectValue: youGiveValueSelected
       },
-      [pairToken.pool2.asset.symbol.code().toString()]: {
-        poolAsset: pairToken.pool2.asset.toString(),
-        token: pairToken.pool2.asset.symbol.code().toString(),
-        contract: pairToken.pool2.contract
+      youReceive: {
+        ...inputsData.youReceive,
+        selectValue: youReceiveValueSelected
       }
-    }
-
-    if (ual.activeUser) {
-      const pool1 =
-        (await evolutiondex.getUserTokenBalance(ual, pairToken.pool1)) ||
-        `0 ${pairToken.pool1.asset.symbol.code().toString()}`
-      const pool2 =
-        (await evolutiondex.getUserTokenBalance(ual, pairToken.pool2)) ||
-        `0 ${pairToken.pool2.asset.symbol.code().toString()}`
-
-      userbalance = {
-        [pairToken.pool1.asset.symbol.code().toString()]: {
-          ...userbalance[pairToken.pool1.asset.symbol.code().toString()],
-          amount: parseFloat(pool1.split(' ')[0] || 0),
-          userAsset: pool1
-        },
-        [pairToken.pool2.asset.symbol.code().toString()]: {
-          ...userbalance[pairToken.pool2.asset.symbol.code().toString()],
-          amount: parseFloat(pool2.split(' ')[0] || 0),
-          userAsset: pool2
-        }
-      }
-    }
-
-    setUserBalance(userbalance)
-  }
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [exchangeState.currentPair])
 
   useEffect(() => {
     setOptions((prevState) => ({
@@ -392,52 +467,65 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
   useEffect(() => {
     if (!pair) return
 
-    getCurrencyBalance(pair)
-
-    if (switchValues) {
-      setInputsData({
-        youGive: inputsData.youGive,
-        youReceive: inputsData.youReceive
-      })
-
-      setSwitchValues(false)
-    } else {
-      setInputsData({
-        youGive: {
-          ...inputsData.youGive,
-          inputValue: ''
+    const getBalance = async () => {
+      const poolAsset1 = pair.pool1.asset.toString()
+      const poolAsset2 = pair.pool2.asset.toString()
+      let balance = {
+        [pair.pool1.asset.symbol.code().toString()]: {
+          contract: pair.pool1.contract,
+          token: pair.pool1.asset.symbol.code().toString(),
+          poolAsset: poolAsset1,
+          poolAmount: parseFloat(poolAsset1.split(' ')[0] || 0)
         },
-        youReceive: {
-          ...inputsData.youReceive,
-          inputValue: ''
+        [pair.pool2.asset.symbol.code().toString()]: {
+          contract: pair.pool2.contract,
+          token: pair.pool2.asset.symbol.code().toString(),
+          poolAsset: poolAsset2,
+          poolAmount: parseFloat(poolAsset2.split(' ')[0] || 0)
         }
-      })
+      }
+
+      if (!ual.activeUser) {
+        setBalance(balance)
+
+        return
+      }
+
+      const pool1 =
+        (await evolutiondex.getUserTokenBalance(ual, pair.pool1)) ||
+        `0 ${pair.pool1.asset.symbol.code().toString()}`
+      const pool2 =
+        (await evolutiondex.getUserTokenBalance(ual, pair.pool2)) ||
+        `0 ${pair.pool2.asset.symbol.code().toString()}`
+      balance = {
+        [pair.pool1.asset.symbol.code().toString()]: {
+          ...balance[pair.pool1.asset.symbol.code().toString()],
+          userAsset: pool1,
+          userAmount: parseFloat(pool1.split(' ')[0] || 0)
+        },
+        [pair.pool2.asset.symbol.code().toString()]: {
+          ...balance[pair.pool2.asset.symbol.code().toString()],
+          userAsset: pool2,
+          userAmount: parseFloat(pool2.split(' ')[0] || 0)
+        }
+      }
+      setBalance(balance)
     }
+
+    getBalance()
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pair])
 
   useEffect(() => {
-    if (!exchangeState.currentPair) return
-    const youGiveValueSelected = exchangeState.currentPair.pool1.asset.symbol
-      .code()
-      .toString()
-    const youReceiveValueSelected = exchangeState.currentPair.pool2.asset.symbol
-      .code()
-      .toString()
+    if (inputsData.youGive.inputValue) {
+      handleOnChange('youGive')(inputsData.youGive)
+    } else if (inputsData.youReceive.inputValue) {
+      handleOnChange('youReceive')(inputsData.youReceive)
+    }
 
-    setPair(exchangeState.currentPair)
-    setInputsData({
-      youGive: {
-        inputValue: '',
-        selectValue: youGiveValueSelected
-      },
-      youReceive: {
-        inputValue: '',
-        selectValue: youReceiveValueSelected
-      }
-    })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [exchangeState.currentPair])
+  }, [balance])
 
   return (
     <Box className={classes.exchangeRoot}>
@@ -452,53 +540,20 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
           containerId="youGive"
           label={t('youGive')}
           options={options.youGive}
-          onChange={handleOnChange('youGive')}
           value={inputsData.youGive}
-          helperText={
-            <>
-              {pair && userBalance[inputsData.youGive.selectValue] && (
-                <Typography
-                  variant="body1"
-                  className={clsx([classes.textInfo, classes.helperText])}
-                >
-                  <span>{t('pool')}: </span>
-                  {userBalance[inputsData.youGive.selectValue].poolAsset}
-                  <Link
-                    className={classes.poolContractLink}
-                    href={`${ualConfig.blockExplorerUrl}/account/${
-                      userBalance[inputsData.youGive.selectValue].contract
-                    }`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    ({userBalance[inputsData.youGive.selectValue].contract})
-                  </Link>
-                </Typography>
-              )}
-              {ual.activeUser && (
-                <Typography
-                  variant="body1"
-                  className={clsx([classes.textInfo, classes.helperText])}
-                >
-                  {pair && <span>{t('yourWallet')}: </span>}
-                  {userBalance[inputsData.youGive.selectValue] && (
-                    <span>
-                      {userBalance[inputsData.youGive.selectValue].userAsset}
-                    </span>
-                  )}
-                </Typography>
-              )}
-            </>
-          }
           useHelperTextAsNode
-          hasError={
-            userBalance[inputsData.youGive.selectValue]
-              ? userBalance[inputsData.youGive.selectValue].amount <
-                parseFloat(inputsData.youGive.inputValue || 0)
-              : false
+          hasError={!!inputError.youGive}
+          isValueAllowed={isValueAllowed('from')}
+          onChange={handleOnChange('youGive')}
+          helperText={
+            <HelpeText
+              activeUser={!!ual.activeUser}
+              balance={balance}
+              inputsData={inputsData}
+              inputsError={inputError}
+              name="youGive"
+            />
           }
-          decimalScale={18}
-          isValueAllowed={handleIsValueAllowed}
         />
         <IconButton aria-label="switch" onClick={handleOnSwitchValues}>
           {isDesktop ? <SwapHorizIcon /> : <ImportExportIcon />}
@@ -508,41 +563,19 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
           containerId="youReceive"
           label={t('youReceive')}
           options={options.youReceive}
-          onChange={handleOnChange('youReceive')}
           value={inputsData.youReceive}
-          helperText={
-            <Typography
-              variant="body1"
-              className={clsx([classes.textInfo, classes.helperText])}
-            >
-              {pair && <span>{t('pool')}: </span>}
-              {userBalance[inputsData.youReceive.selectValue] && (
-                <>
-                  <span>
-                    {userBalance[inputsData.youReceive.selectValue].poolAsset}
-                  </span>
-                  <Link
-                    className={classes.poolContractLink}
-                    href={`${ualConfig.blockExplorerUrl}/account/${
-                      userBalance[inputsData.youReceive.selectValue].contract
-                    }`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    ({userBalance[inputsData.youReceive.selectValue].contract})
-                  </Link>
-                </>
-              )}
-            </Typography>
-          }
           useHelperTextAsNode
-          decimalScale={18}
-          isValueAllowed={handleIsValueAllowed}
-          hasError={
-            pair && inputsData.youReceive.inputValue
-              ? pair.to?.amount <
-                parseFloat(inputsData.youReceive.inputValue || 0)
-              : false
+          hasError={!!inputError.youReceive}
+          isValueAllowed={isValueAllowed('to')}
+          onChange={handleOnChange('youReceive')}
+          helperText={
+            <HelpeText
+              activeUser={!!ual.activeUser}
+              balance={balance}
+              inputsData={inputsData}
+              inputsError={inputError}
+              name="youReceive"
+            />
           }
         />
       </Box>
@@ -593,4 +626,4 @@ ExchangeBackLayer.propTypes = {
   showMessage: PropTypes.func
 }
 
-export default ExchangeBackLayer
+export default memo(ExchangeBackLayer)

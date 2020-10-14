@@ -118,7 +118,9 @@
     "price": "价格",
     "yourWallet": "你的钱包",
     "pool": "池",
-    "help": "帮帮我"
+    "help": "帮帮我",
+    "valueOverWalletBalance": "钱包余额中的价值",
+    "valueOverPoolBalance": "价值超过总资产余额"
   },
   "about": {
     "title": "关于 evodex"

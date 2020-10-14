@@ -76,7 +76,7 @@ const getInfo = async (ual) => {
         error,
         price,
         fee: isNaN(fee) ? 0 : fee,
-        balance,
+        balance: !balance || balance.amount.isZero() ? undefined : balance,
         token: tokenPair,
         supply: asset(supply),
         pool1: {
