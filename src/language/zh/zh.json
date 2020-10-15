@@ -76,7 +76,8 @@
     "noAmountAdd": "请填写一个数量 添加",
     "noAmountRemove": "请填写一个数量 移除",
     "successTransaction": "交易成功",
-    "help": "帮帮我"
+    "help": "帮帮我",
+    "errorNumberIsTooBig": "这个数字太大"
   },
   "fee": {
     "title": "费率投票",

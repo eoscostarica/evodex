@@ -77,7 +77,8 @@
     "noAmountAdd": "Por favor ingrese el monto a enviar",
     "noAmountRemove": "Por favor ingrese el monto a retirar",
     "successTransaction": "Transacción realizada",
-    "help": "Ayuda"
+    "help": "Ayuda",
+    "errorNumberIsTooBig": "El numero ingresado es muy grande"
   },
   "fee": {
     "title": "Votar Valor de la Comisión",
@@ -121,7 +122,8 @@
     "pool": "Pool",
     "help": "Ayuda",
     "valueOverWalletBalance": "El valor supera el balance de su billetera",
-    "valueOverPoolBalance": "El valor supera el balance del pool"
+    "valueOverPoolBalance": "El valor supera el balance del pool",
+    "errorNumberIsTooBig": "El numero ingresado es muy grande"
   },
   "about": {
     "title": "Acerca de evodex"

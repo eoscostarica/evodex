@@ -155,6 +155,23 @@ const useStyles = makeStyles((theme) => {
     noPadding: {
       padding: 0
     },
+    error: {
+      fontWeight: 500,
+      letterSpacing: '0.5px',
+      marginLeft: theme.spacing(1),
+      lineHeight: 1.73,
+      fontSize: 12,
+      minHeight: 20,
+      color: theme.palette.error.main
+    },
+    textInfo: {
+      fontSize: 12,
+      fontWeight: 500,
+      letterSpacing: '0.5px',
+      marginLeft: theme.spacing(1),
+      lineHeight: 1.73,
+      color: '#fff'
+    },
     helpText,
     message,
     rocketSvg
@@ -177,6 +194,8 @@ const LiquidityBackLayer = ({
   const [isTourOpen, setIsTourOpen] = useState(false)
   const [youGive, setYouGive] = useState({})
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const validInput = RegExp('^([0-9]+([.][0-9]*)?|[.][0-9]+)$')
 
   const handleOnChange = (value) => {
     showMessage(null)
@@ -306,8 +325,16 @@ const LiquidityBackLayer = ({
       return
     }
 
-    setToBuy(evolutiondex.getAddLiquidityAssets(youGive.inputValue, pair))
-    setToSell(evolutiondex.getRemoveLiquidityAssets(youGive.inputValue, pair))
+    try {
+      setToBuy(evolutiondex.getAddLiquidityAssets(youGive.inputValue, pair))
+      setToSell(evolutiondex.getRemoveLiquidityAssets(youGive.inputValue, pair))
+    } catch (error) {
+      // TODO: improve error handler
+      console.log(error.message)
+      setToBuy(null)
+      setToSell(null)
+      setError('errorNumberIsTooBig')
+    }
   }, [pair, youGive.inputValue])
 
   useEffect(() => {
@@ -338,19 +365,35 @@ const LiquidityBackLayer = ({
             id="liquidityYouGive"
             containerId="youGive"
             label={t('inputLabel')}
+            useHelperTextAsNode
             helperText={
-              pair
-                ? `${t('available')}: ${
-                    pair.balance ? pair.balance.toString() : 0
-                  }`
-                : ''
+              <>
+                {pair && (
+                  <Typography variant="body1" className={classes.textInfo}>
+                    {`${t('available')} ${
+                      pair.balance ? pair.balance.toString() : 0
+                    }`}
+                  </Typography>
+                )}
+                {error && (
+                  <Typography variant="body1" className={classes.error}>
+                    <span>{t(error)}</span>
+                  </Typography>
+                )}
+              </>
             }
             onChange={handleOnChange}
             value={youGive}
-            isValueAllowed={({ floatValue, value }) => {
-              if (value === '-' || floatValue < 0) return false
+            isValueAllowed={(value) => {
+              if (!value) {
+                return true
+              }
 
-              if (!floatValue) return true
+              if (!validInput.test(value)) {
+                return false
+              }
+
+              const floatValue = parseFloat(value)
 
               return floatValue < LIQUIDITY_MAX_VALUE
             }}

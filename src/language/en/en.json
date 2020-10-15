@@ -76,7 +76,8 @@
     "noAmountAdd": "Please enter the amount to add",
     "noAmountRemove": "Please enter the amount to remove",
     "successTransaction": "Transaction successful",
-    "help": "Help"
+    "help": "Help",
+    "errorNumberIsTooBig": "The number is too big"
   },
   "fee": {
     "title": "Vote Your Fee",
@@ -120,7 +121,8 @@
     "pool": "Pool",
     "help": "Help",
     "valueOverWalletBalance": "Value is over your wallet balance",
-    "valueOverPoolBalance": "Value is over pool balance"
+    "valueOverPoolBalance": "Value is over pool balance",
+    "errorNumberIsTooBig": "The number is too big"
   },
   "about": {
     "title": "About evodex"
