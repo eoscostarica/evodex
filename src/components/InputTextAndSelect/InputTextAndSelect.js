@@ -1,19 +1,18 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@material-ui/styles'
-import NumberFormat from 'react-number-format'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
-import InputBase from '@material-ui/core/InputBase'
 import FormControl from '@material-ui/core/FormControl'
+import TextField from '@material-ui/core/TextField'
 
 const useStyles = makeStyles((theme) => ({
   inputWrapper: {
-    width: '50%',
+    flex: 1,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-start'
@@ -28,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
   formControl: {
     height: '100%',
-    width: '50%',
+    width: 'auto',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
@@ -69,6 +68,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     display: 'flex',
     width: '100%',
+    justifyContent: 'space-between',
     height: 56,
     lineHeight: 3,
     overflow: 'hidden',
@@ -90,6 +90,7 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: '0.15px',
     color: '#ffffff',
     '& input': {
+      color: '#ffffff',
       '&::placeholder': {
         color: '#ffffff',
         opacity: '1 !important'
@@ -129,30 +130,57 @@ const InputTextAndSelect = ({
   options,
   selected,
   value: inputValRef,
-  inputDisabled,
   useHelperTextAsNode,
-  placeholder,
   hasError,
   containerId,
   isValueAllowed,
-  decimalScale,
+  placeholder,
   suffix
 }) => {
   const classes = useStyles()
   const { t } = useTranslation('translations')
-  const textInput = useRef(null)
+  const inputEl = useRef(null)
+  const [internalValue, setInternalValue] = useState('')
 
-  const handleOnChange = (value) => {
-    onChange({ ...inputValRef, inputValue: value })
+  const handleOnKeyPress = (key) => {
+    if (key === 'Enter' && inputEl?.current) {
+      inputEl.current.querySelector('input').blur()
+    }
+  }
+
+  const handleOnChange = (event) => {
+    const inputValue = event.target.value.replace(suffix, '')
+    const element = inputEl.current.querySelector('input')
+
+    if (!isValueAllowed(inputValue)) {
+      suffix &&
+        setTimeout(() => {
+          element.setSelectionRange(
+            inputValue.length - 1,
+            inputValue.length - 1
+          )
+        }, 0)
+      return
+    }
+
+    suffix &&
+      setTimeout(() => {
+        element.setSelectionRange(inputValue.length, inputValue.length)
+      }, 0)
+
+    setInternalValue(`${inputValue || ''}${inputValue ? suffix : ''}`)
+    onChange({ ...inputValRef, inputValue })
   }
 
   const handleOnChangeSelect = (value) => {
     onChange({ ...inputValRef, selectValue: value })
   }
 
-  const handleOnKeyPress = (key) => {
-    if (key === 'Enter') textInput.current.blur()
-  }
+  useEffect(() => {
+    setInternalValue(
+      `${inputValRef.inputValue || ''}${inputValRef.inputValue ? suffix : ''}`
+    )
+  }, [inputValRef.inputValue, suffix])
 
   return (
     <Box className={classes.boxInputContainer} id={containerId}>
@@ -167,18 +195,15 @@ const InputTextAndSelect = ({
           <Typography className={classes.labelText} variant="body1">
             {label}
           </Typography>
-          <NumberFormat
-            customInput={InputBase}
-            decimalScale={decimalScale}
-            className={classes.inputText}
-            ref={textInput}
-            onValueChange={(inputVal) => handleOnChange(inputVal.value)}
-            value={inputValRef.inputValue || ''}
-            isAllowed={isValueAllowed}
-            placeholder={placeholder || t('placeholder')}
-            readOnly={inputDisabled}
+          <TextField
+            ref={inputEl}
             onKeyPress={(e) => handleOnKeyPress(e.key)}
-            suffix={suffix}
+            value={internalValue}
+            classes={{
+              root: classes.inputText
+            }}
+            placeholder={placeholder || t('placeholder')}
+            onChange={handleOnChange}
           />
         </Box>
         <FormControl className={classes.formControl} disabled={!options.length}>
@@ -227,13 +252,11 @@ InputTextAndSelect.propTypes = {
   onChange: PropTypes.func,
   options: PropTypes.array,
   value: PropTypes.any,
-  inputDisabled: PropTypes.bool,
   useHelperTextAsNode: PropTypes.bool,
   placeholder: PropTypes.string,
   hasError: PropTypes.bool,
   containerId: PropTypes.string,
   isValueAllowed: PropTypes.func,
-  decimalScale: PropTypes.number,
   suffix: PropTypes.string
 }
 
@@ -245,8 +268,7 @@ InputTextAndSelect.defaultProps = {
   options: [],
   useHelperTextAsNode: false,
   placeholder: null,
-  decimalScale: 2,
-  isValueAllowed: () => {},
+  isValueAllowed: () => true,
   suffix: ''
 }
 
