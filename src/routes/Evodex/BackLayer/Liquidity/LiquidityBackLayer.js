@@ -318,6 +318,8 @@ const LiquidityBackLayer = ({
   }, [pairs, youGive.selectValue])
 
   useEffect(() => {
+    setError('')
+
     if (!pair || !youGive.inputValue) {
       setToBuy(null)
       setToSell(null)
@@ -325,7 +327,6 @@ const LiquidityBackLayer = ({
       return
     }
 
-    setError('')
     try {
       setToBuy(evolutiondex.getAddLiquidityAssets(youGive.inputValue, pair))
       setToSell(evolutiondex.getRemoveLiquidityAssets(youGive.inputValue, pair))
