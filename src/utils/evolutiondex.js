@@ -29,7 +29,7 @@ const amountToAsset = (amount = '0', currentAsset) => {
   }
 
   const chunks = amount.split('.')
-  const integer = chunks[0].substring(0, 10)
+  const integer = chunks[0]
   const decimal = chunks[1] || '0'
   const validAmount = parseFloat(`${integer}.${decimal}`).toFixed(
     currentAsset.symbol.precision()

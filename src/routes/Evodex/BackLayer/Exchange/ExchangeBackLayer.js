@@ -239,23 +239,37 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
       return
     }
 
-    const assets = getExchangeAssets(value.inputValue, pair)
-    setAssets(assets)
-    setInputsData((prevState) => {
-      const data = {
-        ...prevState[secondField],
-        inputValue: assets[assetTo].toString().split(' ')[0]
-      }
-      validate(data)
+    try {
+      const assets = getExchangeAssets(value.inputValue, pair)
+      setAssets(assets)
+      setInputsData((prevState) => {
+        const data = {
+          ...prevState[secondField],
+          inputValue: assets[assetTo].toString().split(' ')[0]
+        }
+        validate(data)
 
-      return {
-        [mainField]: {
-          ...prevState[mainField],
-          ...value
-        },
-        [secondField]: data
-      }
-    })
+        return {
+          [mainField]: {
+            ...prevState[mainField],
+            ...value
+          },
+          [secondField]: data
+        }
+      })
+    } catch (error) {
+      // TODO: improve error handler
+      console.log(error.message)
+      setInputsData((prevState) => ({
+        ...prevState,
+        [mainField]: value,
+        [secondField]: {
+          ...prevState[secondField],
+          inputValue: ''
+        }
+      }))
+      setInputError((prev) => ({ ...prev, [mainField]: 'errorNumberIsTooBig' }))
+    }
   }
 
   const validateYouGive = (value) => {
@@ -491,23 +505,27 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
         return
       }
 
-      const pool1 =
-        (await evolutiondex.getUserTokenBalance(ual, pair.pool1)) ||
-        `0 ${pair.pool1.asset.symbol.code().toString()}`
-      const pool2 =
-        (await evolutiondex.getUserTokenBalance(ual, pair.pool2)) ||
-        `0 ${pair.pool2.asset.symbol.code().toString()}`
-      balance = {
-        [pair.pool1.asset.symbol.code().toString()]: {
-          ...balance[pair.pool1.asset.symbol.code().toString()],
-          userAsset: pool1,
-          userAmount: parseFloat(pool1.split(' ')[0] || 0)
-        },
-        [pair.pool2.asset.symbol.code().toString()]: {
-          ...balance[pair.pool2.asset.symbol.code().toString()],
-          userAsset: pool2,
-          userAmount: parseFloat(pool2.split(' ')[0] || 0)
+      try {
+        const pool1 =
+          (await evolutiondex.getUserTokenBalance(ual, pair.pool1)) ||
+          `0 ${pair.pool1.asset.symbol.code().toString()}`
+        const pool2 =
+          (await evolutiondex.getUserTokenBalance(ual, pair.pool2)) ||
+          `0 ${pair.pool2.asset.symbol.code().toString()}`
+        balance = {
+          [pair.pool1.asset.symbol.code().toString()]: {
+            ...balance[pair.pool1.asset.symbol.code().toString()],
+            userAsset: pool1,
+            userAmount: parseFloat(pool1.split(' ')[0] || 0)
+          },
+          [pair.pool2.asset.symbol.code().toString()]: {
+            ...balance[pair.pool2.asset.symbol.code().toString()],
+            userAsset: pool2,
+            userAmount: parseFloat(pool2.split(' ')[0] || 0)
+          }
         }
+      } catch (error) {
+        console.log(error.message)
       }
       setBalance(balance)
     }

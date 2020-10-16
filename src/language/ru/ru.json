@@ -76,7 +76,8 @@
     "noAmountAdd": "Пожалуйста, введите сумму, которую нужно добавить",
     "noAmountRemove": "Введите сумму, которую нужно удалить",
     "successTransaction": "Транзакция успешна",
-    "help": "Помощь"
+    "help": "Помощь",
+    "errorNumberIsTooBig": "Номер слишком большой"
   },
   "fee": {
     "title": "Проголосуйте за комиссию",
@@ -118,7 +119,8 @@
     "pool": "Пул",
     "help": "Помощь",
     "valueOverWalletBalance": "Ценность над балансом вашего кошелька",
-    "valueOverPoolBalance": "Ценность над балансом пула"
+    "valueOverPoolBalance": "Ценность над балансом пула",
+    "errorNumberIsTooBig": "Номер слишком большой"
   },
   "about": {
     "title": "О evodex"

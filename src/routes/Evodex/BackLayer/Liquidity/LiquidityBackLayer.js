@@ -89,16 +89,13 @@ const useStyles = makeStyles((theme) => {
     rateFeeBox: {
       display: 'flex',
       justifyContent: 'space-between',
-      alignItems: 'center',
+      alignItems: 'start',
       '& p': {
         fontSize: 16.2,
         fontWeight: 500,
         letterSpacing: '0.5px',
         lineHeight: 1.73,
         color: '#fff'
-      },
-      [theme.breakpoints.up('md')]: {
-        width: 500
       }
     },
     btnExchange: {
@@ -155,6 +152,26 @@ const useStyles = makeStyles((theme) => {
     noPadding: {
       padding: 0
     },
+    error: {
+      fontWeight: 500,
+      letterSpacing: '0.5px',
+      marginLeft: theme.spacing(1),
+      lineHeight: 1.73,
+      fontSize: 12,
+      minHeight: 20,
+      color: theme.palette.error.main
+    },
+    textInfo: {
+      fontSize: 12,
+      fontWeight: 500,
+      letterSpacing: '0.5px',
+      marginLeft: theme.spacing(1),
+      lineHeight: 1.73,
+      color: '#fff'
+    },
+    rateFeeBoxFee: {
+      marginLeft: theme.spacing(2)
+    },
     helpText,
     message,
     rocketSvg
@@ -177,6 +194,8 @@ const LiquidityBackLayer = ({
   const [isTourOpen, setIsTourOpen] = useState(false)
   const [youGive, setYouGive] = useState({})
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const validInput = RegExp('^([0-9]+([.][0-9]*)?|[.][0-9]+)$')
 
   const handleOnChange = (value) => {
     showMessage(null)
@@ -299,6 +318,8 @@ const LiquidityBackLayer = ({
   }, [pairs, youGive.selectValue])
 
   useEffect(() => {
+    setError('')
+
     if (!pair || !youGive.inputValue) {
       setToBuy(null)
       setToSell(null)
@@ -306,8 +327,16 @@ const LiquidityBackLayer = ({
       return
     }
 
-    setToBuy(evolutiondex.getAddLiquidityAssets(youGive.inputValue, pair))
-    setToSell(evolutiondex.getRemoveLiquidityAssets(youGive.inputValue, pair))
+    try {
+      setToBuy(evolutiondex.getAddLiquidityAssets(youGive.inputValue, pair))
+      setToSell(evolutiondex.getRemoveLiquidityAssets(youGive.inputValue, pair))
+    } catch (error) {
+      // TODO: improve error handler
+      console.log(error.message)
+      setToBuy(null)
+      setToSell(null)
+      setError('errorNumberIsTooBig')
+    }
   }, [pair, youGive.inputValue])
 
   useEffect(() => {
@@ -338,58 +367,85 @@ const LiquidityBackLayer = ({
             id="liquidityYouGive"
             containerId="youGive"
             label={t('inputLabel')}
+            useHelperTextAsNode
             helperText={
-              pair
-                ? `${t('available')}: ${
-                    pair.balance ? pair.balance.toString() : 0
-                  }`
-                : ''
+              <>
+                {pair && (
+                  <Typography variant="body1" className={classes.textInfo}>
+                    {`${t('available')} ${
+                      pair.balance ? pair.balance.toString() : 0
+                    }`}
+                  </Typography>
+                )}
+                {error && (
+                  <Typography variant="body1" className={classes.error}>
+                    <span>{t(error)}</span>
+                  </Typography>
+                )}
+              </>
             }
             onChange={handleOnChange}
             value={youGive}
-            isValueAllowed={({ floatValue, value }) => {
-              if (value === '-' || floatValue < 0) return false
+            isValueAllowed={(value) => {
+              if (!value) {
+                return true
+              }
 
-              if (!floatValue) return true
+              const [, floatSection = ''] = value.split('.')
+
+              if (
+                pair &&
+                floatSection.length > pair.supply.symbol.precision()
+              ) {
+                return false
+              }
+
+              if (!validInput.test(value)) {
+                return false
+              }
+
+              const floatValue = parseFloat(value)
 
               return floatValue < LIQUIDITY_MAX_VALUE
             }}
           />
         </Box>
-        {pair && (
-          <Box className={classes.rateFeeBox}>
-            <Typography variant="body1">
-              <strong>{`${t('add')}: `}</strong>
-              {toBuy && (
-                <span>
-                  {`${toBuy.asset1.toString()} ${t(
-                    'and'
-                  )} ${toBuy.asset2.toString()}`}
-                </span>
-              )}
-            </Typography>
-            <Typography variant="body1">
-              <strong>{`${t('fee')}:`}</strong> {Number(pair.fee) / 100}%
-            </Typography>
-          </Box>
-        )}
-        {pair && (
-          <Box className={classes.rateFeeBox}>
-            <Typography variant="body1">
-              <strong>{`${t('remove')}: `}</strong>
-              {toSell && (
-                <span>
-                  {`${toSell.asset1.toString()} ${t(
-                    'and'
-                  )} ${toSell.asset2.toString()}`}
-                </span>
-              )}
-            </Typography>
-            <Typography variant="body1">
-              <strong>{`${t('fee')}:`}</strong> 0%
-            </Typography>
-          </Box>
-        )}
+        <Box>
+          {pair && (
+            <Box className={classes.rateFeeBox}>
+              <Typography variant="body1">
+                <strong>{`${t('add')}: `}</strong>
+                {toBuy && (
+                  <span>
+                    {`${toBuy.asset1.toString()} ${t(
+                      'and'
+                    )} ${toBuy.asset2.toString()}`}
+                  </span>
+                )}
+              </Typography>
+              <Typography variant="body1" className={classes.rateFeeBoxFee}>
+                <strong>{`${t('fee')}:`}</strong> {Number(pair.fee) / 100}%
+              </Typography>
+            </Box>
+          )}
+          {pair && (
+            <Box className={classes.rateFeeBox}>
+              <Typography variant="body1">
+                <strong>{`${t('remove')}: `}</strong>
+                {toSell && (
+                  <span>
+                    {`${toSell.asset1.toString()} ${t(
+                      'and'
+                    )} ${toSell.asset2.toString()}`}
+                  </span>
+                )}
+              </Typography>
+              <Typography variant="body1" className={classes.rateFeeBoxFee}>
+                <strong>{`${t('fee')}:`}</strong> 0%
+              </Typography>
+            </Box>
+          )}
+        </Box>
         {loading && (
           <LinearProgress className={classes.loading} color="secondary" />
         )}
