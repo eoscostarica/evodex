@@ -261,6 +261,12 @@ const FeeBackLayer = ({
                 return false
               }
 
+              const [, floatSection = ''] = value.split('.')
+
+              if (floatSection.length > 2) {
+                return false
+              }
+
               const floatValue = parseFloat(value)
 
               if (floatValue < 0 || value === '00') return false

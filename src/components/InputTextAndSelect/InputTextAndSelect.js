@@ -89,6 +89,9 @@ const useStyles = makeStyles((theme) => ({
     lineHeight: 1.48,
     letterSpacing: '0.15px',
     color: '#ffffff',
+    '& ::before, & ::after': {
+      display: 'none'
+    },
     '& input': {
       color: '#ffffff',
       '&::placeholder': {
