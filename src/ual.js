@@ -3,12 +3,24 @@ import { Anchor } from 'ual-anchor'
 
 import { ualConfig } from './config'
 
+const timeout = (ms, promise) => {
+  return new Promise(function (resolve, reject) {
+    setTimeout(function () {
+      reject(new Error('timeout'))
+    }, ms)
+    promise.then(resolve, reject)
+  })
+}
+
 export default {
   useFailover: false,
   init: async function () {
     try {
-      const response = await fetch(
-        `${ualConfig.api.protocol}://${ualConfig.api.host}/v1/chain/get_info`
+      const response = await timeout(
+        ualConfig.timeout,
+        fetch(
+          `${ualConfig.api.protocol}://${ualConfig.api.host}/v1/chain/get_info`
+        )
       )
       this.useFailover = response.status !== 200
     } catch (error) {
