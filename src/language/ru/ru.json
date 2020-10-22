@@ -120,7 +120,8 @@
     "help": "Помощь",
     "valueOverWalletBalance": "Ценность над балансом вашего кошелька",
     "valueOverPoolBalance": "Ценность над балансом пула",
-    "errorNumberIsTooBig": "Номер слишком большой"
+    "errorNumberIsTooBig": "Номер слишком большой",
+    "priceImpact": "Влияние на цену"
   },
   "about": {
     "title": "О evodex"
