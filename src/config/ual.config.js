@@ -16,5 +16,10 @@ export const ualConfig = {
     host:
       process.env.REACT_APP_EOS_API_HOST_FAILOVER || 'jungle.eosargentina.io',
     port: parseInt(process.env.REACT_APP_EOS_API_PORT_FAILOVER || '443')
-  }
+  },
+  endpoint: `${process.env.REACT_APP_EOS_API_PROTOCOL}://${
+    process.env.REACT_APP_EOS_API_HOST
+  }${process.env.REACT_APP_EOS_API_PORT ? ':' : ''}${
+    process.env.REACT_APP_EOS_API_PORT
+  }`
 }
