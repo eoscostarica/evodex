@@ -175,6 +175,12 @@ const useStyles = makeStyles((theme) => {
     error: {
       color: theme.palette.error.main
     },
+    warning: {
+      color: theme.palette.warning.main
+    },
+    success: {
+      color: theme.palette.success.main
+    },
     helpText,
     message,
     loading,
@@ -443,6 +449,19 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
     setLoading(false)
   }
 
+  const getClassForPriceImpact = (priceImpact) => {
+    switch (true) {
+      case priceImpact < 1:
+        return classes.success
+      case priceImpact > 2 && priceImpact < 5:
+        return classes.warning
+      case priceImpact >= 5:
+        return classes.error
+      default:
+        return ''
+    }
+  }
+
   useEffect(() => {
     if (!exchangeState.currentPair) return
 
@@ -639,7 +658,7 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
               </Typography>
             </Box>
           )}
-          {assets?.priceImpact && (
+          {assets?.priceImpact >= 0 && (
             <Box className={classes.textWrapper}>
               <Typography
                 variant="body1"
@@ -647,7 +666,13 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
               >
                 {`${t('priceImpact')}: `}
               </Typography>
-              <Typography variant="body1" className={classes.textInfo}>
+              <Typography
+                variant="body1"
+                className={clsx(
+                  classes.textInfo,
+                  getClassForPriceImpact(assets?.priceImpact)
+                )}
+              >
                 {assets.priceImpact}%
               </Typography>
             </Box>

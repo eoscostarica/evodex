@@ -181,8 +181,14 @@ const getPriceInfo = (assetToGive, assetToReceive, pair) => {
     parseFloat(assetToGive.toString().split(' ')[0])
   const spotPrice = pair.pool2.amount / pair.pool1.amount
   const priceImpact = Math.abs(
-    parseFloat(((spotPrice / price - 1) * 100).toFixed(2))
+    parseFloat(
+      ((1 - (price * (1 + pair.fee / 10000)) / spotPrice) * 100).toFixed(2)
+    )
   )
+  // const priceImpact = Math.abs(
+  //   parseFloat(((spotPrice / price - 1) * 100).toFixed(2))
+  // )
+  // 1 - (price * (1 + pair.fee / 10000) / )
   const token1 = `1 ${assetToGive.symbol.code().toString()}`
   const token2 = `${price.toFixed(
     4
