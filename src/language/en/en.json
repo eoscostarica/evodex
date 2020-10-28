@@ -122,7 +122,8 @@
     "help": "Help",
     "valueOverWalletBalance": "Value is over your wallet balance",
     "valueOverPoolBalance": "Value is over pool balance",
-    "errorNumberIsTooBig": "The number is too big"
+    "errorNumberIsTooBig": "The number is too big",
+    "priceImpact": "Price Impact"
   },
   "about": {
     "title": "About evodex"

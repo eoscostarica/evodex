@@ -28,7 +28,8 @@ const amountToAsset = (amount = '0', currentAsset) => {
     return asset(`0 ${currentAsset.symbol.code().toString()}`)
   }
 
-  const chunks = amount.split('.')
+  const strAmount = typeof amount !== 'string' ? amount.toString() : amount
+  const chunks = strAmount.split('.')
   const integer = chunks[0]
   const decimal = chunks[1] || '0'
   const validAmount = parseFloat(`${integer}.${decimal}`).toFixed(
@@ -174,6 +175,28 @@ const computeForward = (x, y, z, fee) => {
 
   return tmp.plus(tmpFee)
 }
+const getPriceInfo = (assetToGive, assetToReceive, pair) => {
+  const price =
+    parseFloat(assetToReceive.toString().split(' ')[0]) /
+    parseFloat(assetToGive.toString().split(' ')[0])
+  const spotPrice = pair.to.amount / pair.from.amount
+  const priceImpact = Math.abs(
+    parseFloat(
+      ((1 - (price * (1 + pair.fee / 10000)) / spotPrice) * 100).toFixed(2)
+    )
+  )
+  const token1 = `1 ${assetToGive.symbol.code().toString()}`
+  const token2 = `${price.toFixed(
+    4
+  )} ${assetToReceive.symbol.code().toString()}`
+
+  return {
+    price,
+    spotPrice,
+    priceImpact,
+    rate: `${token1} = ${token2}`
+  }
+}
 const getExchangeAssets = (amount, pair) => {
   const assetToGive = amountToAsset(amount, pair.from.asset)
   const assetToReceive = numberToAsset(0, pair.to.asset.symbol)
@@ -186,15 +209,9 @@ const getExchangeAssets = (amount, pair) => {
   assetToReceive.set_amount(computeForwardAmount)
 
   return {
+    ...getPriceInfo(assetToGive, assetToReceive, pair),
     assetToGive,
-    assetToReceive,
-    price: amountToAsset(
-      (
-        parseFloat(assetToReceive.toString().split(' ')[0]) /
-        parseFloat(assetToGive.toString().split(' ')[0])
-      ).toFixed(assetToReceive.symbol.precision()),
-      assetToReceive
-    ).toString()
+    assetToReceive
   }
 }
 const getExchangeAssetsFromToken2 = (amount, pair) => {
@@ -213,15 +230,9 @@ const getExchangeAssetsFromToken2 = (amount, pair) => {
   assetToGive.set_amount(computeForwardAmount)
 
   return {
+    ...getPriceInfo(assetToGive, assetToReceive, pair),
     assetToGive,
-    assetToReceive,
-    price: amountToAsset(
-      (
-        parseFloat(assetToReceive.toString().split(' ')[0]) /
-        parseFloat(assetToGive.toString().split(' ')[0])
-      ).toFixed(assetToReceive.symbol.precision()),
-      assetToReceive
-    ).toString()
+    assetToReceive
   }
 }
 const getUserTokenBalance = async (ual, pool) => {
