@@ -37,17 +37,16 @@ const useStyles = makeStyles((theme) => {
 
   return {
     exchangeRoot: {
-      marginTop: theme.spacing(7),
+      marginTop: theme.spacing(5),
       padding: theme.spacing(3, 1, 0, 1),
       [`${theme.breakpoints.down('sm')} and (orientation: landscape)`]: {
         marginTop: theme.spacing(4)
       },
       [theme.breakpoints.up('md')]: {
-        paddingLeft: theme.spacing(4),
-        paddingRight: theme.spacing(4)
+        padding: theme.spacing(0, 4)
       },
       [theme.breakpoints.up('lg')]: {
-        padding: theme.spacing(4, 0)
+        padding: theme.spacing(3, 0)
       }
     },
     titleBox: {
