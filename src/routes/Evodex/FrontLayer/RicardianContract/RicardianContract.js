@@ -7,6 +7,8 @@ import Tab from '@material-ui/core/Tab'
 import AppBar from '@material-ui/core/AppBar'
 import { RicardianContract } from '@eoscostarica/eoscr-components'
 
+import { ualConfig } from '../../../../config'
+
 const useStyles = makeStyles((theme) => ({
   wrapper: {
     overflow: 'hidden',
@@ -81,7 +83,7 @@ const TermsOfUse = ({ isMobile }) => {
             value={tab}
             onChange={(event, newValue) => setTab(newValue)}
             classes={{ indicator: classes.selectorTab }}
-            variant={isMobile ? 'fullWidth' : ''}
+            variant={isMobile ? 'fullWidth' : 'standard'}
           >
             <Tab label="evolutiondex" />
             <Tab label="wevotethefee" />
@@ -91,7 +93,7 @@ const TermsOfUse = ({ isMobile }) => {
           <Box className={classes.wrapper}>
             <RicardianContract
               contractName="evolutiondex"
-              httpEndpoint="https://jungle.eosio.cr"
+              httpEndpoint={ualConfig.endpoint}
               LinearProgressOverrideClasses={{
                 barColorPrimary: classes.overrideFrontLinearColor,
                 colorPrimary: classes.overrideLinearColor
@@ -104,7 +106,7 @@ const TermsOfUse = ({ isMobile }) => {
           <Box className={classes.wrapper}>
             <RicardianContract
               contractName="wevotethefee"
-              httpEndpoint="https://jungle.eosio.cr"
+              httpEndpoint={ualConfig.endpoint}
               LinearProgressOverrideClasses={{
                 barColorPrimary: classes.overrideFrontLinearColor,
                 colorPrimary: classes.overrideLinearColor

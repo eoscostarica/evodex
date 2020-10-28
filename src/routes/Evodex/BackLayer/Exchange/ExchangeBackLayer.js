@@ -37,17 +37,16 @@ const useStyles = makeStyles((theme) => {
 
   return {
     exchangeRoot: {
-      marginTop: theme.spacing(7),
+      marginTop: theme.spacing(5),
       padding: theme.spacing(3, 1, 0, 1),
       [`${theme.breakpoints.down('sm')} and (orientation: landscape)`]: {
         marginTop: theme.spacing(4)
       },
       [theme.breakpoints.up('md')]: {
-        paddingLeft: theme.spacing(4),
-        paddingRight: theme.spacing(4)
+        padding: theme.spacing(0, 4)
       },
       [theme.breakpoints.up('lg')]: {
-        padding: theme.spacing(4, 0)
+        padding: theme.spacing(3, 0)
       }
     },
     titleBox: {
@@ -112,12 +111,20 @@ const useStyles = makeStyles((theme) => {
       flexFlow: 'column'
     },
     infoBoxWrapper: {
-      width: '100%',
+      maxWidth: 500,
       display: 'flex',
-      justifyContent: 'center'
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'center',
+      alignItems: 'center'
     },
-    feeSpace: {
-      marginLeft: theme.spacing(2)
+    textWrapper: {
+      minWidth: 260,
+      display: 'flex',
+      justifyContent: 'space-between',
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      flex: 1
     },
     textInfo: {
       fontSize: 16.2,
@@ -125,6 +132,9 @@ const useStyles = makeStyles((theme) => {
       letterSpacing: '0.5px',
       lineHeight: 1.73,
       color: '#fff'
+    },
+    textBold: {
+      fontWeight: 'bold'
     },
     textWithDescription: {
       display: 'flex',
@@ -163,6 +173,12 @@ const useStyles = makeStyles((theme) => {
     },
     error: {
       color: theme.palette.error.main
+    },
+    warning: {
+      color: theme.palette.warning.main
+    },
+    success: {
+      color: theme.palette.success.main
     },
     helpText,
     message,
@@ -332,6 +348,9 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
   }
 
   const handleOnChange = (key) => (value) => {
+    setAssets(null)
+    setInputError((prev) => ({ ...prev, youGive: '', youReceive: '' }))
+
     switch (key) {
       case 'youGive': {
         validateYouGive(value)
@@ -427,6 +446,19 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
     }
 
     setLoading(false)
+  }
+
+  const getClassForPriceImpact = (priceImpact) => {
+    switch (true) {
+      case priceImpact < 1:
+        return classes.success
+      case priceImpact > 2 && priceImpact < 5:
+        return classes.warning
+      case priceImpact >= 5:
+        return classes.error
+      default:
+        return ''
+    }
   }
 
   useEffect(() => {
@@ -597,17 +629,54 @@ const ExchangeBackLayer = ({ onReload, ual, isLightMode, showMessage }) => {
           }
         />
       </Box>
-      <Box className={classes.infoBoxWrapper}>
-        <Typography variant="body1" className={classes.textInfo}>
-          <strong>{`${t('price')}: `}</strong>
-          {assets ? <span>{assets.price}</span> : 0}
-        </Typography>
-        <Typography
-          variant="body1"
-          className={clsx(classes.textInfo, classes.feeSpace)}
-        >
-          <strong>{`${t('fee')}:`}</strong> {pair ? Number(pair.fee) / 100 : 0}%
-        </Typography>
+      <Box className={classes.infoBox}>
+        <Box className={classes.infoBoxWrapper}>
+          {assets?.rate && (
+            <Box className={classes.textWrapper}>
+              <Typography
+                variant="body1"
+                className={clsx(classes.textInfo, classes.textBold)}
+              >
+                {`${t('rate')}: `}
+              </Typography>
+              <Typography variant="body1" className={classes.textInfo}>
+                {assets.rate}
+              </Typography>
+            </Box>
+          )}
+          {pair?.fee && (
+            <Box className={classes.textWrapper}>
+              <Typography
+                variant="body1"
+                className={clsx(classes.textInfo, classes.textBold)}
+              >
+                {`${t('fee')}: `}
+              </Typography>
+              <Typography variant="body1" className={classes.textInfo}>
+                {Number(pair.fee) / 100}%
+              </Typography>
+            </Box>
+          )}
+          {assets?.priceImpact >= 0 && (
+            <Box className={classes.textWrapper}>
+              <Typography
+                variant="body1"
+                className={clsx(classes.textInfo, classes.textBold)}
+              >
+                {`${t('priceImpact')}: `}
+              </Typography>
+              <Typography
+                variant="body1"
+                className={clsx(
+                  classes.textInfo,
+                  getClassForPriceImpact(assets?.priceImpact)
+                )}
+              >
+                {assets.priceImpact}%
+              </Typography>
+            </Box>
+          )}
+        </Box>
       </Box>
       {loading && (
         <LinearProgress className={classes.loading} color="secondary" />

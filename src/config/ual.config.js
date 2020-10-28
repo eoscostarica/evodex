@@ -1,4 +1,5 @@
 export const ualConfig = {
+  timeout: parseInt(process.env.REACT_APP_EOS_API_TIMEOUT || 2500),
   appName: process.env.REACT_APP_EOS_APP_NAME || 'evodex.io',
   blockExplorerUrl: process.env.REACT_APP_EOS_BLOCK_EXPLORER_URL,
   chainId:
@@ -16,5 +17,10 @@ export const ualConfig = {
     host:
       process.env.REACT_APP_EOS_API_HOST_FAILOVER || 'jungle.eosargentina.io',
     port: parseInt(process.env.REACT_APP_EOS_API_PORT_FAILOVER || '443')
-  }
+  },
+  endpoint: `${process.env.REACT_APP_EOS_API_PROTOCOL}://${
+    process.env.REACT_APP_EOS_API_HOST
+  }${process.env.REACT_APP_EOS_API_PORT ? ':' : ''}${
+    process.env.REACT_APP_EOS_API_PORT
+  }`
 }

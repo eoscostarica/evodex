@@ -123,7 +123,8 @@
     "help": "Ayuda",
     "valueOverWalletBalance": "El valor supera el balance de su billetera",
     "valueOverPoolBalance": "El valor supera el balance del pool",
-    "errorNumberIsTooBig": "El numero ingresado es muy grande"
+    "errorNumberIsTooBig": "El numero ingresado es muy grande",
+    "priceImpact": "Impacto en el precio"
   },
   "about": {
     "title": "Acerca de evodex"
