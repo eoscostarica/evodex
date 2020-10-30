@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import { useTranslation } from 'react-i18next'
@@ -313,19 +313,19 @@ const LiquidityBackLayer = ({
     setLoading(false)
   }
 
+  const getCurrentSupply = useCallback(async () => {
+    const currentSupply = await evolutiondex.getCurrentSupply(
+      ual,
+      youGive.selectValue
+    )
+
+    setCurrentSupplyValue(currentSupply)
+  }, [ual, youGive.selectValue])
+
   useEffect(() => {
-    const getCurrentSupply = async () => {
-      const currentSupply = await evolutiondex.getCurrentSupply(
-        ual,
-        youGive.selectValue
-      )
-
-      setCurrentSupplyValue(currentSupply)
-    }
-
     getCurrentSupply()
     setPair(pairs.find((pair) => pair.token === youGive.selectValue))
-  }, [pairs, youGive.selectValue])
+  }, [pairs, youGive.selectValue, getCurrentSupply])
 
   useEffect(() => {
     setError('')
