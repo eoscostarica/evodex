@@ -620,6 +620,26 @@ const voteFee = async (amount, pair, ual) => {
   }
 }
 
+const getCurrentSupply = async (ual, pool) => {
+  if (!ual.activeUser || !pool) {
+    return
+  }
+
+  const rpc = getRpc(ual)
+
+  const { rows } = await rpc.get_table_rows({
+    json: true,
+    code: 'evolutiondex',
+    scope: pool,
+    table: 'stat',
+    limit: 1,
+    reverse: false,
+    show_payer: false
+  })
+
+  return rows.length ? rows[0].supply : `0 ${pool}`
+}
+
 export const evolutiondex = {
   getInfo,
   getTokensFor,
@@ -633,5 +653,6 @@ export const evolutiondex = {
   addLiquidity,
   getRemoveLiquidityAssets,
   removeLiquidity,
-  voteFee
+  voteFee,
+  getCurrentSupply
 }
