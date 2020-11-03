@@ -315,12 +315,11 @@ const LiquidityBackLayer = ({
 
   const getCurrentSupply = useCallback(async () => {
     const currentSupply = await evolutiondex.getCurrentSupply(
-      ual,
       youGive.selectValue
     )
 
     setCurrentSupplyValue(currentSupply)
-  }, [ual, youGive.selectValue])
+  }, [youGive.selectValue])
 
   useEffect(() => {
     getCurrentSupply()
