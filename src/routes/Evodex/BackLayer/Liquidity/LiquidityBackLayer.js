@@ -387,9 +387,11 @@ const LiquidityBackLayer = ({
                         pair.balance ? pair.balance.toString() : 0
                       }`}
                     </Typography>
-                    <Typography variant="body1" className={classes.textInfo}>
-                      {`${t('available')}: ${currentSupplyValue}`}
-                    </Typography>
+                    {ual.activeUser && (
+                      <Typography variant="body1" className={classes.textInfo}>
+                        {`${t('available')}: ${currentSupplyValue}`}
+                      </Typography>
+                    )}
                   </>
                 )}
                 {error && (
