@@ -315,12 +315,11 @@ const LiquidityBackLayer = ({
 
   const getCurrentSupply = useCallback(async () => {
     const currentSupply = await evolutiondex.getCurrentSupply(
-      ual,
       youGive.selectValue
     )
 
     setCurrentSupplyValue(currentSupply)
-  }, [ual, youGive.selectValue])
+  }, [youGive.selectValue])
 
   useEffect(() => {
     getCurrentSupply()
@@ -387,11 +386,9 @@ const LiquidityBackLayer = ({
                         pair.balance ? pair.balance.toString() : 0
                       }`}
                     </Typography>
-                    {ual.activeUser && (
-                      <Typography variant="body1" className={classes.textInfo}>
-                        {`${t('available')}: ${currentSupplyValue}`}
-                      </Typography>
-                    )}
+                    <Typography variant="body1" className={classes.textInfo}>
+                      {`${t('available')}: ${currentSupplyValue}`}
+                    </Typography>
                   </>
                 )}
                 {error && (
