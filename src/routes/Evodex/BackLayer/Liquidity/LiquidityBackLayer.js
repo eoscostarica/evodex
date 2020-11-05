@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import { useTranslation } from 'react-i18next'
@@ -118,6 +118,7 @@ const useStyles = makeStyles((theme) => {
         }
       },
       [theme.breakpoints.up('sm')]: {
+        paddingTop: theme.spacing(2),
         flexDirection: 'row',
         '& button': {
           marginRight: theme.spacing(2),
@@ -128,11 +129,9 @@ const useStyles = makeStyles((theme) => {
     inputBox: {
       ...inputBox,
       [theme.breakpoints.up('md')]: {
-        width: 800
-      },
-      [theme.breakpoints.up('lg')]: {
-        marginTop: theme.spacing(0),
-        paddingBottom: theme.spacing(1)
+        width: 800,
+        paddingBottom: theme.spacing(0),
+        marginTop: theme.spacing(0)
       }
     },
     contentWrapper: {
@@ -194,6 +193,7 @@ const LiquidityBackLayer = ({
   const [isTourOpen, setIsTourOpen] = useState(false)
   const [youGive, setYouGive] = useState({})
   const [loading, setLoading] = useState(false)
+  const [currentSupplyValue, setCurrentSupplyValue] = useState('0')
   const [error, setError] = useState('')
   const validInput = RegExp('^([0-9]+([.][0-9]*)?|[.][0-9]+)$')
 
@@ -313,9 +313,18 @@ const LiquidityBackLayer = ({
     setLoading(false)
   }
 
+  const getCurrentSupply = useCallback(async () => {
+    const currentSupply = await evolutiondex.getCurrentSupply(
+      youGive.selectValue
+    )
+
+    setCurrentSupplyValue(currentSupply)
+  }, [youGive.selectValue])
+
   useEffect(() => {
+    getCurrentSupply()
     setPair(pairs.find((pair) => pair.token === youGive.selectValue))
-  }, [pairs, youGive.selectValue])
+  }, [pairs, youGive.selectValue, getCurrentSupply])
 
   useEffect(() => {
     setError('')
@@ -371,11 +380,16 @@ const LiquidityBackLayer = ({
             helperText={
               <>
                 {pair && (
-                  <Typography variant="body1" className={classes.textInfo}>
-                    {`${t('available')} ${
-                      pair.balance ? pair.balance.toString() : 0
-                    }`}
-                  </Typography>
+                  <>
+                    <Typography variant="body1" className={classes.textInfo}>
+                      {`${t('balance')}: ${
+                        pair.balance ? pair.balance.toString() : 0
+                      }`}
+                    </Typography>
+                    <Typography variant="body1" className={classes.textInfo}>
+                      {`${t('available')}: ${currentSupplyValue}`}
+                    </Typography>
+                  </>
                 )}
                 {error && (
                   <Typography variant="body1" className={classes.error}>

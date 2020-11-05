@@ -1,11 +1,11 @@
 import * as eosCommon from 'eos-common'
+import { JsonRpc } from 'eosjs'
 
 import { evodexConfig } from '../config'
 
 import { getScatterError } from './getScatterError'
 import axiosUtil from './axios.util'
-
-import { JsonRpc } from 'eosjs'
+import eosApi from './eosapi'
 
 const { asset, number_to_asset: numberToAsset } = eosCommon
 const defaultState = { pairs: [], tokens: [] }
@@ -620,6 +620,24 @@ const voteFee = async (amount, pair, ual) => {
   }
 }
 
+const getCurrentSupply = async (pool) => {
+  if (!pool) {
+    return
+  }
+
+  const { rows } = await eosApi.getTableRows({
+    json: true,
+    code: 'evolutiondex',
+    scope: pool,
+    table: 'stat',
+    limit: 1,
+    reverse: false,
+    show_payer: false
+  })
+
+  return rows.length ? rows[0].supply : `0 ${pool}`
+}
+
 export const evolutiondex = {
   getInfo,
   getTokensFor,
@@ -633,5 +651,6 @@ export const evolutiondex = {
   addLiquidity,
   getRemoveLiquidityAssets,
   removeLiquidity,
-  voteFee
+  voteFee,
+  getCurrentSupply
 }
