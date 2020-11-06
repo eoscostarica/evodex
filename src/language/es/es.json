@@ -13,7 +13,7 @@
     "addLiquidity": "Agregue liquidez ahora.",
     "exchangeStep1": "Ingrese una cantidad válida y use el menú desplegable para seleccionar el token que posee y desea intercambiar.",
     "exchangeStep2": "Seleccione el token que desea recibir. Calcularemos esta cantidad por usted. Puede utilizar el icono de retroceso en cualquier momento.",
-    "feeStep1": "Aquí puede votar por la tarifa que considere más justa para cada token. La tarifa debe ser superior a cero y no superior al 3%. Por favor, use un porcentaje con un formato decimal. Por ejemplo: 0.1%.",
+    "feeStep1": "Aquí puede votar por la tarifa que considere más justa para cada token. La tarifa debe ser estar entre el 0.1% y el 1%. Por favor, use un porcentaje con un formato decimal. Por ejemplo: 0.1%.",
     "liquidityStep1": "Aquí puede buscar la tarifa de cambio actual para cada token usando el menú desplegable.",
     "pool": "Pool",
     "tokenPair": "Token",
@@ -96,8 +96,8 @@
     "successTransaction": "Transacción realizada",
     "placeholder": "Este Porcentaje",
     "help": "Ayuda",
-    "maxValueAllowed": "Valor máximo permitido es 3%",
-    "minValueAllowed": "La tarifa debe ser mayor que 0"
+    "maxValueAllowed": "Valor máximo permitido es 1%",
+    "minValueAllowed": "La tarifa debe ser al menos 0.1%"
   },
   "faq": {
     "title": "Preguntas Frecuentes"
