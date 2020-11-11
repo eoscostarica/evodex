@@ -13,7 +13,7 @@
     "addLiquidity": "Add liquidity now.",
     "exchangeStep1": "Enter a valid amount and use the dropdown menu to select the token you own and want to exchange.",
     "exchangeStep2": "Select the token you wish to receive. We will calculate this amount for you. You can use the reverse icon anytime.",
-    "feeStep1": "Here you may vote for the fee you consider to be the fairest for each token. The fee must be greater than zero and no larger than 3%.  Please, use a percentage with one decimal format. For example: 0.1%.",
+    "feeStep1": "Here you may vote for the fee you consider to be the fairest for each token. The fee must be at least 0.1% and no larger than 1%.  Please, use a percentage with one decimal format. For example: 0.1%.",
     "liquidityStep1": "Here you can look up the current exchange fee for each token using the dropdown menu.",
     "pool": "Pool",
     "tokenPair": "Token Pair",
@@ -95,8 +95,8 @@
     "successTransaction": "Success transaction",
     "placeholder": "This Percentage",
     "help": "Help",
-    "maxValueAllowed": "The max value allowed is 3%",
-    "minValueAllowed": "Fee has to be larger than 0"
+    "maxValueAllowed": "The max value allowed is 1%",
+    "minValueAllowed": "Fee has to be at least 0.1%"
   },
   "faq": {
     "title": "FAQ's"

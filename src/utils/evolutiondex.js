@@ -330,7 +330,7 @@ const getAddLiquidityAssets = (amount, pair) => {
       baseAsset.amount,
       pair.pool1.asset.amount,
       pair.supply.amount,
-      pair.fee
+      1
     )
   )
   asset2.set_amount(
@@ -338,7 +338,7 @@ const getAddLiquidityAssets = (amount, pair) => {
       baseAsset.amount,
       pair.pool2.asset.amount,
       pair.supply.amount,
-      pair.fee
+      1
     )
   )
 
@@ -599,14 +599,6 @@ const voteFee = async (amount, pair, ual) => {
               fee_voted: parseInt(parseFloat(amount) * 100)
             }
           },
-          {
-            account: evodexConfig.voteContract,
-            name: 'updatefee',
-            authorization,
-            data: {
-              pair_token: pair.supply.symbol.code().toString()
-            }
-          }
         ]
       },
       {
