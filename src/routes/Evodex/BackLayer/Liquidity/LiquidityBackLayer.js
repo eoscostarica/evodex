@@ -438,7 +438,7 @@ const LiquidityBackLayer = ({
                 )}
               </Typography>
               <Typography variant="body1" className={classes.rateFeeBoxFee}>
-                <strong>{`${t('fee')}:`}</strong> {Number(pair.fee) / 100}%
+                <strong>{`${t('fee')}:`}</strong> {1 / 100}%
               </Typography>
             </Box>
           )}

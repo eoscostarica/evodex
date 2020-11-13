@@ -271,13 +271,18 @@ const FeeBackLayer = ({
 
               if (floatValue < 0 || value === '00') return false
 
-              if (floatValue > 3) {
+              if (floatValue > 1) {
                 setShowHelperText(t('maxValueAllowed'))
 
                 return false
               }
 
-              setShowHelperText(floatValue === 0 ? t('minValueAllowed') : '')
+              if (value === '0.0') {
+                setShowHelperText(t('minValueAllowed'))
+                return false
+              }
+
+              setShowHelperText('')
               return true
             }}
           />
