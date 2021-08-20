@@ -47,7 +47,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.4.3",
     "reactour": "^1.18.0",
-    "ual-anchor": "^0.5.1",
+    "ual-anchor": "^1.09",
     "ual-ledger": "^0.3.0",
     "ual-lynx": "^0.4.0",
     "ual-meetone": "^0.1.1",
