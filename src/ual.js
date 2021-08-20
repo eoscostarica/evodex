@@ -1,5 +1,6 @@
 import { TokenPocket } from 'ual-token-pocket'
 import { Anchor } from 'ual-anchor'
+import { Metamask } from 'ual-metamask'
 
 import { ualConfig } from './config'
 
@@ -19,7 +20,7 @@ export default {
       const response = await timeout(
         ualConfig.timeout,
         fetch(
-          `${ualConfig.api.protocol}://${ualConfig.api.host}/v1/chain/get_info`
+          `${ualConfig.api.protocol}://${ualConfig.api.host}:${ualConfig.api.port}/v1/chain/get_info`
         )
       )
       this.useFailover = response.status !== 200
@@ -45,6 +46,7 @@ export default {
   },
   get authenticators() {
     return [
+      new Metamask([this.network]),
       new TokenPocket([this.network]),
       new Anchor([this.network], { appName: this.appName })
     ]
