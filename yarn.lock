@@ -12907,10 +12907,10 @@ ual-meetone@^0.1.1:
     meet-bridge "^2.0.2-release"
     universal-authenticator-library "0.1.0"
 
-ual-metamask@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/ual-metamask/-/ual-metamask-1.0.0.tgz#5eb9ea8678c5b54d57069637ae738e92c67caf71"
-  integrity sha512-iNtTaxz/vOAY6j7IFMLMpv8U9zOkg8EofnwwcckWLZUEf9Jk9nw8PC+6Gf2I/eX2t8SlL0Rcz7pEasRjVj/v4Q==
+ual-metamask@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/ual-metamask/-/ual-metamask-1.0.1.tgz#a4c297ae3c23dbed1d313165b69a996dea25868f"
+  integrity sha512-+Wscmk0Mqzp4HP9y/y71HqjI2O2HvYv/lyFlRrp4OZjb0ETg8wsJx3VC5yiy+oYTtB+mcid7QN/G21m5Yx9r9A==
   dependencies:
     "@greymass/eosio" "^0.2.5"
     "@metamask/detect-provider" "^1.2.0"
