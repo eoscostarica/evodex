@@ -8,7 +8,7 @@ import AnnouncementIcon from '@material-ui/icons/Announcement'
 
 import TalkUsModal from './TalkUsModal'
 
-const appVersion = process.env.REACT_APP_PROJECT_VERSION
+const appVersion = process.env.REACT_APP_PROJECT_VERSION.split('/').pop()
 const useStyles = makeStyles((theme) => ({
   footer: {
     display: 'flex',
