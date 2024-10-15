@@ -1,20 +1,12 @@
+# IDE Files
+#-------------------------
+/nbproject/
+.idea/*
 
-# See https://help.github.com/ignore-files/ for more about ignoring files.
+## Sublime Text cache files
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+*.sublime-workspace
+*.sublime-project
 
-# dependencies
-/node_modules
-
-# testing
-/coverage
-
-# production
-/build
-
-# misc
-.env*
-!.env.example
-
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.DS_Store
